@@ -1,0 +1,3 @@
+[submodule "extern/libscran"]
+	path = extern/libscran
+	url = https://github.com/LTLA/libscran

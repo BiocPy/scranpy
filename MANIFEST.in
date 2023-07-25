@@ -1,0 +1,2 @@
+recursive-include src/mattress/lib/ *
+recursive-include extern *
