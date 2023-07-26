@@ -6,9 +6,10 @@
     PyScaffold helps you to put up the scaffold of your new Python project.
     Learn more under: https://pyscaffold.org/
 """
-import mattress
 from setuptools import setup
 from setuptools.extension import Extension
+
+import mattress
 
 if __name__ == "__main__":
     try:
