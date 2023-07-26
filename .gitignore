@@ -13,7 +13,6 @@ __pycache__/*
 .*.swp
 */.ipynb_checkpoints/*
 .DS_Store
-src/mattress/lib/bindings.cpp
 
 # Project files
 .ropeproject
@@ -53,3 +52,5 @@ MANIFEST
 .venv*/
 .conda*/
 .python-version
+
+extern/

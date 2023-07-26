@@ -14,7 +14,7 @@
 
 # scranpy
 
-This project uses Cython to provide [tatami matrix representations](https://github.com/tatami-inc) in Python.
+Fast multi-modal single-cell data analysis! stay tuned...
 
 ## Developer Notes
 
