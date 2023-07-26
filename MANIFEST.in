@@ -1,2 +1,2 @@
-recursive-include src/scranpy/lib/ *
+recursive-include src/scranpy/lib *
 recursive-include extern *
