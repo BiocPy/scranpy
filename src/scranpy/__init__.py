@@ -44,7 +44,7 @@ lib.per_cell_rna_qc_metrics.argtypes = [
 
 import mattress as mt
 import numpy as np
-def per_cell_rna_qc_metrics(x, subsets = None, num_threads = 1):
+def per_cell_rna_qc_metrics(x, subsets = [], num_threads = 1):
     if not isinstance(x, mt.TatamiNumericPointer.TatamiNumericPointer): # ??? why twice?
         x = mt.tatamize(x)
 
@@ -52,12 +52,32 @@ def per_cell_rna_qc_metrics(x, subsets = None, num_threads = 1):
     sums = np.ndarray((nc,), dtype = np.float64)
     detected = np.ndarray((nc,), dtype = np.int32)
 
-    num_subsets = 0
+    num_subsets = len(subsets)
+    subset_in = np.ndarray((num_subsets,), dtype = np.uint64)
+    subset_out = np.ndarray((num_subsets,), dtype = np.uint64)
+    collected_in = []
+    collected_out = []
 
-    lib.per_cell_rna_qc_metrics(x.ptr, num_subsets, 0, sums.ctypes.data, detected.ctypes.data, 0, num_threads)
+    num_subsets = len(subsets)
+    nr = x.nrow()
+    for i in range(num_subsets):
+        in_arr = np.ndarray((nr,), dtype = np.uint8)
+        in_arr.fill(0)
+        for j in subsets[i]:
+            in_arr[j] = 1
+        collected_in.append(in_arr)
+        subset_in[i] = in_arr.ctypes.data
+
+        out_arr = np.ndarray((nc,), dtype = np.float64)
+        collected_out.append(out_arr)
+        subset_out[i] = out_arr.ctypes.data
+
+    print(subset_in)
+    print(subset_out)
+    lib.per_cell_rna_qc_metrics(x.ptr, num_subsets, subset_in.ctypes.data, sums.ctypes.data, detected.ctypes.data, subset_out.ctypes.data, num_threads)
 
     return {
         "sums": sums,
         "detected": detected,
-        "subset_proportions": []
+        "subset_proportions": collected_out
     }
