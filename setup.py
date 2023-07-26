@@ -22,8 +22,7 @@ if __name__ == "__main__":
                     ],
                     include_dirs=[
                         "extern/libscran/include",
-                    ]
-                    + mattress.includes(),
+                    ] + mattress.includes(),
                     language="c++",
                     extra_compile_args=[
                         "-std=c++17",

@@ -2,6 +2,8 @@
 #include "scran/quality_control/PerCellRnaQcMetrics.hpp"
 #include <cstdint>
 
+extern "C" {
+
 void per_cell_rna_qc_metrics(const Mattress* mat, int num_subsets, const uint64_t* subset_ptrs, double* sum_output, int32_t* detected_output, const uint64_t* subset_output, int num_threads) {
     scran::PerCellRnaQcMetrics runner;
     runner.set_num_threads(num_threads);
@@ -19,5 +21,8 @@ void per_cell_rna_qc_metrics(const Mattress* mat, int num_subsets, const uint64_
         buffer.subset_proportions[i] = reinterpret_cast<double*>(subset_output[i]);
     }
 
+    runner.run(mat->ptr.get(), subsets, buffer);
     return;
+}
+
 }
