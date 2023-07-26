@@ -2,15 +2,35 @@
     Setup file for scranpy.
     Use setup.cfg to configure your project.
 
-    This file was generated with PyScaffold 4.3.1.
+    This file was generated with PyScaffold 4.5.
     PyScaffold helps you to put up the scaffold of your new Python project.
     Learn more under: https://pyscaffold.org/
 """
 from setuptools import setup
+from setuptools.extension import Extension
+
+import mattress
 
 if __name__ == "__main__":
     try:
-        setup(use_scm_version={"version_scheme": "no-guess-dev"})
+        setup(
+            use_scm_version={"version_scheme": "no-guess-dev"},
+            ext_modules=[
+                Extension(
+                    "scranpy.core",
+                    [
+                        "src/scranpy/lib/per_cell_rna_qc_metrics.cpp",
+                    ],
+                    include_dirs=[
+                        "extern/libscran/include",
+                    ] + mattress.includes(),
+                    language="c++",
+                    extra_compile_args=[
+                        "-std=c++17",
+                    ],
+                )
+            ],
+        )
     except:  # noqa
         print(
             "\n\nAn error occurred while building the project, "

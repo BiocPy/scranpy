@@ -16,9 +16,30 @@
 
 Fast multi-modal single-cell data analysis! stay tuned...
 
+## Developer Notes
+
+
+Steps to setup dependencies - 
+
+- initialize git submodules in `extern/libscran`.
+
+First one needs to build the extern library, this would generate a shared object file to `src/scranpy/core-[*].so`
+
+```shell
+python setup.py build_ext --inplace
+```
+
+For typical development workflows, run this for tests
+
+```shell
+python setup.py build_ext --inplace && tox
+```
+
+
+
 <!-- pyscaffold-notes -->
 
 ## Note
 
-This project has been set up using PyScaffold 4.3.1. For details and usage
+This project has been set up using PyScaffold 4.5. For details and usage
 information on PyScaffold see https://pyscaffold.org/.
