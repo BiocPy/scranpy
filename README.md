@@ -21,7 +21,7 @@ Fast multi-modal single-cell data analysis! stay tuned...
 
 Steps to setup dependencies - 
 
-- initialize git submodules in `extern/tatami` & `extern/tatami_hdf5`
+- initialize git submodules in `extern/libscran`.
 
 First one needs to build the extern library, this would generate a shared object file to `src/scranpy/core-[*].so`
 
