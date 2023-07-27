@@ -26,7 +26,7 @@ def model_gene_variances(x, block = None, span = 0.3, num_threads = 1):
     else:
         # TODO: need some way of factorizing a block to a numpy Int32 array.
         # factorize(block)
-        block32 = block.astype(npm.int32)
+        block32 = block.astype(np.int32)
         nlevels = block32.max() + 1
 
         all_means = []
