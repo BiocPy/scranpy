@@ -1,7 +1,6 @@
-from typing import Sequence
-
 import numpy as np
 from mattress import TatamiNumericPointer, tatamize
+from biocframe import BiocFrame
 
 from .._logging import logger
 from ..cpphelpers import lib
@@ -13,7 +12,7 @@ __license__ = "MIT"
 
 
 def per_cell_rna_qc_metrics(
-    x: MatrixTypes, subsets: Sequence = [], num_threads: int = 1, verbose: bool = False
+    x: MatrixTypes, subsets: dict = {}, num_threads: int = 1, verbose: bool = False
 ) -> RnaQcResult:
     """Compute qc metrics (RNA).
 
@@ -22,8 +21,10 @@ def per_cell_rna_qc_metrics(
 
     Args:
         x (MatrixTypes): input matrix.
-        subsets (Sequence, optional): parameter to specify batches or subsets.
-            Defaults to [].
+        subsets (dict, optional): named feature subsets.
+            Each key is the name of the subset and each value is an array of
+            integer indices, specifying the rows of `x` belonging to the subset.
+            Defaults to {}.
         num_threads (int, optional): number of threads to use. Defaults to 1.
         verbose (bool, optional): display logs?. Defaults to False.
 
@@ -31,7 +32,8 @@ def per_cell_rna_qc_metrics(
         TypeError: if x is not an expected matrix type.
 
     Returns:
-        RnaQcResult: a named tuple with sums, detected and subset proportions.
+        BiocFrame: data frame containing per-cell count sums, number of detected features
+        and the proportion of counts in each subset.
     """
     if not is_matrix_expected_type(x):
         raise TypeError(
@@ -45,24 +47,25 @@ def per_cell_rna_qc_metrics(
     sums = np.ndarray((nc,), dtype=np.float64)
     detected = np.ndarray((nc,), dtype=np.int32)
 
-    num_subsets = len(subsets)
+    keys = list(subsets.keys())
+    num_subsets = len(keys)
     subset_in = np.ndarray((num_subsets,), dtype=np.uintp)
     subset_out = np.ndarray((num_subsets,), dtype=np.uintp)
     collected_in = []
-    collected_out = []
+    collected_out = {}
 
     nr = x.nrow()
 
     for i in range(num_subsets):
         in_arr = np.ndarray((nr,), dtype=np.uint8)
         in_arr.fill(0)
-        for j in subsets[i]:
+        for j in subsets[keys[i]]:
             in_arr[j] = 1
         collected_in.append(in_arr)
         subset_in[i] = in_arr.ctypes.data
 
         out_arr = np.ndarray((nc,), dtype=np.float64)
-        collected_out.append(out_arr)
+        collected_out[keys[i]] = out_arr
         subset_out[i] = out_arr.ctypes.data
 
     if verbose is True:
@@ -79,4 +82,8 @@ def per_cell_rna_qc_metrics(
         num_threads,
     )
 
-    return RnaQcResult(sums, detected, collected_out)
+    return BiocFrame({ 
+        "sums": sums, 
+        "detected": detected, 
+        "subset_proportions": BiocFrame(collected_out, numberOfRows = nc)
+    })
