@@ -19,9 +19,9 @@ def test_quality_control_numpy():
 
     # Works without any subsets.
     result0 = per_cell_rna_qc_metrics(x)
-    assert result.column("sums") is not None
-    assert result.column("detected") is not None
-    assert result.column("subset_proportions").shape[1] == 0
+    assert result0.column("sums") is not None
+    assert result0.column("detected") is not None
+    assert result0.column("subset_proportions").shape[1] == 0
 
     # Same results when running in parallel.
     resultp = per_cell_rna_qc_metrics(x, subsets=[[1, 10, 100]], num_threads = 3)
