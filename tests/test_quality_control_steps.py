@@ -24,7 +24,7 @@ def test_quality_control_numpy():
     assert result0.column("subset_proportions").shape[1] == 0
 
     # Same results when running in parallel.
-    resultp = per_cell_rna_qc_metrics(x, subsets=[[1, 10, 100]], num_threads = 3)
+    resultp = per_cell_rna_qc_metrics(x, subsets={ "BAR": [1, 10, 100] }, num_threads = 3)
     assert np.array_equal(result.column("sums"), resultp.column("sums"))
     assert np.array_equal(result.column("detected"), resultp.column("detected"))
     assert np.array_equal(result.column("subset_proportions").column(0), resultp.column("subset_proportions").column(0))
