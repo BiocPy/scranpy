@@ -20,6 +20,7 @@ if __name__ == "__main__":
                     "scranpy.core",
                     [
                         "src/scranpy/lib/per_cell_rna_qc_metrics.cpp",
+                        "src/scranpy/lib/log_norm_counts.cpp",
                     ],
                     include_dirs=[
                         "extern/libscran/include",
