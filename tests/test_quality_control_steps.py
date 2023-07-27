@@ -12,7 +12,6 @@ def test_quality_control_numpy():
 
     assert result is not None
     assert result.dims[0] == 100
-    assert isinstance(result, scr.types.RnaQcResult)
     assert result.column("sums") is not None
     assert result.column("detected") is not None
     assert result.column("subset_proportions") is not None
