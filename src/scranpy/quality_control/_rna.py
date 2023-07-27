@@ -46,8 +46,8 @@ def per_cell_rna_qc_metrics(
     detected = np.ndarray((nc,), dtype=np.int32)
 
     num_subsets = len(subsets)
-    subset_in = np.ndarray((num_subsets,), dtype=np.uint64)
-    subset_out = np.ndarray((num_subsets,), dtype=np.uint64)
+    subset_in = np.ndarray((num_subsets,), dtype=np.uintp)
+    subset_out = np.ndarray((num_subsets,), dtype=np.uintp)
     collected_in = []
     collected_out = []
 
