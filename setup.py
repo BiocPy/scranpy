@@ -23,6 +23,7 @@ if __name__ == "__main__":
                     ],
                     include_dirs=[
                         "extern/libscran/include",
+                        "extern/eigen/Eigen"
                     ] + mattress.includes(),
                     language="c++",
                     extra_compile_args=[
