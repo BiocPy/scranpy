@@ -31,7 +31,7 @@ def factorize(x: Sequence) -> FactorizedArray:
 
         if lev not in mapping:
             mapping[lev] = len(levels)
-            levels.append(len(levels))
+            levels.append(lev)
 
         output[i] = mapping[lev]
 

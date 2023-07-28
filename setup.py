@@ -6,10 +6,9 @@
     PyScaffold helps you to put up the scaffold of your new Python project.
     Learn more under: https://pyscaffold.org/
 """
+import mattress
 from setuptools import setup
 from setuptools.extension import Extension
-
-import mattress
 
 if __name__ == "__main__":
     try:
@@ -20,12 +19,14 @@ if __name__ == "__main__":
                     "scranpy.core",
                     [
                         "src/scranpy/lib/per_cell_rna_qc_metrics.cpp",
-                        "src/scranpy/lib/model_gene_variances.cpp"
+                        "src/scranpy/lib/suggest_rna_qc_filters.cpp",
+                        "src/scranpy/lib/model_gene_variances.cpp",
                     ],
                     include_dirs=[
                         "extern/libscran/include",
-                        "extern/weightedlowess/include"
-                    ] + mattress.includes(),
+                        "extern/weightedlowess/include",
+                    ]
+                    + mattress.includes(),
                     language="c++",
                     extra_compile_args=[
                         "-std=c++17",
