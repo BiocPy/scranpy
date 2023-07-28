@@ -10,3 +10,6 @@
 [submodule "extern/aarand"]
 	path = extern/aarand
 	url = https://github.com/LTLA/aarand
+[submodule "extern/weightedlowess"]
+	path = extern/weightedlowess
+	url = https://github.com/LTLA/CppWeightedLowess
