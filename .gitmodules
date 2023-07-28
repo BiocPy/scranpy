@@ -1,3 +1,6 @@
 [submodule "extern/libscran"]
 	path = extern/libscran
 	url = https://github.com/LTLA/libscran
+[submodule "extern/weightedlowess"]
+	path = extern/weightedlowess
+	url = https://github.com/LTLA/CppWeightedLowess
