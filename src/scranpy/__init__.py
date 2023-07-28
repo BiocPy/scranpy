@@ -14,5 +14,3 @@ except PackageNotFoundError:  # pragma: no cover
     __version__ = "unknown"
 finally:
     del version, PackageNotFoundError
-
-__all__ = ["qc", "feature_selection"]
