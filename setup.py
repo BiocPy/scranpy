@@ -20,9 +20,11 @@ if __name__ == "__main__":
                     "scranpy.core",
                     [
                         "src/scranpy/lib/per_cell_rna_qc_metrics.cpp",
+                        "src/scranpy/lib/model_gene_variances.cpp"
                     ],
                     include_dirs=[
                         "extern/libscran/include",
+                        "extern/weightedlowess/include"
                     ] + mattress.includes(),
                     language="c++",
                     extra_compile_args=[
