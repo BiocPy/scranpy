@@ -63,9 +63,10 @@ def model_gene_variances(
             num_threads,
         )
     else:
-        if len(block) != NR:
+        NC = x.ncol()
+        if len(block) != NC:
             raise ValueError(
-                f"must provide block assignments (provided: {len(block)}) for all cells (expected: {NR})."
+                f"must provide block assignments (provided: {len(block)}) for all cells (expected: {NC})."
             )
 
         fac = factorize(block)
