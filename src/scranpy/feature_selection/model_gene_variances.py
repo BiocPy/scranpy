@@ -65,11 +65,22 @@ def model_gene_variances(
             span,
             num_threads,
         )
+
+        return BiocFrame(
+            {
+                "means": means,
+                "variances": variances,
+                "fitted": fitted,
+                "residuals": residuals,
+            },
+            numberOfRows=NR,
+        )
     else:
         NC = x.ncol()
         if len(block) != NC:
             raise ValueError(
-                f"must provide block assignments (provided: {len(block)}) for all cells (expected: {NC})."
+                f"must provide block assignments (provided: {len(block)})"
+                f" for all cells (expected: {NC})."
             )
 
         fac = factorize(block)
@@ -124,17 +135,16 @@ def model_gene_variances(
                     "variances": all_variances[i],
                     "fitted": all_fitted[i],
                     "residuals": all_residuals[i],
-                },
-                numberOfRows=nlevels,
+                }
             )
 
-    return BiocFrame(
-        {
-            "means": means,
-            "variances": variances,
-            "fitted": fitted,
-            "residuals": residuals,
-            "per_block": extra,
-        },
-        numberOfRows=NR,
-    )
+        return BiocFrame(
+            {
+                "means": means,
+                "variances": variances,
+                "fitted": fitted,
+                "residuals": residuals,
+                "per_block": BiocFrame(extra),
+            },
+            numberOfRows=NR,
+        )
