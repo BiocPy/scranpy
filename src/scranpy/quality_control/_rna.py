@@ -87,3 +87,74 @@ def per_cell_rna_qc_metrics(
             "subset_proportions": BiocFrame(collected_out, numberOfRows=nc),
         }
     )
+
+def suggest_rna_qc_filters(metrics: BiocFrame, block = None, num_mads = 3) -> BiocFrame:
+    use_block = block != None
+    block_info = None
+    block_offset = 0
+    num_blocks = 1
+    block_names = None
+
+    if use_block:
+        if len(block) != metrics.shape[0]:
+            raise ValueError("number of rows in 'metrics' should equal the length of 'block'")
+        block_info = factorize(block)
+        block_offset = block_info["indices"].ctypes.data
+        block_names = block_info["levels"]
+        num_blocks = len(block_names)
+
+    sums = metrics.column("sums")
+    if sums.dtype != np.float64:
+        raise TypeError("expected the 'sums' column to be a float64 array")
+    sums_out = np.ndarray((num_blocks,), dtype=np.float64)
+
+    detected = metrics.column("detected")
+    if detected.dtype != np.int32:
+        raise TypeError("expected the 'detected' column to be an int32 array")
+    detected_out = np.ndarray((num_blocks,), dtype=np.float64)
+
+    subsets = metrics.column("subset_proportions")
+    keys = subsets.columnNames
+    num_subsets = len(keys)
+    subset_in = np.ndarray((num_subsets,), dtype=np.uintp)
+    subset_out = {}
+    subset_out_ptrs = np.ndarray((num_subsets,), dtype=np.uintp)
+
+    for i in range(num_subsets):
+        cursub = subsets.column(i)
+        if cursub.dtype != np.float64:
+            raise TypeError("expected all 'subset_proportions' columns to be a float64 array")
+        subset_in[i] = cursub.ctypes.data
+
+        curout = np.ndarray((num_blocks,), dtype=np.float64)
+        subset_out[keys[i]] = curout
+        subset_out_ptrs[i] = curout.ctypes.data
+
+    lib.suggest_rna_qc_filters(
+        metrics.shape[0],
+        num_subsets,
+        sums.ctypes.data,
+        detected.ctypes.data,
+        subset_in.ctypes.data,
+        num_blocks,
+        block_offset,
+        sums_out.ctypes.data,
+        detected_out.ctypes.data,
+        subset_out_ptrs.ctypes.data,
+        num_mads
+    )
+
+    return BiocFrame(
+        {
+            "sums": sums_out,
+            "detected": detected_out,
+            "subset_proportions": BiocFrame(
+                subset_out,
+                columnNames = keys,
+                numberOfRows = num_blocks,
+                rowNames = block_names
+            )
+        },
+        numberOfRows = num_blocks,
+        rowNames = block_names
+    )

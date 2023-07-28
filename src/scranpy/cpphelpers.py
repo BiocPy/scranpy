@@ -31,3 +31,18 @@ lib.per_cell_rna_qc_metrics.argtypes = [
     ct.c_void_p,
     ct.c_int,
 ]
+
+lib.suggest_rna_qc_filters.argtypes = [
+    ct.c_int,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_double
+]
+
