@@ -22,11 +22,14 @@ def model_gene_variances(
 ) -> BiocFrame:
     """Compute model gene variances.
 
+    Ideally, x would be a normalized log-expression matrix.
+
     This function expects the matrix (`x`) to be features (rows) by cells (columns) and
     not the other way around!
 
     Args:
-        x (MatrixTypes): input matrix.
+        x (MatrixTypes): Input matrix. Ideally, x would be a normalized
+            log-expression matrix.
         block (Optional[Sequence], optional): Array containing the block/batch
             assignment for each cell. Defaults to None.
         span (float, optional): Span to use for the LOWESS trend fitting.
