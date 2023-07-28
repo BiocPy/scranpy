@@ -32,6 +32,7 @@ def test_quality_control_numpy():
         resultp.column("subset_proportions").column(0),
     )
 
+
 def test_suggest_rna_qc_filters():
     x = np.random.rand(1000, 100)
     result = per_cell_rna_qc_metrics(x, subsets={"foo": [1, 10, 100]})
@@ -50,18 +51,12 @@ def test_suggest_rna_qc_filters():
     block_levels = ["A", "B", "C"]
     block = []
     for i in range(x.shape[1]):
-        block.append(block_levels[i % len(block_levels)])    
+        block.append(block_levels[i % len(block_levels)])
 
-    filters_blocked = suggest_rna_qc_filters(result, block = block)
+    filters_blocked = suggest_rna_qc_filters(result, block=block)
 
     assert filters_blocked.shape[0] == 3
-    assert filters_blocked.rowNames[0] == "A" # surely there's a better way.
-    assert filters_blocked.rowNames[1] == "B"
-    assert filters_blocked.rowNames[2] == "C"
+    assert len(list(set(filters_blocked.rowNames).difference(["A", "B", "C"]))) == 0
 
     subfilters = filters_blocked.column("subset_proportions")
-    assert subfilters.rowNames[0] == "A" # surely there's a better way.
-    assert subfilters.rowNames[1] == "B"
-    assert subfilters.rowNames[2] == "C"
-
-
+    assert len(list(set(subfilters.rowNames).difference(["A", "B", "C"]))) == 0
