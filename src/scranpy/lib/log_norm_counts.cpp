@@ -15,7 +15,7 @@ Mattress* log_norm_counts(const Mattress* mat, uint8_t use_block, const int32_t*
 
     std::shared_ptr<tatami::Matrix<double, int> > out;
     if (use_size_factors) {
-        out = runner.run(mat->ptr, tatami::ArrayView<double>(size_factors, mat->ptr->ncol()));
+        out = runner.run(mat->ptr, std::vector<double>(size_factors, size_factors + mat->ptr->ncol())); // TODO: replace with a view.
     } else {
         out = runner.run(mat->ptr);
     }
