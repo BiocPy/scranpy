@@ -1,10 +1,10 @@
 import numpy as np
-from mattress import TatamiNumericPointer, tatamize
 from biocframe import BiocFrame
+from mattress import TatamiNumericPointer, tatamize
 
 from .._logging import logger
 from ..cpphelpers import lib
-from ..types import MatrixTypes, RnaQcResult, is_matrix_expected_type
+from ..types import MatrixTypes, is_matrix_expected_type
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -13,7 +13,7 @@ __license__ = "MIT"
 
 def per_cell_rna_qc_metrics(
     x: MatrixTypes, subsets: dict = {}, num_threads: int = 1, verbose: bool = False
-) -> RnaQcResult:
+) -> BiocFrame:
     """Compute qc metrics (RNA).
 
     This function expects the matrix (`x`) to be features (rows) by cells (columns) and
@@ -57,10 +57,8 @@ def per_cell_rna_qc_metrics(
     nr = x.nrow()
 
     for i in range(num_subsets):
-        in_arr = np.ndarray((nr,), dtype=np.uint8)
-        in_arr.fill(0)
-        for j in subsets[keys[i]]:
-            in_arr[j] = 1
+        in_arr = np.zeros((nr,), dtype=np.uint8)
+        in_arr[subsets[keys[i]]] = 1
         collected_in.append(in_arr)
         subset_in[i] = in_arr.ctypes.data
 
@@ -82,8 +80,10 @@ def per_cell_rna_qc_metrics(
         num_threads,
     )
 
-    return BiocFrame({ 
-        "sums": sums, 
-        "detected": detected, 
-        "subset_proportions": BiocFrame(collected_out, numberOfRows = nc)
-    })
+    return BiocFrame(
+        {
+            "sums": sums,
+            "detected": detected,
+            "subset_proportions": BiocFrame(collected_out, numberOfRows=nc),
+        }
+    )
