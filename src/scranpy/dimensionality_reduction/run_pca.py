@@ -6,7 +6,7 @@ from ..cpphelpers import lib
 from ..types import MatrixTypes
 from ..utils import factorize, to_logical
 
-def run_pca(x: MatrixTypes, rank, subset = None, block = None, scale = False, block_method = "project", num_threads = 1):
+def run_pca(x: MatrixTypes, rank, subset = None, block = None, scale = False, block_method = "project", block_weights = True, num_threads = 1):
     if not isinstance(x, TatamiNumericPointer):
         x = tatamize(x)
 
@@ -21,7 +21,7 @@ def run_pca(x: MatrixTypes, rank, subset = None, block = None, scale = False, bl
         subset_offset = temp_subset.ctypes.data
 
     result = {}
-    if block is None or block_method == "none":
+    if block is None or (block_method == "none" and not block_weights):
         pptr = lib.run_simple_pca(x.ptr, rank, use_subset, subset_offset, scale, num_threads)
         try:
             actual_rank = lib.fetch_simple_pca_num_dims(pptr)
@@ -43,7 +43,7 @@ def run_pca(x: MatrixTypes, rank, subset = None, block = None, scale = False, bl
         block_offset = block_info.indices.ctypes.data
 
         if block_method == "regress":
-            pptr = lib.run_residual_pca(x.ptr, block_offset, rank, use_subset, subset_offset, scale, num_threads)
+            pptr = lib.run_residual_pca(x.ptr, block_offset, block_weights, rank, use_subset, subset_offset, scale, num_threads)
             try:
                 actual_rank = lib.fetch_residual_pca_num_dims(pptr)
 
@@ -59,8 +59,8 @@ def run_pca(x: MatrixTypes, rank, subset = None, block = None, scale = False, bl
             finally:
                 lib.free_residual_pca(pptr)
 
-        elif block_method == "multibatch":
-            pptr = lib.run_multibatch_pca(x.ptr, block_offset, rank, use_subset, subset_offset, scale, num_threads)
+        elif block_method == "project" or block_method == "none":
+            pptr = lib.run_multibatch_pca(x.ptr, block_offset, (block_method == "project"), block_weights, rank, use_subset, subset_offset, scale, num_threads)
             try:
                 actual_rank = lib.fetch_multibatch_pca_num_dims(pptr)
 

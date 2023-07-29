@@ -118,6 +118,7 @@ lib.free_residual_pca.argtypes = [ ct.c_void_p ]
 lib.run_residual_pca.argtypes = [ 
     ct.c_void_p,
     ct.c_void_p,
+    ct.c_uint8,
     ct.c_int,
     ct.c_uint8,
     ct.c_void_p,
@@ -138,6 +139,8 @@ lib.free_multibatch_pca.argtypes = [ ct.c_void_p ]
 lib.run_multibatch_pca.argtypes = [ 
     ct.c_void_p,
     ct.c_void_p,
+    ct.c_uint8,
+    ct.c_uint8,
     ct.c_int,
     ct.c_uint8,
     ct.c_void_p,

@@ -76,7 +76,16 @@ void free_residual_pca(scran::ResidualPca::Results* x) {
     delete x;
 }
 
-scran::ResidualPca::Results* run_residual_pca(const Mattress* mat, const int32_t* block, int number, uint8_t use_subset, const uint8_t* subset, uint8_t scale, int num_threads) {
+scran::ResidualPca::Results* run_residual_pca(
+    const Mattress* mat, 
+    const int32_t* block, 
+    uint8_t equal_weights, 
+    int number, 
+    uint8_t use_subset, 
+    const uint8_t* subset, 
+    uint8_t scale, 
+    int num_threads) 
+{
     auto& ptr = mat->ptr;
     auto NR = ptr->nrow();
     auto NC = ptr->ncol();
@@ -84,8 +93,9 @@ scran::ResidualPca::Results* run_residual_pca(const Mattress* mat, const int32_t
 
     scran::ResidualPca pca;
     pca.set_rank(number).set_scale(scale).set_num_threads(num_threads);
-    auto result = pca.run(ptr.get(), block, use_subset ? subset : NULL);
+    pca.set_block_weight_policy(equal_weights ? scran::WeightPolicy::VARIABLE : scran::WeightPolicy::NONE);
 
+    auto result = pca.run(ptr.get(), block, use_subset ? subset : NULL);
     return new scran::ResidualPca::Results(std::move(result)); 
 }
 
@@ -115,7 +125,17 @@ void free_multibatch_pca(scran::MultiBatchPca::Results* x) {
     delete x;
 }
 
-scran::MultiBatchPca::Results* run_multibatch_pca(const Mattress* mat, const int32_t* block, int number, uint8_t use_subset, const uint8_t* subset, uint8_t scale, int num_threads) {
+scran::MultiBatchPca::Results* run_multibatch_pca(
+    const Mattress* mat, 
+    const int32_t* block, 
+    uint8_t use_residuals, 
+    uint8_t equal_weights, 
+    int number, 
+    uint8_t use_subset, 
+    const uint8_t* subset, 
+    uint8_t scale, 
+    int num_threads) 
+{
     auto& ptr = mat->ptr;
     auto NR = ptr->nrow();
     auto NC = ptr->ncol();
@@ -123,8 +143,10 @@ scran::MultiBatchPca::Results* run_multibatch_pca(const Mattress* mat, const int
 
     scran::MultiBatchPca pca;
     pca.set_rank(number).set_scale(scale).set_num_threads(num_threads);
-    auto result = pca.run(ptr.get(), block, use_subset ? subset : NULL);
+    pca.set_use_residuals(use_residuals);
+    pca.set_block_weight_policy(equal_weights ? scran::WeightPolicy::VARIABLE : scran::WeightPolicy::NONE);
 
+    auto result = pca.run(ptr.get(), block, use_subset ? subset : NULL);
     return new scran::MultiBatchPca::Results(std::move(result)); 
 }
 
