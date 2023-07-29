@@ -42,7 +42,7 @@ def run_pca(x: MatrixTypes, rank, subset = None, block = None, scale = False, bl
         block_info = factorize(block)
         block_offset = block_info.indices.ctypes.data
 
-        if block_method == "project":
+        if block_method == "regress":
             pptr = lib.run_residual_pca(x.ptr, block_offset, rank, use_subset, subset_offset, scale, num_threads)
             try:
                 actual_rank = lib.fetch_residual_pca_num_dims(pptr)
@@ -59,7 +59,7 @@ def run_pca(x: MatrixTypes, rank, subset = None, block = None, scale = False, bl
             finally:
                 lib.free_residual_pca(pptr)
 
-        elif block_method == "regress":
+        elif block_method == "multibatch":
             pptr = lib.run_multibatch_pca(x.ptr, block_offset, rank, use_subset, subset_offset, scale, num_threads)
             try:
                 actual_rank = lib.fetch_multibatch_pca_num_dims(pptr)

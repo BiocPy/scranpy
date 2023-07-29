@@ -19,6 +19,8 @@ if __name__ == "__main__":
                     "scranpy.core",
                     [
                         "src/scranpy/lib/per_cell_rna_qc_metrics.cpp",
+                        "src/scranpy/lib/log_norm_counts.cpp",
+                        "src/scranpy/lib/suggest_rna_qc_filters.cpp",
                         "src/scranpy/lib/model_gene_variances.cpp",
                         "src/scranpy/lib/run_pca.cpp"
                     ],
@@ -27,10 +29,7 @@ if __name__ == "__main__":
                         "extern/eigen",
                         "extern/irlba/include",
                         "extern/aarand/include",
-                        "extern/weightedlowess/include",
-                        "src/scranpy/lib/log_norm_counts.cpp",
-                        "src/scranpy/lib/suggest_rna_qc_filters.cpp",
-                        "src/scranpy/lib/model_gene_variances.cpp",
+                        "extern/weightedlowess/include"
                     ]
                     + mattress.includes(),
                     language="c++",
