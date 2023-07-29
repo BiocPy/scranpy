@@ -6,10 +6,9 @@
     PyScaffold helps you to put up the scaffold of your new Python project.
     Learn more under: https://pyscaffold.org/
 """
+import mattress
 from setuptools import setup
 from setuptools.extension import Extension
-
-import mattress
 
 if __name__ == "__main__":
     try:
@@ -29,7 +28,11 @@ if __name__ == "__main__":
                         "extern/irlba/include",
                         "extern/aarand/include",
                         "extern/weightedlowess/include"
-                    ] + mattress.includes(),
+                        "src/scranpy/lib/log_norm_counts.cpp",
+                        "src/scranpy/lib/suggest_rna_qc_filters.cpp",
+                        "src/scranpy/lib/model_gene_variances.cpp",
+                    ]
+                    + mattress.includes(),
                     language="c++",
                     extra_compile_args=[
                         "-std=c++17",

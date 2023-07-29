@@ -20,6 +20,8 @@ def load_dll() -> ct.CDLL:
         if x.startswith("core") and not x.endswith("py"):
             return ct.CDLL(os.path.join(dirname, x))
 
+    raise Exception("Cannot find the shared object file! Report this issue on github.")
+
 
 lib = load_dll()
 lib.per_cell_rna_qc_metrics.argtypes = [
@@ -30,6 +32,33 @@ lib.per_cell_rna_qc_metrics.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_int,
+]
+
+lib.log_norm_counts.restype = ct.c_void_p
+lib.log_norm_counts.argtypes = [
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_uint8,
+    ct.c_uint8,
+    ct.c_int,
+]
+
+lib.suggest_rna_qc_filters.argtypes = [
+    ct.c_int,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_double,
 ]
 
 lib.model_gene_variances.argtypes = [
