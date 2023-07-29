@@ -1,3 +1,5 @@
+#include "parallel.h"
+
 #include "scran/quality_control/SuggestRnaQcFilters.hpp"
 #include <cstdint>
 
