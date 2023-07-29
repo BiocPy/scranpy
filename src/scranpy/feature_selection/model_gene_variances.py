@@ -79,7 +79,7 @@ def model_gene_variances(
         NC = x.ncol()
         if len(block) != NC:
             raise ValueError(
-                f"must provide block assignments (provided: {len(block)})"
+                f"Must provide block assignments (provided: {len(block)})"
                 f" for all cells (expected: {NC})."
             )
 
