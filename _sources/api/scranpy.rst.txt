@@ -1,0 +1,55 @@
+scranpy package
+===============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scranpy.feature_selection
+   scranpy.normalization
+   scranpy.quality_control
+
+Submodules
+----------
+
+scranpy.core module
+-------------------
+
+.. automodule:: scranpy.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.cpphelpers module
+-------------------------
+
+.. automodule:: scranpy.cpphelpers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.types module
+--------------------
+
+.. automodule:: scranpy.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.utils module
+--------------------
+
+.. automodule:: scranpy.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: scranpy
+   :members:
+   :undoc-members:
+   :show-inheritance:

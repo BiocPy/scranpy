@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scranpy.feature_selection.model_gene_variances &#8212; scranpy 0.0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=233b9934" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c1dcd045"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for scranpy.feature_selection.model_gene_variances</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
+<span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span><span class="p">,</span> <span class="n">tatamize</span>
+
+<span class="kn">from</span> <span class="nn">..cpphelpers</span> <span class="kn">import</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">is_matrix_expected_type</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">factorize</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+
+
+<div class="viewcode-block" id="model_gene_variances"><a class="viewcode-back" href="../../../api/scranpy.feature_selection.html#scranpy.feature_selection.model_gene_variances.model_gene_variances">[docs]</a><span class="k">def</span> <span class="nf">model_gene_variances</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span>
+    <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">span</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BiocFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute model gene variances.</span>
+
+<span class="sd">    Ideally, x would be a normalized log-expression matrix.</span>
+
+<span class="sd">    This function expects the matrix (`x`) to be features (rows) by cells (columns) and</span>
+<span class="sd">    not the other way around!</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (MatrixTypes): Input matrix. Ideally, x would be a normalized</span>
+<span class="sd">            log-expression matrix.</span>
+<span class="sd">        block (Optional[Sequence], optional): Array containing the block/batch</span>
+<span class="sd">            assignment for each cell. Defaults to None.</span>
+<span class="sd">        span (float, optional): Span to use for the LOWESS trend fitting.</span>
+<span class="sd">            Defaults to 0.3.</span>
+<span class="sd">        num_threads (int, optional): number of threads to use. Defaults to 1.</span>
+<span class="sd">        verbose (bool, optional): display logs?. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BiocFrame: data frame with various metrics.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_matrix_expected_type</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Input must be a tatami, numpy or sparse matrix, provided </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">TatamiNumericPointer</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tatamize</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">NR</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">nrow</span><span class="p">()</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">variances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">fitted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">block</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">model_gene_variances</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>
+            <span class="n">means</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">variances</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">fitted</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">residuals</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">span</span><span class="p">,</span>
+            <span class="n">num_threads</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">BiocFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;means&quot;</span><span class="p">:</span> <span class="n">means</span><span class="p">,</span>
+                <span class="s2">&quot;variances&quot;</span><span class="p">:</span> <span class="n">variances</span><span class="p">,</span>
+                <span class="s2">&quot;fitted&quot;</span><span class="p">:</span> <span class="n">fitted</span><span class="p">,</span>
+                <span class="s2">&quot;residuals&quot;</span><span class="p">:</span> <span class="n">residuals</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">numberOfRows</span><span class="o">=</span><span class="n">NR</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">NC</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ncol</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Must provide block assignments (provided: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; for all cells (expected: </span><span class="si">{</span><span class="n">NC</span><span class="si">}</span><span class="s2">).&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">fac</span> <span class="o">=</span> <span class="n">factorize</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">nlevels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fac</span><span class="o">.</span><span class="n">levels</span><span class="p">)</span>
+
+        <span class="n">all_means</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_variances</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_fitted</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_residuals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_means_ptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">)</span>
+        <span class="n">all_variances_ptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">)</span>
+        <span class="n">all_fitted_ptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">)</span>
+        <span class="n">all_residuals_ptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nlevels</span><span class="p">):</span>
+            <span class="n">cur_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">cur_variances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">cur_fitted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">cur_residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+            <span class="n">all_means_ptr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_means</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">all_variances_ptr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_variances</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">all_fitted_ptr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_fitted</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">all_residuals_ptr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_residuals</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="n">all_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_means</span><span class="p">)</span>
+            <span class="n">all_variances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_variances</span><span class="p">)</span>
+            <span class="n">all_fitted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_fitted</span><span class="p">)</span>
+            <span class="n">all_residuals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_residuals</span><span class="p">)</span>
+
+        <span class="n">lib</span><span class="o">.</span><span class="n">model_gene_variances_blocked</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>
+            <span class="n">means</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">variances</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">fitted</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">residuals</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">nlevels</span><span class="p">,</span>
+            <span class="n">fac</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">all_means_ptr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">all_variances_ptr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">all_fitted_ptr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">all_residuals_ptr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">span</span><span class="p">,</span>
+            <span class="n">num_threads</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">extra</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nlevels</span><span class="p">):</span>
+            <span class="n">extra</span><span class="p">[</span><span class="n">fac</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">BiocFrame</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;means&quot;</span><span class="p">:</span> <span class="n">all_means</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="s2">&quot;variances&quot;</span><span class="p">:</span> <span class="n">all_variances</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="s2">&quot;fitted&quot;</span><span class="p">:</span> <span class="n">all_fitted</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                    <span class="s2">&quot;residuals&quot;</span><span class="p">:</span> <span class="n">all_residuals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">BiocFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;means&quot;</span><span class="p">:</span> <span class="n">means</span><span class="p">,</span>
+                <span class="s2">&quot;variances&quot;</span><span class="p">:</span> <span class="n">variances</span><span class="p">,</span>
+                <span class="s2">&quot;fitted&quot;</span><span class="p">:</span> <span class="n">fitted</span><span class="p">,</span>
+                <span class="s2">&quot;residuals&quot;</span><span class="p">:</span> <span class="n">residuals</span><span class="p">,</span>
+                <span class="s2">&quot;per_block&quot;</span><span class="p">:</span> <span class="n">BiocFrame</span><span class="p">(</span><span class="n">extra</span><span class="p">),</span>
+            <span class="p">},</span>
+            <span class="n">numberOfRows</span><span class="o">=</span><span class="n">NR</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">scranpy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions &amp; Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/modules.html">Module Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Jayaram Kancherla.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

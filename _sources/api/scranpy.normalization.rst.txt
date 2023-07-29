@@ -1,0 +1,21 @@
+scranpy.normalization package
+=============================
+
+Submodules
+----------
+
+scranpy.normalization.log\_norm\_counts module
+----------------------------------------------
+
+.. automodule:: scranpy.normalization.log_norm_counts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: scranpy.normalization
+   :members:
+   :undoc-members:
+   :show-inheritance:

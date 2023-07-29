@@ -1,0 +1,21 @@
+scranpy.feature\_selection package
+==================================
+
+Submodules
+----------
+
+scranpy.feature\_selection.model\_gene\_variances module
+--------------------------------------------------------
+
+.. automodule:: scranpy.feature_selection.model_gene_variances
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: scranpy.feature_selection
+   :members:
+   :undoc-members:
+   :show-inheritance:

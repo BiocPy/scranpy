@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scranpy package &#8212; scranpy 0.0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=233b9934" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c1dcd045"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="scranpy.feature_selection package" href="scranpy.feature_selection.html" />
+    <link rel="prev" title="scranpy" href="modules.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="scranpy-package">
+<h1>scranpy package<a class="headerlink" href="#scranpy-package" title="Permalink to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scranpy.feature_selection.html">scranpy.feature_selection package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.feature_selection.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.feature_selection.html#module-scranpy.feature_selection.model_gene_variances">scranpy.feature_selection.model_gene_variances module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.feature_selection.html#scranpy.feature_selection.model_gene_variances.model_gene_variances"><code class="docutils literal notranslate"><span class="pre">model_gene_variances()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.feature_selection.html#module-scranpy.feature_selection">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scranpy.normalization.html">scranpy.normalization package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.normalization.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.normalization.html#module-scranpy.normalization.log_norm_counts">scranpy.normalization.log_norm_counts module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.normalization.html#scranpy.normalization.log_norm_counts.log_norm_counts"><code class="docutils literal notranslate"><span class="pre">log_norm_counts()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.normalization.html#module-scranpy.normalization">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scranpy.quality_control.html">scranpy.quality_control package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.quality_control.html#module-scranpy.quality_control">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="scranpy-core-module">
+<h2>scranpy.core module<a class="headerlink" href="#scranpy-core-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-scranpy.cpphelpers">
+<span id="scranpy-cpphelpers-module"></span><h2>scranpy.cpphelpers module<a class="headerlink" href="#module-scranpy.cpphelpers" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="scranpy.cpphelpers.load_dll">
+<span class="sig-prename descclassname"><span class="pre">scranpy.cpphelpers.</span></span><span class="sig-name descname"><span class="pre">load_dll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/ctypes.html#ctypes.CDLL" title="(in Python v3.9)"><span class="pre">CDLL</span></a></span></span><a class="reference internal" href="../_modules/scranpy/cpphelpers.html#load_dll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.cpphelpers.load_dll" title="Permalink to this definition">¶</a></dt>
+<dd><p>load the shared library.</p>
+<p>usually starts with core.&lt;platform&gt;.&lt;so or dll&gt;.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>shared object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct.CDLL</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-scranpy.types">
+<span id="scranpy-types-module"></span><h2>scranpy.types module<a class="headerlink" href="#module-scranpy.types" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="scranpy.types.FactorizedArray">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.types.</span></span><span class="sig-name descname"><span class="pre">FactorizedArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.types.FactorizedArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.types.FactorizedArray.indices">
+<span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#scranpy.types.FactorizedArray.indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.types.FactorizedArray.levels">
+<span class="sig-name descname"><span class="pre">levels</span></span><a class="headerlink" href="#scranpy.types.FactorizedArray.levels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scranpy.types.is_list_of_type">
+<span class="sig-prename descclassname"><span class="pre">scranpy.types.</span></span><span class="sig-name descname"><span class="pre">is_list_of_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Any" title="(in Python v3.9)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Callable" title="(in Python v3.9)"><span class="pre">Callable</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/scranpy/types.html#is_list_of_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.types.is_list_of_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if <cite>x</cite> is a list of <cite>target_type</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Any</em>) – any object.</p></li>
+<li><p><strong>target_type</strong> (<em>Callable</em>) – Type to check for, e.g. str, int</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if <cite>x</cite> is list and all values are of the same type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scranpy.types.is_matrix_expected_type">
+<span class="sig-prename descclassname"><span class="pre">scranpy.types.</span></span><span class="sig-name descname"><span class="pre">is_matrix_expected_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Any" title="(in Python v3.9)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/scranpy/types.html#is_matrix_expected_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.types.is_matrix_expected_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if <cite>x</cite> is an expect matrix type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>Any</em>) – any object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if <cite>x</cite> is supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-scranpy.utils">
+<span id="scranpy-utils-module"></span><h2>scranpy.utils module<a class="headerlink" href="#module-scranpy.utils" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="scranpy.utils.factorize">
+<span class="sig-prename descclassname"><span class="pre">scranpy.utils.</span></span><span class="sig-name descname"><span class="pre">factorize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scranpy.types.FactorizedArray" title="scranpy.types.FactorizedArray"><span class="pre">FactorizedArray</span></a></span></span><a class="reference internal" href="../_modules/scranpy/utils.html#factorize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.utils.factorize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factorize an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>Sequence</em>) – an array.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a factorized tuple.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#scranpy.types.FactorizedArray" title="scranpy.types.FactorizedArray">FactorizedArray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-scranpy">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">scranpy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions &amp; Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Module Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">scranpy package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">scranpy</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">scranpy</a></li>
+      <li>Next: <a href="scranpy.feature_selection.html" title="next chapter">scranpy.feature_selection package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Jayaram Kancherla.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/api/scranpy.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

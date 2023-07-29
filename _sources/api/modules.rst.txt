@@ -1,0 +1,7 @@
+scranpy
+=======
+
+.. toctree::
+   :maxdepth: 4
+
+   scranpy

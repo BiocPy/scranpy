@@ -1,0 +1,10 @@
+scranpy.quality\_control package
+================================
+
+Module contents
+---------------
+
+.. automodule:: scranpy.quality_control
+   :members:
+   :undoc-members:
+   :show-inheritance:
