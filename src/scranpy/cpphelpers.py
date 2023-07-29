@@ -105,3 +105,43 @@ lib.run_simple_pca.argtypes = [
     ct.c_int
 ]
 lib.run_simple_pca.restype = ct.c_void_p
+
+lib.fetch_residual_pca_coordinates.argtypes = [ ct.c_void_p ]
+lib.fetch_residual_pca_coordinates.restype = ct.c_void_p
+lib.fetch_residual_pca_variance_explained.argtypes = [ ct.c_void_p ]
+lib.fetch_residual_pca_variance_explained.restype = ct.c_void_p
+lib.fetch_residual_pca_total_variance.argtypes = [ ct.c_void_p ]
+lib.fetch_residual_pca_total_variance.restype = ct.c_double
+lib.fetch_residual_pca_num_dims.argtypes = [ ct.c_void_p ]
+lib.fetch_residual_pca_num_dims.restype = ct.c_int
+lib.free_residual_pca.argtypes = [ ct.c_void_p ]
+lib.run_residual_pca.argtypes = [ 
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_uint8,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_int
+]
+lib.run_residual_pca.restype = ct.c_void_p
+
+lib.fetch_multibatch_pca_coordinates.argtypes = [ ct.c_void_p ]
+lib.fetch_multibatch_pca_coordinates.restype = ct.c_void_p
+lib.fetch_multibatch_pca_variance_explained.argtypes = [ ct.c_void_p ]
+lib.fetch_multibatch_pca_variance_explained.restype = ct.c_void_p
+lib.fetch_multibatch_pca_total_variance.argtypes = [ ct.c_void_p ]
+lib.fetch_multibatch_pca_total_variance.restype = ct.c_double
+lib.fetch_multibatch_pca_num_dims.argtypes = [ ct.c_void_p ]
+lib.fetch_multibatch_pca_num_dims.restype = ct.c_int
+lib.free_multibatch_pca.argtypes = [ ct.c_void_p ]
+lib.run_multibatch_pca.argtypes = [ 
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_uint8,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_int
+]
+lib.run_multibatch_pca.restype = ct.c_void_p
