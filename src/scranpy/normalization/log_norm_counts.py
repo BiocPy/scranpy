@@ -33,19 +33,18 @@ def log_norm_counts(
             assignment for each cell. Defaults to None.
         size_factors (Optional[np.ndarray], optional): size factors for each cell.
             Defaults to None.
-        center (bool, optional): _description_. Defaults to True.
-        allow_zeros (bool, optional): _description_. Defaults to False.
-        allow_non_finite (bool, optional): _description_. Defaults to False.
-        num_threads (int, optional): _description_. Defaults to 1.
-        verbose (bool, optional): _description_. Defaults to False.
+        center (bool, optional): center the size factors?. Defaults to True.
+        allow_zeros (bool, optional): allow zeros?. Defaults to False.
+        allow_non_finite (bool, optional): all nan or inifnite numbers?.
+            Defaults to False.
+        num_threads (int, optional): number of threads. Defaults to 1.
+        verbose (bool, optional): display logs?. Defaults to False.
 
     Raises:
-        TypeError: _description_
-        ValueError: _description_
-        TypeError: _description_
+        TypeError, ValueError: if arguments don't meet expectations.
 
     Returns:
-        TatamiNumericPointer: _description_
+        TatamiNumericPointer: log normalized matrix.
     """
     if not is_matrix_expected_type(x):
         raise TypeError(
