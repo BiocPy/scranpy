@@ -13,11 +13,15 @@ Mattress* log_norm_counts(const Mattress* mat, uint8_t use_block, const int32_t*
     runner.set_handle_non_finite(allow_non_finite);
     runner.set_num_threads(num_threads);
 
+    if (!use_block) {
+        block = NULL;
+    }
+
     std::shared_ptr<tatami::Matrix<double, int> > out;
     if (use_size_factors) {
-        out = runner.run(mat->ptr, std::vector<double>(size_factors, size_factors + mat->ptr->ncol())); // TODO: replace with a view.
+        out = runner.run_blocked(mat->ptr, std::vector<double>(size_factors, size_factors + mat->ptr->ncol()), block); // TODO: replace with a view.
     } else {
-        out = runner.run(mat->ptr);
+        out = runner.run_blocked(mat->ptr, block);
     }
 
     return new Mattress(std::move(out));
