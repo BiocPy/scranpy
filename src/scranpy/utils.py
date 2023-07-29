@@ -50,5 +50,5 @@ def to_logical(indices: Sequence, length: int) -> np.ndarray:
             the entries from indices are set to 1.
     """
     output = np.zeros((length,), dtype=np.uint8)
-    in_arr[indices] = 1
-    return in_arr
+    output[indices] = 1
+    return output 
