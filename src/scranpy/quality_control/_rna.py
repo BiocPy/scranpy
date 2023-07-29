@@ -7,7 +7,7 @@ from mattress import TatamiNumericPointer, tatamize
 from .._logging import logger
 from ..cpphelpers import lib
 from ..types import MatrixTypes, is_matrix_expected_type
-from ..utils import factorize
+from ..utils import factorize, to_logical
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -60,8 +60,7 @@ def per_cell_rna_qc_metrics(
     nr = x.nrow()
 
     for i in range(num_subsets):
-        in_arr = np.zeros((nr,), dtype=np.uint8)
-        in_arr[subsets[keys[i]]] = 1
+        in_arr = to_logical(subsets[keys[i]], nr)
         collected_in.append(in_arr)
         subset_in[i] = in_arr.ctypes.data
 

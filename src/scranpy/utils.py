@@ -36,3 +36,19 @@ def factorize(x: Sequence) -> FactorizedArray:
         output[i] = mapping[lev]
 
     return FactorizedArray(levels=levels, indices=output)
+
+def to_logical(indices: Sequence, length: int) -> np.ndarray:
+    """Convert indices to a logical array.
+
+    Args:
+        indices (Sequence): array of integer indices.
+        length (int): length of the output array, i.e.,
+            the maximum possible index plus 1.
+
+    Returns:
+        np.ndarray: an array of unsigned 8-bit integers where
+            the entries from indices are set to 1.
+    """
+    output = np.zeros((length,), dtype=np.uint8)
+    in_arr[indices] = 1
+    return in_arr
