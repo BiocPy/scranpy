@@ -2,11 +2,10 @@ from typing import Optional, Sequence
 
 import numpy as np
 from biocframe import BiocFrame
-from mattress import TatamiNumericPointer, tatamize
 
 from ..cpphelpers import lib
-from ..types import MatrixTypes, is_matrix_expected_type
-from ..utils import factorize
+from ..types import MatrixTypes
+from ..utils import factorize, validate_and_tatamize_input
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -40,13 +39,7 @@ def model_gene_variances(
     Returns:
         BiocFrame: data frame with various metrics.
     """
-    if not is_matrix_expected_type(x):
-        raise TypeError(
-            f"Input must be a tatami, numpy or sparse matrix, provided {type(x)}."
-        )
-
-    if not isinstance(x, TatamiNumericPointer):
-        x = tatamize(x)
+    x = validate_and_tatamize_input(x)
 
     NR = x.nrow()
     means = np.ndarray((NR,), dtype=np.float64)
