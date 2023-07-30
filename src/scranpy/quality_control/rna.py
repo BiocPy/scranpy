@@ -1,13 +1,12 @@
-from typing import Optional, Sequence
+from typing import Mapping, Optional, Sequence
 
 import numpy as np
 from biocframe import BiocFrame
-from mattress import TatamiNumericPointer, tatamize
 
 from .._logging import logger
 from ..cpphelpers import lib
-from ..types import MatrixTypes, is_matrix_expected_type
-from ..utils import factorize
+from ..types import MatrixTypes
+from ..utils import factorize, to_logical, validate_and_tatamize_input
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -15,7 +14,10 @@ __license__ = "MIT"
 
 
 def per_cell_rna_qc_metrics(
-    x: MatrixTypes, subsets: dict = {}, num_threads: int = 1, verbose: bool = False
+    x: MatrixTypes,
+    subsets: Optional[Mapping] = None,
+    num_threads: int = 1,
+    verbose: bool = False,
 ) -> BiocFrame:
     """Compute qc metrics (RNA).
 
@@ -24,7 +26,7 @@ def per_cell_rna_qc_metrics(
 
     Args:
         x (MatrixTypes): input matrix.
-        subsets (dict, optional): named feature subsets.
+        subsets (Mapping, optional): named feature subsets.
             Each key is the name of the subset and each value is an array of
             integer indices, specifying the rows of `x` belonging to the subset.
             Defaults to {}.
@@ -38,13 +40,10 @@ def per_cell_rna_qc_metrics(
         BiocFrame: data frame containing per-cell count sums, number of detected
         features and the proportion of counts in each subset.
     """
-    if not is_matrix_expected_type(x):
-        raise TypeError(
-            f"Input must be a tatami, numpy or sparse matrix, provided {type(x)}."
-        )
+    x = validate_and_tatamize_input(x)
 
-    if not isinstance(x, TatamiNumericPointer):
-        x = tatamize(x)
+    if subsets is None:
+        subsets = {}
 
     nc = x.ncol()
     sums = np.ndarray((nc,), dtype=np.float64)
@@ -60,8 +59,7 @@ def per_cell_rna_qc_metrics(
     nr = x.nrow()
 
     for i in range(num_subsets):
-        in_arr = np.zeros((nr,), dtype=np.uint8)
-        in_arr[subsets[keys[i]]] = 1
+        in_arr = to_logical(subsets[keys[i]], nr)
         collected_in.append(in_arr)
         subset_in[i] = in_arr.ctypes.data
 

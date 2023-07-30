@@ -1,6 +1,15 @@
 [submodule "extern/libscran"]
 	path = extern/libscran
 	url = https://github.com/LTLA/libscran
+[submodule "extern/eigen"]
+	path = extern/eigen
+	url = https://gitlab.com/libeigen/eigen
+[submodule "extern/irlba"]
+	path = extern/irlba
+	url = https://github.com/LTLA/CppIrlba
+[submodule "extern/aarand"]
+	path = extern/aarand
+	url = https://github.com/LTLA/aarand
 [submodule "extern/weightedlowess"]
 	path = extern/weightedlowess
 	url = https://github.com/LTLA/CppWeightedLowess

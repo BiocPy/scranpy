@@ -42,3 +42,18 @@ def is_list_of_type(x: Any, target_type: Callable) -> bool:
     return (isinstance(x, list) or isinstance(x, tuple)) and all(
         isinstance(item, target_type) for item in x
     )
+
+
+def validate_matrix_types(x: MatrixTypes):
+    """Validate if x is an expected matrix type.
+
+    Args:
+        x (MatrixTypes): Inpute Matrix
+
+    Raises:
+        TypeError: if x is not a tatami, numpy or scipy matrix.
+    """
+    if not is_matrix_expected_type(x):
+        raise TypeError(
+            f"Input must be a tatami, numpy or sparse matrix, provided {type(x)}."
+        )

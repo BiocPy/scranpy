@@ -26,12 +26,17 @@ if __name__ == "__main__":
                     ],
                     include_dirs=[
                         "extern/libscran/include",
+                        "extern/eigen",
+                        "extern/irlba/include",
+                        "extern/aarand/include",
                         "extern/weightedlowess/include",
                         "extern/annoy/include",
                         "extern/knncolle/include",
                         "extern/hnswlib",
                         "extern/kmeans/include",
                         "extern/aarand/include",
+                        "src/scranpy/lib/run_pca.cpp",
+                        "extern/libscran/include",
                     ]
                     + mattress.includes(),
                     language="c++",

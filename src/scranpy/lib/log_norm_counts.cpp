@@ -1,3 +1,5 @@
+#include "parallel.h" // must be first, to set all macros.
+
 #include "scran/normalization/LogNormCounts.hpp"
 #include "Mattress.h"
 
