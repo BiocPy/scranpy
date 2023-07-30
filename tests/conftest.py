@@ -7,4 +7,10 @@
     - https://docs.pytest.org/en/stable/writing_plugins.html
 """
 
-# import pytest
+import data.mock_data as mocks
+import pytest
+
+
+@pytest.fixture
+def mock_data():
+    return mocks
