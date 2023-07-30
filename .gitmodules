@@ -25,3 +25,6 @@
 [submodule "extern/CppKmeans"]
 	path = extern/kmeans
 	url = https://github.com/LTLA/CppKmeans
+[submodule "extern/qdtsne"]
+	path = extern/qdtsne
+	url = https://github.com/LTLA/qdtsne
