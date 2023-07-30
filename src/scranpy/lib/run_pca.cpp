@@ -1,3 +1,5 @@
+#include "parallel.h" // must be first, to set all macros.
+
 #include "Mattress.h"
 #include "scran/dimensionality_reduction/SimplePca.hpp"
 #include "scran/dimensionality_reduction/ResidualPca.hpp"

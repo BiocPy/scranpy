@@ -1,3 +1,5 @@
+#include "parallel.h" // must be first, to set all macros.
+
 #include "Mattress.h"
 #include "scran/quality_control/PerCellRnaQcMetrics.hpp"
 #include <cstdint>
