@@ -22,10 +22,14 @@ if __name__ == "__main__":
                         "src/scranpy/lib/log_norm_counts.cpp",
                         "src/scranpy/lib/suggest_rna_qc_filters.cpp",
                         "src/scranpy/lib/model_gene_variances.cpp",
+                        "src/scranpy/lib/run_pca.cpp"
                     ],
                     include_dirs=[
                         "extern/libscran/include",
-                        "extern/weightedlowess/include",
+                        "extern/eigen",
+                        "extern/irlba/include",
+                        "extern/aarand/include",
+                        "extern/weightedlowess/include"
                     ]
                     + mattress.includes(),
                     language="c++",

@@ -5,7 +5,7 @@ from mattress import TatamiNumericPointer, tatamize
 
 from .._logging import logger
 from ..cpphelpers import lib
-from ..types import MatrixTypes, is_matrix_expected_type
+from ..types import MatrixTypes, validate_matrix_types
 from ..utils import factorize
 
 __author__ = "ltla, jkanche"
@@ -46,10 +46,7 @@ def log_norm_counts(
     Returns:
         TatamiNumericPointer: log normalized matrix.
     """
-    if not is_matrix_expected_type(x):
-        raise TypeError(
-            f"Input must be a tatami, numpy or sparse matrix, provided {type(x)}."
-        )
+    validate_matrix_types(x)
 
     if not isinstance(x, TatamiNumericPointer):
         raise ValueError("coming soon when DelayedArray support is implemented")
