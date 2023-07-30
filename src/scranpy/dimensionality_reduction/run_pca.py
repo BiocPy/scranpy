@@ -16,6 +16,33 @@ __license__ = "MIT"
 PCAResult = namedtuple("PCAResult", ["principal_components", "variance_explained"])
 
 
+def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PCAResult:
+    """Extract principal components and variance explained from scran results.
+
+    Args:
+        pptr (ct.c_void_p): a pointer to scran::MultiBatchPca::Results.
+
+    Returns:
+        PCAResult: with principal components and variance explained.
+    """
+    actual_rank = lib.fetch_simple_pca_num_dims(pptr)
+
+    pc_pointer = ct.cast(
+        lib.fetch_simple_pca_coordinates(pptr), ct.POINTER(ct.c_double)
+    )
+    pc_array = deepcopy(np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc)))
+    principal_components = pc_array
+
+    var_pointer = ct.cast(
+        lib.fetch_simple_pca_variance_explained(pptr), ct.POINTER(ct.c_double)
+    )
+    var_array = deepcopy(np.ctypeslib.as_array(var_pointer, shape=(actual_rank,)))
+    total = lib.fetch_simple_pca_total_variance(pptr)
+    variance_explained = var_array / total
+
+    return PCAResult(principal_components, variance_explained)
+
+
 def run_pca(
     x: MatrixTypes,
     rank: int,
@@ -87,26 +114,13 @@ def run_pca(
         temp_subset = to_logical(subset, nr)
         subset_offset = temp_subset.ctypes.data
 
-    result = PCAResult
+    result = None
     if block is None or (block_method == "none" and not block_weights):
         pptr = lib.run_simple_pca(
             x.ptr, rank, use_subset, subset_offset, scale, num_threads
         )
         try:
-            actual_rank = lib.fetch_simple_pca_num_dims(pptr)
-
-            pc_pointer = ct.cast(
-                lib.fetch_simple_pca_coordinates(pptr), ct.POINTER(ct.c_double)
-            )
-            pc_array = np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc))
-            result.principal_components = deepcopy(pc_array)
-
-            var_pointer = ct.cast(
-                lib.fetch_simple_pca_variance_explained(pptr), ct.POINTER(ct.c_double)
-            )
-            var_array = np.ctypeslib.as_array(var_pointer, shape=(actual_rank,))
-            total = lib.fetch_simple_pca_total_variance(pptr)
-            result.variance_explained = deepcopy(var_array) / total
+            result = _extract_pca_results(pptr, nc)
 
         finally:
             lib.free_simple_pca(pptr)
@@ -133,21 +147,7 @@ def run_pca(
                 num_threads,
             )
             try:
-                actual_rank = lib.fetch_residual_pca_num_dims(pptr)
-
-                pc_pointer = ct.cast(
-                    lib.fetch_residual_pca_coordinates(pptr), ct.POINTER(ct.c_double)
-                )
-                pc_array = np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc))
-                result.principal_components = deepcopy(pc_array)
-
-                var_pointer = ct.cast(
-                    lib.fetch_residual_pca_variance_explained(pptr),
-                    ct.POINTER(ct.c_double),
-                )
-                var_array = np.ctypeslib.as_array(var_pointer, shape=(actual_rank,))
-                total = lib.fetch_residual_pca_total_variance(pptr)
-                result.variance_explained = deepcopy(var_array) / total
+                result = _extract_pca_results(pptr, nc)
 
             finally:
                 lib.free_residual_pca(pptr)
@@ -165,23 +165,12 @@ def run_pca(
                 num_threads,
             )
             try:
-                actual_rank = lib.fetch_multibatch_pca_num_dims(pptr)
-
-                pc_pointer = ct.cast(
-                    lib.fetch_multibatch_pca_coordinates(pptr), ct.POINTER(ct.c_double)
-                )
-                pc_array = np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc))
-                result.principal_components = deepcopy(pc_array)
-
-                var_pointer = ct.cast(
-                    lib.fetch_multibatch_pca_variance_explained(pptr),
-                    ct.POINTER(ct.c_double),
-                )
-                var_array = np.ctypeslib.as_array(var_pointer, shape=(actual_rank,))
-                total = lib.fetch_multibatch_pca_total_variance(pptr)
-                result.variance_explained = deepcopy(var_array) / total
+                result = _extract_pca_results(pptr, nc)
 
             finally:
                 lib.free_multibatch_pca(pptr)
+
+    if result is None:
+        raise RuntimeError("PCA result cannot be empty.")
 
     return result
