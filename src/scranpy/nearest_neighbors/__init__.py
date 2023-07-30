@@ -1,2 +1,2 @@
-from .find_nearest_neighbors import find_nearest_neighbors
-from .build_neighbor_index import build_neighbor_index
+from .find_nearest_neighbors import NeighborResults, find_nearest_neighbors
+from .build_neighbor_index import NeighborIndex, build_neighbor_index

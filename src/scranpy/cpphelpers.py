@@ -110,10 +110,22 @@ lib.fetch_neighbor_results_k.restype = ct.c_int
 lib.fetch_neighbor_results_k.argtypes = [ ct.c_void_p ]
 lib.fetch_neighbor_results_nobs.restype = ct.c_int
 lib.fetch_neighbor_results_nobs.argtypes = [ ct.c_void_p ]
-lib.fetch_neighbor_results_indices.argtypes = [ 
+lib.fetch_neighbor_results_single.argtypes = [ 
     ct.c_void_p, 
     ct.c_int, 
     ct.c_void_p, 
     ct.c_void_p 
 ]
 lib.free_neighbor_results.argtypes = [ ct.c_void_p ]
+lib.serialize_neighbor_results.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p
+]
+lib.unserialize_neighbor_results.restype = ct.c_void_p
+lib.unserialize_neighbor_results.argtypes = [
+    ct.c_int,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p
+]

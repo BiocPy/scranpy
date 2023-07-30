@@ -44,7 +44,7 @@ int fetch_neighbor_results_k(const knncolle::NeighborList<>* ptr) {
     }
 }
 
-void fetch_neighbor_results_indices(const knncolle::NeighborList<>* ptr, int i, int32_t* outdex, double* outdist) {
+void fetch_neighbor_results_single(const knncolle::NeighborList<>* ptr, int i, int32_t* outdex, double* outdist) {
     const auto& chosen = (*ptr)[i];
     for (const auto& p : chosen) {
         *(outdex++) = p.first;
@@ -55,6 +55,27 @@ void fetch_neighbor_results_indices(const knncolle::NeighborList<>* ptr, int i, 
 
 void free_neighbor_results(knncolle::NeighborList<>* ptr) {
     delete ptr;
+}
+
+void serialize_neighbor_results(const knncolle::NeighborList<>* ptr, int32_t* outdex, double* outdist) {
+    for (int o = 0, end = ptr->size(); o < end; ++o) {
+        const auto& chosen = (*ptr)[o];
+        for (const auto& p : chosen) {
+            *(outdex++) = p.first;
+            *(outdist++) = p.second;
+        }
+    }
+}
+
+knncolle::NeighborList<>* unserialize_neighbor_results(int nobs, int k, int32_t* indices, double* distances) {
+    knncolle::NeighborList<> output(nobs);
+    for (int o = 0; o < nobs; ++o) {
+        auto& chosen = output[o];
+        for (int i = 0; i < k; ++i) {
+            chosen.emplace_back(*(indices++), *(distances++));
+        }
+    }
+    return new knncolle::NeighborList<>(std::move(output));    
 }
 
 }
