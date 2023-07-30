@@ -5,7 +5,7 @@ class NeighborIndex:
         self.ptr = ptr
 
     def __del__(self):
-        lib.free_neighbor_index(ptr)
+        lib.free_neighbor_index(self.ptr)
 
     def num_cells(self):
         return lib.fetch_neighbor_index_nobs(self.ptr)

@@ -6,7 +6,7 @@ class NeighborResults:
         self.ptr = ptr
 
     def __del__(self):
-        lib.free_neighbor_results(ptr)
+        lib.free_neighbor_results(self.ptr)
 
     def num_cells(self):
         return lib.fetch_neighbor_results_nobs(self.ptr)
