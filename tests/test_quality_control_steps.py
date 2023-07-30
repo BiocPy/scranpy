@@ -6,8 +6,8 @@ __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 
-def test_quality_control_numpy():
-    x = np.random.rand(1000, 100)
+def test_quality_control_numpy(mock_data):
+    x = mock_data.x
     result = per_cell_rna_qc_metrics(x, subsets={"foo": [1, 10, 100]})
 
     assert result is not None
@@ -33,8 +33,8 @@ def test_quality_control_numpy():
     )
 
 
-def test_suggest_rna_qc_filters():
-    x = np.random.rand(1000, 100)
+def test_suggest_rna_qc_filters(mock_data):
+    x = mock_data.x
     result = per_cell_rna_qc_metrics(x, subsets={"foo": [1, 10, 100]})
     filters = suggest_rna_qc_filters(result)
 
@@ -45,15 +45,9 @@ def test_suggest_rna_qc_filters():
     assert filters.column("subset_proportions") is not None
     assert filters.column("subset_proportions").column("foo") is not None
 
-    # Adding blocks
-    # TODO: factor out random block generation into a separate function!)
-    x = np.random.rand(1000, 100) * 20
-    block_levels = ["A", "B", "C"]
-    block = []
-    for i in range(x.shape[1]):
-        block.append(block_levels[i % len(block_levels)])
-
-    filters_blocked = suggest_rna_qc_filters(result, block=block)
+    #  with blocks
+    x = mock_data.x * 20
+    filters_blocked = suggest_rna_qc_filters(result, block=mock_data.block)
 
     assert filters_blocked.shape[0] == 3
     assert len(list(set(filters_blocked.rowNames).difference(["A", "B", "C"]))) == 0
