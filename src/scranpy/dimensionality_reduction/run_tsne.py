@@ -18,7 +18,8 @@ class TsneStatus:
         return lib.fetch_tsne_status_iteration(self.ptr)
 
     def clone(self):
-        return TsneStatus(lib.clone_tsne_status(self.ptr))
+        cloned = copy.deepcopy(self.coordinates)
+        return TsneStatus(lib.clone_tsne_status(self.ptr), cloned)
 
     def run(self, iteration):
         lib.run_tsne(self.ptr, iteration, self.coordinates.ctypes.data)

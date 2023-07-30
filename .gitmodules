@@ -28,3 +28,6 @@
 [submodule "extern/qdtsne"]
 	path = extern/qdtsne
 	url = https://github.com/LTLA/qdtsne
+[submodule "extern/umappp"]
+	path = extern/umappp
+	url = https://github.com/LTLA/umappp

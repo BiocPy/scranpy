@@ -25,6 +25,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/run_pca.cpp",
                         "src/scranpy/lib/find_nearest_neighbors.cpp",
                         "src/scranpy/lib/run_tsne.cpp",
+                        "src/scranpy/lib/run_umap.cpp",
                     ],
                     include_dirs=[
                         "extern/libscran/include",
@@ -38,6 +39,7 @@ if __name__ == "__main__":
                         "extern/kmeans/include",
                         "extern/aarand/include",
                         "extern/qdtsne/include",
+                        "extern/umappp/include",
                         "extern/libscran/include",
                     ]
                     + mattress.includes(),
