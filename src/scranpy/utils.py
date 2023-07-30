@@ -37,6 +37,7 @@ def factorize(x: Sequence) -> FactorizedArray:
 
     return FactorizedArray(levels=levels, indices=output)
 
+
 def to_logical(indices: Sequence, length: int) -> np.ndarray:
     """Convert indices to a logical array.
 
@@ -51,4 +52,4 @@ def to_logical(indices: Sequence, length: int) -> np.ndarray:
     """
     output = np.zeros((length,), dtype=np.uint8)
     output[indices] = 1
-    return output 
+    return output
