@@ -67,6 +67,23 @@
         <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapping</span><span class="p">[</span><span class="n">lev</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">FactorizedArray</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">output</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_logical"><a class="viewcode-back" href="../../api/scranpy.html#scranpy.utils.to_logical">[docs]</a><span class="k">def</span> <span class="nf">to_logical</span><span class="p">(</span><span class="n">indices</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert indices to a logical array.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        indices (Sequence): array of integer indices.</span>
+<span class="sd">        length (int): length of the output array, i.e.,</span>
+<span class="sd">            the maximum possible index plus 1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: an array of unsigned 8-bit integers where</span>
+<span class="sd">            the entries from indices are set to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">length</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">output</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">output</span></div>
 </pre></div>
 
           </div>

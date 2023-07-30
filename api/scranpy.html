@@ -56,6 +56,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="scranpy.quality_control.html">scranpy.quality_control package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.quality_control.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.quality_control.html#module-scranpy.quality_control.rna">scranpy.quality_control.rna module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.quality_control.html#scranpy.quality_control.rna.per_cell_rna_qc_metrics"><code class="docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.quality_control.html#scranpy.quality_control.rna.suggest_rna_qc_filters"><code class="docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="scranpy.quality_control.html#module-scranpy.quality_control">Module contents</a></li>
 </ul>
 </li>
@@ -159,6 +165,31 @@
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#scranpy.types.FactorizedArray" title="scranpy.types.FactorizedArray">FactorizedArray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scranpy.utils.to_logical">
+<span class="sig-prename descclassname"><span class="pre">scranpy.utils.</span></span><span class="sig-name descname"><span class="pre">to_logical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/scranpy/utils.html#to_logical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.utils.to_logical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert indices to a logical array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>indices</strong> (<em>Sequence</em>) – array of integer indices.</p></li>
+<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – length of the output array, i.e.,
+the maximum possible index plus 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>an array of unsigned 8-bit integers where</dt><dd><p>the entries from indices are set to 1.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>

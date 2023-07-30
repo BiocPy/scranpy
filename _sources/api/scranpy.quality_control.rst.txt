@@ -1,6 +1,17 @@
 scranpy.quality\_control package
 ================================
 
+Submodules
+----------
+
+scranpy.quality\_control.rna module
+-----------------------------------
+
+.. automodule:: scranpy.quality_control.rna
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
