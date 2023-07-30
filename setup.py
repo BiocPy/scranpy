@@ -22,6 +22,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/log_norm_counts.cpp",
                         "src/scranpy/lib/suggest_rna_qc_filters.cpp",
                         "src/scranpy/lib/model_gene_variances.cpp",
+                        "src/scranpy/lib/run_pca.cpp",
                         "src/scranpy/lib/find_nearest_neighbors.cpp",
                     ],
                     include_dirs=[
