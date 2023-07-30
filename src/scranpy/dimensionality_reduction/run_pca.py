@@ -17,7 +17,7 @@ PCAResult = namedtuple("PCAResult", ["principal_components", "variance_explained
 
 def run_pca(
     x: MatrixTypes,
-    rank: int = 25,
+    rank: int,
     subset: Optional[Sequence] = None,
     block: Optional[Sequence] = None,
     scale: bool = False,
@@ -29,7 +29,7 @@ def run_pca(
 
     Args:
         x (MatrixTypes): Inpute Matrix.
-        rank (int, optional): Number of top PC's to compute. Defaults to 25.
+        rank (int): Number of top PC's to compute.
         subset (Mapping, optional): Array specifying which features should be
             retained (e.g., HVGs). This should be of length equal to the number of
             rows in `x`; elements should be `true` to retain each row.
