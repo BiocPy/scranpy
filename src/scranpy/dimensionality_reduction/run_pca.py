@@ -1,6 +1,6 @@
 import ctypes as ct
 from collections import namedtuple
-from typing import Literal, Mapping, Optional, Sequence
+from typing import Literal, Optional, Sequence
 
 import numpy as np
 
@@ -12,7 +12,7 @@ __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
-PCAResult = namedtuple("PCAResult", ["prinicipal_components", "variance_explained"])
+PCAResult = namedtuple("PCAResult", ["principal_components", "variance_explained"])
 
 
 def run_pca(
