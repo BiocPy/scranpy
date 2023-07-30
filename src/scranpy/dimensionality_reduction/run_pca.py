@@ -1,5 +1,6 @@
 import ctypes as ct
 from collections import namedtuple
+from copy import deepcopy
 from typing import Literal, Optional, Sequence
 
 import numpy as np
@@ -58,7 +59,7 @@ def run_pca(
         num_threads (int, optional):  Number of threads to use. Defaults to 1.
 
     Raises:
-        ValueError: is inputs do not match with expectations.
+        ValueError: if inputs do not match with expectations.
 
     Returns:
         PCAResult: principal components and variable explained metrics.
@@ -98,14 +99,14 @@ def run_pca(
                 lib.fetch_simple_pca_coordinates(pptr), ct.POINTER(ct.c_double)
             )
             pc_array = np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc))
-            result.principal_components = np.copy(pc_array)
+            result.principal_components = deepcopy(pc_array)
 
             var_pointer = ct.cast(
                 lib.fetch_simple_pca_variance_explained(pptr), ct.POINTER(ct.c_double)
             )
             var_array = np.ctypeslib.as_array(var_pointer, shape=(actual_rank,))
             total = lib.fetch_simple_pca_total_variance(pptr)
-            result.variance_explained = np.copy(var_array) / total
+            result.variance_explained = deepcopy(var_array) / total
 
         finally:
             lib.free_simple_pca(pptr)
@@ -138,7 +139,7 @@ def run_pca(
                     lib.fetch_residual_pca_coordinates(pptr), ct.POINTER(ct.c_double)
                 )
                 pc_array = np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc))
-                result.principal_components = np.copy(pc_array)
+                result.principal_components = deepcopy(pc_array)
 
                 var_pointer = ct.cast(
                     lib.fetch_residual_pca_variance_explained(pptr),
@@ -146,7 +147,7 @@ def run_pca(
                 )
                 var_array = np.ctypeslib.as_array(var_pointer, shape=(actual_rank,))
                 total = lib.fetch_residual_pca_total_variance(pptr)
-                result.variance_explained = np.copy(var_array) / total
+                result.variance_explained = deepcopy(var_array) / total
 
             finally:
                 lib.free_residual_pca(pptr)
@@ -170,7 +171,7 @@ def run_pca(
                     lib.fetch_multibatch_pca_coordinates(pptr), ct.POINTER(ct.c_double)
                 )
                 pc_array = np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc))
-                result.principal_components = np.copy(pc_array)
+                result.principal_components = deepcopy(pc_array)
 
                 var_pointer = ct.cast(
                     lib.fetch_multibatch_pca_variance_explained(pptr),
@@ -178,7 +179,7 @@ def run_pca(
                 )
                 var_array = np.ctypeslib.as_array(var_pointer, shape=(actual_rank,))
                 total = lib.fetch_multibatch_pca_total_variance(pptr)
-                result.variance_explained = np.copy(var_array) / total
+                result.variance_explained = deepcopy(var_array) / total
 
             finally:
                 lib.free_multibatch_pca(pptr)
