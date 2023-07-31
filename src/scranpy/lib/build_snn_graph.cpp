@@ -1,3 +1,5 @@
+#include "parallel.h" // must be first, to set all macros.
+
 #include "knncolle/knncolle.hpp"
 #include "scran/clustering/BuildSnnGraph.hpp"
 #include <cstring>
