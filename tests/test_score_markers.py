@@ -7,7 +7,7 @@ __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 
-def test_build_snn_graph(mock_data):
+def test_score_markers(mock_data):
     y = mock_data.pcs
     out = tatamize(y)
 
