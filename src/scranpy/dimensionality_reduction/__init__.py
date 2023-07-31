@@ -1,3 +1,3 @@
 from .run_pca import run_pca
-from .run_tsne import run_tsne, initialize_tsne, TsneStatus
-from .run_umap import run_umap, initialize_umap, UmapStatus
+from .run_tsne import TsneStatus, initialize_tsne, run_tsne
+from .run_umap import UmapStatus, initialize_umap, run_umap

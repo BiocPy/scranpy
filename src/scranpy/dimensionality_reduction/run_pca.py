@@ -14,6 +14,11 @@ __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 PCAResult = namedtuple("PCAResult", ["principal_components", "variance_explained"])
+PCAResult.__doc__ = """Named tuple of results from run pca step.
+
+principal_components (np.ndarray): principal components.
+variance_explained (np.ndarray): variance explained by each PC.
+"""
 
 
 def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PCAResult:
