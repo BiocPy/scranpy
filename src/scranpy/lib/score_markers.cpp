@@ -1,3 +1,5 @@
+#include "parallel.h" // must be first, to set all macros.
+
 #include "Mattress.h"
 #include "scran/differential_analysis/ScoreMarkers.hpp"
 #include <vector>
