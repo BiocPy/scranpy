@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>scranpy.normalization.log_norm_counts - scranpy 0.0.3 documentation</title>
+        <title>scranpy.clustering.build_snn_graph - scranpy 0.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -204,104 +204,105 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for scranpy.normalization.log_norm_counts</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+          <h1>Source code for scranpy.clustering.build_snn_graph</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">ct</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
 
+<span class="kn">import</span> <span class="nn">igraph</span> <span class="k">as</span> <span class="nn">ig</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span><span class="p">,</span> <span class="n">tatamize</span>
 
-<span class="kn">from</span> <span class="nn">.._logging</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">..cpphelpers</span> <span class="kn">import</span> <span class="n">lib</span>
-<span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">validate_matrix_types</span>
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">factorize</span>
+<span class="kn">from</span> <span class="nn">..nearest_neighbors</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NeighborIndex</span><span class="p">,</span>
+    <span class="n">NeighborResults</span><span class="p">,</span>
+    <span class="n">build_neighbor_index</span><span class="p">,</span>
+    <span class="n">find_nearest_neighbors</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">NeighborIndexOrResults</span><span class="p">,</span> <span class="n">is_neighbor_class</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
 
-<div class="viewcode-block" id="log_norm_counts"><a class="viewcode-back" href="../../../api/scranpy.normalization.html#scranpy.normalization.log_norm_counts.log_norm_counts">[docs]</a><span class="k">def</span> <span class="nf">log_norm_counts</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span>
-    <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">size_factors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">center</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">allow_zeros</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">allow_non_finite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="build_snn_graph"><a class="viewcode-back" href="../../../api/scranpy.clustering.html#scranpy.clustering.build_snn_graph.build_snn_graph">[docs]</a><span class="k">def</span> <span class="nf">build_snn_graph</span><span class="p">(</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">NeighborIndexOrResults</span><span class="p">,</span>
+    <span class="n">num_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">approximate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">weight_scheme</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;ranked&quot;</span><span class="p">,</span> <span class="s2">&quot;jaccard&quot;</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ranked&quot;</span><span class="p">,</span>
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TatamiNumericPointer</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute log normalization.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ig</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build Shared nearest neighbor graph.</span>
 
-<span class="sd">    This function expects the matrix (`x`) to be features (rows) by cells (columns).</span>
+<span class="sd">    `input` is either a pre-built neighbor search index for the dataset, or a</span>
+<span class="sd">    pre-computed set of neighbor search results for all cells. If `input` is a matrix,</span>
+<span class="sd">    we compute the nearest neighbors for each cell, assuming it represents the</span>
+<span class="sd">    coordinates for each cell, usually the result of PCA step.</span>
+<span class="sd">    rows are variables, columns are cells.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (MatrixTypes): Inpute matrix.</span>
-<span class="sd">        block (Optional[Sequence], optional): Array containing the block/batch</span>
-<span class="sd">            assignment for each cell. Defaults to None.</span>
-<span class="sd">        size_factors (Optional[np.ndarray], optional): size factors for each cell.</span>
-<span class="sd">            Defaults to None.</span>
-<span class="sd">        center (bool, optional): center the size factors?. Defaults to True.</span>
-<span class="sd">        allow_zeros (bool, optional): allow zeros?. Defaults to False.</span>
-<span class="sd">        allow_non_finite (bool, optional): all nan or inifnite numbers?.</span>
-<span class="sd">            Defaults to False.</span>
-<span class="sd">        num_threads (int, optional): number of threads. Defaults to 1.</span>
-<span class="sd">        verbose (bool, optional): display logs?. Defaults to False.</span>
+<span class="sd">        input (NeighborIndexOrResults): Input matrix or pre-computed neighbors.</span>
+<span class="sd">        num_neighbors (int, optional): Number of neighbors to use.</span>
+<span class="sd">            Ignored if `input` is a `NeighborResults` object. Defaults to 15.</span>
+<span class="sd">        approximate (bool, optional): Whether to build an index for an approximate</span>
+<span class="sd">            neighbor search. Defaults to True.</span>
+<span class="sd">        weight_scheme (Literal[&quot;ranked&quot;, &quot;jaccard&quot;, &quot;number&quot;], optional): Weighting</span>
+<span class="sd">            scheme for the edges between cells. This can be based on the top ranks</span>
+<span class="sd">            of the shared neighbors (&quot;rank&quot;), the number of shared neighbors (&quot;number&quot;)</span>
+<span class="sd">            or the Jaccard index of the neighbor sets between cells (&quot;jaccard&quot;).</span>
+<span class="sd">            Defaults to &quot;ranked&quot;.</span>
+<span class="sd">        num_threads (int, optional): Number of threads to use. Defaults to 1.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError, ValueError: if arguments don&#39;t meet expectations.</span>
+<span class="sd">        TypeError, ValueError: if inputs do not match expectations.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        TatamiNumericPointer: log normalized matrix.</span>
+<span class="sd">        ig.Graph: an igraph object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">validate_matrix_types</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_neighbor_class</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;`input` must be either the nearest neighbor search index, search results &quot;</span>
+            <span class="s2">&quot;or a matrix.&quot;</span>
+        <span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">TatamiNumericPointer</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coming soon when DelayedArray support is implemented&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weight_scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ranked&quot;</span><span class="p">,</span> <span class="s2">&quot;jaccard&quot;</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">weight_scheme</span><span class="se">\&#39;</span><span class="s1"> must be one of &quot;ranked&quot;, &quot;jaccard&quot;, &quot;number&quot;&#39;</span>
+            <span class="sa">f</span><span class="s2">&quot;provided </span><span class="si">{</span><span class="n">weight_scheme</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
-    <span class="n">NC</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ncol</span><span class="p">()</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">scheme</span> <span class="o">=</span> <span class="n">weight_scheme</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span>
 
-    <span class="n">use_sf</span> <span class="o">=</span> <span class="n">size_factors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="n">my_size_factors</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">sf_offset</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">if</span> <span class="n">use_sf</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">size_factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Must provide &#39;size_factors&#39; (provided: </span><span class="si">{</span><span class="n">size_factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot; for all cells (expected: </span><span class="si">{</span><span class="n">NC</span><span class="si">}</span><span class="s2">)&quot;</span>
-            <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">NeighborResults</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">NeighborIndex</span><span class="p">):</span>
+            <span class="nb">input</span> <span class="o">=</span> <span class="n">build_neighbor_index</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">approximate</span><span class="o">=</span><span class="n">approximate</span><span class="p">)</span>
+        <span class="n">built</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">build_snn_graph_from_nn_index</span><span class="p">(</span>
+            <span class="nb">input</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">num_neighbors</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">num_threads</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">built</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">build_snn_graph_from_nn_results</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size_factors</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;size_factors&#39; must be a numpy ndarray.&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">nedges</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_snn_graph_edges</span><span class="p">(</span><span class="n">built</span><span class="p">)</span>
+        <span class="n">idx_pointer</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">fetch_snn_graph_indices</span><span class="p">(</span><span class="n">built</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">))</span>
+        <span class="n">idx_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ctypeslib</span><span class="o">.</span><span class="n">as_array</span><span class="p">(</span><span class="n">idx_pointer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nedges</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,))</span>
+        <span class="n">w_pointer</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">fetch_snn_graph_weights</span><span class="p">(</span><span class="n">built</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">))</span>
+        <span class="n">w_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ctypeslib</span><span class="o">.</span><span class="n">as_array</span><span class="p">(</span><span class="n">w_pointer</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nedges</span><span class="p">,))</span>
 
-        <span class="n">my_size_factors</span> <span class="o">=</span> <span class="n">size_factors</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-        <span class="n">sf_offset</span> <span class="o">=</span> <span class="n">my_size_factors</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">edge_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nedges</span><span class="p">):</span>
+            <span class="n">edge_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">idx_array</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">],</span> <span class="n">idx_array</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
 
-    <span class="n">use_block</span> <span class="o">=</span> <span class="n">block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="n">block_info</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">block_offset</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">if</span> <span class="n">use_block</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Must provide block assignments (provided: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot; for all cells (expected: </span><span class="si">{</span><span class="n">NC</span><span class="si">}</span><span class="s2">).&quot;</span>
-            <span class="p">)</span>
+        <span class="n">nc</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">num_cells</span><span class="p">()</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">ig</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">nc</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">edge_list</span><span class="p">)</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">w_array</span><span class="p">)</span>
 
-        <span class="n">block_info</span> <span class="o">=</span> <span class="n">factorize</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>  <span class="c1"># assumes that factorize is available somewhere.</span>
-        <span class="n">block_offset</span> <span class="o">=</span> <span class="n">block_info</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">free_snn_graph</span><span class="p">(</span><span class="n">built</span><span class="p">)</span>
 
-    <span class="n">normed</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">log_norm_counts</span><span class="p">(</span>
-        <span class="n">x</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>
-        <span class="n">use_block</span><span class="p">,</span>
-        <span class="n">block_offset</span><span class="p">,</span>
-        <span class="n">use_sf</span><span class="p">,</span>
-        <span class="n">sf_offset</span><span class="p">,</span>
-        <span class="n">center</span><span class="p">,</span>
-        <span class="n">allow_zeros</span><span class="p">,</span>
-        <span class="n">allow_non_finite</span><span class="p">,</span>
-        <span class="n">num_threads</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">TatamiNumericPointer</span><span class="p">(</span><span class="n">ptr</span><span class="o">=</span><span class="n">normed</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">my_size_factors</span><span class="p">])</span></div>
+    <span class="k">return</span> <span class="n">graph</span></div>
 </pre></div>
         </article>
       </div>

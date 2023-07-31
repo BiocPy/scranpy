@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.nearest_neighbors package" href="scranpy.nearest_neighbors.html" /><link rel="prev" title="scranpy.dimensionality_reduction package" href="scranpy.dimensionality_reduction.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.dimensionality_reduction package" href="scranpy.dimensionality_reduction.html" /><link rel="prev" title="scranpy package" href="scranpy.html" />
 
     <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>scranpy.feature_selection package - scranpy 0.0.3 documentation</title>
+        <title>scranpy.clustering package - scranpy 0.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -162,9 +162,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="scranpy.clustering.html">scranpy.clustering package</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
-<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.normalization.html">scranpy.normalization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.quality_control.html">scranpy.quality_control package</a></li>
@@ -206,45 +206,53 @@
           </label>
         </div>
         <article role="main">
-          <section id="scranpy-feature-selection-package">
-<h1>scranpy.feature_selection package<a class="headerlink" href="#scranpy-feature-selection-package" title="Permalink to this heading">#</a></h1>
+          <section id="scranpy-clustering-package">
+<h1>scranpy.clustering package<a class="headerlink" href="#scranpy-clustering-package" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="module-scranpy.feature_selection.model_gene_variances">
-<span id="scranpy-feature-selection-model-gene-variances-module"></span><h2>scranpy.feature_selection.model_gene_variances module<a class="headerlink" href="#module-scranpy.feature_selection.model_gene_variances" title="Permalink to this heading">#</a></h2>
+<section id="module-scranpy.clustering.build_snn_graph">
+<span id="scranpy-clustering-build-snn-graph-module"></span><h2>scranpy.clustering.build_snn_graph module<a class="headerlink" href="#module-scranpy.clustering.build_snn_graph" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.model_gene_variances">
-<span class="sig-prename descclassname"><span class="pre">scranpy.feature_selection.model_gene_variances.</span></span><span class="sig-name descname"><span class="pre">model_gene_variances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TatamiNumericPointer</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.11.1)"><span class="pre">spmatrix</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">span</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BiocFrame</span></span></span><a class="reference internal" href="../_modules/scranpy/feature_selection/model_gene_variances.html#model_gene_variances"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.model_gene_variances" title="Permalink to this definition">#</a></dt>
-<dd><p>Compute model gene variances.</p>
-<p>Ideally, x would be a normalized log-expression matrix.</p>
-<p>This function expects the matrix (<cite>x</cite>) to be features (rows) by cells (columns) and
-not the other way around!</p>
+<dt class="sig sig-object py" id="scranpy.clustering.build_snn_graph.build_snn_graph">
+<span class="sig-prename descclassname"><span class="pre">scranpy.clustering.build_snn_graph.</span></span><span class="sig-name descname"><span class="pre">build_snn_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><span class="pre">NeighborIndex</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><span class="pre">NeighborResults</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approximate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_scheme</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Literal" title="(in Python v3.9)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ranked'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jaccard'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'number'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ranked'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Graph</span></span></span><a class="reference internal" href="../_modules/scranpy/clustering/build_snn_graph.html#build_snn_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.clustering.build_snn_graph.build_snn_graph" title="Permalink to this definition">#</a></dt>
+<dd><p>Build Shared nearest neighbor graph.</p>
+<p><cite>input</cite> is either a pre-built neighbor search index for the dataset, or a
+pre-computed set of neighbor search results for all cells. If <cite>input</cite> is a matrix,
+we compute the nearest neighbors for each cell, assuming it represents the
+coordinates for each cell, usually the result of PCA step.
+rows are variables, columns are cells.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>MatrixTypes</em>) – Input matrix. Ideally, x would be a normalized
-log-expression matrix.</p></li>
-<li><p><strong>block</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>]</em><em>, </em><em>optional</em>) – Array containing the block/batch
-assignment for each cell. Defaults to None.</p></li>
-<li><p><strong>span</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Span to use for the LOWESS trend fitting.
-Defaults to 0.3.</p></li>
-<li><p><strong>num_threads</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – number of threads to use. Defaults to 1.</p></li>
-<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – display logs?. Defaults to False.</p></li>
+<li><p><strong>input</strong> (<em>NeighborIndexOrResults</em>) – Input matrix or pre-computed neighbors.</p></li>
+<li><p><strong>num_neighbors</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Number of neighbors to use.
+Ignored if <cite>input</cite> is a <cite>NeighborResults</cite> object. Defaults to 15.</p></li>
+<li><p><strong>approximate</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to build an index for an approximate
+neighbor search. Defaults to True.</p></li>
+<li><p><strong>weight_scheme</strong> (<em>Literal</em><em>[</em><em>&quot;ranked&quot;</em><em>, </em><em>&quot;jaccard&quot;</em><em>, </em><em>&quot;number&quot;</em><em>]</em><em>, </em><em>optional</em>) – Weighting
+scheme for the edges between cells. This can be based on the top ranks
+of the shared neighbors (“rank”), the number of shared neighbors (“number”)
+or the Jaccard index of the neighbor sets between cells (“jaccard”).
+Defaults to “ranked”.</p></li>
+<li><p><strong>num_threads</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Number of threads to use. Defaults to 1.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>data frame with various metrics.</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if inputs do not match expectations.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BiocFrame</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>an igraph object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ig.Graph</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
-<section id="module-scranpy.feature_selection">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.feature_selection" title="Permalink to this heading">#</a></h2>
+<section id="module-scranpy.clustering">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.clustering" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -253,23 +261,23 @@ Defaults to 0.3.</p></li>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="scranpy.nearest_neighbors.html">
+          <a class="next-page" href="scranpy.dimensionality_reduction.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">scranpy.nearest_neighbors package</div>
+                <div class="title">scranpy.dimensionality_reduction package</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="scranpy.dimensionality_reduction.html">
+          <a class="prev-page" href="scranpy.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">scranpy.dimensionality_reduction package</div>
+                <div class="title">scranpy package</div>
                 
               </div>
             </a>
@@ -303,13 +311,13 @@ Defaults to 0.3.</p></li>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">scranpy.feature_selection package</a><ul>
+<li><a class="reference internal" href="#">scranpy.clustering package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-scranpy.feature_selection.model_gene_variances">scranpy.feature_selection.model_gene_variances module</a><ul>
-<li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.model_gene_variances"><code class="docutils literal notranslate"><span class="pre">model_gene_variances()</span></code></a></li>
+<li><a class="reference internal" href="#module-scranpy.clustering.build_snn_graph">scranpy.clustering.build_snn_graph module</a><ul>
+<li><a class="reference internal" href="#scranpy.clustering.build_snn_graph.build_snn_graph"><code class="docutils literal notranslate"><span class="pre">build_snn_graph()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-scranpy.feature_selection">Module contents</a></li>
+<li><a class="reference internal" href="#module-scranpy.clustering">Module contents</a></li>
 </ul>
 </li>
 </ul>
