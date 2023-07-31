@@ -87,6 +87,35 @@ lib.model_gene_variances_blocked.argtypes = [
     ct.c_int,
 ]
 
+lib.build_neighbor_index.restype = ct.c_void_p
+lib.build_neighbor_index.argtypes = [ct.c_int, ct.c_int, ct.c_void_p, ct.c_uint8]
+lib.fetch_neighbor_index_ndim.restype = ct.c_int
+lib.fetch_neighbor_index_ndim.argtypes = [ct.c_void_p]
+lib.fetch_neighbor_index_nobs.restype = ct.c_int
+lib.fetch_neighbor_index_nobs.argtypes = [ct.c_void_p]
+lib.free_neighbor_index.argtypes = [ct.c_void_p]
+
+lib.find_nearest_neighbors.restype = ct.c_void_p
+lib.find_nearest_neighbors.argtypes = [ct.c_void_p, ct.c_int, ct.c_int]
+lib.fetch_neighbor_results_k.restype = ct.c_int
+lib.fetch_neighbor_results_k.argtypes = [ct.c_void_p]
+lib.fetch_neighbor_results_nobs.restype = ct.c_int
+lib.fetch_neighbor_results_nobs.argtypes = [ct.c_void_p]
+lib.fetch_neighbor_results_single.argtypes = [
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+]
+lib.free_neighbor_results.argtypes = [ct.c_void_p]
+lib.serialize_neighbor_results.argtypes = [ct.c_void_p, ct.c_void_p, ct.c_void_p]
+lib.unserialize_neighbor_results.restype = ct.c_void_p
+lib.unserialize_neighbor_results.argtypes = [
+    ct.c_int,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+]
 lib.fetch_simple_pca_coordinates.argtypes = [ct.c_void_p]
 lib.fetch_simple_pca_coordinates.restype = ct.c_void_p
 lib.fetch_simple_pca_variance_explained.argtypes = [ct.c_void_p]
