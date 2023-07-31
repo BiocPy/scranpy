@@ -35,6 +35,7 @@ if __name__ == "__main__":
                         "extern/weightedlowess/include",
                         "extern/annoy/include",
                         "extern/knncolle/include",
+                        "extern/knncolle/_deps/annoy-build/include/",
                         "extern/hnswlib",
                         "extern/kmeans/include",
                         "extern/aarand/include",

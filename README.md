@@ -23,6 +23,8 @@ Steps to setup dependencies -
 
 - initialize git submodules in `extern/libscran`.
 
+- run `cmake .` inside the `extern/knncolle` to download the annoy library. a future version of this will use a cmake to setup the extern directory.
+
 First one needs to build the extern library, this would generate a shared object file to `src/scranpy/core-[*].so`
 
 ```shell
