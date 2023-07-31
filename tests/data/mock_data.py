@@ -6,6 +6,9 @@ __license__ = "MIT"
 
 x = np.random.rand(1000, 100)
 
+# PCs in rows, cells in dimensions
+pcs = np.random.rand(50, 1000)  
+
 block_levels = ["A", "B", "C"]
 block = []
 for i in range(x.shape[1]):

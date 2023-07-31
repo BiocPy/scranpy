@@ -177,3 +177,36 @@ lib.run_multibatch_pca.argtypes = [
     ct.c_int,
 ]
 lib.run_multibatch_pca.restype = ct.c_void_p
+
+lib.initialize_tsne.restype = ct.c_void_p
+lib.initialize_tsne.argtypes = [ct.c_void_p, ct.c_double, ct.c_int]
+lib.randomize_tsne_start.argtypes = [ct.c_int, ct.c_void_p, ct.c_int]
+lib.fetch_tsne_status_iteration.restype = ct.c_int
+lib.fetch_tsne_status_iteration.argtypes = [ct.c_void_p]
+lib.fetch_tsne_status_nobs.restype = ct.c_int
+lib.fetch_tsne_status_nobs.argtypes = [ct.c_void_p]
+lib.free_tsne_status.argtypes = [ct.c_void_p]
+lib.clone_tsne_status.argtypes = [ct.c_void_p]
+lib.clone_tsne_status.restype = ct.c_void_p
+lib.perplexity_to_k.restype = ct.c_int
+lib.perplexity_to_k.argtypes = [ct.c_double]
+lib.run_tsne.argtypes = [ct.c_void_p, ct.c_int, ct.c_void_p]
+
+lib.initialize_umap.restype = ct.c_void_p
+lib.initialize_umap.argtypes = [
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_double,
+    ct.c_void_p,
+    ct.c_int,
+]
+lib.fetch_umap_status_nobs.restype = ct.c_int
+lib.fetch_umap_status_nobs.argtypes = [ct.c_void_p]
+lib.fetch_umap_status_epoch.restype = ct.c_int
+lib.fetch_umap_status_epoch.argtypes = [ct.c_void_p]
+lib.fetch_umap_status_num_epochs.restype = ct.c_int
+lib.fetch_umap_status_num_epochs.argtypes = [ct.c_void_p]
+lib.free_umap_status.argtypes = [ct.c_void_p]
+lib.clone_umap_status.argtypes = [ct.c_void_p, ct.c_void_p]
+lib.clone_umap_status.restype = ct.c_void_p
+lib.run_umap.argtypes = [ct.c_void_p, ct.c_int]

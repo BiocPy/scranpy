@@ -5,16 +5,19 @@ import numpy as np
 import scipy.sparse as sp
 from mattress import TatamiNumericPointer
 
+from .nearest_neighbors import NeighborIndex, NeighborResults
+
 __author__ = "jkanche"
 __copyright__ = "jkanche"
 __license__ = "MIT"
 
 MatrixTypes = Union[TatamiNumericPointer, np.ndarray, sp.spmatrix]
 FactorizedArray = namedtuple("FactorizedArray", ["levels", "indices"])
+NeighborIndexOrResults = Union[NeighborIndex, NeighborResults, np.ndarray]
 
 
 def is_matrix_expected_type(x: Any) -> bool:
-    """Checks if `x` is an expect matrix type.
+    """Checks if `x` is an expected matrix type.
 
     Args:
         x (Any): any object.
@@ -26,6 +29,22 @@ def is_matrix_expected_type(x: Any) -> bool:
         isinstance(x, TatamiNumericPointer)
         or isinstance(x, np.ndarray)
         or isinstance(x, sp.spmatrix)
+    )
+
+
+def is_neighbor_class(x: Any) -> bool:
+    """Checks if `x` is an expected nearest neighbor input.
+
+    Args:
+        x (Any): any object.
+
+    Returns:
+        bool: True if `x` is supported.
+    """
+    return (
+        isinstance(x, NeighborIndex)
+        or isinstance(x, NeighborResults)
+        or isinstance(x, np.ndarray)
     )
 
 
