@@ -99,21 +99,21 @@ class TsneStatus:
 
 
 def initialize_tsne(
-    x: NeighborIndexOrResults,
+    input: NeighborIndexOrResults,
     perplexity: int = 30,
     num_threads: int = 1,
     seed: int = 42,
 ) -> TsneStatus:
     """Initialize the t-SNE step.
 
-    `x` is either a pre-built neighbor search index for the dataset, or a
-    pre-computed set of neighbor search results for all cells. If `x` is a matrix,
+    `input` is either a pre-built neighbor search index for the dataset, or a
+    pre-computed set of neighbor search results for all cells. If `input` is a matrix,
     we compute the nearest neighbors for each cell, assuming it represents the
     coordinates for each cell, usually the result of PCA step.
     rows are variables, columns are cells.
 
     Args:
-        x (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
+        input (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
         perplexity (int, optional): Perplexity to use when computing neighbor
             probabilities. Defaults to 30.
         num_threads (int, optional): Number of threads to use. Defaults to 1.
@@ -125,20 +125,20 @@ def initialize_tsne(
     Returns:
         TsneStatus: a tsne status object.
     """
-    if not is_neighbor_class(x):
+    if not is_neighbor_class(input):
         raise TypeError(
             "`x` must be either the nearest neighbor search index, search results or "
             "a matrix."
         )
 
-    if not isinstance(x, NeighborResults):
+    if not isinstance(input, NeighborResults):
         k = lib.perplexity_to_k(perplexity)
-        if not isinstance(x, NeighborIndex):
-            x = build_neighbor_index(x)
-        x = find_nearest_neighbors(x, k=k, num_threads=num_threads)
+        if not isinstance(input, NeighborIndex):
+            input = build_neighbor_index(input)
+        input = find_nearest_neighbors(input, k=k, num_threads=num_threads)
 
-    ptr = lib.initialize_tsne(x.ptr, perplexity, num_threads)
-    coords = np.ndarray((x.num_cells(), 2), dtype=np.float64, order="C")
+    ptr = lib.initialize_tsne(input.ptr, perplexity, num_threads)
+    coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
     lib.randomize_tsne_start(coords.shape[1], coords.ctypes.data, seed)
 
     return TsneStatus(ptr, coords)

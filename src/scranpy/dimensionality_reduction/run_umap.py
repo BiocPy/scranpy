@@ -111,7 +111,7 @@ class UmapStatus:
 
 
 def initialize_umap(
-    x: NeighborIndexOrResults,
+    input: NeighborIndexOrResults,
     min_dist: float = 0.1,
     num_neighbors: int = 15,
     num_epochs: int = 500,
@@ -120,17 +120,17 @@ def initialize_umap(
 ) -> UmapStatus:
     """Initialize the UMAP step.
 
-    `x` is either a pre-built neighbor search index for the dataset, or a
-    pre-computed set of neighbor search results for all cells. If `x` is a matrix,
+    `input` is either a pre-built neighbor search index for the dataset, or a
+    pre-computed set of neighbor search results for all cells. If `input` is a matrix,
     we compute the nearest neighbors for each cell, assuming it represents the
     coordinates for each cell, usually the result of PCA step.
     rows are variables, columns are cells.
 
     Args:
-        x (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
+        input (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
         min_dist (float, optional): Minimum distance between points. Defaults to 0.1.
         num_neighbors (int, optional): Number of neighbors to use in the UMAP algorithm.
-            Ignored if x is a `NeighborResults` object. Defaults to 15.
+            Ignored if `input` is a `NeighborResults` object. Defaults to 15.
         num_epochs (int, optional): Number of epochs to run. Defaults to 500.
         num_threads (int, optional): Number of threads to use. Defaults to 1.
         seed (int, optional): Seed to use for RNG. Defaults to 42.
@@ -141,20 +141,20 @@ def initialize_umap(
     Returns:
         UmapStatus: a umap status object.
     """
-    if not is_neighbor_class(x):
+    if not is_neighbor_class(input):
         raise TypeError(
             "`x` must be either the nearest neighbor search index, search results or "
             "a matrix."
         )
 
-    if not isinstance(x, NeighborResults):
-        if not isinstance(x, NeighborIndex):
-            x = build_neighbor_index(x)
-        x = find_nearest_neighbors(x, k=num_neighbors, num_threads=num_threads)
+    if not isinstance(input, NeighborResults):
+        if not isinstance(input, NeighborIndex):
+            input = build_neighbor_index(input)
+        input = find_nearest_neighbors(input, k=num_neighbors, num_threads=num_threads)
 
-    coords = np.ndarray((x.num_cells(), 2), dtype=np.float64, order="C")
+    coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
     ptr = lib.initialize_umap(
-        x.ptr, num_epochs, min_dist, coords.ctypes.data, num_threads
+        input.ptr, num_epochs, min_dist, coords.ctypes.data, num_threads
     )
 
     return UmapStatus(ptr, coords)
