@@ -24,6 +24,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/model_gene_variances.cpp",
                         "src/scranpy/lib/run_pca.cpp",
                         "src/scranpy/lib/find_nearest_neighbors.cpp",
+                        "src/scranpy/lib/build_snn_graph.cpp",
                     ],
                     include_dirs=[
                         "extern/libscran/include",

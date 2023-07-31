@@ -177,3 +177,15 @@ lib.run_multibatch_pca.argtypes = [
     ct.c_int,
 ]
 lib.run_multibatch_pca.restype = ct.c_void_p
+
+lib.build_snn_graph_from_nn_results.restype = ct.c_void_p
+lib.build_snn_graph_from_nn_results.argtypes = [ ct.c_void_p, ct.c_char_p, ct.c_int ]
+lib.build_snn_graph_from_nn_index.restype = ct.c_void_p
+lib.build_snn_graph_from_nn_index.argtypes = [ ct.c_void_p, ct.c_int, ct.c_char_p, ct.c_int ]
+lib.fetch_snn_graph_edges.restype = ct.c_int
+lib.fetch_snn_graph_edges.argtypes = [ ct.c_void_p ]
+lib.fetch_snn_graph_indices.restype = ct.c_void_p
+lib.fetch_snn_graph_indices.argtypes = [ ct.c_void_p ]
+lib.fetch_snn_graph_weights.restype = ct.c_void_p
+lib.fetch_snn_graph_weights.argtypes = [ ct.c_void_p ]
+lib.free_snn_graph.argtypes = [ ct.c_void_p ]
