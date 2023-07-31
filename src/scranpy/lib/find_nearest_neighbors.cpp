@@ -3,42 +3,46 @@
 #include "knncolle/knncolle.hpp"
 #include <cstdint>
 
-extern "C" {
-
-knncolle::Base<>* build_neighbor_index(int ndim, int nobs, const double* ptr, bool approximate) {
+//[[export]]
+void* build_neighbor_index(int ndim, int nobs, const double* ptr, uint8_t approximate) {
+    knncolle::Base<>* output;
     if (approximate) {
-        return new knncolle::AnnoyEuclidean<>(ndim, nobs, ptr);
+        output = new knncolle::AnnoyEuclidean<>(ndim, nobs, ptr);
     } else {
-        return new knncolle::VpTreeEuclidean<>(ndim, nobs, ptr);
+        output = new knncolle::VpTreeEuclidean<>(ndim, nobs, ptr);
     }
+    return reinterpret_cast<void*>(output);
 }
 
-int fetch_neighbor_index_ndim(const knncolle::Base<>* ptr) {
-    return ptr->ndim();
+//[[export]]
+int fetch_neighbor_index_ndim(const void* ptr) {
+    return reinterpret_cast<const knncolle::Base<>*>(ptr)->ndim();
 }
 
-int fetch_neighbor_index_nobs(const knncolle::Base<>* ptr) {
-    return ptr->nobs();
+//[[export]]
+int fetch_neighbor_index_nobs(const void* ptr) {
+    return reinterpret_cast<const knncolle::Base<>*>(ptr)->nobs();
 }
 
-void free_neighbor_index(knncolle::Base<>* ptr) {
-    delete ptr;
+//[[export]]
+void free_neighbor_index(void* ptr) {
+    delete reinterpret_cast<const knncolle::Base<>*>(ptr);
 }
 
+//[[export]]
+void* find_nearest_neighbors(const void* index, int k, int nthreads) {
+    auto output = knncolle::find_nearest_neighbors(reinterpret_cast<const knncolle::Base<>*>(index), k, nthreads);
+    return reinterpret_cast<void*>(new knncolle::NeighborList<>(std::move(output)));
 }
 
-extern "C" {
-
-knncolle::NeighborList<>* find_nearest_neighbors(const knncolle::Base<>* index, int k, int nthreads) {
-    auto output = knncolle::find_nearest_neighbors(index, k, nthreads);
-    return new knncolle::NeighborList<>(std::move(output));
+//[[export]]
+int fetch_neighbor_results_nobs(const void* ptr) {
+    return reinterpret_cast<knncolle::NeighborList<>*>(ptr)->size();
 }
 
-int fetch_neighbor_results_nobs(const knncolle::NeighborList<>* ptr) {
-    return ptr->size();
-}
-
-int fetch_neighbor_results_k(const knncolle::NeighborList<>* ptr) {
+//[[export]]
+int fetch_neighbor_results_k(const void* ptr0) {
+    auto ptr = reinterpret_cast<const knncolle::NeighborList<>*>(ptr0);
     if (ptr->empty()) {
         return 0;
     } else {
@@ -46,7 +50,9 @@ int fetch_neighbor_results_k(const knncolle::NeighborList<>* ptr) {
     }
 }
 
-void fetch_neighbor_results_single(const knncolle::NeighborList<>* ptr, int i, int32_t* outdex, double* outdist) {
+//[[export]]
+void fetch_neighbor_results_single(const void* ptr0, int i, int32_t* outdex, double* outdist) {
+    auto ptr = reinterpret_cast<const knncolle::NeighborList<>*>(ptr0);
     const auto& chosen = (*ptr)[i];
     for (const auto& p : chosen) {
         *(outdex++) = p.first;
@@ -55,11 +61,14 @@ void fetch_neighbor_results_single(const knncolle::NeighborList<>* ptr, int i, i
     return;
 }
 
-void free_neighbor_results(knncolle::NeighborList<>* ptr) {
-    delete ptr;
+//[[export]]
+void free_neighbor_results(void* ptr) {
+    delete reinterpret_cast<knncolle::NeighborList<>*>(ptr);
 }
 
-void serialize_neighbor_results(const knncolle::NeighborList<>* ptr, int32_t* outdex, double* outdist) {
+//[[export]]
+void serialize_neighbor_results(const void* ptr0, int32_t* outdex, double* outdist) {
+    auto ptr = reinterpret_cast<const knncolle::NeighborList<>*>(ptr0);
     for (int o = 0, end = ptr->size(); o < end; ++o) {
         const auto& chosen = (*ptr)[o];
         for (const auto& p : chosen) {
@@ -69,7 +78,8 @@ void serialize_neighbor_results(const knncolle::NeighborList<>* ptr, int32_t* ou
     }
 }
 
-knncolle::NeighborList<>* unserialize_neighbor_results(int nobs, int k, int32_t* indices, double* distances) {
+//[[export]]
+void* unserialize_neighbor_results(int nobs, int k, int32_t* indices, double* distances) {
     knncolle::NeighborList<> output(nobs);
     for (int o = 0; o < nobs; ++o) {
         auto& chosen = output[o];
@@ -77,7 +87,5 @@ knncolle::NeighborList<>* unserialize_neighbor_results(int nobs, int k, int32_t*
             chosen.emplace_back(*(indices++), *(distances++));
         }
     }
-    return new knncolle::NeighborList<>(std::move(output));    
-}
-
+    return reinterpret_cast<void*>(new knncolle::NeighborList<>(std::move(output)));
 }
