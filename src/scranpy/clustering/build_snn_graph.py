@@ -48,10 +48,10 @@ def build_snn_graph(
         num_threads (int, optional): Number of threads to use. Defaults to 1.
 
     Raises:
-        TypeError, ValueError: if inputs do not match expectations.
+        TypeError, ValueError: If inputs do not match expectations.
 
     Returns:
-        ig.Graph: an igraph object.
+        ig.Graph: An igraph object.
     """
     if not is_neighbor_class(input):
         raise TypeError(

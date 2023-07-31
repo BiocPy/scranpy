@@ -13,7 +13,7 @@ class NeighborIndex:
     """Class for nearest neighbor search index.
 
     Args:
-        ptr (ct.c_void_p): pointer reference to scran's nearest neighbor index.
+        ptr (ct.c_void_p): Pointer reference to scran's nearest neighbor index.
     """
 
     def __init__(self, ptr: ct.c_void_p):
@@ -29,7 +29,7 @@ class NeighborIndex:
         """Get pointer to scran's NN search index.
 
         Returns:
-            ct.c_void_p: pointer reference.
+            ct.c_void_p: Pointer reference.
         """
         return self.__ptr
 
@@ -37,7 +37,7 @@ class NeighborIndex:
         """Get number of cells.
 
         Returns:
-            int: number of cells.
+            int: Number of cells.
         """
         return lib.fetch_neighbor_index_nobs(self.__ptr)
 
@@ -45,7 +45,7 @@ class NeighborIndex:
         """Get number of dimensions.
 
         Returns:
-            int: number of dimensions.
+            int: Number of dimensions.
         """
         return lib.fetch_neighbor_index_ndim(self.__ptr)
 
@@ -53,16 +53,16 @@ class NeighborIndex:
 def build_neighbor_index(x: np.ndarray, approximate: bool = True) -> NeighborIndex:
     """Build the nearest neighbor search index.
 
-    x represents coordinates fo each cell, usually the prinicpal components from the
+    `x` represents coordinates fo each cell, usually the prinicpal components from the
     PCA step. rows are variables, columns are cells.
 
     Args:
-        x (np.ndarray): coordinates for each cell in the dataset.
+        x (np.ndarray): Coordinates for each cell in the dataset.
         approximate (bool, optional): Whether to build an index for an approximate
             neighbor search. Defaults to True.
 
     Returns:
-        NeighborIndex: nearest neighbor search index.
+        NeighborIndex: Nearest neighbor search index.
     """
     ptr = lib.build_neighbor_index(x.shape[0], x.shape[1], x.ctypes.data, approximate)
     return NeighborIndex(ptr)

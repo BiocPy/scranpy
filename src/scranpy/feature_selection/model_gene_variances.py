@@ -29,15 +29,17 @@ def model_gene_variances(
     Args:
         x (MatrixTypes): Input matrix. Ideally, x would be a normalized
             log-expression matrix.
-        block (Optional[Sequence], optional): Array containing the block/batch
-            assignment for each cell. Defaults to None.
+        block (Optional[Sequence], optional): Block assignment for each cell. 
+            This is used to segregate cells in order to perform comparisons within 
+            each block. Defaults to None, indicating all cells are part of the same 
+            block.
         span (float, optional): Span to use for the LOWESS trend fitting.
             Defaults to 0.3.
-        num_threads (int, optional): number of threads to use. Defaults to 1.
-        verbose (bool, optional): display logs?. Defaults to False.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
 
     Returns:
-        BiocFrame: data frame with various metrics.
+        BiocFrame: Frame with various metrics.
     """
     x = validate_and_tatamize_input(x)
 

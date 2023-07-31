@@ -30,9 +30,9 @@ class UmapStatus:
     """Class to manage UMAP runs.
 
     Args:
-        ptr (ct.c_void_p): pointer that holds the result from
+        ptr (ct.c_void_p): Pointer that holds the result from
             scran's `initialize_umap` method.
-        coordinates (np.ndarray): object to hold the embeddings.
+        coordinates (np.ndarray): Object to hold the embeddings.
     """
 
     def __init__(self, ptr: ct.c_void_p, coordinates: np.ndarray):
@@ -49,7 +49,7 @@ class UmapStatus:
         """Get pointer to scran's umap step.
 
         Returns:
-            ct.c_void_p: pointer reference.
+            ct.c_void_p: Pointer reference.
         """
         return self.__ptr
 
@@ -57,7 +57,7 @@ class UmapStatus:
         """Get number of cells.
 
         Returns:
-            int: number of cells.
+            int: Number of cells.
         """
         return lib.fetch_umap_status_nobs(self.__ptr)
 
@@ -73,15 +73,15 @@ class UmapStatus:
         """Get number of epochs.
 
         Returns:
-            int: number of epochs.
+            int: Number of epochs.
         """
         return lib.fetch_umap_status_num_epochs(self.__ptr)
 
     def clone(self) -> "UmapStatus":
-        """deepcopy of the current state.
+        """deepcopy the current state.
 
         Returns:
-            UmapStatus: a copy of the current state.
+            UmapStatus: Copy of the current state.
         """
         cloned = copy.deepcopy(self.coordinates)
         return UmapStatus(lib.clone_umap_status(self.__ptr, cloned.ctypes.data), cloned)
@@ -94,7 +94,7 @@ class UmapStatus:
         """Run the UMAP algorithm specified epoch limit.
 
         Args:
-            epoch_limit (int): number of epochs to run.
+            epoch_limit (int): Number of epochs to run.
         """
         if epoch_limit is None:
             epoch_limit = 0
@@ -105,7 +105,7 @@ class UmapStatus:
         """Access the first two dimensions.
 
         Returns:
-            UmapEmbedding: object with x and y coordinates.
+            UmapEmbedding: Object with x and y coordinates.
         """
         return UmapEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
@@ -136,7 +136,7 @@ def initialize_umap(
         seed (int, optional): Seed to use for RNG. Defaults to 42.
 
     Raises:
-        TypeError: if input does not match expectations.
+        TypeError: If input does not match expectations.
 
     Returns:
         UmapStatus: a umap status object.
@@ -167,7 +167,7 @@ def run_umap(**kwargs) -> UmapEmbedding:
         **kwargs: Arguments specified by `initialize_umap` function.
 
     Returns:
-        UmapEmbedding: result containing the first two dimension.
+        UmapEmbedding: Result containing the first two dimensions.
     """
     status = initialize_umap(**kwargs)
     status.run()

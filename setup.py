@@ -27,6 +27,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/build_snn_graph.cpp",
                         "src/scranpy/lib/run_tsne.cpp",
                         "src/scranpy/lib/run_umap.cpp",
+                        "src/scranpy/lib/score_markers.cpp",
                     ],
                     include_dirs=[
                         "extern/libscran/include",

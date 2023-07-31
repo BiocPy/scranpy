@@ -3,7 +3,7 @@ from typing import Sequence
 import numpy as np
 from mattress import TatamiNumericPointer, tatamize
 
-from .types import FactorizedArray, MatrixTypes, validate_matrix_types
+from .types import FactorizedArray, MatrixTypes, NDOutputArrays, validate_matrix_types
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -74,3 +74,23 @@ def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
         x = tatamize(x)
 
     return x
+
+
+def create_output_arrays(rows: int, columns: int) -> NDOutputArrays:
+    """Create a list of ndarrays of shape (rows, columns).
+
+    Args:
+        rows (int): number of rows.
+        columns (int): number of columns.
+
+    Returns:
+        NDOutputArrays: A tuple with list of
+        ndarrays and their references.
+    """
+    outptrs = np.ndarray((columns,), dtype=np.uintp)
+    outarrs = []
+    for g in range(columns):
+        curarr = np.ndarray((rows,), dtype=np.float64)
+        outptrs[g] = curarr.ctypes.data
+        outarrs.append(curarr)
+    return NDOutputArrays(outarrs, outptrs)

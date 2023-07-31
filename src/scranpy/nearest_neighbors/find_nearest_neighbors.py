@@ -24,7 +24,7 @@ class NeighborResults:
     """Class to manage the find nearest neighbor search results from scran.
 
     Args:
-        ptr (ct.c_void_p): x is a pointer reference to libscran's `find_nearest_neighbor`
+        ptr (ct.c_void_p): Pointer reference to libscran's `find_nearest_neighbor`
             result.
     """
 
@@ -41,7 +41,7 @@ class NeighborResults:
         """Get pointer to scran's NN search index.
 
         Returns:
-            ct.c_void_p: pointer reference.
+            ct.c_void_p: Pointer reference.
         """
         return self.__ptr
 
@@ -49,7 +49,7 @@ class NeighborResults:
         """Get number of cells.
 
         Returns:
-            int: number of cells
+            int: Number of cells
         """
         return lib.fetch_neighbor_results_nobs(self.__ptr)
 
@@ -57,7 +57,7 @@ class NeighborResults:
         """Get number of neighbors.
 
         Returns:
-            int: number of neighbors.
+            int: Number of neighbors.
         """
         return lib.fetch_neighbor_results_k(self.__ptr)
 
@@ -68,7 +68,7 @@ class NeighborResults:
             i (int): i-th observation to access.
 
         Returns:
-            NNResult: a tuple with indices and distance.
+            NNResult: A tuple with indices and distance.
         """
         k = lib.fetch_neighbor_results_k(self.__ptr)
         out_d = np.ndarray((k,), dtype=np.float64)
@@ -82,7 +82,7 @@ class NeighborResults:
         """Get/serialize nearest neighbors for all observations/cells.
 
         Returns:
-            NNResult: a tuple with indices and distance.
+            NNResult: A tuple with indices and distance.
         """
         nobs = lib.fetch_neighbor_results_nobs(self.__ptr)
         k = lib.fetch_neighbor_results_k(self.__ptr)
@@ -96,10 +96,10 @@ class NeighborResults:
         """Initialize a class from serialized NN results.
 
         Args:
-            content (NNResult): usually the result of `serialize` method.
+            content (NNResult): Usually the result of `serialize` method.
 
         Returns:
-            NeighborResults: result object.
+            NeighborResults: Result object.
         """
         idx = content.index
         dist = content.distance
