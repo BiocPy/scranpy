@@ -87,10 +87,10 @@ def create_output_arrays(rows: int, columns: int) -> NDOutputArrays:
         NDOutputArrays: A tuple with list of
         ndarrays and their references.
     """
-    outptrs = np.ndarray((rows,), dtype=np.uintp)
+    outptrs = np.ndarray((columns,), dtype=np.uintp)
     outarrs = []
-    for g in range(rows):
-        curarr = np.ndarray((columns,), dtype=np.float64)
+    for g in range(columns):
+        curarr = np.ndarray((rows,), dtype=np.float64)
         outptrs[g] = curarr.ctypes.data
         outarrs.append(curarr)
     return NDOutputArrays(outarrs, outptrs)
