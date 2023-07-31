@@ -11,8 +11,8 @@ __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 
-def test_neighbors():
-    y = np.random.rand(50, 1000)  # PCs in rows, cells in dimensions
+def test_neighbors(mock_data):
+    y = mock_data.pcs
     idx = build_neighbor_index(y, approximate=False)
     assert idx.num_cells() == 1000
     assert idx.num_dimensions() == 50
