@@ -210,3 +210,20 @@ lib.free_umap_status.argtypes = [ct.c_void_p]
 lib.clone_umap_status.argtypes = [ct.c_void_p, ct.c_void_p]
 lib.clone_umap_status.restype = ct.c_void_p
 lib.run_umap.argtypes = [ct.c_void_p, ct.c_int]
+
+lib.score_markers.argtypes = [
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_double,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int
+]
