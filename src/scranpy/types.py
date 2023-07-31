@@ -13,7 +13,18 @@ __license__ = "MIT"
 
 MatrixTypes = Union[TatamiNumericPointer, np.ndarray, sp.spmatrix]
 FactorizedArray = namedtuple("FactorizedArray", ["levels", "indices"])
+FactorizedArray.__doc__ = """Named tuple of a factorized array.
+
+levels (np.ndarray): levels in the array.
+indices (np.ndarray): indices.
+"""
 NeighborIndexOrResults = Union[NeighborIndex, NeighborResults, np.ndarray]
+NDOutputArrays = namedtuple("NDOutputArrays", ["arrays", "references"])
+NDOutputArrays.__doc__ = """Named tuple of a list of numpy ndarrays (used for outputs).
+
+array (List[np.ndarray]): list of ndarray objects.
+references (np.ndarray): references to each inner ndarray.
+"""
 
 
 def is_matrix_expected_type(x: Any) -> bool:

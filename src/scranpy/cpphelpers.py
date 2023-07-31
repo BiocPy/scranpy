@@ -242,5 +242,5 @@ lib.score_markers.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
-    ct.c_int
+    ct.c_int,
 ]

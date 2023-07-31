@@ -29,9 +29,9 @@ class TsneStatus:
     """Class to manage t-SNE runs.
 
     Args:
-        ptr (ct.c_void_p): pointer that holds the result from
+        ptr (ct.c_void_p): Pointer that holds the result from
             scran's `initialize_tsne` method.
-        coordinates (np.ndarray): object to hold the embeddings.
+        coordinates (np.ndarray): Object to hold the embeddings.
     """
 
     def __init__(self, ptr: ct.c_void_p, coordinates: np.ndarray):
@@ -48,7 +48,7 @@ class TsneStatus:
         """Get pointer to scran's tsne step.
 
         Returns:
-            ct.c_void_p: pointer reference.
+            ct.c_void_p: Pointer reference.
         """
         return self.__ptr
 
@@ -56,7 +56,7 @@ class TsneStatus:
         """Get number of cells.
 
         Returns:
-            int: number of cells.
+            int: Number of cells.
         """
         return lib.fetch_tsne_status_nobs(self.__ptr)
 
@@ -64,15 +64,15 @@ class TsneStatus:
         """Get current iteration from the state.
 
         Returns:
-            int: iteration.
+            int: Iteration.
         """
         return lib.fetch_tsne_status_iteration(self.__ptr)
 
     def clone(self) -> "TsneStatus":
-        """deepcopy of the current state.
+        """deepcopy the current state.
 
         Returns:
-            TsneStatus: a copy of the current state.
+            TsneStatus: Copy of the current state.
         """
         cloned = copy.deepcopy(self.coordinates)
         return TsneStatus(lib.clone_tsne_status(self.__ptr), cloned)
@@ -85,7 +85,7 @@ class TsneStatus:
         """Run the t-SNE algorithm for specified iterations.
 
         Args:
-            iteration (int): number of iteratons to run.
+            iteration (int): Number of iteratons to run.
         """
         lib.run_tsne(self.__ptr, iteration, self.coordinates.ctypes.data)
 
@@ -93,7 +93,7 @@ class TsneStatus:
         """Access the first two dimensions.
 
         Returns:
-            TsneEmbedding: object with x and y coordinates.
+            TsneEmbedding: Object with x and y coordinates.
         """
         return TsneEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
@@ -120,10 +120,10 @@ def initialize_tsne(
         seed (int, optional): Seed to use for RNG. Defaults to 42.
 
     Raises:
-        TypeError: if input does not match expectations.
+        TypeError: If input does not match expectations.
 
     Returns:
-        TsneStatus: a tsne status object.
+        TsneStatus: A tsne status object.
     """
     if not is_neighbor_class(input):
         raise TypeError(
@@ -153,7 +153,7 @@ def run_tsne(max_iterations: int = 500, **kwargs) -> TsneEmbedding:
 
 
     Returns:
-        TsneEmbedding: result containing first two dimensions.
+        TsneEmbedding: Result containing first two dimensions.
     """
     status = initialize_tsne(**kwargs)
     status.run(max_iterations)

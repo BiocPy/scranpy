@@ -29,22 +29,24 @@ def log_norm_counts(
 
     Args:
         x (MatrixTypes): Inpute matrix.
-        block (Optional[Sequence], optional): Array containing the block/batch
-            assignment for each cell. Defaults to None.
-        size_factors (Optional[np.ndarray], optional): size factors for each cell.
+        block (Sequence, optional): Block assignment for each cell. 
+            This is used to segregate cells in order to perform comparisons within 
+            each block. Defaults to None, indicating all cells are part of the same 
+            block.
+        size_factors (Optional[np.ndarray], optional): Size factors for each cell.
             Defaults to None.
-        center (bool, optional): center the size factors?. Defaults to True.
-        allow_zeros (bool, optional): allow zeros?. Defaults to False.
-        allow_non_finite (bool, optional): all nan or inifnite numbers?.
+        center (bool, optional): Center the size factors?. Defaults to True.
+        allow_zeros (bool, optional): Allow zeros?. Defaults to False.
+        allow_non_finite (bool, optional): Allow `nan` or `inifnite` numbers?.
             Defaults to False.
-        num_threads (int, optional): number of threads. Defaults to 1.
-        verbose (bool, optional): display logs?. Defaults to False.
+        num_threads (int, optional): Number of threads. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
 
     Raises:
-        TypeError, ValueError: if arguments don't meet expectations.
+        TypeError, ValueError: If arguments don't meet expectations.
 
     Returns:
-        TatamiNumericPointer: log normalized matrix.
+        TatamiNumericPointer: Log normalized matrix.
     """
     validate_matrix_types(x)
 

@@ -25,10 +25,10 @@ def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PCAResult:
     """Extract principal components and variance explained from scran results.
 
     Args:
-        pptr (ct.c_void_p): a pointer to scran::MultiBatchPca::Results.
+        pptr (ct.c_void_p): Pointer to scran::MultiBatchPca::Results.
 
     Returns:
-        PCAResult: with principal components and variance explained.
+        PCAResult: Results with principal components and variance explained.
     """
     actual_rank = lib.fetch_simple_pca_num_dims(pptr)
 
@@ -61,14 +61,16 @@ def run_pca(
     """Run Prinicpal Component Analysis (PCA).
 
     Args:
-        x (MatrixTypes): Inpute Matrix.
+        x (MatrixTypes): Input Matrix.
         rank (int): Number of top PC's to compute.
         subset (Mapping, optional): Array specifying which features should be
             retained (e.g., HVGs). This should be of length equal to the number of
             rows in `x`; elements should be `true` to retain each row.
             Defaults to None, then all features are retained.
-        block (Sequence, optional): Array containing the block/batch
-            assignment for each cell. Defaults to None.
+        block (Sequence, optional): Block assignment for each cell. 
+            This is used to segregate cells in order to perform comparisons within 
+            each block. Defaults to None, indicating all cells are part of the same 
+            block.
         scale (bool, optional): Whether to scale each feature to unit variance.
             Defaults to False.
         block_method (Literal["none", "project", "regress"], optional): How to adjust
@@ -91,10 +93,10 @@ def run_pca(
         num_threads (int, optional):  Number of threads to use. Defaults to 1.
 
     Raises:
-        ValueError: if inputs do not match with expectations.
+        ValueError: If inputs do not match with expectations.
 
     Returns:
-        PCAResult: principal components and variable explained metrics.
+        PCAResult: Principal components and variable explained metrics.
     """
     x = validate_and_tatamize_input(x)
 

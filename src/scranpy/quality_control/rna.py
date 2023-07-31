@@ -25,19 +25,19 @@ def per_cell_rna_qc_metrics(
     not the other way around!
 
     Args:
-        x (MatrixTypes): input matrix.
-        subsets (Mapping, optional): named feature subsets.
+        x (MatrixTypes): Input matrix.
+        subsets (Mapping, optional): Dictionary of feature subsets.
             Each key is the name of the subset and each value is an array of
             integer indices, specifying the rows of `x` belonging to the subset.
             Defaults to {}.
-        num_threads (int, optional): number of threads to use. Defaults to 1.
-        verbose (bool, optional): display logs?. Defaults to False.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
 
     Raises:
-        TypeError: if x is not an expected matrix type.
+        TypeError: If x is not an expected matrix type.
 
     Returns:
-        BiocFrame: data frame containing per-cell count sums, number of detected
+        BiocFrame: Data frame containing per-cell count sums, number of detected
         features and the proportion of counts in each subset.
     """
     x = validate_and_tatamize_input(x)
@@ -100,8 +100,10 @@ def suggest_rna_qc_filters(
     Args:
         metrics (BiocFrame): A BiocFrame that contains sums, detected and proportions
             for each cell. Usually the result of `per_cell_rna_qc_metrics` method.
-        block (Optional[Sequence], optional): Array containing the block/batch
-            assignment for each cell. Defaults to None.
+        block (Optional[Sequence], optional): block assignment for each cell. 
+            This is used to segregate cells in order to perform comparisons within 
+            each block. Defaults to None, indicating all cells are part of the same 
+            block.
         num_mads (int, optional): Number of median absolute deviations to
             filter low-quality cells. Defaults to 3.
 
