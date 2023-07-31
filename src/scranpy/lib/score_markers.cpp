@@ -4,10 +4,9 @@
 #include "scran/differential_analysis/ScoreMarkers.hpp"
 #include <vector>
 
-extern "C" {
-
+//[[export]]
 void score_markers(
-    const Mattress* mat, 
+    const void* mat, 
     int num_clusters, 
     const int32_t* clusters, 
     int num_blocks,
@@ -73,9 +72,10 @@ void score_markers(
     runner.set_num_threads(num_threads);
 
     // TODO: check this in run_blocked.
+    const auto& ptr = reinterpret_cast<const Mattress*>(mat)->ptr;
     if (num_blocks > 1) {
         runner.run_blocked(
-            mat->ptr.get(), 
+            ptr.get(),
             clusters, 
             block,
             std::move(means), 
@@ -87,7 +87,7 @@ void score_markers(
         );
     } else {
         runner.run(
-            mat->ptr.get(), 
+            ptr.get(),
             clusters, 
             std::move(means), 
             std::move(detected), 
@@ -99,6 +99,4 @@ void score_markers(
     }
 
     return;
-}
-
 }

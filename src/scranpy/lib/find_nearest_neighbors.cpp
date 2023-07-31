@@ -37,7 +37,7 @@ void* find_nearest_neighbors(const void* index, int k, int nthreads) {
 
 //[[export]]
 int fetch_neighbor_results_nobs(const void* ptr) {
-    return reinterpret_cast<knncolle::NeighborList<>*>(ptr)->size();
+    return reinterpret_cast<const knncolle::NeighborList<>*>(ptr)->size();
 }
 
 //[[export]]

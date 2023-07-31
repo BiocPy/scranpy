@@ -28,5 +28,3 @@ void* log_norm_counts(const void* mat0, uint8_t use_block, const int32_t* block,
 
     return new Mattress(std::move(out));
 }
-
-}

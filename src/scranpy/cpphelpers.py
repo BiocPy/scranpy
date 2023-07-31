@@ -31,6 +31,326 @@ lib.py_log_norm_counts.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_model_gene_variances.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_double,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_model_gene_variances_blocked.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_double,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_score_markers.argtypes = [
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_double,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_simple_pca_coordinates.restype = ct.c_void_p
+lib.py_fetch_simple_pca_coordinates.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_simple_pca_variance_explained.restype = ct.c_void_p
+lib.py_fetch_simple_pca_variance_explained.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_simple_pca_total_variance.restype = ct.c_double
+lib.py_fetch_simple_pca_total_variance.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_simple_pca_num_dims.restype = ct.c_int
+lib.py_fetch_simple_pca_num_dims.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_free_simple_pca.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_run_simple_pca.restype = ct.c_void_p
+lib.py_run_simple_pca.argtypes = [
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_uint8,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_residual_pca_coordinates.restype = ct.c_void_p
+lib.py_fetch_residual_pca_coordinates.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_residual_pca_variance_explained.restype = ct.c_void_p
+lib.py_fetch_residual_pca_variance_explained.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_residual_pca_total_variance.restype = ct.c_double
+lib.py_fetch_residual_pca_total_variance.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_residual_pca_num_dims.restype = ct.c_int
+lib.py_fetch_residual_pca_num_dims.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_free_residual_pca.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_run_residual_pca.restype = ct.c_void_p
+lib.py_run_residual_pca.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_int,
+    ct.c_uint8,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_multibatch_pca_coordinates.restype = ct.c_void_p
+lib.py_fetch_multibatch_pca_coordinates.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_multibatch_pca_variance_explained.restype = ct.c_void_p
+lib.py_fetch_multibatch_pca_variance_explained.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_multibatch_pca_total_variance.restype = ct.c_double
+lib.py_fetch_multibatch_pca_total_variance.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_multibatch_pca_num_dims.restype = ct.c_int
+lib.py_fetch_multibatch_pca_num_dims.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_free_multibatch_pca.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_run_multibatch_pca.restype = ct.c_void_p
+lib.py_run_multibatch_pca.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_uint8,
+    ct.c_int,
+    ct.c_uint8,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_suggest_rna_qc_filters.argtypes = [
+    ct.c_int,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_double,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_initialize_umap.restype = ct.c_void_p
+lib.py_initialize_umap.argtypes = [
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_double,
+    ct.c_void_p,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_umap_status_nobs.restype = ct.c_int
+lib.py_fetch_umap_status_nobs.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_umap_status_epoch.restype = ct.c_int
+lib.py_fetch_umap_status_epoch.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_umap_status_num_epochs.restype = ct.c_int
+lib.py_fetch_umap_status_num_epochs.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_free_umap_status.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_clone_umap_status.restype = ct.c_void_p
+lib.py_clone_umap_status.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_run_umap.argtypes = [
+    ct.c_void_p,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_initialize_tsne.restype = ct.c_void_p
+lib.py_initialize_tsne.argtypes = [
+    ct.c_void_p,
+    ct.c_double,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_randomize_tsne_start.argtypes = [
+    ct.c_size_t,
+    ct.c_void_p,
+    ct.c_int,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_tsne_status_iteration.restype = ct.c_int
+lib.py_fetch_tsne_status_iteration.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_fetch_tsne_status_nobs.restype = ct.c_int
+lib.py_fetch_tsne_status_nobs.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_free_tsne_status.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_clone_tsne_status.restype = ct.c_void_p
+lib.py_clone_tsne_status.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_perplexity_to_k.restype = ct.c_int
+lib.py_perplexity_to_k.argtypes = [
+    ct.c_double,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_run_tsne.argtypes = [
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_build_snn_graph_from_nn_results.restype = ct.c_void_p
 lib.py_build_snn_graph_from_nn_results.argtypes = [
     ct.c_void_p,
@@ -167,6 +487,376 @@ def log_norm_counts(mat0, use_block, block, use_size_factors, size_factors, cent
     errcode___ = ct.c_int(0)
     errmsg___ = ct.c_char_p(0)
     output___ = lib.py_log_norm_counts(mat0, use_block, block, use_size_factors, size_factors, center, allow_zeros, allow_non_finite, num_threads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def model_gene_variances(mat, means, variances, fitted, residuals, span, num_threads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_model_gene_variances(mat, means, variances, fitted, residuals, span, num_threads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def model_gene_variances_blocked(mat, ave_means, ave_detected, ave_fitted, ave_residuals, num_blocks, block, block_means, block_variances, block_fitted, block_residuals, span, num_threads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_model_gene_variances_blocked(mat, ave_means, ave_detected, ave_fitted, ave_residuals, num_blocks, block, block_means, block_variances, block_fitted, block_residuals, span, num_threads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def score_markers(mat, num_clusters, clusters, num_blocks, block, do_auc, threshold, raw_means, raw_detected, raw_cohen, raw_auc, raw_lfc, raw_delta_detected, num_threads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_score_markers(mat, num_clusters, clusters, num_blocks, block, do_auc, threshold, raw_means, raw_detected, raw_cohen, raw_auc, raw_lfc, raw_delta_detected, num_threads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_simple_pca_coordinates(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_simple_pca_coordinates(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_simple_pca_variance_explained(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_simple_pca_variance_explained(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_simple_pca_total_variance(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_simple_pca_total_variance(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_simple_pca_num_dims(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_simple_pca_num_dims(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def free_simple_pca(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_free_simple_pca(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def run_simple_pca(mat, number, use_subset, subset, scale, num_threads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_run_simple_pca(mat, number, use_subset, subset, scale, num_threads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_residual_pca_coordinates(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_residual_pca_coordinates(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_residual_pca_variance_explained(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_residual_pca_variance_explained(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_residual_pca_total_variance(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_residual_pca_total_variance(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_residual_pca_num_dims(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_residual_pca_num_dims(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def free_residual_pca(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_free_residual_pca(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def run_residual_pca(mat, block, equal_weights, number, use_subset, subset, scale, num_threads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_run_residual_pca(mat, block, equal_weights, number, use_subset, subset, scale, num_threads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_multibatch_pca_coordinates(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_multibatch_pca_coordinates(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_multibatch_pca_variance_explained(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_multibatch_pca_variance_explained(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_multibatch_pca_total_variance(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_multibatch_pca_total_variance(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_multibatch_pca_num_dims(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_multibatch_pca_num_dims(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def free_multibatch_pca(x):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_free_multibatch_pca(x, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def run_multibatch_pca(mat, block, use_residuals, equal_weights, number, use_subset, subset, scale, num_threads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_run_multibatch_pca(mat, block, use_residuals, equal_weights, number, use_subset, subset, scale, num_threads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def suggest_rna_qc_filters(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_out, detected_out, subset_proportions_out, nmads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_suggest_rna_qc_filters(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_out, detected_out, subset_proportions_out, nmads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def initialize_umap(neighbors, num_epochs, min_dist, Y, nthreads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_initialize_umap(neighbors, num_epochs, min_dist, Y, nthreads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_umap_status_nobs(ptr):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_umap_status_nobs(ptr, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_umap_status_epoch(ptr):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_umap_status_epoch(ptr, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_umap_status_num_epochs(ptr):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_umap_status_num_epochs(ptr, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def free_umap_status(ptr):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_free_umap_status(ptr, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def clone_umap_status(ptr, cloned):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_clone_umap_status(ptr, cloned, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def run_umap(status, max_epoch):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_run_umap(status, max_epoch, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def initialize_tsne(neighbors, perplexity, nthreads):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_initialize_tsne(neighbors, perplexity, nthreads, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def randomize_tsne_start(n, Y, seed):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_randomize_tsne_start(n, Y, seed, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_tsne_status_iteration(ptr):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_tsne_status_iteration(ptr, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def fetch_tsne_status_nobs(ptr):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_fetch_tsne_status_nobs(ptr, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def free_tsne_status(ptr):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_free_tsne_status(ptr, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def clone_tsne_status(ptr):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_clone_tsne_status(ptr, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def perplexity_to_k(perplexity):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_perplexity_to_k(perplexity, ct.byref(errcode___), ct.byref(errmsg___))
+    if errcode___.value != 0:
+        msg = errmsg___.value.decode('ascii')
+        lib.free_error_message(errmsg___)
+        raise RuntimeError(msg)
+    return output___
+
+def run_tsne(status, maxiter, Y):
+    errcode___ = ct.c_int(0)
+    errmsg___ = ct.c_char_p(0)
+    output___ = lib.py_run_tsne(status, maxiter, Y, ct.byref(errcode___), ct.byref(errmsg___))
     if errcode___.value != 0:
         msg = errmsg___.value.decode('ascii')
         lib.free_error_message(errmsg___)

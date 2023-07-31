@@ -4,17 +4,17 @@
 #include "scran/feature_selection/ModelGeneVariances.hpp"
 #include <cstdint>
 
-extern "C" {
-
-void model_gene_variances(const Mattress* mat, double* means, double* variances, double* fitted, double* residuals, double span, int num_threads) {
+//[[export]]
+void model_gene_variances(const void* mat, double* means, double* variances, double* fitted, double* residuals, double span, int num_threads) {
     scran::ModelGeneVariances runner;
     runner.set_num_threads(num_threads);
     runner.set_span(span);
-    runner.run(mat->ptr.get(), means, variances, fitted, residuals);
+    runner.run(reinterpret_cast<const Mattress*>(mat)->ptr.get(), means, variances, fitted, residuals);
 }
-    
+
+//[[export]]
 void model_gene_variances_blocked(
-    const Mattress* mat, 
+    const void* mat, 
     double* ave_means,
     double* ave_detected,
     double* ave_fitted,
@@ -40,8 +40,6 @@ void model_gene_variances_blocked(
         residual_ptrs[b] = reinterpret_cast<double*>(block_residuals[b]);
     }
 
-    runner.run_blocked(mat->ptr.get(), block, mean_ptrs, variance_ptrs, fitted_ptrs, residual_ptrs, ave_means, ave_detected, ave_fitted, ave_residuals);
+    runner.run_blocked(reinterpret_cast<const Mattress*>(mat)->ptr.get(), block, mean_ptrs, variance_ptrs, fitted_ptrs, residual_ptrs, ave_means, ave_detected, ave_fitted, ave_residuals);
     return;
-}
-
 }

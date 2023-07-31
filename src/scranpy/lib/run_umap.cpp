@@ -5,39 +5,42 @@
 
 typedef umappp::Umap<>::Status UmapStatus;
 
-extern "C" {
-
-UmapStatus* initialize_umap(const knncolle::NeighborList<>* neighbors, int num_epochs, double min_dist, double* Y, int nthreads) {
+//[[export]]
+void* initialize_umap(const void* neighbors, int num_epochs, double min_dist, double* Y, int nthreads) {
     umappp::Umap factory;
     factory.set_min_dist(min_dist).set_num_epochs(num_epochs).set_num_threads(nthreads);
-    return new UmapStatus(factory.initialize(*neighbors, 2, Y));
+    return reinterpret_cast<void*>(new UmapStatus(factory.initialize(*reinterpret_cast<const knncolle::NeighborList<>*>(neighbors), 2, Y)));
 }
 
-int fetch_umap_status_nobs(const UmapStatus* ptr) {
-    return ptr->nobs();
+//[[export]]
+int fetch_umap_status_nobs(const void* ptr) {
+    return reinterpret_cast<const UmapStatus*>(ptr)->nobs();
 }
 
-int fetch_umap_status_epoch(const UmapStatus* ptr) {
-    return ptr->epoch();
+//[[export]]
+int fetch_umap_status_epoch(const void* ptr) {
+    return reinterpret_cast<const UmapStatus*>(ptr)->epoch();
 }
 
-int fetch_umap_status_num_epochs(const UmapStatus* ptr) {
-    return ptr->num_epochs();
+//[[export]]
+int fetch_umap_status_num_epochs(const void* ptr) {
+    return reinterpret_cast<const UmapStatus*>(ptr)->num_epochs();
 }
 
-void free_umap_status(UmapStatus* ptr) {
-    delete ptr;
+//[[export]]
+void free_umap_status(void* ptr) {
+    delete reinterpret_cast<UmapStatus*>(ptr);
 }
 
-UmapStatus* clone_umap_status(const UmapStatus* ptr, double* cloned) {
-    auto out = new UmapStatus(*ptr);
+//[[export]]
+void* clone_umap_status(const void* ptr, double* cloned) {
+    auto out = new UmapStatus(*reinterpret_cast<const UmapStatus*>(ptr));
     out->set_embedding(cloned, false);
-    return out;
+    return reinterpret_cast<void*>(out);
 }
 
-void run_umap(UmapStatus* status, int max_epoch) {
-    status->run(max_epoch);
+//[[export]]
+void run_umap(void* status, int max_epoch) {
+    reinterpret_cast<UmapStatus*>(status)->run(max_epoch);
     return;
-}
-
 }

@@ -40,7 +40,7 @@ python setup.py build_ext --inplace && tox
 To rebuild the **ctypes** bindings with [the `wrap.py` helper](https://github.com/BiocPy/ctypes-wrapper)
 
 ```shell
-wrap.py src/mattress/lib --py src/mattress/cpphelpers.py --cpp src/mattress/lib/bindings.cpp
+wrap.py src/scranpy/lib --py src/scranpy/cpphelpers.py --cpp src/scranpy/lib/bindings.cpp
 ```
 
 
