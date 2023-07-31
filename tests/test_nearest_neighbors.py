@@ -1,6 +1,7 @@
 import numpy as np
 from scranpy.nearest_neighbors import (
     NeighborResults,
+    NNResult,
     build_neighbor_index,
     find_nearest_neighbors,
 )
@@ -19,7 +20,7 @@ def test_neighbors():
     res = find_nearest_neighbors(idx, k=10)
     assert res.num_cells() == 1000
     assert res.num_neighbors() == 10
-    assert len(res.get(2).keys()) == 2
+    assert isinstance(res.get(2), NNResult)
 
     stuff = res.serialize()
     res2 = NeighborResults.unserialize(stuff)
