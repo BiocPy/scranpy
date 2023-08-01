@@ -9,8 +9,8 @@ __license__ = "MIT"
 
 
 def test_score_markers(mock_data):
-    y = mock_data.pcs
-    out = tatamize(y)
+    x = mock_data.x
+    out = tatamize(x)
 
     grouping = []
     for i in range(out.ncol()):
@@ -21,6 +21,12 @@ def test_score_markers(mock_data):
     assert res is not None
     assert "means" in res[1].columns
     assert isinstance(res[1].column("delta_detected"), BiocFrame)
+
+    # Works when blocks are supplied.
+    resb = score_markers(out, grouping, block = mock_data.block)
+    assert resb is not None
+    assert "detected" in resb[1].columns
+    assert isinstance(resb[1].column("lfc"), BiocFrame)
 
     # Same results in parallel.
     resp = score_markers(out, grouping, num_threads=3)

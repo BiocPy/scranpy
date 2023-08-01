@@ -71,32 +71,17 @@ void score_markers(
     runner.set_threshold(threshold);
     runner.set_num_threads(num_threads);
 
-    // TODO: check this in run_blocked.
-    const auto& ptr = reinterpret_cast<const Mattress*>(mat)->ptr;
-    if (num_blocks > 1) {
-        runner.run_blocked(
-            ptr.get(),
-            clusters, 
-            block,
-            std::move(means), 
-            std::move(detected), 
-            std::move(cohen), 
-            std::move(auc), 
-            std::move(lfc), 
-            std::move(delta_detected)
-        );
-    } else {
-        runner.run(
-            ptr.get(),
-            clusters, 
-            std::move(means), 
-            std::move(detected), 
-            std::move(cohen), 
-            std::move(auc), 
-            std::move(lfc), 
-            std::move(delta_detected)
-        );
-    }
+    runner.run_blocked(
+        reinterpret_cast<const Mattress*>(mat)->ptr.get(),
+        clusters, 
+        (num_blocks > 1 ? block : NULL),
+        std::move(means), 
+        std::move(detected), 
+        std::move(cohen), 
+        std::move(auc), 
+        std::move(lfc), 
+        std::move(delta_detected)
+    );
 
     return;
 }
