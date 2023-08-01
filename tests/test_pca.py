@@ -22,6 +22,11 @@ def test_run_pca(mock_data):
     assert np.allclose(mres.principal_components, res.principal_components) is False
     assert np.allclose(rres.principal_components, res.principal_components) is False
 
+    # Subsetting behaves as expected.
+    sub_ref = run_pca(x[20:50,:], rank=10)
+    sub_res = run_pca(x, rank=10, subset=range(20, 50))
+    assert (sub_ref.principal_components == sub_res.principal_components).all()
+
     # Same results with multiple threads.
     resp = run_pca(x, rank=10, num_threads=3)
     assert (res.principal_components == resp.principal_components).all()

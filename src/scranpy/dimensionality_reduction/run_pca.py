@@ -113,11 +113,6 @@ def run_pca(
     temp_subset = None
     subset_offset = 0
     if use_subset:
-        if len(subset) != nr:
-            raise ValueError(
-                f"'subsets (provided: {len(subset)}) must be the same as number "
-                f"of features (expected: {nr})."
-            )
         temp_subset = to_logical(subset, nr)
         subset_offset = temp_subset.ctypes.data
 
