@@ -188,3 +188,22 @@ def suggest_rna_qc_filters(
         numberOfRows=num_blocks,
         rowNames=block_names,
     )
+
+def guess_mito_from_symbols(symbols: list[str], prefix: str = "mt-") -> list[int]:
+    """Guess mitochondrial genes based on the gene symbols.
+
+    Args:
+        symbols (list[str]): List of symbols, one per gene.
+        prefix (str): Case-insensitive prefix to guess mitochondrial genes.
+
+    Return:
+        List of integer indices for the guessed mitochondrial genes.
+    """
+
+    prefix = prefix.lower()
+    output = []
+    for i in range(len(symbols)):
+        if symbols[i].lower().startswith(prefix):
+            output.append(i)
+
+    return output
