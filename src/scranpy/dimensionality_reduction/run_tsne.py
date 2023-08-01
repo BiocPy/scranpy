@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import numpy as np
 
-from ..cpphelpers import lib
+from .. import cpphelpers as lib
 from ..nearest_neighbors import (
     NeighborIndex,
     NeighborResults,

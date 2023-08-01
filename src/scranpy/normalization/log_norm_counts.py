@@ -4,7 +4,7 @@ import numpy as np
 from mattress import TatamiNumericPointer, tatamize
 
 from .._logging import logger
-from ..cpphelpers import lib
+from .. import cpphelpers as lib
 from ..types import MatrixTypes, validate_matrix_types
 from ..utils import factorize
 

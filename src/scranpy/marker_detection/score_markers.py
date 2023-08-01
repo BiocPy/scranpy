@@ -3,7 +3,7 @@ from typing import Mapping, Optional, Sequence
 import numpy as np
 from biocframe import BiocFrame
 
-from ..cpphelpers import lib
+from .. import cpphelpers as lib
 from ..types import MatrixTypes, NDOutputArrays
 from ..utils import create_output_arrays, factorize, validate_and_tatamize_input
 

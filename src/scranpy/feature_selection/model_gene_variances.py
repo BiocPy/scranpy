@@ -3,7 +3,7 @@ from typing import Optional, Sequence
 import numpy as np
 from biocframe import BiocFrame
 
-from ..cpphelpers import lib
+from .. import cpphelpers as lib
 from ..types import MatrixTypes
 from ..utils import factorize, validate_and_tatamize_input
 

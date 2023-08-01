@@ -4,6 +4,7 @@
 #include "scran/quality_control/PerCellRnaQcMetrics.hpp"
 #include <cstdint>
 
+//[[export]]
 void per_cell_rna_qc_metrics(const void* mat, int num_subsets, const uintptr_t* subset_ptrs, double* sum_output, int32_t* detected_output, uintptr_t* subset_output, int num_threads) {
     scran::PerCellRnaQcMetrics runner;
     runner.set_num_threads(num_threads);

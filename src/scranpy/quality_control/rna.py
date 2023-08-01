@@ -4,7 +4,7 @@ import numpy as np
 from biocframe import BiocFrame
 
 from .._logging import logger
-from ..cpphelpers import lib
+from .. import cpphelpers as lib
 from ..types import MatrixTypes
 from ..utils import factorize, to_logical, validate_and_tatamize_input
 

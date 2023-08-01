@@ -5,7 +5,7 @@ from typing import Literal
 import igraph as ig
 import numpy as np
 
-import ..cpphelpers as lib
+from .. import cpphelpers as lib
 from ..nearest_neighbors import (
     NeighborIndex,
     NeighborResults,
