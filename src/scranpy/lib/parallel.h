@@ -19,10 +19,10 @@ void run_parallel_old(Index_ njobs, Function_ fun, size_t nthreads) {
     workers.reserve(nthreads);
     std::vector<std::string> errors(nthreads);
 
-    int first = 0;
+    Index_ first = 0;
     for (int w = 0; w < nthreads && first < njobs; ++w) {
         int last = first + std::min(jobs_per_worker, njobs - first);
-        workers.emplace_back([&](int w, Index_ first, Index_ len) -> void {
+        workers.emplace_back([&fun,&errors](int w, Index_ first, Index_ last) -> void {
             try {
                 fun(first, last);
             } catch (std::exception& e) {
@@ -31,7 +31,7 @@ void run_parallel_old(Index_ njobs, Function_ fun, size_t nthreads) {
                 errors[w] = "unknown C++ error";
             }
         }, w, first, last);
-        first += jobs_per_worker;
+        first = last;
     }
 
     for (auto& wrk : workers) {
@@ -57,7 +57,7 @@ void run_parallel_simple(int nthreads, Function_ fun) {
     std::vector<std::string> errors(nthreads);
 
     for (int w = 0; w < nthreads; ++w) {
-        workers.emplace_back([&](int w) -> void {
+        workers.emplace_back([&fun,&errors](int w) -> void {
             try {
                 fun(w);
             } catch (std::exception& e) {

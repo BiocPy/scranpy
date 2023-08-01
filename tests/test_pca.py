@@ -21,3 +21,13 @@ def test_run_pca(mock_data):
     rres = run_pca(x, rank=10, block=mock_data.block, block_method="regress")
     assert np.allclose(mres.principal_components, res.principal_components) is False
     assert np.allclose(rres.principal_components, res.principal_components) is False
+
+    # Same results with multiple threads.
+    resp = run_pca(x, rank=10, num_threads=3)
+    assert (res.principal_components == resp.principal_components).all()
+
+    mresp = run_pca(x, block=mock_data.block, block_method="project", rank=10, num_threads=3)
+    assert (mres.principal_components == mresp.principal_components).all()
+
+    rresp = run_pca(x, block=mock_data.block, block_method="regress", rank=10, num_threads=3)
+    assert (rres.principal_components == rresp.principal_components).all()

@@ -25,3 +25,9 @@ def test_log_norm_counts(mock_data):
     result_blocked = log_norm_counts(y, block=mock_data.block)
     first_blocked = result_blocked.row(0)
     assert np.allclose(first_blocked, ref) is False
+
+    # Same results after parallelization. 
+    result_parallel = log_norm_counts(y, num_threads = 3)
+    assert (result.row(0) == result_parallel.row(0)).all()
+    last = result.nrow() - 1
+    assert (result.row(last) == result_parallel.row(last)).all()

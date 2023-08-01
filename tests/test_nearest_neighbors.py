@@ -25,3 +25,15 @@ def test_neighbors(mock_data):
     stuff = res.serialize()
     res2 = NeighborResults.unserialize(stuff)
     assert res2 is not None
+
+    # Same results after parallelization.
+    resp = find_nearest_neighbors(idx, k=10, num_threads=3)
+    nn_old = res.get(0)
+    nn_new = resp.get(0)
+    assert (nn_old.index == nn_new.index).all()
+    assert (nn_old.distance == nn_new.distance).all()
+
+    nn_old = res.get(idx.num_cells() - 1)
+    nn_new = resp.get(idx.num_cells() - 1)
+    assert (nn_old.index == nn_new.index).all()
+    assert (nn_old.distance == nn_new.distance).all()
