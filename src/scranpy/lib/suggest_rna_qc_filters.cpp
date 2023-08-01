@@ -1,4 +1,4 @@
-#include "parallel.h"
+#include "parallel.h" // must be first, to set all macros.
 
 #include "scran/quality_control/SuggestRnaQcFilters.hpp"
 #include <cstdint>
