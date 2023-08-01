@@ -144,18 +144,23 @@ def initialize_tsne(
     return TsneStatus(ptr, coords)
 
 
-def run_tsne(max_iterations: int = 500, **kwargs) -> TsneEmbedding:
+def run_tsne(
+    input: NeighborIndexOrResults,
+    max_iterations: int = 500, 
+    **kwargs
+) -> TsneEmbedding:
     """Compute t-SNE embedding.
 
     Args:
+        input (NeighborIndexOrResults): Input matrix, neighbor search index, or 
+            a pre-computed list of nearest neighbors per cell.
         max_iterations (int, optional): Maximum number of iterations. Defaults to 500.
         **kwargs: Arguments specified by `initialize_tsne` function.
-
 
     Returns:
         TsneEmbedding: Result containing first two dimensions.
     """
-    status = initialize_tsne(**kwargs)
+    status = initialize_tsne(input, **kwargs)
     status.run(max_iterations)
 
     output = status.extract()

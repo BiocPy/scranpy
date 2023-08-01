@@ -160,16 +160,18 @@ def initialize_umap(
     return UmapStatus(ptr, coords)
 
 
-def run_umap(**kwargs) -> UmapEmbedding:
+def run_umap(input: NeighborIndexOrResults, **kwargs) -> UmapEmbedding:
     """Compute UMAP embedding.
 
     Args:
+        input (NeighborIndexOrResults): Input matrix, neighbor search index, or 
+            a pre-computed list of nearest neighbors per cell.
         **kwargs: Arguments specified by `initialize_umap` function.
 
     Returns:
         UmapEmbedding: Result containing the first two dimensions.
     """
-    status = initialize_umap(**kwargs)
+    status = initialize_umap(input, **kwargs)
     status.run()
 
     output = status.extract()
