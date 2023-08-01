@@ -6,9 +6,8 @@
 #include <cstdint>
 #include <memory>
 
-extern "C" {
-
-Mattress* log_norm_counts(const Mattress* mat, uint8_t use_block, const int32_t* block, uint8_t use_size_factors, const double* size_factors, uint8_t center, uint8_t allow_zeros, uint8_t allow_non_finite, int num_threads) {
+//[[export]]
+void* log_norm_counts(const void* mat0, uint8_t use_block, const int32_t* block, uint8_t use_size_factors, const double* size_factors, uint8_t center, uint8_t allow_zeros, uint8_t allow_non_finite, int num_threads) {
     scran::LogNormCounts runner;
     runner.set_center(center);
     runner.set_handle_zeros(allow_zeros);
@@ -19,6 +18,7 @@ Mattress* log_norm_counts(const Mattress* mat, uint8_t use_block, const int32_t*
         block = NULL;
     }
 
+    auto mat = reinterpret_cast<const Mattress*>(mat0);
     std::shared_ptr<tatami::Matrix<double, int> > out;
     if (use_size_factors) {
         out = runner.run_blocked(mat->ptr, std::vector<double>(size_factors, size_factors + mat->ptr->ncol()), block); // TODO: replace with a view.
@@ -27,6 +27,4 @@ Mattress* log_norm_counts(const Mattress* mat, uint8_t use_block, const int32_t*
     }
 
     return new Mattress(std::move(out));
-}
-
 }

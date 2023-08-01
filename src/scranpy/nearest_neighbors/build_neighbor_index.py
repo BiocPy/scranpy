@@ -2,7 +2,7 @@ import ctypes as ct
 
 import numpy as np
 
-from ..cpphelpers import lib
+from .. import cpphelpers as lib
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"

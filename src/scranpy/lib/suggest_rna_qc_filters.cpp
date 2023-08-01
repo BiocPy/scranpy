@@ -3,8 +3,7 @@
 #include "scran/quality_control/SuggestRnaQcFilters.hpp"
 #include <cstdint>
 
-extern "C" {
-
+//[[export]]
 void suggest_rna_qc_filters(
     int num_cells,
     int num_subsets, 
@@ -43,6 +42,4 @@ void suggest_rna_qc_filters(
     }
 
     return;
-}
-
 }
