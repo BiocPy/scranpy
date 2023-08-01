@@ -16,3 +16,9 @@ def test_build_snn_graph(mock_data):
 
     assert clustering is not None
     assert clustering.membership is not None
+
+    # Same results in parallel.
+    outp = build_snn_graph(y, num_threads = 3)
+    assert outp.es["weight"] == out.es["weight"]
+    assert outp.es.indices == out.es.indices
+

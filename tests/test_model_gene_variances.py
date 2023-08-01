@@ -17,6 +17,9 @@ def test_numpy_no_blocks(mock_data):
     assert res.column("fitted") is not None
     assert res.column("residuals") is not None
 
+    # Same results with multiple threads.
+    resp = model_gene_variances(x, num_threads = 3)
+    assert (res.column("residuals") == resp.column("residuals")).all()
 
 def test_numpy_blocks(mock_data):
     x = mock_data.x
