@@ -37,14 +37,20 @@ path = "pbmc4k-tenx.h5"
 import h5py as h5
 fhandle = h5.File(path)
 import scipy.sparse as sp
-mat = sp.csc_matrix((fhandle["matrix"]["data"], fhandle["matrix"]["indices"], fhandle["matrix"]["indptr"]), fhandle["matrix"]["shape"])
+mat = sp.csc_matrix(
+    (fhandle["matrix"]["data"], fhandle["matrix"]["indices"], fhandle["matrix"]["indptr"]), 
+    fhandle["matrix"]["shape"]
+)
 features = [x.decode("ascii") for x in fhandle["matrix"]["features"]["name"]]
 
 # Performing QC.
-import scranpy.quality_control as qc
-metrics = qc.per_cell_rna_qc_metrics(mat, { "mito": qc.guess_mito_from_symbols(features) })
-thresholds = qc.suggest_rna_qc_filters(metrics)
-filter = qc.create_rna_qc_filter(metrics, thresholds)
+import scranpy
+metrics = scranpy.quality_control.per_cell_rna_qc_metrics(
+    mat, 
+    { "mito": scranpy.quality_control.guess_mito_from_symbols(features) }
+)
+thresholds = scranpy.quality_control.suggest_rna_qc_filters(metrics)
+filter = scranpy.quality_control.create_rna_qc_filter(metrics, thresholds)
 
 import mattress
 ptr = mattress.tatamize(mat)
@@ -53,8 +59,7 @@ filtered = qc.filter_cells(ptr, filter)
 import scranpy.normalization as norm
 normed = norm.log_norm_counts(filtered)
 
-import scranpy.feature_selection as feat
-varstats = feat.model_gene_variances(normed)
+varstats = scranpy.feature_selection.model_gene_variances(normed)
 resids = varstats.column("residuals")
 cutoff = np.sort(resids)[-2000]
 selected = []
@@ -62,19 +67,16 @@ for i in range(len(resids)):
     if resids[i] >= cutoff:
         selected.append(i)
 
-import scranpy.dimensionality_reduction as dimred
-pca = dimred.run_pca(normed, rank=20, subset=selected)
+pca = scranpy.dimensionality_reduction.run_pca(normed, rank=20, subset=selected)
 
 # TODO: run these all at once.
-tsne = dimred.run_tsne(pca.principal_components)
-umap = dimred.run_umap(pca.principal_components)
+tsne = scranpy.dimensionality_reduction.run_tsne(pca.principal_components)
+umap = scranpy.dimensionality_reduction.run_umap(pca.principal_components)
 
-import scranpy.clustering as clust
-g = clust.build_snn_graph(pca.principal_components)
+g = scranpy.clustering.build_snn_graph(pca.principal_components)
 clusters = g.community_multilevel().membership
 
-import scranpy.marker_detection as mark
-markers = mark.score_markers(normed, clusters)
+markers = scranpy.marker_detection.score_markers(normed, clusters)
 ```
 
 ## Developer Notes

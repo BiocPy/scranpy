@@ -33,6 +33,11 @@ def test_quality_control_numpy(mock_data):
     )
 
 
+def test_guess_mito_from_symbols():
+    out = guess_mito_from_symbols(["asdasd", "mt-asdas", "sadasd", "MT-asdasd"])
+    assert out == [1, 3]
+
+
 def test_suggest_rna_qc_filters(mock_data):
     x = mock_data.x
     result = per_cell_rna_qc_metrics(x, subsets={"foo": [1, 10, 100]})

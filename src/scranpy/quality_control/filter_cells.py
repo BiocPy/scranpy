@@ -3,8 +3,8 @@ from typing import Sequence
 import numpy as np
 from mattress import TatamiNumericPointer, tatamize
 
-from .._logging import logger
 from .. import cpphelpers as lib
+from .._logging import logger
 from ..types import MatrixTypes
 from ..utils import to_logical
 
@@ -12,11 +12,12 @@ __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
-def filter_cells(x : MatrixTypes, filter : Sequence, discard : bool = True):
+
+def filter_cells(x: MatrixTypes, filter: Sequence, discard: bool = True):
     """Filter out low-quality cells.
 
     Args:
-        x (MatrixTypes): Input matrix, either as a TatamiNumericPointer or 
+        x (MatrixTypes): Input matrix, either as a TatamiNumericPointer or
             something that can converted into one.
         filter (Sequence): Array containing integer indices or booleans,
             specifying the columns of `x` to keep/discard.
@@ -30,7 +31,7 @@ def filter_cells(x : MatrixTypes, filter : Sequence, discard : bool = True):
     """
     if filter.dtype != np.bool_:
         filter = to_logical(filter, x.ncol())
-    
+
     if len(filter) != x.ncol():
         raise ValueError("length of 'filter' should equal number of columns in 'x'")
 

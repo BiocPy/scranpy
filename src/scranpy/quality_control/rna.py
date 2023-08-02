@@ -3,14 +3,15 @@ from typing import Mapping, Optional, Sequence
 import numpy as np
 from biocframe import BiocFrame
 
-from .._logging import logger
 from .. import cpphelpers as lib
+from .._logging import logger
 from ..types import MatrixTypes
 from ..utils import factorize, to_logical, validate_and_tatamize_input
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
+
 
 def create_pointer_array(arrs):
     num = len(arrs)
@@ -26,6 +27,7 @@ def create_pointer_array(arrs):
             i += 1
 
     return output
+
 
 def per_cell_rna_qc_metrics(
     x: MatrixTypes,
@@ -110,9 +112,9 @@ def suggest_rna_qc_filters(
     Args:
         metrics (BiocFrame): A BiocFrame that contains sums, detected and proportions
             for each cell. Usually the result of `per_cell_rna_qc_metrics` method.
-        block (Optional[Sequence], optional): block assignment for each cell. 
-            This is used to segregate cells in order to perform comparisons within 
-            each block. Defaults to None, indicating all cells are part of the same 
+        block (Sequence, optional): block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
             block.
         num_mads (int, optional): Number of median absolute deviations to
             filter low-quality cells. Defaults to 3.
@@ -195,7 +197,10 @@ def suggest_rna_qc_filters(
         rowNames=block_names,
     )
 
-def create_rna_qc_filter(metrics: BiocFrame, thresholds: BiocFrame, block = None) -> np.ndarray:
+
+def create_rna_qc_filter(
+    metrics: BiocFrame, thresholds: BiocFrame, block=None
+) -> np.ndarray:
     subprop = metrics.column("subset_proportions")
     num_subsets = subprop.shape[1]
     subset_in = []
@@ -230,8 +235,29 @@ def create_rna_qc_filter(metrics: BiocFrame, thresholds: BiocFrame, block = None
         thresholds.column("sums").astype(np.float64, copy=False).ctypes.data,
         thresholds.column("detected").astype(np.float64, copy=False).ctypes.data,
         filter_in_ptr.ctypes.data,
-        output.ctypes.data
+        output.ctypes.data,
     )
 
     return output
 
+
+def guess_mito_from_symbols(
+    symbols: Sequence[str], prefix: str = "mt-"
+) -> Sequence[int]:
+    """Guess mitochondrial genes based on the gene symbols.
+
+    Args:
+        symbols (Sequence[str]): List of symbols, one per gene.
+        prefix (str): Case-insensitive prefix to guess mitochondrial genes.
+
+    Return:
+        Sequence[int]: List of integer indices for the guessed mitochondrial genes.
+    """
+
+    prefix = prefix.lower()
+    output = []
+    for i, symb in enumerate(symbols):
+        if symb.lower().startswith(prefix):
+            output.append(i)
+
+    return output
