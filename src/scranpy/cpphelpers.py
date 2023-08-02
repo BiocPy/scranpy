@@ -85,7 +85,7 @@ lib.py_create_rna_qc_filter.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -271,7 +271,7 @@ lib.py_filter_cells.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_uint8,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
