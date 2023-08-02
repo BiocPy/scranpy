@@ -82,6 +82,22 @@ lib.py_clone_umap_status.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_create_rna_qc_filter.argtypes = [
+    ct.c_int,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_fetch_multibatch_pca_coordinates.restype = ct.c_void_p
 lib.py_fetch_multibatch_pca_coordinates.argtypes = [
     ct.c_void_p,
@@ -255,6 +271,15 @@ lib.py_fetch_umap_status_nobs.argtypes = [
 lib.py_fetch_umap_status_num_epochs.restype = ct.c_int32
 lib.py_fetch_umap_status_num_epochs.argtypes = [
     ct.c_void_p,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
+lib.py_filter_cells.restype = ct.c_void_p
+lib.py_filter_cells.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_uint8,
     ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
@@ -535,6 +560,9 @@ def clone_tsne_status(ptr):
 def clone_umap_status(ptr, cloned):
     return catch_errors(lib.py_clone_umap_status)(ptr, cloned)
 
+def create_rna_qc_filter(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output):
+    return catch_errors(lib.py_create_rna_qc_filter)(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output)
+
 def fetch_multibatch_pca_coordinates(x):
     return catch_errors(lib.py_fetch_multibatch_pca_coordinates)(x)
 
@@ -609,6 +637,9 @@ def fetch_umap_status_nobs(ptr):
 
 def fetch_umap_status_num_epochs(ptr):
     return catch_errors(lib.py_fetch_umap_status_num_epochs)(ptr)
+
+def filter_cells(mat0, filter, discard):
+    return catch_errors(lib.py_filter_cells)(mat0, filter, discard)
 
 def find_nearest_neighbors(index, k, nthreads):
     return catch_errors(lib.py_find_nearest_neighbors)(index, k, nthreads)

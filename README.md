@@ -52,11 +52,12 @@ metrics = scranpy.quality_control.per_cell_rna_qc_metrics(
 thresholds = scranpy.quality_control.suggest_rna_qc_filters(metrics)
 filter = scranpy.quality_control.create_rna_qc_filter(metrics, thresholds)
 
-# MISSING: filtering.
-
 import mattress
 ptr = mattress.tatamize(mat)
-normed = scranpy.normalization.log_norm_counts(ptr)
+filtered = qc.filter_cells(ptr, filter)
+
+import scranpy.normalization as norm
+normed = norm.log_norm_counts(filtered)
 
 varstats = scranpy.feature_selection.model_gene_variances(normed)
 selected = scranpy.feature_selection.choose_hvgs(varstats.column("residuals"))
