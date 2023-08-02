@@ -6,24 +6,24 @@
 typedef umappp::Umap<>::Status UmapStatus;
 
 //[[export]]
-void* initialize_umap(const void* neighbors, int num_epochs, double min_dist, double* Y, int nthreads) {
+void* initialize_umap(const void* neighbors, int32_t num_epochs, double min_dist, double* Y, int32_t nthreads) {
     umappp::Umap factory;
     factory.set_min_dist(min_dist).set_num_epochs(num_epochs).set_num_threads(nthreads);
     return reinterpret_cast<void*>(new UmapStatus(factory.initialize(*reinterpret_cast<const knncolle::NeighborList<>*>(neighbors), 2, Y)));
 }
 
 //[[export]]
-int fetch_umap_status_nobs(const void* ptr) {
+int32_t fetch_umap_status_nobs(const void* ptr) {
     return reinterpret_cast<const UmapStatus*>(ptr)->nobs();
 }
 
 //[[export]]
-int fetch_umap_status_epoch(const void* ptr) {
+int32_t fetch_umap_status_epoch(const void* ptr) {
     return reinterpret_cast<const UmapStatus*>(ptr)->epoch();
 }
 
 //[[export]]
-int fetch_umap_status_num_epochs(const void* ptr) {
+int32_t fetch_umap_status_num_epochs(const void* ptr) {
     return reinterpret_cast<const UmapStatus*>(ptr)->num_epochs();
 }
 
@@ -40,7 +40,7 @@ void* clone_umap_status(const void* ptr, double* cloned) {
 }
 
 //[[export]]
-void run_umap(void* status, int max_epoch) {
+void run_umap(void* status, int32_t max_epoch) {
     reinterpret_cast<UmapStatus*>(status)->run(max_epoch);
     return;
 }

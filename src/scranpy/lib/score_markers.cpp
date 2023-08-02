@@ -7,9 +7,9 @@
 //[[export]]
 void score_markers(
     const void* mat, 
-    int num_clusters, 
+    int32_t num_clusters, 
     const int32_t* clusters, 
-    int num_blocks,
+    int32_t num_blocks,
     const int32_t* block,
     uint8_t do_auc,
     double threshold,
@@ -19,13 +19,13 @@ void score_markers(
     uintptr_t* raw_auc,
     uintptr_t* raw_lfc,
     uintptr_t* raw_delta_detected,
-    int num_threads)
+    int32_t num_threads)
 {
     std::vector<double*> means;
     means.reserve(num_clusters);
     std::vector<double*> detected;
     detected.reserve(num_clusters);
-    for (int c = 0; c < num_clusters; ++c) {
+    for (int32_t c = 0; c < num_clusters; ++c) {
         means.push_back(reinterpret_cast<double*>(raw_means[c]));
         detected.push_back(reinterpret_cast<double*>(raw_detected[c]));
     }
@@ -57,7 +57,7 @@ void score_markers(
             auc[which_summary].resize(num_clusters, NULL);
         }
 
-        for (int c = 0; c < num_clusters; ++c) {
+        for (int32_t c = 0; c < num_clusters; ++c) {
             cohen[which_summary][c] = reinterpret_cast<double*>(cptr[c]);
             lfc[which_summary][c] = reinterpret_cast<double*>(lptr[c]);
             delta_detected[which_summary][c] = reinterpret_cast<double*>(dptr[c]);

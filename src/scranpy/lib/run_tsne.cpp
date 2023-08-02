@@ -6,7 +6,7 @@
 typedef qdtsne::Tsne<>::Status<int> TsneStatus;
 
 //[[export]]
-void* initialize_tsne(const void* neighbors, double perplexity, int nthreads) {
+void* initialize_tsne(const void* neighbors, double perplexity, int32_t nthreads) {
     qdtsne::Tsne factory;
     factory.set_perplexity(perplexity).set_num_threads(nthreads);
     factory.set_max_depth(7); // speed up iterations, avoid problems with duplicates.
@@ -14,18 +14,18 @@ void* initialize_tsne(const void* neighbors, double perplexity, int nthreads) {
 }
 
 //[[export]]
-void randomize_tsne_start(size_t n, double* Y, int seed) {
+void randomize_tsne_start(size_t n, double* Y, int32_t seed) {
     qdtsne::initialize_random(Y, n, seed);
     return;
 }
 
 //[[export]]
-int fetch_tsne_status_iteration(const void* ptr) {
+int32_t fetch_tsne_status_iteration(const void* ptr) {
     return reinterpret_cast<const TsneStatus*>(ptr)->iteration();
 }
 
 //[[export]]
-int fetch_tsne_status_nobs(const void* ptr) {
+int32_t fetch_tsne_status_nobs(const void* ptr) {
     return reinterpret_cast<const TsneStatus*>(ptr)->nobs();
 }
 
@@ -40,12 +40,12 @@ void* clone_tsne_status(const void* ptr) {
 }
 
 //[[export]]
-int perplexity_to_k(double perplexity) {
+int32_t perplexity_to_k(double perplexity) {
     return std::ceil(perplexity * 3);
 }
 
 //[[export]]
-void run_tsne(void* status, int maxiter, double* Y) {
+void run_tsne(void* status, int32_t maxiter, double* Y) {
     reinterpret_cast<TsneStatus*>(status)->run(Y, maxiter);
     return;
 }

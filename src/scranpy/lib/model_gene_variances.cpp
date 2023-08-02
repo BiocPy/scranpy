@@ -5,7 +5,7 @@
 #include <cstdint>
 
 //[[export]]
-void model_gene_variances(const void* mat, double* means, double* variances, double* fitted, double* residuals, double span, int num_threads) {
+void model_gene_variances(const void* mat, double* means, double* variances, double* fitted, double* residuals, double span, int32_t num_threads) {
     scran::ModelGeneVariances runner;
     runner.set_num_threads(num_threads);
     runner.set_span(span);
@@ -19,21 +19,21 @@ void model_gene_variances_blocked(
     double* ave_detected,
     double* ave_fitted,
     double* ave_residuals,
-    int num_blocks, 
+    int32_t num_blocks, 
     const int32_t* block, 
     uintptr_t* block_means,
     uintptr_t* block_variances,
     uintptr_t* block_fitted,
     uintptr_t* block_residuals,
     double span, 
-    int num_threads)
+    int32_t num_threads)
 {
     scran::ModelGeneVariances runner;
     runner.set_num_threads(num_threads);
     runner.set_span(span);
 
     std::vector<double*> mean_ptrs(num_blocks), variance_ptrs(num_blocks), fitted_ptrs(num_blocks), residual_ptrs(num_blocks);
-    for (int b = 0; b < num_blocks; ++b) {
+    for (int32_t b = 0; b < num_blocks; ++b) {
         mean_ptrs[b] = reinterpret_cast<double*>(block_means[b]);
         variance_ptrs[b] = reinterpret_cast<double*>(block_variances[b]);
         fitted_ptrs[b] = reinterpret_cast<double*>(block_fitted[b]);

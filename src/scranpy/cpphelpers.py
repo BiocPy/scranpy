@@ -5,7 +5,7 @@ import ctypes as ct
 
 def catch_errors(f):
     def wrapper(*args):
-        errcode = ct.c_int(0)
+        errcode = ct.c_int32(0)
         errmsg = ct.c_char_p(0)
         output = f(*args, ct.byref(errcode), ct.byref(errmsg))
         if errcode.value != 0:
@@ -31,37 +31,37 @@ lib.free_error_message.argtypes = [ ct.POINTER(ct.c_char_p) ]
 
 lib.py_build_neighbor_index.restype = ct.c_void_p
 lib.py_build_neighbor_index.argtypes = [
-    ct.c_int,
-    ct.c_int,
+    ct.c_int32,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_uint8,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_build_snn_graph_from_nn_index.restype = ct.c_void_p
 lib.py_build_snn_graph_from_nn_index.argtypes = [
     ct.c_void_p,
-    ct.c_int,
-    ct.c_void_p,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.c_char_p,
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_build_snn_graph_from_nn_results.restype = ct.c_void_p
 lib.py_build_snn_graph_from_nn_results.argtypes = [
     ct.c_void_p,
-    ct.c_void_p,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_char_p,
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_clone_tsne_status.restype = ct.c_void_p
 lib.py_clone_tsne_status.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -69,7 +69,7 @@ lib.py_clone_umap_status.restype = ct.c_void_p
 lib.py_clone_umap_status.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -92,177 +92,177 @@ lib.py_create_rna_qc_filter.argtypes = [
 lib.py_fetch_multibatch_pca_coordinates.restype = ct.c_void_p
 lib.py_fetch_multibatch_pca_coordinates.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_multibatch_pca_num_dims.restype = ct.c_int
+lib.py_fetch_multibatch_pca_num_dims.restype = ct.c_int32
 lib.py_fetch_multibatch_pca_num_dims.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_multibatch_pca_total_variance.restype = ct.c_double
 lib.py_fetch_multibatch_pca_total_variance.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_multibatch_pca_variance_explained.restype = ct.c_void_p
 lib.py_fetch_multibatch_pca_variance_explained.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_neighbor_index_ndim.restype = ct.c_int
+lib.py_fetch_neighbor_index_ndim.restype = ct.c_int32
 lib.py_fetch_neighbor_index_ndim.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_neighbor_index_nobs.restype = ct.c_int
+lib.py_fetch_neighbor_index_nobs.restype = ct.c_int32
 lib.py_fetch_neighbor_index_nobs.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_neighbor_results_k.restype = ct.c_int
+lib.py_fetch_neighbor_results_k.restype = ct.c_int32
 lib.py_fetch_neighbor_results_k.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_neighbor_results_nobs.restype = ct.c_int
+lib.py_fetch_neighbor_results_nobs.restype = ct.c_int32
 lib.py_fetch_neighbor_results_nobs.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_neighbor_results_single.argtypes = [
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_residual_pca_coordinates.restype = ct.c_void_p
 lib.py_fetch_residual_pca_coordinates.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_residual_pca_num_dims.restype = ct.c_int
+lib.py_fetch_residual_pca_num_dims.restype = ct.c_int32
 lib.py_fetch_residual_pca_num_dims.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_residual_pca_total_variance.restype = ct.c_double
 lib.py_fetch_residual_pca_total_variance.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_residual_pca_variance_explained.restype = ct.c_void_p
 lib.py_fetch_residual_pca_variance_explained.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_simple_pca_coordinates.restype = ct.c_void_p
 lib.py_fetch_simple_pca_coordinates.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_simple_pca_num_dims.restype = ct.c_int
+lib.py_fetch_simple_pca_num_dims.restype = ct.c_int32
 lib.py_fetch_simple_pca_num_dims.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_simple_pca_total_variance.restype = ct.c_double
 lib.py_fetch_simple_pca_total_variance.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_simple_pca_variance_explained.restype = ct.c_void_p
 lib.py_fetch_simple_pca_variance_explained.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_snn_graph_edges.restype = ct.c_int
+lib.py_fetch_snn_graph_edges.restype = ct.c_int32
 lib.py_fetch_snn_graph_edges.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_snn_graph_indices.restype = ct.c_void_p
 lib.py_fetch_snn_graph_indices.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_fetch_snn_graph_weights.restype = ct.c_void_p
 lib.py_fetch_snn_graph_weights.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_tsne_status_iteration.restype = ct.c_int
+lib.py_fetch_tsne_status_iteration.restype = ct.c_int32
 lib.py_fetch_tsne_status_iteration.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_tsne_status_nobs.restype = ct.c_int
+lib.py_fetch_tsne_status_nobs.restype = ct.c_int32
 lib.py_fetch_tsne_status_nobs.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_umap_status_epoch.restype = ct.c_int
+lib.py_fetch_umap_status_epoch.restype = ct.c_int32
 lib.py_fetch_umap_status_epoch.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_umap_status_nobs.restype = ct.c_int
+lib.py_fetch_umap_status_nobs.restype = ct.c_int32
 lib.py_fetch_umap_status_nobs.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_fetch_umap_status_num_epochs.restype = ct.c_int
+lib.py_fetch_umap_status_num_epochs.restype = ct.c_int32
 lib.py_fetch_umap_status_num_epochs.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -278,57 +278,57 @@ lib.py_filter_cells.argtypes = [
 lib.py_find_nearest_neighbors.restype = ct.c_void_p
 lib.py_find_nearest_neighbors.argtypes = [
     ct.c_void_p,
-    ct.c_int,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_free_multibatch_pca.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_free_neighbor_index.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_free_neighbor_results.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_free_residual_pca.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_free_simple_pca.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_free_snn_graph.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_free_tsne_status.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_free_umap_status.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -336,19 +336,19 @@ lib.py_initialize_tsne.restype = ct.c_void_p
 lib.py_initialize_tsne.argtypes = [
     ct.c_void_p,
     ct.c_double,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_initialize_umap.restype = ct.c_void_p
 lib.py_initialize_umap.argtypes = [
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_double,
     ct.c_void_p,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -363,7 +363,7 @@ lib.py_log_norm_counts.argtypes = [
     ct.c_uint8,
     ct.c_uint8,
     ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -374,8 +374,8 @@ lib.py_model_gene_variances.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_double,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -385,42 +385,42 @@ lib.py_model_gene_variances_blocked.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_double,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_per_cell_rna_qc_metrics.argtypes = [
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_perplexity_to_k.restype = ct.c_int
+lib.py_perplexity_to_k.restype = ct.c_int32
 lib.py_perplexity_to_k.argtypes = [
     ct.c_double,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_randomize_tsne_start.argtypes = [
     ct.c_size_t,
     ct.c_void_p,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -430,12 +430,12 @@ lib.py_run_multibatch_pca.argtypes = [
     ct.c_void_p,
     ct.c_uint8,
     ct.c_uint8,
-    ct.c_int,
+    ct.c_int32,
     ct.c_uint8,
     ct.c_void_p,
     ct.c_uint8,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -444,47 +444,47 @@ lib.py_run_residual_pca.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_uint8,
-    ct.c_int,
+    ct.c_int32,
     ct.c_uint8,
     ct.c_void_p,
     ct.c_uint8,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_run_simple_pca.restype = ct.c_void_p
 lib.py_run_simple_pca.argtypes = [
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_uint8,
     ct.c_void_p,
     ct.c_uint8,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_run_tsne.argtypes = [
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_run_umap.argtypes = [
     ct.c_void_p,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_score_markers.argtypes = [
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_uint8,
     ct.c_double,
@@ -494,8 +494,8 @@ lib.py_score_markers.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
-    ct.c_int,
-    ct.POINTER(ct.c_int),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
@@ -503,33 +503,33 @@ lib.py_serialize_neighbor_results.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_suggest_rna_qc_filters.argtypes = [
-    ct.c_int,
-    ct.c_int,
+    ct.c_int32,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
-    ct.c_int,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
     ct.c_double,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 
 lib.py_unserialize_neighbor_results.restype = ct.c_void_p
 lib.py_unserialize_neighbor_results.argtypes = [
-    ct.c_int,
-    ct.c_int,
+    ct.c_int32,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_void_p,
-    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
 

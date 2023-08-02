@@ -22,12 +22,12 @@ static auto create_rna_buffers(
 
 //[[export]]
 void suggest_rna_qc_filters(
-    int num_cells,
-    int num_subsets, 
-    const double* sums, 
-    const int32_t* detected, 
-    const uintptr_t* subset_proportions, 
-    int num_blocks,
+    int32_t num_cells,
+    int32_t num_subsets, 
+    double* sums, 
+    int32_t* detected, 
+    uintptr_t* subset_proportions, 
+    int32_t num_blocks,
     const int32_t* block,
     double* sums_out,
     double* detected_out,
@@ -37,7 +37,13 @@ void suggest_rna_qc_filters(
     scran::SuggestRnaQcFilters runner;
     runner.set_num_mads(nmads);
 
-    auto buffer = create_rna_buffers(num_cells, num_subsets, sums, detected, subset_proportions);
+    scran::PerCellRnaQcMetrics::Buffers<double, int32_t> buffer;
+    buffer.sums = sums;
+    buffer.detected = detected;
+    buffer.subset_proportions.resize(num_subsets);
+    for (int32_t i = 0; i < num_subsets; ++i) {
+        buffer.subset_proportions[i] = reinterpret_cast<double*>(subset_proportions[i]);
+    }
 
     scran::SuggestRnaQcFilters::Thresholds res;
     if (num_blocks == 1) {
