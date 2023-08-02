@@ -58,6 +58,15 @@ lib.py_build_snn_graph_from_nn_results.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_choose_hvgs.argtypes = [
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_int32,
+    ct.c_void_p,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_clone_tsne_status.restype = ct.c_void_p
 lib.py_clone_tsne_status.argtypes = [
     ct.c_void_p,
@@ -516,6 +525,9 @@ def build_snn_graph_from_nn_index(x, num_neighbors, weight_scheme, num_threads):
 
 def build_snn_graph_from_nn_results(x, weight_scheme, num_threads):
     return catch_errors(lib.py_build_snn_graph_from_nn_results)(x, weight_scheme, num_threads)
+
+def choose_hvgs(len, stat, top, output):
+    return catch_errors(lib.py_choose_hvgs)(len, stat, top, output)
 
 def clone_tsne_status(ptr):
     return catch_errors(lib.py_clone_tsne_status)(ptr)
