@@ -78,6 +78,8 @@ int fetch_umap_status_nobs(const void*);
 
 int fetch_umap_status_num_epochs(const void*);
 
+void* filter_cells(const void*, const bool*, bool);
+
 void* find_nearest_neighbors(const void*, int, int);
 
 void free_multibatch_pca(void*);
@@ -556,6 +558,20 @@ PYAPI int py_fetch_umap_status_num_epochs(const void* ptr, int* errcode, char** 
     int output = 0;
     try {
         output = fetch_umap_status_num_epochs(ptr);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+    return output;
+}
+
+PYAPI void* py_filter_cells(const void* mat0, const bool* filter, bool discard, int* errcode, char** errmsg) {
+    void* output = NULL;
+    try {
+        output = filter_cells(mat0, filter, discard);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());

@@ -266,6 +266,15 @@ lib.py_fetch_umap_status_num_epochs.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_filter_cells.restype = ct.c_void_p
+lib.py_filter_cells.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_bool,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_find_nearest_neighbors.restype = ct.c_void_p
 lib.py_find_nearest_neighbors.argtypes = [
     ct.c_void_p,
@@ -616,6 +625,9 @@ def fetch_umap_status_nobs(ptr):
 
 def fetch_umap_status_num_epochs(ptr):
     return catch_errors(lib.py_fetch_umap_status_num_epochs)(ptr)
+
+def filter_cells(mat0, filter, discard):
+    return catch_errors(lib.py_filter_cells)(mat0, filter, discard)
 
 def find_nearest_neighbors(index, k, nthreads):
     return catch_errors(lib.py_find_nearest_neighbors)(index, k, nthreads)

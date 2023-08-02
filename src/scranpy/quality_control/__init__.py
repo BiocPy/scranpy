@@ -3,3 +3,4 @@ from .rna import (
     suggest_rna_qc_filters,
     create_rna_qc_filter
 )
+from .filter_cells import filter_cells
