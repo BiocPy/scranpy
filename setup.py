@@ -23,6 +23,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/suggest_rna_qc_filters.cpp",
                         "src/scranpy/lib/filter_cells.cpp",
                         "src/scranpy/lib/model_gene_variances.cpp",
+                        "src/scranpy/lib/choose_hvgs.cpp",
                         "src/scranpy/lib/run_pca.cpp",
                         "src/scranpy/lib/find_nearest_neighbors.cpp",
                         "src/scranpy/lib/build_snn_graph.cpp",

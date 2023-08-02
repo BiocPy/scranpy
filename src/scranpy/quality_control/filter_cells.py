@@ -1,5 +1,3 @@
-from typing import Sequence, Union
-
 import numpy as np
 from mattress import TatamiNumericPointer
 

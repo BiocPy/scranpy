@@ -60,13 +60,7 @@ import scranpy.normalization as norm
 normed = norm.log_norm_counts(filtered)
 
 varstats = scranpy.feature_selection.model_gene_variances(normed)
-resids = varstats.column("residuals")
-cutoff = np.sort(resids)[-2000]
-selected = []
-for i in range(len(resids)):
-    if resids[i] >= cutoff:
-        selected.append(i)
-
+selected = scranpy.feature_selection.choose_hvgs(varstats.column("residuals"))
 pca = scranpy.dimensionality_reduction.run_pca(normed, rank=20, subset=selected)
 
 # TODO: run these all at once.

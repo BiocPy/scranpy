@@ -255,7 +255,7 @@ def create_rna_qc_filter(
         output.ctypes.data,
     )
 
-    return output.astype(np.bool_)
+    return output.astype(np.bool_, copy=False)
 
 
 def guess_mito_from_symbols(
