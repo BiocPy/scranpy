@@ -270,7 +270,7 @@ lib.py_filter_cells.restype = ct.c_void_p
 lib.py_filter_cells.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
-    ct.c_bool,
+    ct.c_uint8,
     ct.POINTER(ct.c_int),
     ct.POINTER(ct.c_char_p)
 ]
