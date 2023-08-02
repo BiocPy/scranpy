@@ -18,7 +18,7 @@ scran::BuildSnnGraph::Scheme resolve_weighting_scheme(const char* weight_scheme)
 }
 
 //[[export]]
-void* build_snn_graph_from_nn_results(const void* x, const char* weight_scheme, int num_threads) {
+void* build_snn_graph_from_nn_results(const void* x, const char* weight_scheme, int32_t num_threads) {
     scran::BuildSnnGraph runner;
     runner.set_num_threads(num_threads);
     runner.set_weighting_scheme(resolve_weighting_scheme(weight_scheme));
@@ -27,7 +27,7 @@ void* build_snn_graph_from_nn_results(const void* x, const char* weight_scheme, 
 }
 
 //[[export]]
-void* build_snn_graph_from_nn_index(const void* x, int num_neighbors, const char* weight_scheme, int num_threads) {
+void* build_snn_graph_from_nn_index(const void* x, int32_t num_neighbors, const char* weight_scheme, int32_t num_threads) {
     scran::BuildSnnGraph runner;
     runner.set_neighbors(num_neighbors);
     runner.set_num_threads(num_threads);
@@ -37,7 +37,7 @@ void* build_snn_graph_from_nn_index(const void* x, int num_neighbors, const char
 }
 
 //[[export]]
-int fetch_snn_graph_edges(const void* ptr) {
+int32_t fetch_snn_graph_edges(const void* ptr) {
     return reinterpret_cast<const scran::BuildSnnGraph::Results*>(ptr)->weights.size();
 }
 

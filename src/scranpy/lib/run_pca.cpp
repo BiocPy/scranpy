@@ -6,7 +6,7 @@
 #include "scran/dimensionality_reduction/MultiBatchPca.hpp"
 #include <cstdint>
 
-static void precheck_inputs(int number, size_t NC, uint8_t use_subset, const uint8_t* subset) {
+static void precheck_inputs(int32_t number, size_t NC, uint8_t use_subset, const uint8_t* subset) {
     if (number < 1) {
         throw std::runtime_error("requested number of PCs should be positive");
     }
@@ -33,7 +33,7 @@ double fetch_simple_pca_total_variance(const void* x) {
 }
 
 //[[export]]
-int fetch_simple_pca_num_dims(const void* x) {
+int32_t fetch_simple_pca_num_dims(const void* x) {
     return reinterpret_cast<const scran::SimplePca::Results*>(x)->pcs.rows();
 }
 
@@ -43,7 +43,7 @@ void free_simple_pca(void* x) {
 }
 
 //[[export]]
-void* run_simple_pca(const void* mat, int number, uint8_t use_subset, const uint8_t* subset, uint8_t scale, int num_threads) {
+void* run_simple_pca(const void* mat, int32_t number, uint8_t use_subset, const uint8_t* subset, uint8_t scale, int32_t num_threads) {
     const auto& ptr = reinterpret_cast<const Mattress*>(mat)->ptr;
     auto NR = ptr->nrow();
     auto NC = ptr->ncol();
@@ -74,7 +74,7 @@ double fetch_residual_pca_total_variance(const void* x) {
 }
 
 //[[export]]
-int fetch_residual_pca_num_dims(const void* x) {
+int32_t fetch_residual_pca_num_dims(const void* x) {
     return reinterpret_cast<const scran::ResidualPca::Results*>(x)->pcs.rows();
 }
 
@@ -88,11 +88,11 @@ void* run_residual_pca(
     const void* mat, 
     const int32_t* block, 
     uint8_t equal_weights, 
-    int number, 
+    int32_t number, 
     uint8_t use_subset, 
     const uint8_t* subset, 
     uint8_t scale, 
-    int num_threads) 
+    int32_t num_threads) 
 {
     const auto& ptr = reinterpret_cast<const Mattress*>(mat)->ptr;
     auto NR = ptr->nrow();
@@ -125,7 +125,7 @@ double fetch_multibatch_pca_total_variance(const void* x) {
 }
 
 //[[export]]
-int fetch_multibatch_pca_num_dims(const void* x) {
+int32_t fetch_multibatch_pca_num_dims(const void* x) {
     return reinterpret_cast<const scran::MultiBatchPca::Results*>(x)->pcs.rows();
 }
 
@@ -140,11 +140,11 @@ void* run_multibatch_pca(
     const int32_t* block, 
     uint8_t use_residuals, 
     uint8_t equal_weights, 
-    int number, 
+    int32_t number, 
     uint8_t use_subset, 
     const uint8_t* subset, 
     uint8_t scale, 
-    int num_threads) 
+    int32_t num_threads) 
 {
     const auto& ptr = reinterpret_cast<const Mattress*>(mat)->ptr;
     auto NR = ptr->nrow();

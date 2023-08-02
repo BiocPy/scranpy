@@ -5,12 +5,12 @@
 
 //[[export]]
 void suggest_rna_qc_filters(
-    int num_cells,
-    int num_subsets, 
+    int32_t num_cells,
+    int32_t num_subsets, 
     double* sums, 
     int32_t* detected, 
     uintptr_t* subset_proportions, 
-    int num_blocks,
+    int32_t num_blocks,
     const int32_t* block,
     double* sums_out,
     double* detected_out,
@@ -24,7 +24,7 @@ void suggest_rna_qc_filters(
     buffer.sums = sums;
     buffer.detected = detected;
     buffer.subset_proportions.resize(num_subsets);
-    for (int i = 0; i < num_subsets; ++i) {
+    for (int32_t i = 0; i < num_subsets; ++i) {
         buffer.subset_proportions[i] = reinterpret_cast<double*>(subset_proportions[i]);
     }
 
