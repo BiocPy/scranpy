@@ -73,6 +73,22 @@ lib.py_clone_umap_status.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_create_rna_qc_filter.argtypes = [
+    ct.c_int,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.POINTER(ct.c_int),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_fetch_multibatch_pca_coordinates.restype = ct.c_void_p
 lib.py_fetch_multibatch_pca_coordinates.argtypes = [
     ct.c_void_p,
@@ -522,6 +538,9 @@ def clone_tsne_status(ptr):
 
 def clone_umap_status(ptr, cloned):
     return catch_errors(lib.py_clone_umap_status)(ptr, cloned)
+
+def create_rna_qc_filter(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output):
+    return catch_errors(lib.py_create_rna_qc_filter)(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output)
 
 def fetch_multibatch_pca_coordinates(x):
     return catch_errors(lib.py_fetch_multibatch_pca_coordinates)(x)

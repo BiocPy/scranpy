@@ -1,5 +1,5 @@
 import numpy as np
-from scranpy.quality_control import per_cell_rna_qc_metrics, suggest_rna_qc_filters
+from scranpy.quality_control import *
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -54,3 +54,10 @@ def test_suggest_rna_qc_filters(mock_data):
 
     subfilters = filters_blocked.column("subset_proportions")
     assert len(list(set(subfilters.rowNames).difference(["A", "B", "C"]))) == 0
+
+    # checking that the filters get applied.
+    keep = create_rna_qc_filter(result, filters)
+    assert len(keep) == result.shape[0]
+
+    keep_blocked = create_rna_qc_filter(result, filters_blocked, block=mock_data.block)
+    assert len(keep_blocked) == result.shape[0]

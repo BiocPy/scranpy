@@ -26,6 +26,8 @@ void* clone_tsne_status(const void*);
 
 void* clone_umap_status(const void*, double*);
 
+void create_rna_qc_filter(int, int, const double*, const int32_t*, const uintptr_t*, int, const int32_t*, const double*, const double*, const uintptr_t*, uint8_t*);
+
 const double* fetch_multibatch_pca_coordinates(const void*);
 
 int fetch_multibatch_pca_num_dims(const void*);
@@ -124,7 +126,7 @@ void score_markers(const void*, int, const int32_t*, int, const int32_t*, uint8_
 
 void serialize_neighbor_results(const void*, int32_t*, double*);
 
-void suggest_rna_qc_filters(int, int, double*, int32_t*, uintptr_t*, int, const int32_t*, double*, double*, uintptr_t*, double);
+void suggest_rna_qc_filters(int, int, const double*, const int32_t*, const uintptr_t*, int, const int32_t*, double*, double*, uintptr_t*, double);
 
 void* unserialize_neighbor_results(int, int, int32_t*, double*);
 
@@ -202,6 +204,18 @@ PYAPI void* py_clone_umap_status(const void* ptr, double* cloned, int* errcode, 
         *errmsg = copy_error_message("unknown C++ exception");
     }
     return output;
+}
+
+PYAPI void py_create_rna_qc_filter(int num_cells, int num_subsets, const double* sums, const int32_t* detected, const uintptr_t* subset_proportions, int num_blocks, const int32_t* block, const double* sums_thresholds, const double* detected_thresholds, const uintptr_t* subset_proportions_thresholds, uint8_t* output, int* errcode, char** errmsg) {
+    try {
+        create_rna_qc_filter(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
 }
 
 PYAPI const double* py_fetch_multibatch_pca_coordinates(const void* x, int* errcode, char** errmsg) {
@@ -856,7 +870,7 @@ PYAPI void py_serialize_neighbor_results(const void* ptr0, int32_t* outdex, doub
     }
 }
 
-PYAPI void py_suggest_rna_qc_filters(int num_cells, int num_subsets, double* sums, int32_t* detected, uintptr_t* subset_proportions, int num_blocks, const int32_t* block, double* sums_out, double* detected_out, uintptr_t* subset_proportions_out, double nmads, int* errcode, char** errmsg) {
+PYAPI void py_suggest_rna_qc_filters(int num_cells, int num_subsets, const double* sums, const int32_t* detected, const uintptr_t* subset_proportions, int num_blocks, const int32_t* block, double* sums_out, double* detected_out, uintptr_t* subset_proportions_out, double nmads, int* errcode, char** errmsg) {
     try {
         suggest_rna_qc_filters(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_out, detected_out, subset_proportions_out, nmads);
     } catch(std::exception& e) {

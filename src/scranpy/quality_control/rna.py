@@ -75,8 +75,8 @@ def per_cell_rna_qc_metrics(
         out_arr = np.ndarray((nc,), dtype=np.float64)
         collected_out[keys[i]] = out_arr
 
-    subset_in = create_pointer_arrays(collected_in)
-    subset_out = create_pointer_arrays(collected_out)
+    subset_in = create_pointer_array(collected_in)
+    subset_out = create_pointer_array(collected_out)
     if verbose is True:
         logger.info(subset_in)
         logger.info(subset_out)
@@ -163,8 +163,8 @@ def suggest_rna_qc_filters(
         curout = np.ndarray((num_blocks,), dtype=np.float64)
         subset_out[skeys[i]] = curout
 
-    subset_in_ptrs = create_pointer_arrays(subset_in)
-    subset_out_ptrs = create_pointer_arrays(subset_out)
+    subset_in_ptrs = create_pointer_array(subset_in)
+    subset_out_ptrs = create_pointer_array(subset_out)
 
     lib.suggest_rna_qc_filters(
         metrics.shape[0],
@@ -196,8 +196,6 @@ def suggest_rna_qc_filters(
     )
 
 def create_rna_qc_filter(metrics: BiocFrame, thresholds: BiocFrame, block = None) -> np.ndarray:
-    output = np.zeros(metrics.shape[0])
-
     subprop = metrics.column("subset_proportions")
     num_subsets = subprop.shape[1]
     subset_in = []
@@ -212,10 +210,23 @@ def create_rna_qc_filter(metrics: BiocFrame, thresholds: BiocFrame, block = None
     subset_in_ptr = create_pointer_array(subset_in)
     filter_in_ptr = create_pointer_array(filter_in)
 
+    num_blocks = 1
+    block_offset = 0
+    block_info = None
+    if block is not None:
+        block_info = factorize(block)
+        block_offset = block_info.indices.ctypes.data
+        num_blocks = len(block_info.levels)
+
+    output = np.zeros(metrics.shape[0], dtype=np.uint8)
     lib.create_rna_qc_filter(
+        metrics.shape[0],
+        num_subsets,
         metrics.column("sums").astype(np.float64, copy=False).ctypes.data,
         metrics.column("detected").astype(np.int32, copy=False).ctypes.data,
         subset_in_ptr.ctypes.data,
+        num_blocks,
+        block_offset,
         thresholds.column("sums").astype(np.float64, copy=False).ctypes.data,
         thresholds.column("detected").astype(np.float64, copy=False).ctypes.data,
         filter_in_ptr.ctypes.data,
