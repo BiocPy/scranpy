@@ -78,7 +78,7 @@ int fetch_umap_status_nobs(const void*);
 
 int fetch_umap_status_num_epochs(const void*);
 
-void* filter_cells(const void*, const bool*, bool);
+void* filter_cells(const void*, const uint8_t*, uint8_t);
 
 void* find_nearest_neighbors(const void*, int, int);
 
@@ -568,7 +568,7 @@ PYAPI int py_fetch_umap_status_num_epochs(const void* ptr, int* errcode, char** 
     return output;
 }
 
-PYAPI void* py_filter_cells(const void* mat0, const bool* filter, bool discard, int* errcode, char** errmsg) {
+PYAPI void* py_filter_cells(const void* mat0, const uint8_t* filter, uint8_t discard, int* errcode, char** errmsg) {
     void* output = NULL;
     try {
         output = filter_cells(mat0, filter, discard);

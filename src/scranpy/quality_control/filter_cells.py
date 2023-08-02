@@ -31,6 +31,8 @@ def filter_cells(x: MatrixTypes, filter: Sequence, discard: bool = True):
     """
     if filter.dtype != np.bool_:
         filter = to_logical(filter, x.ncol())
+    else:
+        filter = filter.astype(np.uint8)
 
     if len(filter) != x.ncol():
         raise ValueError("length of 'filter' should equal number of columns in 'x'")
