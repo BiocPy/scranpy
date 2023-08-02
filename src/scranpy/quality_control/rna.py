@@ -12,6 +12,20 @@ __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
+def create_pointer_array(arrs):
+    num = len(arrs)
+    output = np.ndarray((num,), dtype=np.uintp)
+
+    if isinstance(arrs, list):
+        for i in range(num):
+            output[i] = arrs[i].ctypes.data
+    else:
+        i = 0
+        for k in arrs:
+            output[i] = arrs[k].ctypes.data
+            i += 1
+
+    return output
 
 def per_cell_rna_qc_metrics(
     x: MatrixTypes,
@@ -45,28 +59,24 @@ def per_cell_rna_qc_metrics(
     if subsets is None:
         subsets = {}
 
+    nr = x.nrow()
     nc = x.ncol()
     sums = np.ndarray((nc,), dtype=np.float64)
     detected = np.ndarray((nc,), dtype=np.int32)
 
     keys = list(subsets.keys())
     num_subsets = len(keys)
-    subset_in = np.ndarray((num_subsets,), dtype=np.uintp)
-    subset_out = np.ndarray((num_subsets,), dtype=np.uintp)
     collected_in = []
     collected_out = {}
-
-    nr = x.nrow()
 
     for i in range(num_subsets):
         in_arr = to_logical(subsets[keys[i]], nr)
         collected_in.append(in_arr)
-        subset_in[i] = in_arr.ctypes.data
-
         out_arr = np.ndarray((nc,), dtype=np.float64)
         collected_out[keys[i]] = out_arr
-        subset_out[i] = out_arr.ctypes.data
 
+    subset_in = create_pointer_arrays(collected_in)
+    subset_out = create_pointer_arrays(collected_out)
     if verbose is True:
         logger.info(subset_in)
         logger.info(subset_out)
@@ -144,28 +154,24 @@ def suggest_rna_qc_filters(
     subsets = metrics.column("subset_proportions")
     skeys = subsets.columnNames
     num_subsets = len(skeys)
-    subset_in = np.ndarray((num_subsets,), dtype=np.uintp)
+    subset_in = []
     subset_out = {}
-    subset_out_ptrs = np.ndarray((num_subsets,), dtype=np.uintp)
 
     for i in range(num_subsets):
         cursub = subsets.column(i)
-        if cursub.dtype != np.float64:
-            raise TypeError(
-                "expected all 'subset_proportions' columns to be a float64 array."
-            )
-        subset_in[i] = cursub.ctypes.data
-
+        subset_in.append(cursub.astype(np.float64, copy=False))
         curout = np.ndarray((num_blocks,), dtype=np.float64)
         subset_out[skeys[i]] = curout
-        subset_out_ptrs[i] = curout.ctypes.data
+
+    subset_in_ptrs = create_pointer_arrays(subset_in)
+    subset_out_ptrs = create_pointer_arrays(subset_out)
 
     lib.suggest_rna_qc_filters(
         metrics.shape[0],
         num_subsets,
         sums.ctypes.data,
         detected.ctypes.data,
-        subset_in.ctypes.data,
+        subset_in_ptrs.ctypes.data,
         num_blocks,
         block_offset,
         sums_out.ctypes.data,
@@ -188,3 +194,33 @@ def suggest_rna_qc_filters(
         numberOfRows=num_blocks,
         rowNames=block_names,
     )
+
+def create_rna_qc_filter(metrics: BiocFrame, thresholds: BiocFrame, block = None) -> np.ndarray:
+    output = np.zeros(metrics.shape[0])
+
+    subprop = metrics.column("subset_proportions")
+    num_subsets = subprop.shape[1]
+    subset_in = []
+    filter_in = []
+
+    for i in range(num_subsets):
+        cursub = subprop.column(i)
+        subset_in.append(cursub.astype(np.float64, copy=False))
+        curfilt = thresholds.column(i)
+        filter_in.append(curfilt.astype(np.float64, copy=False))
+
+    subset_in_ptr = create_pointer_array(subset_in)
+    filter_in_ptr = create_pointer_array(filter_in)
+
+    lib.create_rna_qc_filter(
+        metrics.column("sums").astype(np.float64, copy=False).ctypes.data,
+        metrics.column("detected").astype(np.int32, copy=False).ctypes.data,
+        subset_in_ptr.ctypes.data,
+        thresholds.column("sums").astype(np.float64, copy=False).ctypes.data,
+        thresholds.column("detected").astype(np.float64, copy=False).ctypes.data,
+        filter_in_ptr.ctypes.data,
+        output.ctypes.data
+    )
+
+    return output
+
