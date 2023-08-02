@@ -3,7 +3,14 @@ from typing import Sequence
 import numpy as np
 from mattress import TatamiNumericPointer, tatamize
 
-from .types import FactorizedArray, MatrixTypes, NDOutputArrays, validate_matrix_types
+from .types import (
+    FactorizedArray,
+    MatrixTypes,
+    NDOutputArrays,
+    SelectionTypes,
+    is_list_of_type,
+    validate_matrix_types,
+)
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -39,17 +46,17 @@ def factorize(x: Sequence) -> FactorizedArray:
     return FactorizedArray(levels=levels, indices=output)
 
 
-def to_logical(selection: Sequence, length: int) -> np.ndarray:
+def to_logical(selection: SelectionTypes, length: int) -> np.ndarray:
     """Convert a selection to a logical array.
 
     Args:
-        selection (Sequence): list/array of integer indices.
-            Alternatively, a list/array of booleans.
+        selection (SelectionTypes): list/array of integer indices.
+            a list/array of booleans, a range or a slice object.
         length (int): length of the output array, i.e.,
             the maximum possible index plus 1.
 
     Returns:
-        An array of unsigned 8-bit integers where selected
+        np.ndarray: An array of unsigned 8-bit integers where selected
         entries are marked with 1 and all others are zero.
 
         If `selection` is an array of indices, the entries at the
@@ -59,36 +66,41 @@ def to_logical(selection: Sequence, length: int) -> np.ndarray:
         converted directly to unsigned 8 bit integers.
     """
     output = np.zeros((length,), dtype=np.uint8)
-    if isinstance(selection, np.ndarray):
-        if selection.dtype == np.bool_ and len(selection) != length:
-            raise ValueError("length of 'selection' is not equal to 'length'")
-        output[indices] = 1
+
+    if isinstance(selection, range) or isinstance(selection, slice):
+        output[selection] = 1
         return output
 
-    has_bool = False
-    has_number = False
-    has_other = False
-    for x in selection:
-        if isinstance(x, bool):
-            has_bool = True
-        elif isinstance(x, int):
-            has_number = True
+    if isinstance(selection, np.ndarray):
+        if selection.dtype == np.bool_:
+            if len(selection) != length:
+                raise ValueError("length of 'selection' is not equal to 'length'.")
+            output[selection] = 1
+            return output
+        elif selection.dtype == np.int_:
+            output[selection] = 1
+            return output
         else:
-            has_other = True
+            raise TypeError(
+                "'selection`s' dtype not supported, mudt be boolean or int,"
+                f"provided {selection.dtype}"
+            )
 
-    if has_other:
+    has_bool = is_list_of_type(selection, bool)
+    has_number = is_list_of_type(selection, int)
+
+    if (has_number and has_bool) or (not has_bool and not has_number):
         raise TypeError("'selection' should only contain booleans or numbers")
-    elif has_number and has_bool:
-        raise TypeError("'selection' cannot contain mixed booleans and numbers")
 
     if has_bool:
         if len(selection) != length:
-            raise ValueError("length of 'selection' is not equal to 'length'")
+            raise ValueError("length of 'selection' is not equal to 'length'.")
         output[:] = selection
     elif has_number:
-        output[i] = 1
+        output[selection] = 1
 
     return output
+
 
 def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
     """Validate and tatamize the input matrix.

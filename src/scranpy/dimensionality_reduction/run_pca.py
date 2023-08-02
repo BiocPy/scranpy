@@ -66,9 +66,9 @@ def run_pca(
         subset (Mapping, optional): Array specifying which features should be
             retained (e.g., HVGs). This may contain integer indices or booleans.
             Defaults to None, then all features are retained.
-        block (Sequence, optional): Block assignment for each cell. 
-            This is used to segregate cells in order to perform comparisons within 
-            each block. Defaults to None, indicating all cells are part of the same 
+        block (Sequence, optional): Block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
             block.
         scale (bool, optional): Whether to scale each feature to unit variance.
             Defaults to False.
