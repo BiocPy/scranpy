@@ -2,6 +2,9 @@ import numpy as np
 
 from .. import cpphelpers as lib
 
+__author__ = "ltla"
+__copyright__ = "ltla"
+__license__ = "MIT"
 
 def choose_hvgs(stat: np.ndarray, number: int = 2500) -> np.ndarray:
     """Choose highly variable genes.
