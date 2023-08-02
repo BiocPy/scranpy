@@ -199,8 +199,25 @@ def suggest_rna_qc_filters(
 
 
 def create_rna_qc_filter(
-    metrics: BiocFrame, thresholds: BiocFrame, block=None
+    metrics: BiocFrame, thresholds: BiocFrame, block: Optional[Sequence] = None
 ) -> np.ndarray:
+    """Define an qc filter (RNA) based on the per-cell
+    QC metrics computed from an RNA count matrix and thresholds suggested
+    by tge suggest_rna_qc_filters.
+
+    Args:
+        metrics (BiocFrame): A BiocFrame object returned by
+            `per_cell_rna_qc_metrics` function\.
+        thresholds (BiocFrame): Suggested (or modified) filters from
+            `suggest_rna_qc_filters` function.
+        block (Sequence, optional): Block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
+            block.
+
+    Returns:
+        np.ndarray: a numpy boolean array filled with 1 for cells to filter.
+    """
     subprop = metrics.column("subset_proportions")
     num_subsets = subprop.shape[1]
     subset_in = []
@@ -238,7 +255,7 @@ def create_rna_qc_filter(
         output.ctypes.data,
     )
 
-    return output
+    return output.astype(np.bool_)
 
 
 def guess_mito_from_symbols(

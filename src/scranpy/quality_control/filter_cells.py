@@ -1,7 +1,7 @@
-from typing import Sequence
+from typing import Sequence, Union
 
 import numpy as np
-from mattress import TatamiNumericPointer, tatamize
+from mattress import TatamiNumericPointer
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -13,21 +13,23 @@ __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 
-def filter_cells(x: MatrixTypes, filter: Sequence, discard: bool = True):
+def filter_cells(
+    x: MatrixTypes, filter: np.ndarray, discard: bool = True
+) -> TatamiNumericPointer:
     """Filter out low-quality cells.
 
     Args:
         x (MatrixTypes): Input matrix, either as a TatamiNumericPointer or
-            something that can converted into one.
-        filter (Sequence): Array containing integer indices or booleans,
-            specifying the columns of `x` to keep/discard.
+            something that can be converted into one.
+        filter (np.ndarray): Boolean nd array containing integer
+            indices or booleans, specifying the columns of `x` to keep/discard.
         discard (bool): Whether to discard the cells listed in `filter`.
             If `false`, the specified cells are retained instead, and all
             other cells are discarded.
 
     Returns:
-        If `x` is a TatamiNumericPointer, a TatamiNumericPointer is returned
-        containing the filtered matrix.
+        TatamiNumericPointer: If `x` is a TatamiNumericPointer,
+        a TatamiNumericPointer is returned containing the filtered matrix.
     """
     if filter.dtype != np.bool_:
         filter = to_logical(filter, x.ncol())
