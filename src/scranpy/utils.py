@@ -39,22 +39,56 @@ def factorize(x: Sequence) -> FactorizedArray:
     return FactorizedArray(levels=levels, indices=output)
 
 
-def to_logical(indices: Sequence, length: int) -> np.ndarray:
-    """Convert indices to a logical array.
+def to_logical(selection: Sequence, length: int) -> np.ndarray:
+    """Convert a selection to a logical array.
 
     Args:
-        indices (Sequence): array of integer indices.
+        selection (Sequence): list/array of integer indices.
+            Alternatively, a list/array of booleans.
         length (int): length of the output array, i.e.,
             the maximum possible index plus 1.
 
     Returns:
-        np.ndarray: an array of unsigned 8-bit integers where
-            the entries from indices are set to 1.
+        An array of unsigned 8-bit integers where selected
+        entries are marked with 1 and all others are zero.
+
+        If `selection` is an array of indices, the entries at the
+        specified indices are set to 1.
+
+        If `selection` is an array of booleans, the entries are
+        converted directly to unsigned 8 bit integers.
     """
     output = np.zeros((length,), dtype=np.uint8)
-    output[indices] = 1
-    return output
+    if isinstance(selection, np.ndarray):
+        if selection.dtype == np.bool_ and len(selection) != length:
+            raise ValueError("length of 'selection' is not equal to 'length'")
+        output[indices] = 1
+        return output
 
+    has_bool = False
+    has_number = False
+    has_other = False
+    for x in selection:
+        if isinstance(x, bool):
+            has_bool = True
+        elif isinstance(x, int):
+            has_number = True
+        else:
+            has_other = True
+
+    if has_other:
+        raise TypeError("'selection' should only contain booleans or numbers")
+    elif has_number and has_bool:
+        raise TypeError("'selection' cannot contain mixed booleans and numbers")
+
+    if has_bool:
+        if len(selection) != length:
+            raise ValueError("length of 'selection' is not equal to 'length'")
+        output[:] = selection
+    elif has_number:
+        output[i] = 1
+
+    return output
 
 def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
     """Validate and tatamize the input matrix.

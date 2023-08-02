@@ -64,8 +64,7 @@ def run_pca(
         x (MatrixTypes): Input Matrix.
         rank (int): Number of top PC's to compute.
         subset (Mapping, optional): Array specifying which features should be
-            retained (e.g., HVGs). This should be of length equal to the number of
-            rows in `x`; elements should be `true` to retain each row.
+            retained (e.g., HVGs). This may contain integer indices or booleans.
             Defaults to None, then all features are retained.
         block (Sequence, optional): Block assignment for each cell. 
             This is used to segregate cells in order to perform comparisons within 

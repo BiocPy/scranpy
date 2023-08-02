@@ -44,7 +44,7 @@ def per_cell_rna_qc_metrics(
         x (MatrixTypes): Input matrix.
         subsets (Mapping, optional): Dictionary of feature subsets.
             Each key is the name of the subset and each value is an array of
-            integer indices, specifying the rows of `x` belonging to the subset.
+            integer indices or booleans, specifying the rows of `x` belonging to the subset.
             Defaults to {}.
         num_threads (int, optional): Number of threads to use. Defaults to 1.
         verbose (bool, optional): Display logs?. Defaults to False.
