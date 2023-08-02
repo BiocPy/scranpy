@@ -22,6 +22,8 @@ void* build_snn_graph_from_nn_index(const void*, int32_t, const char*, int32_t);
 
 void* build_snn_graph_from_nn_results(const void*, const char*, int32_t);
 
+void choose_hvgs(int32_t, const double*, int32_t, uint8_t*);
+
 void* clone_tsne_status(const void*);
 
 void* clone_umap_status(const void*, double*);
@@ -178,6 +180,18 @@ PYAPI void* py_build_snn_graph_from_nn_results(const void* x, const char* weight
         *errmsg = copy_error_message("unknown C++ exception");
     }
     return output;
+}
+
+PYAPI void py_choose_hvgs(int32_t len, const double* stat, int32_t top, uint8_t* output, int32_t* errcode, char** errmsg) {
+    try {
+        choose_hvgs(len, stat, top, output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
 }
 
 PYAPI void* py_clone_tsne_status(const void* ptr, int32_t* errcode, char** errmsg) {
