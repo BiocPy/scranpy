@@ -82,7 +82,7 @@ def to_logical(selection: SelectionTypes, length: int) -> np.ndarray:
             return output
         else:
             raise TypeError(
-                "'selection`s' dtype not supported, mudt be boolean or int,"
+                "'selection`s' dtype not supported, must be 'boolean' or 'int',"
                 f"provided {selection.dtype}"
             )
 
