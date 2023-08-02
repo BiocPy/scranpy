@@ -3,8 +3,8 @@ from typing import Mapping, Optional, Sequence
 import numpy as np
 from biocframe import BiocFrame
 
-from .._logging import logger
 from .. import cpphelpers as lib
+from .._logging import logger
 from ..types import MatrixTypes
 from ..utils import factorize, to_logical, validate_and_tatamize_input
 
@@ -100,9 +100,9 @@ def suggest_rna_qc_filters(
     Args:
         metrics (BiocFrame): A BiocFrame that contains sums, detected and proportions
             for each cell. Usually the result of `per_cell_rna_qc_metrics` method.
-        block (Optional[Sequence], optional): block assignment for each cell. 
-            This is used to segregate cells in order to perform comparisons within 
-            each block. Defaults to None, indicating all cells are part of the same 
+        block (Sequence, optional): block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
             block.
         num_mads (int, optional): Number of median absolute deviations to
             filter low-quality cells. Defaults to 3.
@@ -189,21 +189,24 @@ def suggest_rna_qc_filters(
         rowNames=block_names,
     )
 
-def guess_mito_from_symbols(symbols: list[str], prefix: str = "mt-") -> list[int]:
+
+def guess_mito_from_symbols(
+    symbols: Sequence[str], prefix: str = "mt-"
+) -> Sequence[int]:
     """Guess mitochondrial genes based on the gene symbols.
 
     Args:
-        symbols (list[str]): List of symbols, one per gene.
+        symbols (Sequence[str]): List of symbols, one per gene.
         prefix (str): Case-insensitive prefix to guess mitochondrial genes.
 
     Return:
-        List of integer indices for the guessed mitochondrial genes.
+        Sequence[int]: List of integer indices for the guessed mitochondrial genes.
     """
 
     prefix = prefix.lower()
     output = []
-    for i in range(len(symbols)):
-        if symbols[i].lower().startswith(prefix):
+    for i, symb in enumerate(symbols):
+        if symb.lower().startswith(prefix):
             output.append(i)
 
     return output
