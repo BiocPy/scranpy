@@ -4,20 +4,80 @@
 [![Built Status](https://api.cirrus-ci.com/github/<USER>/scranpy.svg?branch=main)](https://cirrus-ci.com/github/<USER>/scranpy)
 [![ReadTheDocs](https://readthedocs.org/projects/scranpy/badge/?version=latest)](https://scranpy.readthedocs.io/en/stable/)
 [![Coveralls](https://img.shields.io/coveralls/github/<USER>/scranpy/main.svg)](https://coveralls.io/r/<USER>/scranpy)
-[![PyPI-Server](https://img.shields.io/pypi/v/scranpy.svg)](https://pypi.org/project/scranpy/)
 [![Conda-Forge](https://img.shields.io/conda/vn/conda-forge/scranpy.svg)](https://anaconda.org/conda-forge/scranpy)
-[![Monthly Downloads](https://pepy.tech/badge/scranpy/month)](https://pepy.tech/project/scranpy)
 [![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Twitter)](https://twitter.com/scranpy)
 -->
 
 [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/)
+[![PyPI-Server](https://img.shields.io/pypi/v/scranpy.svg)](https://pypi.org/project/scranpy/)
+[![Monthly Downloads](https://pepy.tech/badge/scranpy/month)](https://pepy.tech/project/scranpy)
+![Unit tests](https://github.com/BiocPy/scranpy/actions/workflows/pypi-test.yml/badge.svg)
 
-# scranpy
+# scran, in Python
 
-Fast multi-modal single-cell data analysis! stay tuned...
+## Overview
+
+The **scranpy** package provides Python bindings to the single-cell analysis methods in [**libscran**](https://github.com/LTLA/libscran) and related C++ libraries.
+It performs the standard steps in a typical single-cell analysis including quality control, normalization, feature selection, dimensionality reduction, clustering and marker detection.
+**scranpy** makes heavy use of the [BiocPy](https://github.com/BiocPy) data structures in its user interface,
+while it uses the [**mattress**](https://pypi.org/project/mattress) package to provide a C++ representation of the underlying matrix data.
+This package is effectively a mirror of its counterparts in Javascript ([**scran.js**](https://npmjs.com/package/scran.js)) and R ([**scran.chan**](https://github.com/LTLA/scran.chan)),
+which are based on the same underlying C++ libraries and concepts.
+
+## Quick start
+
+🚧🚧🚧 **Under construction** 🚧🚧🚧
+
+Currently, it's anything but quick... at least it runs.
+More to come soon.
+
+```python
+# TODO: streamline the loader:
+path = "pbmc4k-tenx.h5"
+import h5py as h5
+fhandle = h5.File(path)
+import scipy.sparse as sp
+mat = sp.csc_matrix((fhandle["matrix"]["data"], fhandle["matrix"]["indices"], fhandle["matrix"]["indptr"]), fhandle["matrix"]["shape"])
+features = [x.decode("ascii") for x in fhandle["matrix"]["features"]["name"]]
+
+# Performing QC.
+import scranpy.quality_control as qc
+metrics = qc.per_cell_rna_qc_metrics(mat, { "mito": qc.guess_mito_from_symbols(features) })
+thresholds = qc.suggest_rna_qc_filters(metrics)
+filter = qc.create_rna_qc_filter(metrics, thresholds)
+
+# MISSING: filtering.
+
+import mattress
+ptr = mattress.tatamize(mat)
+import scranpy.normalization as norm
+normed = norm.log_norm_counts(ptr)
+
+import scranpy.feature_selection as feat
+varstats = feat.model_gene_variances(normed)
+resids = varstats.column("residuals")
+cutoff = np.sort(resids)[-2000]
+selected = []
+for i in range(len(resids)):
+    if resids[i] >= cutoff:
+        selected.append(i)
+
+import scranpy.dimensionality_reduction as dimred
+pca = dimred.run_pca(normed, rank=20, subset=selected)
+
+# TODO: run these all at once.
+tsne = dimred.run_tsne(pca.principal_components)
+umap = dimred.run_umap(pca.principal_components)
+
+import scranpy.clustering as clust
+g = clust.build_snn_graph(pca.principal_components)
+clusters = g.community_multilevel().membership
+
+import scranpy.marker_detection as mark
+markers = mark.score_markers(normed, clusters)
+```
 
 ## Developer Notes
-
 
 Steps to setup dependencies - 
 
@@ -42,7 +102,6 @@ To rebuild the **ctypes** bindings with [the `wrap.py` helper](https://github.co
 ```shell
 wrap.py src/scranpy/lib --py src/scranpy/cpphelpers.py --cpp src/scranpy/lib/bindings.cpp
 ```
-
 
 <!-- pyscaffold-notes -->
 
