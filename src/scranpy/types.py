@@ -1,5 +1,5 @@
 from collections import namedtuple
-from typing import Any, Callable, Union
+from typing import Any, Callable, Sequence, Union
 
 import numpy as np
 import scipy.sparse as sp
@@ -12,6 +12,9 @@ __copyright__ = "jkanche"
 __license__ = "MIT"
 
 MatrixTypes = Union[TatamiNumericPointer, np.ndarray, sp.spmatrix]
+SelectionTypes = Union[Sequence, np.ndarray, range, slice]
+
+
 FactorizedArray = namedtuple("FactorizedArray", ["levels", "indices"])
 FactorizedArray.__doc__ = """Named tuple of a factorized array.
 

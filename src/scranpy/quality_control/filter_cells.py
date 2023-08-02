@@ -29,10 +29,7 @@ def filter_cells(
         TatamiNumericPointer: If `x` is a TatamiNumericPointer,
         a TatamiNumericPointer is returned containing the filtered matrix.
     """
-    if filter.dtype != np.bool_:
-        filter = to_logical(filter, x.ncol())
-    else:
-        filter = filter.astype(np.uint8)
+    filter = to_logical(filter, x.ncol())
 
     if len(filter) != x.ncol():
         raise ValueError("length of 'filter' should equal number of columns in 'x'")

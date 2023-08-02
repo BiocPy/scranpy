@@ -3,7 +3,14 @@ from typing import Sequence
 import numpy as np
 from mattress import TatamiNumericPointer, tatamize
 
-from .types import FactorizedArray, MatrixTypes, NDOutputArrays, validate_matrix_types
+from .types import (
+    FactorizedArray,
+    MatrixTypes,
+    NDOutputArrays,
+    SelectionTypes,
+    is_list_of_type,
+    validate_matrix_types,
+)
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -39,20 +46,59 @@ def factorize(x: Sequence) -> FactorizedArray:
     return FactorizedArray(levels=levels, indices=output)
 
 
-def to_logical(indices: Sequence, length: int) -> np.ndarray:
-    """Convert indices to a logical array.
+def to_logical(selection: SelectionTypes, length: int) -> np.ndarray:
+    """Convert a selection to a logical array.
 
     Args:
-        indices (Sequence): array of integer indices.
+        selection (SelectionTypes): list/array of integer indices.
+            a list/array of booleans, a range or a slice object.
         length (int): length of the output array, i.e.,
             the maximum possible index plus 1.
 
     Returns:
-        np.ndarray: an array of unsigned 8-bit integers where
-            the entries from indices are set to 1.
+        np.ndarray: An array of unsigned 8-bit integers where selected
+        entries are marked with 1 and all others are zero.
+
+        If `selection` is an array of indices, the entries at the
+        specified indices are set to 1.
+
+        If `selection` is an array of booleans, the entries are
+        converted directly to unsigned 8 bit integers.
     """
     output = np.zeros((length,), dtype=np.uint8)
-    output[indices] = 1
+
+    if isinstance(selection, range) or isinstance(selection, slice):
+        output[selection] = 1
+        return output
+
+    if isinstance(selection, np.ndarray):
+        if selection.dtype == np.bool_:
+            if len(selection) != length:
+                raise ValueError("length of 'selection' is not equal to 'length'.")
+            output[selection] = 1
+            return output
+        elif selection.dtype == np.int_:
+            output[selection] = 1
+            return output
+        else:
+            raise TypeError(
+                "'selection`s' dtype not supported, must be 'boolean' or 'int',"
+                f"provided {selection.dtype}"
+            )
+
+    has_bool = is_list_of_type(selection, bool)
+    has_number = is_list_of_type(selection, int)
+
+    if (has_number and has_bool) or (not has_bool and not has_number):
+        raise TypeError("'selection' should only contain booleans or numbers")
+
+    if has_bool:
+        if len(selection) != length:
+            raise ValueError("length of 'selection' is not equal to 'length'.")
+        output[:] = selection
+    elif has_number:
+        output[selection] = 1
+
     return output
 
 
