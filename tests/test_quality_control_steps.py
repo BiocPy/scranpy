@@ -1,5 +1,9 @@
 import numpy as np
-from scranpy.quality_control import per_cell_rna_qc_metrics, suggest_rna_qc_filters
+from scranpy.quality_control import (
+    guess_mito_from_symbols,
+    per_cell_rna_qc_metrics,
+    suggest_rna_qc_filters,
+)
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -31,6 +35,11 @@ def test_quality_control_numpy(mock_data):
         result.column("subset_proportions").column(0),
         resultp.column("subset_proportions").column(0),
     )
+
+
+def test_guess_mito_from_symbols():
+    out = guess_mito_from_symbols(["asdasd", "mt-asdas", "sadasd", "MT-asdasd"])
+    assert out == [1, 3]
 
 
 def test_suggest_rna_qc_filters(mock_data):
