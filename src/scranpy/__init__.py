@@ -14,3 +14,11 @@ except PackageNotFoundError:  # pragma: no cover
     __version__ = "unknown"
 finally:
     del version, PackageNotFoundError
+
+from . import clustering
+from . import dimensionality_reduction
+from . import feature_selection
+from . import marker_detection
+from . import nearest_neighbors
+from . import normalization
+from . import quality_control
