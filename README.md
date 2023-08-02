@@ -46,12 +46,12 @@ metrics = qc.per_cell_rna_qc_metrics(mat, { "mito": qc.guess_mito_from_symbols(f
 thresholds = qc.suggest_rna_qc_filters(metrics)
 filter = qc.create_rna_qc_filter(metrics, thresholds)
 
-# MISSING: filtering.
-
 import mattress
 ptr = mattress.tatamize(mat)
+filtered = qc.filter_cells(ptr, filter)
+
 import scranpy.normalization as norm
-normed = norm.log_norm_counts(ptr)
+normed = norm.log_norm_counts(filtered)
 
 import scranpy.feature_selection as feat
 varstats = feat.model_gene_variances(normed)
