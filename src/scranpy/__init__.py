@@ -22,3 +22,4 @@ from . import marker_detection
 from . import nearest_neighbors
 from . import normalization
 from . import quality_control
+from .analyze import analyze
