@@ -72,9 +72,9 @@ lib.py_build_snn_graph_from_nn_results.argtypes = [
 lib.py_choose_hvgs.restype = None
 lib.py_choose_hvgs.argtypes = [
     ct.c_int32,
-    ct.POINTER(ct.c_double),
+    ct.c_void_p,
     ct.c_int32,
-    ct.POINTER(ct.c_uint8),
+    ct.c_void_p,
     ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
@@ -106,7 +106,7 @@ lib.py_create_rna_qc_filter.argtypes = [
     ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
-    ct.POINTER(ct.c_uint8),
+    ct.c_void_p,
     ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
@@ -583,7 +583,7 @@ def build_snn_graph_from_nn_results(x, weight_scheme, num_threads):
     return catch_errors(lib.py_build_snn_graph_from_nn_results)(x, weight_scheme, num_threads)
 
 def choose_hvgs(len, stat, top, output):
-    return catch_errors(lib.py_choose_hvgs)(len, stat, top, output)
+    return catch_errors(lib.py_choose_hvgs)(len, np2ct(stat, np.double), top, np2ct(output, np.uint8))
 
 def clone_tsne_status(ptr):
     return catch_errors(lib.py_clone_tsne_status)(ptr)
@@ -592,7 +592,7 @@ def clone_umap_status(ptr, cloned):
     return catch_errors(lib.py_clone_umap_status)(ptr, np2ct(cloned, np.double))
 
 def create_rna_qc_filter(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output):
-    return catch_errors(lib.py_create_rna_qc_filter)(num_cells, num_subsets, np2ct(sums, np.double), np2ct(detected, np.int32), subset_proportions, num_blocks, block, np2ct(sums_thresholds, np.double), np2ct(detected_thresholds, np.double), subset_proportions_thresholds, output)
+    return catch_errors(lib.py_create_rna_qc_filter)(num_cells, num_subsets, np2ct(sums, np.double), np2ct(detected, np.int32), subset_proportions, num_blocks, block, np2ct(sums_thresholds, np.double), np2ct(detected_thresholds, np.double), subset_proportions_thresholds, np2ct(output, np.uint8))
 
 def fetch_multibatch_pca_coordinates(x):
     return catch_errors(lib.py_fetch_multibatch_pca_coordinates)(x)
@@ -745,7 +745,7 @@ def serialize_neighbor_results(ptr0, outdex, outdist):
     return catch_errors(lib.py_serialize_neighbor_results)(ptr0, np2ct(outdex, np.int32), np2ct(outdist, np.double))
 
 def suggest_rna_qc_filters(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_out, detected_out, subset_proportions_out, nmads):
-    return catch_errors(lib.py_suggest_rna_qc_filters)(num_cells, num_subsets, np2ct(sums, np.double), np2ct(detected, np.int32), subset_proportions, num_blocks, np2ct(block, np.int32), np2ct(sums_out, np.double), np2ct(detected_out, np.double), subset_proportions_out, nmads)
+    return catch_errors(lib.py_suggest_rna_qc_filters)(num_cells, num_subsets, np2ct(sums, np.double), np2ct(detected, np.int32), subset_proportions, num_blocks, block, np2ct(sums_out, np.double), np2ct(detected_out, np.double), subset_proportions_out, nmads)
 
 def unserialize_neighbor_results(nobs, k, indices, distances):
     return catch_errors(lib.py_unserialize_neighbor_results)(nobs, k, np2ct(indices, np.int32), np2ct(distances, np.double))

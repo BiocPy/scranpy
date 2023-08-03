@@ -86,11 +86,11 @@ def per_cell_rna_qc_metrics(
     lib.per_cell_rna_qc_metrics(
         x.ptr,
         num_subsets,
-        subset_in,
+        subset_in.ctypes.data,
         sums,
         detected,
-        subset_out,
-        num_threads,
+        subset_out.ctypes.data,
+        num_threads
     )
 
     return BiocFrame(
@@ -173,12 +173,12 @@ def suggest_rna_qc_filters(
         num_subsets,
         sums,
         detected,
-        subset_in_ptrs,
+        subset_in_ptrs.ctypes.data,
         num_blocks,
         block_offset,
         sums_out,
         detected_out,
-        subset_out_ptrs,
+        subset_out_ptrs.ctypes.data,
         num_mads,
     )
 
@@ -251,12 +251,12 @@ def create_rna_qc_filter(
         num_subsets,
         tmp_sums_in,
         tmp_detected_in,
-        subset_in_ptr,
+        subset_in_ptr.ctypes.data,
         num_blocks,
         block_offset,
         tmp_sums_thresh,
         tmp_detected_thresh,
-        filter_in_ptr,
+        filter_in_ptr.ctypes.data,
         output
     )
 

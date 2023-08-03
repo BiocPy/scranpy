@@ -28,7 +28,7 @@ void suggest_rna_qc_filters(
     int32_t* /** numpy */ detected, 
     uintptr_t* /** void_p */ subset_proportions, 
     int32_t num_blocks,
-    const int32_t* /** numpy */ block,
+    const int32_t* /** void_p */ block,
     double* /** numpy */ sums_out,
     double* /** numpy */ detected_out,
     uintptr_t* /** void_p */ subset_proportions_out,
@@ -73,7 +73,7 @@ void create_rna_qc_filter(
     const double* /** numpy */ sums_thresholds,
     const double* /** numpy */ detected_thresholds,
     const uintptr_t* /** void_p */ subset_proportions_thresholds,
-    uint8_t* output)
+    uint8_t* output /** numpy */)
 {
     scran::SuggestRnaQcFilters::Thresholds res;
     res.sums.insert(res.sums.end(), sums_thresholds, sums_thresholds + num_blocks);
