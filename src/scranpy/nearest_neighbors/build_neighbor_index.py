@@ -64,5 +64,5 @@ def build_neighbor_index(x: np.ndarray, approximate: bool = True) -> NeighborInd
     Returns:
         NeighborIndex: Nearest neighbor search index.
     """
-    ptr = lib.build_neighbor_index(x.shape[0], x.shape[1], x.ctypes.data, approximate)
+    ptr = lib.build_neighbor_index(x.shape[0], x.shape[1], x, approximate)
     return NeighborIndex(ptr)

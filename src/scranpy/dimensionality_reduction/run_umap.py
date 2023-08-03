@@ -84,7 +84,7 @@ class UmapStatus:
             UmapStatus: Copy of the current state.
         """
         cloned = copy.deepcopy(self.coordinates)
-        return UmapStatus(lib.clone_umap_status(self.__ptr, cloned.ctypes.data), cloned)
+        return UmapStatus(lib.clone_umap_status(self.__ptr, cloned), cloned)
 
     def __deepcopy__(self, memo):
         """Same as clone."""
@@ -153,9 +153,7 @@ def initialize_umap(
         input = find_nearest_neighbors(input, k=num_neighbors, num_threads=num_threads)
 
     coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
-    ptr = lib.initialize_umap(
-        input.ptr, num_epochs, min_dist, coords.ctypes.data, num_threads
-    )
+    ptr = lib.initialize_umap(input.ptr, num_epochs, min_dist, coords, num_threads)
 
     return UmapStatus(ptr, coords)
 

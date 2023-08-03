@@ -5,7 +5,7 @@
 #include <cstdint>
 
 //[[export]]
-void* filter_cells(const void* mat0, const uint8_t* filter, uint8_t discard) {
+void* filter_cells(const void* mat0, const uint8_t* filter /** numpy */, uint8_t discard) {
     scran::FilterCells runner;
     if (discard) {
         runner.set_discard();

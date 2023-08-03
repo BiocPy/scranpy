@@ -87,7 +87,7 @@ class TsneStatus:
         Args:
             iteration (int): Number of iteratons to run.
         """
-        lib.run_tsne(self.__ptr, iteration, self.coordinates.ctypes.data)
+        lib.run_tsne(self.__ptr, iteration, self.coordinates)
 
     def extract(self) -> TsneEmbedding:
         """Access the first two dimensions.
@@ -139,7 +139,7 @@ def initialize_tsne(
 
     ptr = lib.initialize_tsne(input.ptr, perplexity, num_threads)
     coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
-    lib.randomize_tsne_start(coords.shape[1], coords.ctypes.data, seed)
+    lib.randomize_tsne_start(coords.shape[1], coords, seed)
 
     return TsneStatus(ptr, coords)
 

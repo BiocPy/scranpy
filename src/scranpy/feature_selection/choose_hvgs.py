@@ -24,8 +24,6 @@ def choose_hvgs(stat: np.ndarray, number: int = 2500) -> np.ndarray:
     output = np.zeros(len(stat), dtype=np.uint8)
     stat_internal = stat.astype(np.float64, copy=False)
 
-    lib.choose_hvgs(
-        len(stat_internal), stat_internal.ctypes.data, number, output.ctypes.data
-    )
+    lib.choose_hvgs(len(stat_internal), stat_internal, number, output)
 
     return output.astype(np.bool_, copy=False)

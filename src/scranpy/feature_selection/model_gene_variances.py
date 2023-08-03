@@ -53,10 +53,10 @@ def model_gene_variances(
     if block is None:
         lib.model_gene_variances(
             x.ptr,
-            means.ctypes.data,
-            variances.ctypes.data,
-            fitted.ctypes.data,
-            residuals.ctypes.data,
+            means,
+            variances,
+            fitted,
+            residuals,
             span,
             num_threads,
         )
@@ -108,10 +108,10 @@ def model_gene_variances(
 
         lib.model_gene_variances_blocked(
             x.ptr,
-            means.ctypes.data,
-            variances.ctypes.data,
-            fitted.ctypes.data,
-            residuals.ctypes.data,
+            means,
+            variances,
+            fitted,
+            residuals,
             nlevels,
             fac.indices.ctypes.data,
             all_means_ptr.ctypes.data,

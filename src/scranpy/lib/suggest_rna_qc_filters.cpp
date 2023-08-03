@@ -6,9 +6,9 @@
 static auto create_rna_buffers(
     int num_cells,
     int num_subsets, 
-    const double* sums, 
-    const int32_t* detected, 
-    const uintptr_t* subset_proportions)
+    const double* /** numpy */ sums, 
+    const int32_t* /** numpy */ detected, 
+    const uintptr_t* /** void_p */ subset_proportions)
 {
     scran::PerCellRnaQcMetrics::Buffers<double, int32_t> buffer;
     buffer.sums = const_cast<double*>(sums);
@@ -24,14 +24,14 @@ static auto create_rna_buffers(
 void suggest_rna_qc_filters(
     int32_t num_cells,
     int32_t num_subsets, 
-    double* sums, 
-    int32_t* detected, 
-    uintptr_t* subset_proportions, 
+    double* /** numpy */ sums, 
+    int32_t* /** numpy */ detected, 
+    uintptr_t* /** void_p */ subset_proportions, 
     int32_t num_blocks,
-    /** as_void_p */ const int32_t* block,
-    double* sums_out,
-    double* detected_out,
-    uintptr_t* subset_proportions_out,
+    const int32_t* /** numpy */ block,
+    double* /** numpy */ sums_out,
+    double* /** numpy */ detected_out,
+    uintptr_t* /** void_p */ subset_proportions_out,
     double nmads)
 {
     scran::SuggestRnaQcFilters runner;
@@ -65,14 +65,14 @@ void suggest_rna_qc_filters(
 void create_rna_qc_filter(
     int num_cells,
     int num_subsets, 
-    const double* sums, 
-    const int32_t* detected, 
-    const uintptr_t* subset_proportions, 
+    const double* /** numpy */ sums, 
+    const int32_t* /** numpy */ detected, 
+    const uintptr_t* /** void_p */ subset_proportions, 
     int num_blocks,
-    const int32_t* block,
-    const double* sums_thresholds,
-    const double* detected_thresholds,
-    const uintptr_t* subset_proportions_thresholds,
+    const int32_t* /** void_p */ block,
+    const double* /** numpy */ sums_thresholds,
+    const double* /** numpy */ detected_thresholds,
+    const uintptr_t* /** void_p */ subset_proportions_thresholds,
     uint8_t* output)
 {
     scran::SuggestRnaQcFilters::Thresholds res;

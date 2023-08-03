@@ -32,15 +32,11 @@ def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PCAResult:
     """
     actual_rank = lib.fetch_simple_pca_num_dims(pptr)
 
-    pc_pointer = ct.cast(
-        lib.fetch_simple_pca_coordinates(pptr), ct.POINTER(ct.c_double)
-    )
+    pc_pointer = lib.fetch_simple_pca_coordinates(pptr)
     pc_array = deepcopy(np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc)))
     principal_components = pc_array
 
-    var_pointer = ct.cast(
-        lib.fetch_simple_pca_variance_explained(pptr), ct.POINTER(ct.c_double)
-    )
+    var_pointer = lib.fetch_simple_pca_variance_explained(pptr)
     var_array = deepcopy(np.ctypeslib.as_array(var_pointer, shape=(actual_rank,)))
     total = lib.fetch_simple_pca_total_variance(pptr)
     variance_explained = var_array / total
@@ -134,12 +130,11 @@ def run_pca(
             )
 
         block_info = factorize(block)
-        block_offset = block_info.indices.ctypes.data
 
         if block_method == "regress":
             pptr = lib.run_residual_pca(
                 x.ptr,
-                block_offset,
+                block_info.indices,
                 block_weights,
                 rank,
                 use_subset,
@@ -156,7 +151,7 @@ def run_pca(
         elif block_method == "project" or block_method == "none":
             pptr = lib.run_multibatch_pca(
                 x.ptr,
-                block_offset,
+                block_info.indices,
                 (block_method == "project"),
                 block_weights,
                 rank,

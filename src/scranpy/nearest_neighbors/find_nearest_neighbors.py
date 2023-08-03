@@ -73,9 +73,7 @@ class NeighborResults:
         k = lib.fetch_neighbor_results_k(self.__ptr)
         out_d = np.ndarray((k,), dtype=np.float64)
         out_i = np.ndarray((k,), dtype=np.int32)
-        lib.fetch_neighbor_results_single(
-            self.__ptr, i, out_i.ctypes.data, out_d.ctypes.data
-        )
+        lib.fetch_neighbor_results_single(self.__ptr, i, out_i, out_d)
         return NNResult(out_i, out_d)
 
     def serialize(self) -> NNResult:
@@ -88,7 +86,7 @@ class NeighborResults:
         k = lib.fetch_neighbor_results_k(self.__ptr)
         out_i = np.ndarray((k, nobs), dtype=np.int32)
         out_d = np.ndarray((k, nobs), dtype=np.float64)
-        lib.serialize_neighbor_results(self.__ptr, out_i.ctypes.data, out_d.ctypes.data)
+        lib.serialize_neighbor_results(self.__ptr, out_i, out_d)
         return NNResult(out_i, out_d)
 
     @classmethod
@@ -104,7 +102,7 @@ class NeighborResults:
         idx = content.index
         dist = content.distance
         ptr = lib.unserialize_neighbor_results(
-            idx.shape[0], idx.shape[1], idx.ctypes.data, dist.ctypes.data
+            idx.shape[0], idx.shape[1], idx, dist
         )
         return cls(ptr)
 
