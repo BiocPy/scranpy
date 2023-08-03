@@ -130,7 +130,7 @@ void score_markers(const void*, int32_t, const int32_t*, int32_t, const int32_t*
 
 void serialize_neighbor_results(const void*, int32_t*, double*);
 
-void suggest_rna_qc_filters(int32_t, int32_t, double*, int32_t*, uintptr_t*, int32_t, const int32_t*, double*, double*, uintptr_t*, double);
+void suggest_rna_qc_filters(int32_t, int32_t, double*, int32_t*, uintptr_t*, int32_t, /** as_void_p */ const int32_t*, double*, double*, uintptr_t*, double);
 
 void* unserialize_neighbor_results(int32_t, int32_t, int32_t*, double*);
 
@@ -900,7 +900,7 @@ PYAPI void py_serialize_neighbor_results(const void* ptr0, int32_t* outdex, doub
     }
 }
 
-PYAPI void py_suggest_rna_qc_filters(int32_t num_cells, int32_t num_subsets, double* sums, int32_t* detected, uintptr_t* subset_proportions, int32_t num_blocks, const int32_t* block, double* sums_out, double* detected_out, uintptr_t* subset_proportions_out, double nmads, int32_t* errcode, char** errmsg) {
+PYAPI void py_suggest_rna_qc_filters(int32_t num_cells, int32_t num_subsets, double* sums, int32_t* detected, uintptr_t* subset_proportions, int32_t num_blocks, /** as_void_p */ const int32_t* block, double* sums_out, double* detected_out, uintptr_t* subset_proportions_out, double nmads, int32_t* errcode, char** errmsg) {
     try {
         suggest_rna_qc_filters(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_out, detected_out, subset_proportions_out, nmads);
     } catch(std::exception& e) {

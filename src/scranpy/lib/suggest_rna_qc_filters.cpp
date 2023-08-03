@@ -28,7 +28,7 @@ void suggest_rna_qc_filters(
     int32_t* detected, 
     uintptr_t* subset_proportions, 
     int32_t num_blocks,
-    const int32_t* block,
+    /** as_void_p */ const int32_t* block,
     double* sums_out,
     double* detected_out,
     uintptr_t* subset_proportions_out,

@@ -37,5 +37,5 @@ def filter_cells(
     if not isinstance(x, TatamiNumericPointer):
         raise ValueError("coming soon when DelayedArray support is implemented")
 
-    outptr = lib.filter_cells(x.ptr, filter.ctypes.data, discard)
+    outptr = lib.filter_cells(x.ptr, filter, discard)
     return TatamiNumericPointer(ptr=outptr, obj=x.obj)
