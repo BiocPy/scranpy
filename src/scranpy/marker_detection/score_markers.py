@@ -127,7 +127,7 @@ def score_markers(
     lib.score_markers(
         x.ptr,
         num_groups,
-        grouping.indices.ctypes.data,
+        grouping.indices,
         num_blocks,
         block_offset,
         compute_auc,

@@ -14,7 +14,7 @@ void* initialize_tsne(const void* neighbors, double perplexity, int32_t nthreads
 }
 
 //[[export]]
-void randomize_tsne_start(size_t n, double* Y, int32_t seed) {
+void randomize_tsne_start(size_t n, double* Y /** numpy */, int32_t seed) {
     qdtsne::initialize_random(Y, n, seed);
     return;
 }
@@ -45,7 +45,7 @@ int32_t perplexity_to_k(double perplexity) {
 }
 
 //[[export]]
-void run_tsne(void* status, int32_t maxiter, double* Y) {
+void run_tsne(void* status, int32_t maxiter, double* Y /** numpy */) {
     reinterpret_cast<TsneStatus*>(status)->run(Y, maxiter);
     return;
 }

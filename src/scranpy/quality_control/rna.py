@@ -87,10 +87,10 @@ def per_cell_rna_qc_metrics(
         x.ptr,
         num_subsets,
         subset_in.ctypes.data,
-        sums.ctypes.data,
-        detected.ctypes.data,
+        sums,
+        detected,
         subset_out.ctypes.data,
-        num_threads,
+        num_threads
     )
 
     return BiocFrame(
@@ -171,13 +171,13 @@ def suggest_rna_qc_filters(
     lib.suggest_rna_qc_filters(
         metrics.shape[0],
         num_subsets,
-        sums.ctypes.data,
-        detected.ctypes.data,
+        sums,
+        detected,
         subset_in_ptrs.ctypes.data,
         num_blocks,
         block_offset,
-        sums_out.ctypes.data,
-        detected_out.ctypes.data,
+        sums_out,
+        detected_out,
         subset_out_ptrs.ctypes.data,
         num_mads,
     )
@@ -240,19 +240,24 @@ def create_rna_qc_filter(
         block_offset = block_info.indices.ctypes.data
         num_blocks = len(block_info.levels)
 
+    tmp_sums_in = metrics.column("sums").astype(np.float64, copy=False)
+    tmp_detected_in = metrics.column("detected").astype(np.int32, copy=False)
+    tmp_sums_thresh = thresholds.column("sums").astype(np.float64, copy=False)
+    tmp_detected_thresh = thresholds.column("detected").astype(np.float64, copy=False)
     output = np.zeros(metrics.shape[0], dtype=np.uint8)
+
     lib.create_rna_qc_filter(
         metrics.shape[0],
         num_subsets,
-        metrics.column("sums").astype(np.float64, copy=False).ctypes.data,
-        metrics.column("detected").astype(np.int32, copy=False).ctypes.data,
+        tmp_sums_in,
+        tmp_detected_in,
         subset_in_ptr.ctypes.data,
         num_blocks,
         block_offset,
-        thresholds.column("sums").astype(np.float64, copy=False).ctypes.data,
-        thresholds.column("detected").astype(np.float64, copy=False).ctypes.data,
+        tmp_sums_thresh,
+        tmp_detected_thresh,
         filter_in_ptr.ctypes.data,
-        output.ctypes.data,
+        output
     )
 
     return output.astype(np.bool_, copy=False)

@@ -4,7 +4,7 @@
 #include <cstdint>
 
 //[[export]]
-void* build_neighbor_index(int32_t ndim, int32_t nobs, const double* ptr, uint8_t approximate) {
+void* build_neighbor_index(int32_t ndim, int32_t nobs, const double* ptr /** numpy */, uint8_t approximate) {
     knncolle::Base<>* output;
     if (approximate) {
         output = new knncolle::AnnoyEuclidean<>(ndim, nobs, ptr);
@@ -51,7 +51,7 @@ int32_t fetch_neighbor_results_k(const void* ptr0) {
 }
 
 //[[export]]
-void fetch_neighbor_results_single(const void* ptr0, int32_t i, int32_t* outdex, double* outdist) {
+void fetch_neighbor_results_single(const void* ptr0, int32_t i, int32_t* outdex /** numpy */, double* outdist /** numpy */) {
     auto ptr = reinterpret_cast<const knncolle::NeighborList<>*>(ptr0);
     const auto& chosen = (*ptr)[i];
     for (const auto& p : chosen) {
@@ -67,7 +67,7 @@ void free_neighbor_results(void* ptr) {
 }
 
 //[[export]]
-void serialize_neighbor_results(const void* ptr0, int32_t* outdex, double* outdist) {
+void serialize_neighbor_results(const void* ptr0, int32_t* outdex /** numpy */, double* outdist /** numpy */) {
     auto ptr = reinterpret_cast<const knncolle::NeighborList<>*>(ptr0);
     for (int32_t o = 0, end = ptr->size(); o < end; ++o) {
         const auto& chosen = (*ptr)[o];
@@ -79,7 +79,7 @@ void serialize_neighbor_results(const void* ptr0, int32_t* outdex, double* outdi
 }
 
 //[[export]]
-void* unserialize_neighbor_results(int32_t nobs, int32_t k, int32_t* indices, double* distances) {
+void* unserialize_neighbor_results(int32_t nobs, int32_t k, int32_t* indices /** numpy */, double* distances /** numpy */) {
     knncolle::NeighborList<> output(nobs);
     for (int32_t o = 0; o < nobs; ++o) {
         auto& chosen = output[o];

@@ -6,7 +6,7 @@
 typedef umappp::Umap<>::Status UmapStatus;
 
 //[[export]]
-void* initialize_umap(const void* neighbors, int32_t num_epochs, double min_dist, double* Y, int32_t nthreads) {
+void* initialize_umap(const void* neighbors, int32_t num_epochs, double min_dist, double* Y /** numpy */, int32_t nthreads) {
     umappp::Umap factory;
     factory.set_min_dist(min_dist).set_num_epochs(num_epochs).set_num_threads(nthreads);
     return reinterpret_cast<void*>(new UmapStatus(factory.initialize(*reinterpret_cast<const knncolle::NeighborList<>*>(neighbors), 2, Y)));
@@ -33,7 +33,7 @@ void free_umap_status(void* ptr) {
 }
 
 //[[export]]
-void* clone_umap_status(const void* ptr, double* cloned) {
+void* clone_umap_status(const void* ptr, double* cloned /** numpy */) {
     auto out = new UmapStatus(*reinterpret_cast<const UmapStatus*>(ptr));
     out->set_embedding(cloned, false);
     return reinterpret_cast<void*>(out);

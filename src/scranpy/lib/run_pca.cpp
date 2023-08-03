@@ -43,7 +43,7 @@ void free_simple_pca(void* x) {
 }
 
 //[[export]]
-void* run_simple_pca(const void* mat, int32_t number, uint8_t use_subset, const uint8_t* subset, uint8_t scale, int32_t num_threads) {
+void* run_simple_pca(const void* mat, int32_t number, uint8_t use_subset, const uint8_t* subset /** void_p */, uint8_t scale, int32_t num_threads) {
     const auto& ptr = reinterpret_cast<const Mattress*>(mat)->ptr;
     auto NR = ptr->nrow();
     auto NC = ptr->ncol();
@@ -86,11 +86,11 @@ void free_residual_pca(void* x) {
 //[[export]]
 void* run_residual_pca(
     const void* mat, 
-    const int32_t* block, 
+    const int32_t* /** numpy */ block, 
     uint8_t equal_weights, 
     int32_t number, 
     uint8_t use_subset, 
-    const uint8_t* subset, 
+    const uint8_t* /** void_p */ subset, 
     uint8_t scale, 
     int32_t num_threads) 
 {
@@ -137,12 +137,12 @@ void free_multibatch_pca(void* x) {
 //[[export]]
 void* run_multibatch_pca(
     const void* mat, 
-    const int32_t* block, 
+    const int32_t* /** numpy */ block, 
     uint8_t use_residuals, 
     uint8_t equal_weights, 
     int32_t number, 
     uint8_t use_subset, 
-    const uint8_t* subset, 
+    const uint8_t* /** void_p */ subset, 
     uint8_t scale, 
     int32_t num_threads) 
 {

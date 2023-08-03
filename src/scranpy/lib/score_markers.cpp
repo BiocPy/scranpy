@@ -8,17 +8,17 @@
 void score_markers(
     const void* mat, 
     int32_t num_clusters, 
-    const int32_t* clusters, 
+    const int32_t* /** numpy */ clusters, 
     int32_t num_blocks,
-    const int32_t* block,
+    const int32_t* /** void_p */ block,
     uint8_t do_auc,
     double threshold,
-    uintptr_t* raw_means,
-    uintptr_t* raw_detected,
-    uintptr_t* raw_cohen,
-    uintptr_t* raw_auc,
-    uintptr_t* raw_lfc,
-    uintptr_t* raw_delta_detected,
+    uintptr_t* /** void_p */ raw_means,
+    uintptr_t* /** void_p */ raw_detected,
+    uintptr_t* /** void_p */ raw_cohen,
+    uintptr_t* /** void_p */ raw_auc,
+    uintptr_t* /** void_p */ raw_lfc,
+    uintptr_t* /** void_p */ raw_delta_detected,
     int32_t num_threads)
 {
     std::vector<double*> means;

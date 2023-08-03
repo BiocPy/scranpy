@@ -4,7 +4,7 @@
 #include <cstdint>
 
 //[[export]]
-void choose_hvgs(int32_t len, const double* stat, int32_t top, uint8_t* output) {
+void choose_hvgs(int32_t len, const double* stat /** numpy */, int32_t top, uint8_t* /** numpy */ output) {
     scran::ChooseHvgs runner;
     runner.set_top(top);
     runner.run(len, stat, output);

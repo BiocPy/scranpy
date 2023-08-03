@@ -79,9 +79,9 @@ def build_snn_graph(
 
     try:
         nedges = lib.fetch_snn_graph_edges(built)
-        idx_pointer = ct.cast(lib.fetch_snn_graph_indices(built), ct.POINTER(ct.c_int))
+        idx_pointer = lib.fetch_snn_graph_indices(built)
         idx_array = np.ctypeslib.as_array(idx_pointer, shape=(nedges * 2,))
-        w_pointer = ct.cast(lib.fetch_snn_graph_weights(built), ct.POINTER(ct.c_double))
+        w_pointer = lib.fetch_snn_graph_weights(built)
         w_array = np.ctypeslib.as_array(w_pointer, shape=(nedges,))
 
         edge_list = []
