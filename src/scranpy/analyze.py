@@ -119,9 +119,10 @@ def __analyze(
     tsne_p.start()
     umap_p.start()
 
-    graph = clust.build_snn_graph(nn_dict[snn_nn], **snn_build_args)
+    remaining_threads = max(1, num_threads - 2)
+    graph = clust.build_snn_graph(nn_dict[snn_nn], **snn_build_args, num_threads=remaining_threads)
     clusters = graph.community_multilevel(resolution=snn_resolution).membership
-    markers = mark.score_markers(normed, clusters, num_threads=max(1, num_threads - 2))
+    markers = mark.score_markers(normed, clusters, num_threads=remaining_threads)
 
     res1 = Q.get()
     res2 = Q.get()
