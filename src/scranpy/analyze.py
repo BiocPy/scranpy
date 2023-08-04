@@ -12,7 +12,7 @@ from . import feature_selection as feat
 from . import marker_detection as mark
 from . import normalization as norm
 from . import quality_control as qc
-from .types import MatrixTypes
+from .types import is_matrix_expected_type
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
@@ -41,8 +41,7 @@ def umap_mp(q, *args, **kwargs):
     q.put({"x": res.x, "y": res.y, "type": "umap"})
 
 
-@singledispatch
-def analyze(
+def __analyze(
     matrix: Any,
     features: Sequence[str],
     qc_mito_subset: Optional[str] = None,
@@ -58,106 +57,6 @@ def analyze(
     snn_resolution: float = 1,
     num_threads: int = 1,
 ) -> Mapping:
-    """Run all steps of the scran workflow for single-cell RNA-seq datasets.
-
-    - Remove low-quality cells
-    - Normalization and log-transformation
-    - Model mean-variance trend across genes
-    - PCA on highly variable genes
-    - graph-based clustering
-    - dimensionality reductions, t-SNE & UMAP
-    - Marker detection for each cluster
-
-    Args:
-        matrix (MatrixTypes): Count matrix.
-        features (Sequence[str]): Features information for the rows of the matrix.
-        qc_mito_subset (str, optional): Prefix to filter
-            mitochindrial genes. Defaults to None.
-        qc_num_mads (int, optional): Number of median absolute deviations to
-            filter low-quality cells. Defaults to 3.
-        qc_custom_thresholds (BiocFrame, optional): Suggested (or modified) filters from
-            `suggest_rna_qc_filters` function. Defaults to None.
-        feat_span (float, optional): Span to use for the LOWESS trend fitting.
-            Defaults to 0.3.
-        feat_num_hvgs (int, optional): Number of HVGs to pick. Defaults to 4000.
-        pca_rank (int, optional): Number of pc to compute. Defaults to 20.
-        pca_args (Mapping, optional): Arguments to `run_pca` function. Defaults to {}.
-        tsne_args (Mapping, optional): Arguments to `run_tsne` function. Defaults to {}.
-        umap_args (Mapping, optional): Arguments to `run_umap` function. Defaults to {}.
-        snn_build_args (Mapping, optional): Arguments to `build_snn_graph` function.
-            Defaults to {}.
-        snn_resolution (float, optional): Resolution to use for identifying cluters
-            This arguments is forwarded to igraph's `community_multilevel` function.
-            Defaults to 1.
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
-
-    Raises:
-        ValueError: when arguments don't meet expectations.
-
-    Returns:
-        Mapping: Results from various steps.
-    """
-    raise NotImplementedError(
-        f"analyze is not supported for objects of class: {type(matrix)}"
-    )
-
-
-@analyze.register
-def analyze_matrix(
-    matrix: MatrixTypes,
-    features: Sequence[str],
-    qc_mito_subset: Optional[str] = None,
-    qc_num_mads: int = 3,
-    qc_custom_thresholds: BiocFrame = None,
-    feat_span: float = 0.3,
-    feat_num_hvgs: int = 4000,
-    pca_rank: int = 20,
-    pca_args: Mapping = {},
-    tsne_args: Mapping = {},
-    umap_args: Mapping = {},
-    snn_build_args: Mapping = {},
-    snn_resolution: float = 1,
-    num_threads: int = 1,
-) -> Mapping:
-    """Run all steps of the scran workflow for single-cell RNA-seq datasets.
-
-    - Remove low-quality cells
-    - Normalization and log-transformation
-    - Model mean-variance trend across genes
-    - PCA on highly variable genes
-    - graph-based clustering
-    - dimensionality reductions, t-SNE & UMAP
-    - Marker detection for each cluster
-
-    Args:
-        matrix (MatrixTypes): Count matrix.
-        features (Sequence[str]): Features information for the rows of the matrix.
-        qc_mito_subset (str, optional): Prefix to filter
-            mitochindrial genes. Defaults to None.
-        qc_num_mads (int, optional): Number of median absolute deviations to
-            filter low-quality cells. Defaults to 3.
-        qc_custom_thresholds (BiocFrame, optional): Suggested (or modified) filters from
-            `suggest_rna_qc_filters` function. Defaults to None.
-        feat_span (float, optional): Span to use for the LOWESS trend fitting.
-            Defaults to 0.3.
-        feat_num_hvgs (int, optional): Number of HVGs to pick. Defaults to 4000.
-        pca_rank (int, optional): Number of pc to compute. Defaults to 20.
-        pca_args (Mapping, optional): Arguments to `run_pca` function. Defaults to {}.
-        tsne_args (Mapping, optional): Arguments to `run_tsne` function. Defaults to {}.
-        umap_args (Mapping, optional): Arguments to `run_umap` function. Defaults to {}.
-        snn_build_args (Mapping, optional): Arguments to `build_snn_graph` function.
-            Defaults to {}.
-        snn_resolution (float, optional): Resolution to use for identifying cluters
-            This arguments is forwarded to igraph's `community_multilevel` function.
-            Defaults to 1.
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
-
-    Raises:
-        ValueError: when arguments don't meet expectations.
-
-    Returns:
-        Mapping: Results from various steps.
-    """
     subsets = {}
     if qc_mito_subset is not None:
         if isinstance(qc_mito_subset, str):
@@ -241,6 +140,85 @@ def analyze_matrix(
     }
 
 
+@singledispatch
+def analyze(
+    matrix: Any,
+    features: Sequence[str],
+    qc_mito_subset: Optional[str] = None,
+    qc_num_mads: int = 3,
+    qc_custom_thresholds: BiocFrame = None,
+    feat_span: float = 0.3,
+    feat_num_hvgs: int = 4000,
+    pca_rank: int = 20,
+    pca_args: Mapping = {},
+    tsne_args: Mapping = {},
+    umap_args: Mapping = {},
+    snn_build_args: Mapping = {},
+    snn_resolution: float = 1,
+    num_threads: int = 1,
+) -> Mapping:
+    """Run all steps of the scran workflow for single-cell RNA-seq datasets.
+
+    - Remove low-quality cells
+    - Normalization and log-transformation
+    - Model mean-variance trend across genes
+    - PCA on highly variable genes
+    - graph-based clustering
+    - dimensionality reductions, t-SNE & UMAP
+    - Marker detection for each cluster
+
+    Args:
+        matrix (MatrixTypes): Count matrix.
+        features (Sequence[str]): Features information for the rows of the matrix.
+        qc_mito_subset (str, optional): Prefix to filter
+            mitochindrial genes. Defaults to None.
+        qc_num_mads (int, optional): Number of median absolute deviations to
+            filter low-quality cells. Defaults to 3.
+        qc_custom_thresholds (BiocFrame, optional): Suggested (or modified) filters from
+            `suggest_rna_qc_filters` function. Defaults to None.
+        feat_span (float, optional): Span to use for the LOWESS trend fitting.
+            Defaults to 0.3.
+        feat_num_hvgs (int, optional): Number of HVGs to pick. Defaults to 4000.
+        pca_rank (int, optional): Number of pc to compute. Defaults to 20.
+        pca_args (Mapping, optional): Arguments to `run_pca` function. Defaults to {}.
+        tsne_args (Mapping, optional): Arguments to `run_tsne` function. Defaults to {}.
+        umap_args (Mapping, optional): Arguments to `run_umap` function. Defaults to {}.
+        snn_build_args (Mapping, optional): Arguments to `build_snn_graph` function.
+            Defaults to {}.
+        snn_resolution (float, optional): Resolution to use for identifying cluters
+            This arguments is forwarded to igraph's `community_multilevel` function.
+            Defaults to 1.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+
+    Raises:
+        ValueError: when arguments don't meet expectations.
+
+    Returns:
+        Mapping: Results from various steps.
+    """
+    if is_matrix_expected_type(matrix):
+        return __analyze(
+            matrix,
+            features=features,
+            qc_mito_subset=qc_mito_subset,
+            qc_num_mads=qc_num_mads,
+            qc_custom_thresholds=qc_custom_thresholds,
+            feat_span=feat_span,
+            feat_num_hvgs=feat_num_hvgs,
+            pca_rank=pca_rank,
+            pca_args=pca_args,
+            tsne_args=tsne_args,
+            umap_args=umap_args,
+            snn_build_args=snn_build_args,
+            snn_resolution=snn_resolution,
+            num_threads=num_threads,
+        )
+    else:
+        raise NotImplementedError(
+            f"analyze is not supported for objects of class: {type(matrix)}"
+        )
+
+
 @analyze.register
 def analyze_sce(
     matrix: SingleCellExperiment,
@@ -297,11 +275,10 @@ def analyze_sce(
     Returns:
         Mapping: Tesults from various steps.
     """
-
     if "counts" not in matrix.assayNames:
         raise ValueError("SCE does not contain a 'count' matrix.")
 
-    return analyze(
+    return __analyze(
         matrix.assay("counts"),
         features=features,
         qc_mito_subset=qc_mito_subset,
