@@ -1,6 +1,4 @@
-import ctypes as ct
 from copy import deepcopy
-from typing import Literal
 
 import igraph as ig
 import numpy as np
@@ -10,9 +8,9 @@ from ..nearest_neighbors import (
     NeighborIndex,
     NeighborResults,
     build_neighbor_index,
-    find_nearest_neighbors,
 )
 from ..types import NeighborIndexOrResults, is_neighbor_class
+from .argtypes import BuildSnnGraphArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -20,11 +18,7 @@ __license__ = "MIT"
 
 
 def build_snn_graph(
-    input: NeighborIndexOrResults,
-    num_neighbors: int = 10,
-    approximate: bool = True,
-    weight_scheme: Literal["ranked", "jaccard", "number"] = "ranked",
-    num_threads: int = 1,
+    input: NeighborIndexOrResults, options: BuildSnnGraphArgs = BuildSnnGraphArgs()
 ) -> ig.Graph:
     """Build Shared nearest neighbor graph.
 
@@ -36,19 +30,11 @@ def build_snn_graph(
 
     Args:
         input (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
-        num_neighbors (int, optional): Number of neighbors to use.
-            Ignored if `input` is a `NeighborResults` object. Defaults to 15.
-        approximate (bool, optional): Whether to build an index for an approximate
-            neighbor search. Defaults to True.
-        weight_scheme (Literal["ranked", "jaccard", "number"], optional): Weighting
-            scheme for the edges between cells. This can be based on the top ranks
-            of the shared neighbors ("rank"), the number of shared neighbors ("number")
-            or the Jaccard index of the neighbor sets between cells ("jaccard").
-            Defaults to "ranked".
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        options (BuildSnnGraphArgs): Optional arguments specified by
+            `BuildSnnGraphArgs`.
 
     Raises:
-        TypeError, ValueError: If inputs do not match expectations.
+        TypeError: If `input` is not a nearest neight search index or search result.
 
     Returns:
         ig.Graph: An igraph object.
@@ -59,23 +45,19 @@ def build_snn_graph(
             "or a matrix."
         )
 
-    if weight_scheme not in ["ranked", "jaccard", "number"]:
-        raise ValueError(
-            '\'weight_scheme\' must be one of "ranked", "jaccard", "number"'
-            f"provided {weight_scheme}"
-        )
-
     graph = None
-    scheme = weight_scheme.encode("UTF-8")
+    scheme = options.weight_scheme.encode("UTF-8")
 
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
-            input = build_neighbor_index(input, approximate=approximate)
+            input = build_neighbor_index(input, approximate=options.approximate)
         built = lib.build_snn_graph_from_nn_index(
-            input.ptr, num_neighbors, scheme, num_threads
+            input.ptr, options.num_neighbors, scheme, options.num_threads
         )
     else:
-        built = lib.build_snn_graph_from_nn_results(input.ptr, scheme, num_threads)
+        built = lib.build_snn_graph_from_nn_results(
+            input.ptr, scheme, options.num_threads
+        )
 
     try:
         nedges = lib.fetch_snn_graph_edges(built)
