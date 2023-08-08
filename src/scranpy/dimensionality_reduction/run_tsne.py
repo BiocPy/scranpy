@@ -5,6 +5,7 @@ from collections import namedtuple
 import numpy as np
 
 from .. import cpphelpers as lib
+from .._logging import logger
 from ..nearest_neighbors import (
     NeighborIndex,
     NeighborResults,
@@ -12,6 +13,7 @@ from ..nearest_neighbors import (
     find_nearest_neighbors,
 )
 from ..types import NeighborIndexOrResults, is_neighbor_class
+from .argtypes import InitializeTsneArgs, RunTsneArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -99,10 +101,7 @@ class TsneStatus:
 
 
 def initialize_tsne(
-    input: NeighborIndexOrResults,
-    perplexity: int = 30,
-    num_threads: int = 1,
-    seed: int = 42,
+    input: NeighborIndexOrResults, options: InitializeTsneArgs = InitializeTsneArgs()
 ) -> TsneStatus:
     """Initialize the t-SNE step.
 
@@ -114,10 +113,8 @@ def initialize_tsne(
 
     Args:
         input (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
-        perplexity (int, optional): Perplexity to use when computing neighbor
-            probabilities. Defaults to 30.
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
-        seed (int, optional): Seed to use for RNG. Defaults to 42.
+        options (InitializeTsneArgs): Optional arguments specified by
+            `InitializeTsneArgs`.
 
     Raises:
         TypeError: If input does not match expectations.
@@ -132,36 +129,50 @@ def initialize_tsne(
         )
 
     if not isinstance(input, NeighborResults):
-        k = lib.perplexity_to_k(perplexity)
+        k = lib.perplexity_to_k(options.perplexity)
         if not isinstance(input, NeighborIndex):
-            input = build_neighbor_index(input)
-        input = find_nearest_neighbors(input, k=k, num_threads=num_threads)
+            if options.verbose is True:
+                logger.info("input is a matrix, building nearest neighbor index...")
 
-    ptr = lib.initialize_tsne(input.ptr, perplexity, num_threads)
+            input = build_neighbor_index(input)
+
+        if options.verbose is True:
+            logger.info("computing the nearest neighbors...")
+
+        input = find_nearest_neighbors(input, k=k, num_threads=options.num_threads)
+
+    ptr = lib.initialize_tsne(input.ptr, options.perplexity, options.num_threads)
     coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
-    lib.randomize_tsne_start(coords.shape[0], coords, seed)
+    lib.randomize_tsne_start(coords.shape[0], coords, options.seed)
 
     return TsneStatus(ptr, coords)
 
 
 def run_tsne(
-    input: NeighborIndexOrResults,
-    max_iterations: int = 500, 
-    **kwargs
+    input: NeighborIndexOrResults, options: RunTsneArgs = RunTsneArgs()
 ) -> TsneEmbedding:
     """Compute t-SNE embedding.
 
     Args:
-        input (NeighborIndexOrResults): Input matrix, neighbor search index, or 
+        input (NeighborIndexOrResults): Input matrix, neighbor search index, or
             a pre-computed list of nearest neighbors per cell.
-        max_iterations (int, optional): Maximum number of iterations. Defaults to 500.
-        **kwargs: Arguments specified by `initialize_tsne` function.
-
+        options (RunTsneArgs): additional arguments specified by `RunTsneArgs`.
     Returns:
         TsneEmbedding: Result containing first two dimensions.
     """
-    status = initialize_tsne(input, **kwargs)
-    status.run(max_iterations)
+    if options.verbose is True:
+        logger.info("Initializing the t-SNE...")
+
+    status = initialize_tsne(input, options=options.initialize_tsne)
+
+    if options.verbose is True:
+        logger.info(
+            f"Running the t-SNE algorithm for {options.max_iterations} iterations..."
+        )
+    status.run(options.max_iterations)
+
+    if options.verbose is True:
+        logger.info("Done computing t-SNE embeddings...")
 
     output = status.extract()
     x = copy.deepcopy(output.x)  # is this really necessary?
