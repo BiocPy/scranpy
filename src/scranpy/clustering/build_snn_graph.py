@@ -4,6 +4,7 @@ import igraph as ig
 import numpy as np
 
 from .. import cpphelpers as lib
+from .._logging import logger
 from ..nearest_neighbors import (
     NeighborIndex,
     NeighborResults,
@@ -50,11 +51,21 @@ def build_snn_graph(
 
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
+            if options.verbose is True:
+                logger.info("`input` is a matrix, generating nearest neighbor index...")
+
             input = build_neighbor_index(input, approximate=options.approximate)
+
+        if options.verbose is True:
+            logger.info("Building shared nearest neighbor graph...")
+
         built = lib.build_snn_graph_from_nn_index(
             input.ptr, options.num_neighbors, scheme, options.num_threads
         )
     else:
+        if options.verbose is True:
+            logger.info("Building the shared nearest neighbor graph from `input`")
+
         built = lib.build_snn_graph_from_nn_results(
             input.ptr, scheme, options.num_threads
         )
@@ -71,10 +82,16 @@ def build_snn_graph(
             edge_list.append((idx_array[2 * i], idx_array[2 * i + 1]))
 
         nc = input.num_cells()
+        
+        if options.verbose is True:
+            logger.info("Generating the iGraph object...")
+
         graph = ig.Graph(n=nc, edges=edge_list)
         graph.es["weight"] = deepcopy(w_array)
 
     finally:
+        if options.verbose is True:
+            logger.info("Freeing the shared nearest neighbor graph...")
         lib.free_snn_graph(built)
 
     return graph

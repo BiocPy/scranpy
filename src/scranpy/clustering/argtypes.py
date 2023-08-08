@@ -23,6 +23,7 @@ class BuildSnnGraphArgs:
             or the Jaccard index of the neighbor sets between cells ("jaccard").
             Defaults to "ranked".
         num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool): display logs? Defaults to False.
 
     Raises:
         ValueError: if `weight_scheme` is not an expected value.
