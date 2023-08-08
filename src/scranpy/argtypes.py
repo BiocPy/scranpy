@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-from typing import Any, Literal, Mapping, Optional, Sequence
+from typing import Any, Literal
 
-import numpy as np
 from singlecellexperiment import SingleCellExperiment
 
 from .types import is_matrix_expected_type
@@ -29,7 +28,7 @@ class BaseArgs:
 
 
 @dataclass(slots=True)
-class ClusterArgs(BaseArgs):
+class ClusterArgs:
     num_neighbors: int = 10
     approximate: bool = True
     weight_scheme: Literal["ranked", "jaccard", "number"] = "ranked"
@@ -43,10 +42,8 @@ class ClusterArgs(BaseArgs):
 
 
 @dataclass(slots=True)
-class PcaArgs(BaseArgs):
+class PcaArgs:
     rank: int = 50
-    subset: Optional[Sequence] = None
-    block: Optional[Sequence] = None
     scale: bool = False
     block_method: Literal["none", "project", "regress"] = "project"
     block_weights: bool = True
@@ -60,14 +57,14 @@ class PcaArgs(BaseArgs):
 
 
 @dataclass(slots=True)
-class TsneArgs(BaseArgs):
+class TsneArgs:
     perplexity: int = 30
     seed: int = 42
     max_iterations: int = 500
 
 
 @dataclass(slots=True)
-class UmapArgs(BaseArgs):
+class UmapArgs:
     min_dist: float = 0.1
     num_neighbors: int = 15
     num_epochs: int = 500
@@ -75,38 +72,31 @@ class UmapArgs(BaseArgs):
 
 
 @dataclass(slots=True)
-class FeatureSelectionArgs(BaseArgs):
-    block: Optional[Sequence] = None
+class FeatureSelectionArgs:
     span: float = 0.3
     number_of_hvgs: int = 2500
 
 
 @dataclass(slots=True)
-class MarkerDetectionArgs(BaseArgs):
-    grouping: Sequence
-    block: Optional[Sequence] = None
+class MarkerDetectionArgs:
     threshold: float = 0
     compute_auc: bool = True
 
 
 @dataclass(slots=True)
-class NNArgs(BaseArgs):
+class NNArgs:
     approximate: bool = True
     num_neighbors: int = 10
 
 
 @dataclass(slots=True)
-class NormalizationArgs(BaseArgs):
-    block: Optional[Sequence] = None
-    size_factors: Optional[np.ndarray] = None
+class NormalizationArgs:
     center: bool = True
     allow_zeros: bool = False
     allow_non_finite: bool = False
 
 
 @dataclass(slots=True)
-class RnaQcArgs(BaseArgs):
-    subsets: Optional[Mapping] = None
-    block: Optional[Sequence] = None
+class RnaQcArgs:
     num_mads: int = 3
     mito_prefix: str = "mt-"
