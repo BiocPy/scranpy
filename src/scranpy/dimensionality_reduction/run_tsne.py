@@ -97,6 +97,16 @@ class TsneStatus:
         """
         return TsneEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
+def tsne_perplexity_to_neighbors(perplexity: float) -> int:
+    """Convert perplexity to the required number of neighbors.
+
+    Args:
+        perplexity (float): perplexity to use in the t-SNE algorithm.
+
+    Returns:
+        Number of neighbors to detect.
+    """
+    return lib.perplexity_to_k(perplexity)
 
 def initialize_tsne(
     input: NeighborIndexOrResults,
@@ -132,7 +142,7 @@ def initialize_tsne(
         )
 
     if not isinstance(input, NeighborResults):
-        k = lib.perplexity_to_k(perplexity)
+        k = tsne_perplexity_to_neighbors(perplexity)
         if not isinstance(input, NeighborIndex):
             input = build_neighbor_index(input)
         input = find_nearest_neighbors(input, k=k, num_threads=num_threads)

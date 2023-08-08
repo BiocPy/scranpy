@@ -10,9 +10,11 @@ from . import clustering as clust
 from . import dimensionality_reduction as dimred
 from . import feature_selection as feat
 from . import marker_detection as mark
+from . import nearest_neighbors as nn
 from . import normalization as norm
 from . import quality_control as qc
 from .types import is_matrix_expected_type
+import inspect
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
@@ -86,12 +88,22 @@ def __analyze(
         normed, rank=pca_rank, subset=selected, **pca_args, num_threads=num_threads
     )
 
+    idx = nn.build_neighbor_index(pca.principal_components, approximate=True)
+
+    umap_nn = umap_args.num_neighbors if "num_neighbors" in umap_args else inspect.signature(dimred.initialize_umap).parameters["num_neighbors"].default
+    tsne_perplexity = tsne_args.perplexity if "perplexity" in tsne_args else inspect.signature(dimred.initialize_tsne).parameters["perplexity"].default
+    snn_nn = snn_build_args.num_neighbors if "num_neighbors" in snn_build_args else inspect.signature(clust.build_snn_graph).parameters["num_neighbors"].default
+    tsne_nn = dimred.tsne_perplexity_to_neighbors(tsne_perplexity)
+    nn_dict = {}
+    for k in set([umap_nn, tsne_nn, snn_nn]):
+        nn_dict[k] = nn.find_nearest_neighbors(idx, k=k, num_threads=num_threads)
+
     Q = Queue()
     tsne_p = Process(
         target=tsne_mp,
         args=(
             Q,
-            pca.principal_components,
+            nn_dict[tsne_nn] 
         ),
         kwargs=tsne_args,
     )
@@ -99,7 +111,7 @@ def __analyze(
         target=umap_mp,
         args=(
             Q,
-            pca.principal_components,
+            nn_dict[umap_nn]
         ),
         kwargs=umap_args,
     )
@@ -107,9 +119,10 @@ def __analyze(
     tsne_p.start()
     umap_p.start()
 
-    graph = clust.build_snn_graph(pca.principal_components, **snn_build_args)
+    remaining_threads = max(1, num_threads - 2)
+    graph = clust.build_snn_graph(nn_dict[snn_nn], **snn_build_args, num_threads=remaining_threads)
     clusters = graph.community_multilevel(resolution=snn_resolution).membership
-    markers = mark.score_markers(normed, clusters, num_threads=max(1, num_threads - 2))
+    markers = mark.score_markers(normed, clusters, num_threads=remaining_threads)
 
     res1 = Q.get()
     res2 = Q.get()

@@ -94,6 +94,7 @@ void run_parallel_simple(int nthreads, Function_ fun) {
  */
 
 #define IRLBA_CUSTOM_PARALLEL run_parallel_simple
+#define KNNCOLLE_CUSTOM_PARALLEL run_parallel_old
 #define KMEANS_CUSTOM_PARALLEL run_parallel_old
 #define SCRAN_CUSTOM_PARALLEL tatami::parallelize
 #define MNNCORRECT_CUSTOM_PARALLEL run_parallel_old
