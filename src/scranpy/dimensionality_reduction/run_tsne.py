@@ -149,7 +149,7 @@ def initialize_tsne(
 
     ptr = lib.initialize_tsne(input.ptr, perplexity, num_threads)
     coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
-    lib.randomize_tsne_start(coords.shape[1], coords, seed)
+    lib.randomize_tsne_start(coords.shape[0], coords, seed)
 
     return TsneStatus(ptr, coords)
 
