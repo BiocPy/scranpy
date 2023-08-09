@@ -8,6 +8,7 @@ import numpy as np
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..nearest_neighbors import (
+    FindNearestNeighborsArgs,
     NeighborIndex,
     NeighborResults,
     build_neighbor_index,
@@ -144,13 +145,17 @@ def initialize_umap(
         if not isinstance(input, NeighborIndex):
             if options.verbose is True:
                 logger.info("input is a matrix, building nearest neighbor index...")
+
             input = build_neighbor_index(input)
 
         if options.verbose is True:
             logger.info("computing the nearest neighbors...")
 
         input = find_nearest_neighbors(
-            input, k=options.num_neighbors, num_threads=options.num_threads
+            input,
+            FindNearestNeighborsArgs(
+                k=options.num_neighbors, num_threads=options.num_threads
+            ),
         )
 
     coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")

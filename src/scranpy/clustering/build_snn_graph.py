@@ -6,6 +6,7 @@ import numpy as np
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..nearest_neighbors import (
+    BuildNeighborIndexArgs,
     NeighborIndex,
     NeighborResults,
     build_neighbor_index,
@@ -54,7 +55,9 @@ def build_snn_graph(
             if options.verbose is True:
                 logger.info("`input` is a matrix, generating nearest neighbor index...")
 
-            input = build_neighbor_index(input, approximate=options.approximate)
+            input = build_neighbor_index(
+                input, BuildNeighborIndexArgs(approximate=options.approximate)
+            )
 
         if options.verbose is True:
             logger.info("Building shared nearest neighbor graph...")
@@ -82,7 +85,7 @@ def build_snn_graph(
             edge_list.append((idx_array[2 * i], idx_array[2 * i + 1]))
 
         nc = input.num_cells()
-        
+
         if options.verbose is True:
             logger.info("Generating the iGraph object...")
 

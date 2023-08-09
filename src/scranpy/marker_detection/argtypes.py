@@ -40,7 +40,7 @@ class ScoreMarkersArgs:
     def __post_init__(self):
         if self.grouping is None:
             warnings.warn(
-                "no cluster/group information is provided for each cell"
+                "no cluster/group information is provided for each cell "
                 "in this scenario, we consider all cells to be the same cluster"
             )
 

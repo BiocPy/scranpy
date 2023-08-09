@@ -3,6 +3,8 @@ import ctypes as ct
 import numpy as np
 
 from .. import cpphelpers as lib
+from .._logging import logger
+from .argtypes import BuildNeighborIndexArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -50,19 +52,26 @@ class NeighborIndex:
         return lib.fetch_neighbor_index_ndim(self.__ptr)
 
 
-def build_neighbor_index(x: np.ndarray, approximate: bool = True) -> NeighborIndex:
+def build_neighbor_index(
+    input: np.ndarray, options: BuildNeighborIndexArgs = BuildNeighborIndexArgs()
+) -> NeighborIndex:
     """Build the nearest neighbor search index.
 
-    `x` represents coordinates fo each cell, usually the prinicpal components from the
-    PCA step. rows are variables, columns are cells.
+    `input` represents coordinates fo each cell, usually the prinicpal components
+    from the PCA step. rows are variables, columns are cells.
 
     Args:
-        x (np.ndarray): Coordinates for each cell in the dataset.
-        approximate (bool, optional): Whether to build an index for an approximate
-            neighbor search. Defaults to True.
+        input (np.ndarray): Coordinates for each cell in the dataset.
+        options (BuildNeighborIndexArgs): additional arguments defined
+            by `BuildNeighborIndexArgs`.
 
     Returns:
         NeighborIndex: Nearest neighbor search index.
     """
-    ptr = lib.build_neighbor_index(x.shape[0], x.shape[1], x, approximate)
+    if options.verbose is True:
+        logger.info("Building nearest neighbor index...")
+
+    ptr = lib.build_neighbor_index(
+        input.shape[0], input.shape[1], input, options.approximate
+    )
     return NeighborIndex(ptr)

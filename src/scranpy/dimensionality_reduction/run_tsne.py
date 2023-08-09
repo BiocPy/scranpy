@@ -7,6 +7,7 @@ import numpy as np
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..nearest_neighbors import (
+    FindNearestNeighborsArgs,
     NeighborIndex,
     NeighborResults,
     build_neighbor_index,
@@ -124,8 +125,8 @@ def initialize_tsne(
     """
     if not is_neighbor_class(input):
         raise TypeError(
-            "`x` must be either the nearest neighbor search index, search results or "
-            "a matrix."
+            "`input` must be either the nearest neighbor search index, search results "
+            "or a matrix."
         )
 
     if not isinstance(input, NeighborResults):
@@ -139,7 +140,9 @@ def initialize_tsne(
         if options.verbose is True:
             logger.info("computing the nearest neighbors...")
 
-        input = find_nearest_neighbors(input, k=k, num_threads=options.num_threads)
+        input = find_nearest_neighbors(
+            input, FindNearestNeighborsArgs(k=k, num_threads=options.num_threads)
+        )
 
     ptr = lib.initialize_tsne(input.ptr, options.perplexity, options.num_threads)
     coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
