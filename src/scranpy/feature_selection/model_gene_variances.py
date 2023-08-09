@@ -1,11 +1,11 @@
-from typing import Optional, Sequence
-
 import numpy as np
 from biocframe import BiocFrame
 
 from .. import cpphelpers as lib
+from .._logging import logger
 from ..types import MatrixTypes
 from ..utils import factorize, validate_and_tatamize_input
+from .argtypes import ModelGeneVariancesArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -13,35 +13,25 @@ __license__ = "MIT"
 
 
 def model_gene_variances(
-    x: MatrixTypes,
-    block: Optional[Sequence] = None,
-    span: float = 0.3,
-    num_threads: int = 1,
-    verbose: bool = False,
+    input: MatrixTypes, options: ModelGeneVariancesArgs = ModelGeneVariancesArgs()
 ) -> BiocFrame:
     """Compute model gene variances.
 
-    Ideally, x would be a normalized log-expression matrix.
+    Ideally, `input` would be a normalized log-expression matrix.
 
-    This function expects the matrix (`x`) to be features (rows) by cells (columns) and
+    This function expects the matrix (`input`) to be features (rows) by cells (columns) and
     not the other way around!
 
     Args:
-        x (MatrixTypes): Input matrix. Ideally, x would be a normalized
+        input (MatrixTypes): Input matrix. Ideally, `input` would be a normalized
             log-expression matrix.
-        block (Optional[Sequence], optional): Block assignment for each cell. 
-            This is used to segregate cells in order to perform comparisons within 
-            each block. Defaults to None, indicating all cells are part of the same 
-            block.
-        span (float, optional): Span to use for the LOWESS trend fitting.
-            Defaults to 0.3.
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
-        verbose (bool, optional): Display logs?. Defaults to False.
+        options (ModelGeneVariancesArgs): additional arguments specified by
+            `ModelGeneVariancesArgs`.
 
     Returns:
-        BiocFrame: Frame with various metrics.
+        BiocFrame: Frame with metrics.
     """
-    x = validate_and_tatamize_input(x)
+    x = validate_and_tatamize_input(input)
 
     NR = x.nrow()
     means = np.ndarray((NR,), dtype=np.float64)
@@ -50,15 +40,20 @@ def model_gene_variances(
     residuals = np.ndarray((NR,), dtype=np.float64)
     extra = None
 
-    if block is None:
+    if options.block is None:
+        if options.verbose is True:
+            logger.info(
+                "no block information was provided, running model_gene_variances..."
+            )
+
         lib.model_gene_variances(
             x.ptr,
             means,
             variances,
             fitted,
             residuals,
-            span,
-            num_threads,
+            options.span,
+            options.num_threads,
         )
 
         return BiocFrame(
@@ -72,13 +67,13 @@ def model_gene_variances(
         )
     else:
         NC = x.ncol()
-        if len(block) != NC:
+        if len(options.block) != NC:
             raise ValueError(
-                f"Must provide block assignments (provided: {len(block)})"
+                f"Must provide block assignments (provided: {len(options.block)})"
                 f" for all cells (expected: {NC})."
             )
 
-        fac = factorize(block)
+        fac = factorize(options.block)
         nlevels = len(fac.levels)
 
         all_means = []
@@ -106,6 +101,11 @@ def model_gene_variances(
             all_fitted.append(cur_fitted)
             all_residuals.append(cur_residuals)
 
+        if options.verbose is True:
+            logger.info(
+                "block information was provided, running model_gene_variances_blocked..."
+            )
+
         lib.model_gene_variances_blocked(
             x.ptr,
             means,
@@ -118,8 +118,8 @@ def model_gene_variances(
             all_variances_ptr.ctypes.data,
             all_fitted_ptr.ctypes.data,
             all_residuals_ptr.ctypes.data,
-            span,
-            num_threads,
+            options.span,
+            options.num_threads,
         )
 
         extra = {}

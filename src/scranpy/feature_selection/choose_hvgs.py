@@ -1,12 +1,16 @@
 import numpy as np
 
 from .. import cpphelpers as lib
+from .argtypes import ChooseHvgArgs
 
 __author__ = "ltla"
 __copyright__ = "ltla"
 __license__ = "MIT"
 
-def choose_hvgs(stat: np.ndarray, number: int = 2500) -> np.ndarray:
+
+def choose_hvgs(
+    stat: np.ndarray, options: ChooseHvgArgs = ChooseHvgArgs()
+) -> np.ndarray:
     """Choose highly variable genes.
 
     Args:
@@ -14,7 +18,7 @@ def choose_hvgs(stat: np.ndarray, number: int = 2500) -> np.ndarray:
             where larger values correspond to higher variability.
             This usually contains the residuals of the fitted
             mean-variance trend.
-        number (int): Number of HVGs to pick. Defaults to 2500.
+        options (ChooseHvgArgs): additional arguments defined by `ChooseHvgArgs`.
 
     Return:
         np.ndarray: Array of booleans of length equal to `stat`,
@@ -24,6 +28,6 @@ def choose_hvgs(stat: np.ndarray, number: int = 2500) -> np.ndarray:
     output = np.zeros(len(stat), dtype=np.uint8)
     stat_internal = stat.astype(np.float64, copy=False)
 
-    lib.choose_hvgs(len(stat_internal), stat_internal, number, output)
+    lib.choose_hvgs(len(stat_internal), stat_internal, options.number, output)
 
     return output.astype(np.bool_, copy=False)
