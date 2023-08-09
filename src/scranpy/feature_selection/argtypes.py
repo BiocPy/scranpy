@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Optional, Sequence
 
+from ..types import validate_object_type
+
 __author__ = "jkanche"
 __copyright__ = "jkanche"
 __license__ = "MIT"
@@ -38,3 +40,20 @@ class ModelGeneVariancesArgs:
     span: float = 0.3
     num_threads: int = 1
     verbose: bool = False
+
+
+@dataclass
+class FeatureSelectionStepArgs:
+    """Arguments to run the feature selection step.
+
+    Attributes:
+        choose_hvg (ChooseHvgArgs): Arguments to choose highly variable genes.
+        model_gene_variance (ModelGeneVariancesArgs): Arguments to model gene variances.
+    """
+
+    choose_hvg: ChooseHvgArgs = ChooseHvgArgs()
+    model_gene_variance: ModelGeneVariancesArgs = ModelGeneVariancesArgs()
+
+    def __post_init__(self):
+        validate_object_type(self.choose_hvg, ChooseHvgArgs)
+        validate_object_type(self.model_gene_variance, ModelGeneVariancesArgs)

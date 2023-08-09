@@ -51,7 +51,7 @@ class ClusterStepArgs:
         build_snn_graph (BuildSNNGraphArgs): Arguments to build the SNN graph.
     """
 
-    build_snn_graph: BuildSnnGraphArgs
+    build_snn_graph: BuildSnnGraphArgs = BuildSnnGraphArgs()
 
     def __post_init__(self):
         validate_object_type(self.build_snn_graph, BuildSnnGraphArgs)
