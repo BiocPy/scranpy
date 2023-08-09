@@ -1,6 +1,6 @@
 import numpy as np
 from mattress import tatamize
-from scranpy.normalization import log_norm_counts
+from scranpy.normalization import LogNormalizeCountsArgs, log_norm_counts
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -19,15 +19,15 @@ def test_log_norm_counts(mock_data):
     assert np.allclose(result.row(0), ref)
 
     # Works without centering.
-    result_uncentered = log_norm_counts(y, center=False)
+    result_uncentered = log_norm_counts(y, LogNormalizeCountsArgs(center=False))
     assert np.allclose(result_uncentered.row(0), np.log2(x[0, :] / sf + 1))
 
-    result_blocked = log_norm_counts(y, block=mock_data.block)
+    result_blocked = log_norm_counts(y, LogNormalizeCountsArgs(block=mock_data.block))
     first_blocked = result_blocked.row(0)
     assert np.allclose(first_blocked, ref) is False
 
-    # Same results after parallelization. 
-    result_parallel = log_norm_counts(y, num_threads = 3)
+    # Same results after parallelization.
+    result_parallel = log_norm_counts(y, LogNormalizeCountsArgs(num_threads=3))
     assert (result.row(0) == result_parallel.row(0)).all()
     last = result.nrow() - 1
     assert (result.row(last) == result_parallel.row(last)).all()

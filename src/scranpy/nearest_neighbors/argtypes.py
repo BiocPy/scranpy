@@ -35,7 +35,7 @@ class FindNearestNeighborsArgs:
 
 
 @dataclass
-class NearestNeighborArgs:
+class NearestNeighborStepArgs:
     """Arguments to run the nearest neighbor step.
 
     Attributes:
