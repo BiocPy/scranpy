@@ -2,9 +2,9 @@ import numpy as np
 from mattress import TatamiNumericPointer
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from ..types import MatrixTypes
 from ..utils import to_logical
+from .argtypes import FilterCellsArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -12,30 +12,29 @@ __license__ = "MIT"
 
 
 def filter_cells(
-    x: MatrixTypes, filter: np.ndarray, discard: bool = True
+    input: MatrixTypes, filter: np.ndarray, options: FilterCellsArgs = FilterCellsArgs()
 ) -> TatamiNumericPointer:
     """Filter out low-quality cells.
 
     Args:
-        x (MatrixTypes): Input matrix, either as a TatamiNumericPointer or
+        input (MatrixTypes): Input matrix, either as a TatamiNumericPointer or
             something that can be converted into one.
         filter (np.ndarray): Boolean nd array containing integer
             indices or booleans, specifying the columns of `x` to keep/discard.
-        discard (bool): Whether to discard the cells listed in `filter`.
-            If `false`, the specified cells are retained instead, and all
-            other cells are discarded.
+        options (FilterCellsArgs): additional arguments defined
+            by `FilterCellsArgs`.
 
     Returns:
-        TatamiNumericPointer: If `x` is a TatamiNumericPointer,
+        TatamiNumericPointer: If `input` is a TatamiNumericPointer,
         a TatamiNumericPointer is returned containing the filtered matrix.
     """
-    filter = to_logical(filter, x.ncol())
+    filter = to_logical(filter, input.ncol())
 
-    if len(filter) != x.ncol():
+    if len(filter) != input.ncol():
         raise ValueError("length of 'filter' should equal number of columns in 'x'")
 
-    if not isinstance(x, TatamiNumericPointer):
+    if not isinstance(input, TatamiNumericPointer):
         raise ValueError("coming soon when DelayedArray support is implemented")
 
-    outptr = lib.filter_cells(x.ptr, filter, discard)
-    return TatamiNumericPointer(ptr=outptr, obj=x.obj)
+    outptr = lib.filter_cells(input.ptr, filter, options.discard)
+    return TatamiNumericPointer(ptr=outptr, obj=input.obj)
