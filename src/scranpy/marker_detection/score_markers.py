@@ -66,7 +66,7 @@ def score_markers(
 
     Args:
         input (MatrixTypes): Input matrix.
-        options (ChooseHvgArgs): additional arguments defined by `ScoreMarkersArgs`.
+        options (ScoreMarkersArgs): additional arguments defined by `ScoreMarkersArgs`.
 
     Raises:
         ValueError: If inputs do not match expectations.
