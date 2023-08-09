@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from typing import Optional, Sequence
+
 import numpy as np
 from biocframe import BiocFrame
 
@@ -5,11 +8,32 @@ from .. import cpphelpers as lib
 from .._logging import logger
 from ..types import MatrixTypes
 from ..utils import factorize, validate_and_tatamize_input
-from .argtypes import ModelGeneVariancesArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
+
+
+@dataclass
+class ModelGeneVariancesArgs:
+    """Arguments to model gene variances -
+    :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
+
+    Attributes:
+        block (Sequence, optional): Block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
+            block.
+        span (float, optional): Span to use for the LOWESS trend fitting.
+            Defaults to 0.3.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    block: Optional[Sequence] = None
+    span: float = 0.3
+    num_threads: int = 1
+    verbose: bool = False
 
 
 def model_gene_variances(
@@ -17,16 +41,14 @@ def model_gene_variances(
 ) -> BiocFrame:
     """Compute model gene variances.
 
-    Ideally, `input` would be a normalized log-expression matrix.
+    Ideally, ``input`` would be a normalized log-expression matrix from
+    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
-    This function expects the matrix (`input`) to be features (rows) by cells (columns) and
-    not the other way around!
+    Note: rows are features, columns are cells.
 
     Args:
-        input (MatrixTypes): Input matrix. Ideally, `input` would be a normalized
-            log-expression matrix.
-        options (ModelGeneVariancesArgs): additional arguments specified by
-            `ModelGeneVariancesArgs`.
+        input (MatrixTypes): Log-normalized expression matrix..
+        options (ModelGeneVariancesArgs): Optional parameters.
 
     Returns:
         BiocFrame: Frame with metrics.
@@ -43,7 +65,7 @@ def model_gene_variances(
     if options.block is None:
         if options.verbose is True:
             logger.info(
-                "no block information was provided, running model_gene_variances..."
+                "No block information was provided, running model_gene_variances..."
             )
 
         lib.model_gene_variances(
@@ -85,16 +107,16 @@ def model_gene_variances(
         all_fitted_ptr = np.ndarray((nlevels,), dtype=np.uintp)
         all_residuals_ptr = np.ndarray((nlevels,), dtype=np.uintp)
 
-        for l in range(nlevels):
+        for lvl in range(nlevels):
             cur_means = np.ndarray((NR,), dtype=np.float64)
             cur_variances = np.ndarray((NR,), dtype=np.float64)
             cur_fitted = np.ndarray((NR,), dtype=np.float64)
             cur_residuals = np.ndarray((NR,), dtype=np.float64)
 
-            all_means_ptr[l] = cur_means.ctypes.data
-            all_variances_ptr[l] = cur_variances.ctypes.data
-            all_fitted_ptr[l] = cur_fitted.ctypes.data
-            all_residuals_ptr[l] = cur_residuals.ctypes.data
+            all_means_ptr[lvl] = cur_means.ctypes.data
+            all_variances_ptr[lvl] = cur_variances.ctypes.data
+            all_fitted_ptr[lvl] = cur_fitted.ctypes.data
+            all_residuals_ptr[lvl] = cur_residuals.ctypes.data
 
             all_means.append(cur_means)
             all_variances.append(cur_variances)
@@ -103,7 +125,8 @@ def model_gene_variances(
 
         if options.verbose is True:
             logger.info(
-                "block information was provided, running model_gene_variances_blocked..."
+                "Block information was provided, running "
+                "`model_gene_variances_blocked`..."
             )
 
         lib.model_gene_variances_blocked(

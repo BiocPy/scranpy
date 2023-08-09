@@ -1,11 +1,11 @@
 import ctypes as ct
 from collections import namedtuple
+from dataclasses import dataclass
 
 import numpy as np
 
 from .. import cpphelpers as lib
 from .._logging import logger
-from .argtypes import FindNearestNeighborsArgs
 from .build_neighbor_index import NeighborIndex
 
 __author__ = "ltla, jkanche"
@@ -107,6 +107,22 @@ class NeighborResults:
         return cls(ptr)
 
 
+@dataclass
+class FindNearestNeighborsArgs:
+    """Arguments to find nearest neighbors -
+    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
+
+    Attributes:
+        k (int): Number of neighbors to find.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    k: int = 10
+    num_threads: int = 1
+    verbose: bool = False
+
+
 def find_nearest_neighbors(
     idx: NeighborIndex, options: FindNearestNeighborsArgs = FindNearestNeighborsArgs()
 ) -> NeighborResults:
@@ -114,15 +130,15 @@ def find_nearest_neighbors(
 
     Args:
         idx (NeighborIndex): Object that holds the nearest neighbor search index.
-            usually the result of `build_neighbor_index`.
-        options (FindNearestNeighborsArgs): additional arguments defined
-            by `FindNearestNeighborsArgs`.
+            usually the result of
+            :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
+        options (FindNearestNeighborsArgs): Optional parameters.
 
     Returns:
         NeighborResults: Object with search results.
 
     Raises:
-        TypeError: If idx is not a nearest neighbor index.
+        TypeError: If ``idx`` is not a nearest neighbor index.
     """
     if options.verbose is True:
         logger.info("Finding nearest neighbors...")

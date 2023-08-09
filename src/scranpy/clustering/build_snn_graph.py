@@ -1,4 +1,6 @@
 from copy import deepcopy
+from dataclasses import dataclass
+from typing import Literal
 
 import igraph as ig
 import numpy as np
@@ -12,11 +14,48 @@ from ..nearest_neighbors import (
     build_neighbor_index,
 )
 from ..types import NeighborIndexOrResults, is_neighbor_class
-from .argtypes import BuildSnnGraphArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
+
+
+@dataclass
+class BuildSnnGraphArgs:
+    """Arguments to build a shared nearest neighbor
+    graph - :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
+
+    Attributes:
+        num_neighbors (int, optional): Number of neighbors to use.
+            Ignored if ``input`` is a
+            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
+            object. Defaults to 15.
+        approximate (bool, optional): Whether to build an index for an approximate
+            neighbor search. Defaults to True.
+        weight_scheme (Literal["ranked", "jaccard", "number"], optional): Weighting
+            scheme for the edges between cells. This can be based on the top ranks
+            of the shared neighbors ("rank"), the number of shared neighbors ("number")
+            or the Jaccard index of the neighbor sets between cells ("jaccard").
+            Defaults to "ranked".
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool): Display logs? Defaults to False.
+
+    Raises:
+        ValueError: If ``weight_scheme`` is not an expected value.
+    """
+
+    num_neighbors: int = 15
+    approximate: bool = True
+    weight_scheme: Literal["ranked", "jaccard", "number"] = "ranked"
+    verbose: bool = False
+    num_threads: int = 1
+
+    def __post_init__(self):
+        if self.weight_scheme not in ["ranked", "jaccard", "number"]:
+            raise ValueError(
+                '\'weight_scheme\' must be one of "ranked", "jaccard", "number"'
+                f"provided {self.weight_scheme}"
+            )
 
 
 def build_snn_graph(
@@ -24,19 +63,26 @@ def build_snn_graph(
 ) -> ig.Graph:
     """Build Shared nearest neighbor graph.
 
-    `input` is either a pre-built neighbor search index for the dataset, or a
-    pre-computed set of neighbor search results for all cells. If `input` is a matrix,
+    ``input`` is either a pre-built neighbor search index for the dataset
+    (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`), or a
+    pre-computed set of neighbor search results for all cells
+    (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
+    If ``input`` is a matrix (:py:class:`numpy.ndarray`),
     we compute the nearest neighbors for each cell, assuming it represents the
-    coordinates for each cell, usually the result of PCA step.
-    rows are variables, columns are cells.
+    coordinates for each cell, usually the result of PCA step
+    (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
+
+    Note: rows are features, columns are cells.
 
     Args:
-        input (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
-        options (BuildSnnGraphArgs): Optional arguments specified by
-            `BuildSnnGraphArgs`.
+        input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
+            or neighbors.
+        options (BuildSnnGraphArgs): Optional parameters.
 
     Raises:
-        TypeError: If `input` is not a nearest neight search index or search result.
+        TypeError: If ``input`` is not a nearest neighbor search index or search result
+            (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`,
+            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
 
     Returns:
         ig.Graph: An igraph object.
@@ -53,7 +99,7 @@ def build_snn_graph(
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
             if options.verbose is True:
-                logger.info("`input` is a matrix, generating nearest neighbor index...")
+                logger.info("`input` is a matrix, building nearest neighbor index...")
 
             input = build_neighbor_index(
                 input, BuildNeighborIndexArgs(approximate=options.approximate)
@@ -93,8 +139,6 @@ def build_snn_graph(
         graph.es["weight"] = deepcopy(w_array)
 
     finally:
-        if options.verbose is True:
-            logger.info("Freeing the shared nearest neighbor graph...")
         lib.free_snn_graph(built)
 
     return graph

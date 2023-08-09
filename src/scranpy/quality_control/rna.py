@@ -1,4 +1,5 @@
-from typing import Sequence
+from dataclasses import dataclass
+from typing import Mapping, Optional, Sequence
 
 import numpy as np
 from biocframe import BiocFrame
@@ -7,7 +8,6 @@ from .. import cpphelpers as lib
 from .._logging import logger
 from ..types import MatrixTypes
 from ..utils import factorize, to_logical, validate_and_tatamize_input
-from .argtypes import CreateRnaQcFilter, PerCellRnaQcMetricsArgs, SuggestRnaQcFilters
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -30,25 +30,42 @@ def create_pointer_array(arrs):
     return output
 
 
+@dataclass
+class PerCellRnaQcMetricsArgs:
+    """Arguments to compute per cell QC metrics (RNA) -
+    :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
+
+    Attributes:
+        subsets (Mapping, optional): Dictionary of feature subsets.
+            Each key is the name of the subset and each value is an array of
+            integer indices or booleans, specifying the rows of `input` belonging to the
+            subset. Defaults to {}.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    subsets: Optional[Mapping] = None
+    num_threads: int = 1
+    verbose: bool = False
+
+
 def per_cell_rna_qc_metrics(
     input: MatrixTypes, options: PerCellRnaQcMetricsArgs = PerCellRnaQcMetricsArgs()
 ) -> BiocFrame:
-    """Compute qc metrics (RNA).
+    """Compute QC metrics (RNA).
 
-    This function expects the matrix (`x`) to be features (rows) by cells (columns) and
-    not the other way around!
+    Note: rows are features, columns are cells.
 
     Args:
-        x (MatrixTypes): Input matrix.
-        options (PerCellRnaQcMetricsArgs): additional arguments defined by
-            `PerCellRnaQcMetricsArgs`.
+        input (MatrixTypes): Input matrix.
+        options (PerCellRnaQcMetricsArgs): Optional parameters.
 
     Raises:
-        TypeError: If input is not an expected matrix type.
+        TypeError: If ``input`` is not an expected matrix type.
 
     Returns:
-        BiocFrame: Data frame containing per-cell count sums, number of detected
-        features and the proportion of counts in each subset.
+        BiocFrame: DataFrame containing per-cell 'counts', 'sums', 'number of detected
+        features' and the 'proportion' of counts in each subset.
     """
     x = validate_and_tatamize_input(input)
 
@@ -96,22 +113,40 @@ def per_cell_rna_qc_metrics(
     )
 
 
+@dataclass
+class SuggestRnaQcFilters:
+    """Arguments to suggest QC Filters (RNA) -
+    :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+
+    Attributes:
+        block (Sequence, optional): Block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
+            block.
+        num_mads (int, optional): Number of median absolute deviations to
+            filter low-quality cells. Defaults to 3.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    block: Optional[Sequence] = None
+    num_mads: int = 3
+    verbose: bool = False
+
+
 def suggest_rna_qc_filters(
     metrics: BiocFrame, options: SuggestRnaQcFilters = SuggestRnaQcFilters()
 ) -> BiocFrame:
     """Suggest filters for qc (RNA).
 
-    metrics is usually the result of calling `per_cell_rna_qc_metrics` method.
-
     Args:
-        metrics (BiocFrame): A BiocFrame that contains sums, detected and proportions
-            for each cell. Usually the result of `per_cell_rna_qc_metrics` method.
-        options (SuggestRnaQcFilters): additional arguments defined by
-            `SuggestRnaQcFilters`.
+        metrics (BiocFrame): A BiocFrame that contains 'sums', 'detected'
+            and 'proportions' for each cell. Usually the result of
+            :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` method.
+        options (SuggestRnaQcFilters): Optional parameters.
 
     Raises:
-        ValueError, TypeError: if provided objects are incorrect type or do not contain
-            expected metrics.
+        ValueError, TypeError: if provided ``inputs`` are incorrect type or do
+            not contain expected metrics.
 
     Returns:
         BiocFrame: suggested filters for each metric.
@@ -191,22 +226,38 @@ def suggest_rna_qc_filters(
     )
 
 
+@dataclass
+class CreateRnaQcFilter:
+    """Arguments to create an RNA QC Filter -
+    :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+
+    Attributes:
+        block (Sequence, optional): Block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
+            block.
+    """
+
+    block: Optional[Sequence] = None
+
+
 def create_rna_qc_filter(
     metrics: BiocFrame,
     thresholds: BiocFrame,
     options: CreateRnaQcFilter = CreateRnaQcFilter(),
 ) -> np.ndarray:
-    """Define an qc filter (RNA) based on the per-cell
+    """Defines a QC filter (RNA) based on the per-cell
     QC metrics computed from an RNA count matrix and thresholds suggested
-    by tge suggest_rna_qc_filters.
+    by the :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
 
     Args:
-        metrics (BiocFrame): A BiocFrame object returned by
-            `per_cell_rna_qc_metrics` function.
+        metrics (BiocFrame): DataFrame of results from
+            :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`
+            function.
         thresholds (BiocFrame): Suggested (or modified) filters from
-            `suggest_rna_qc_filters` function.
-        options (CreateRnaQcFilter): additional arguments defined by
-            `CreateRnaQcFilter`.
+            :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`
+            function.
+        options (CreateRnaQcFilter): Optional parameters.
 
     Returns:
         np.ndarray: a numpy boolean array filled with 1 for cells to filter.

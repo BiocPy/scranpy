@@ -1,10 +1,10 @@
 import ctypes as ct
+from dataclasses import dataclass
 
 import numpy as np
 
 from .. import cpphelpers as lib
 from .._logging import logger
-from .argtypes import BuildNeighborIndexArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -52,18 +52,33 @@ class NeighborIndex:
         return lib.fetch_neighbor_index_ndim(self.__ptr)
 
 
+@dataclass
+class BuildNeighborIndexArgs:
+    """Arguments to build nearest neighbor index -
+    :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
+
+    Attributes:
+        approximate (bool, optional): Whether to build an index for an approximate
+            neighbor search. Defaults to True.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    approximate: bool = True
+    verbose: bool = False
+
+
 def build_neighbor_index(
     input: np.ndarray, options: BuildNeighborIndexArgs = BuildNeighborIndexArgs()
 ) -> NeighborIndex:
     """Build the nearest neighbor search index.
 
-    `input` represents coordinates fo each cell, usually the prinicpal components
-    from the PCA step. rows are variables, columns are cells.
+    Note: rows are features, columns are cells.
 
     Args:
-        input (np.ndarray): Coordinates for each cell in the dataset.
-        options (BuildNeighborIndexArgs): additional arguments defined
-            by `BuildNeighborIndexArgs`.
+        input (np.ndarray): Co-ordinates for each cell in the dataset
+            usually the prinicpal components from the PCA step
+            (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
+        options (BuildNeighborIndexArgs): Optional parameters.
 
     Returns:
         NeighborIndex: Nearest neighbor search index.

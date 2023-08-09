@@ -1,6 +1,7 @@
 import copy
 import ctypes as ct
 from collections import namedtuple
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -14,7 +15,6 @@ from ..nearest_neighbors import (
     find_nearest_neighbors,
 )
 from ..types import NeighborIndexOrResults, is_neighbor_class
-from .argtypes import InitializeTsneArgs, RunTsneArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -101,24 +101,46 @@ class TsneStatus:
         return TsneEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
 
+@dataclass
+class InitializeTsneArgs:
+    """Arguments to initialize t-SNE -
+    :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
+
+    Attributes:
+        perplexity (int, optional): Perplexity to use when computing neighbor
+            probabilities. Defaults to 30.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        seed (int, optional): Seed to use for RNG. Defaults to 42.
+        verbose (bool): Display logs? Defaults to False.
+    """
+
+    perplexity: int = 30
+    seed: int = 42
+    num_threads: int = 1
+    verbose: bool = False
+
+
 def initialize_tsne(
     input: NeighborIndexOrResults, options: InitializeTsneArgs = InitializeTsneArgs()
 ) -> TsneStatus:
     """Initialize the t-SNE step.
 
-    `input` is either a pre-built neighbor search index for the dataset, or a
-    pre-computed set of neighbor search results for all cells. If `input` is a matrix,
+    ``input`` is either a pre-built neighbor search index for the dataset
+    (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`), or a
+    pre-computed set of neighbor search results for all cells
+    (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
+    If ``input`` is a matrix (:py:class:`numpy.ndarray`),
     we compute the nearest neighbors for each cell, assuming it represents the
-    coordinates for each cell, usually the result of PCA step.
-    rows are variables, columns are cells.
+    coordinates for each cell, usually the result of PCA step
+    (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
 
     Args:
-        input (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
-        options (InitializeTsneArgs): Optional arguments specified by
-            `InitializeTsneArgs`.
+        input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
+            or neighbors.
+        options (InitializeTsneArgs): Optional parameters.
 
     Raises:
-        TypeError: If input does not match expectations.
+        TypeError: If ``input`` is not an expected type.
 
     Returns:
         TsneStatus: A tsne status object.
@@ -133,12 +155,12 @@ def initialize_tsne(
         k = lib.perplexity_to_k(options.perplexity)
         if not isinstance(input, NeighborIndex):
             if options.verbose is True:
-                logger.info("input is a matrix, building nearest neighbor index...")
+                logger.info("`input` is a matrix, building nearest neighbor index...")
 
             input = build_neighbor_index(input)
 
         if options.verbose is True:
-            logger.info("computing the nearest neighbors...")
+            logger.info("Finding the nearest neighbors...")
 
         input = find_nearest_neighbors(
             input, FindNearestNeighborsArgs(k=k, num_threads=options.num_threads)
@@ -151,15 +173,33 @@ def initialize_tsne(
     return TsneStatus(ptr, coords)
 
 
+@dataclass
+class RunTsneArgs:
+    """Arguments to compute t-SNE embeddings -
+    :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
+
+    Attributes:
+        max_iterations (int, optional): Maximum number of iterations. Defaults to 500.
+        initialize_tsne (InitializeTsneArgs): Arguments to initialize t-SNE -
+            :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
+        verbose (bool): Display logs? Defaults to False.
+    """
+
+    max_iterations: int = 500
+    initialize_tsne: InitializeTsneArgs = InitializeTsneArgs()
+    verbose: bool = False
+
+
 def run_tsne(
     input: NeighborIndexOrResults, options: RunTsneArgs = RunTsneArgs()
 ) -> TsneEmbedding:
     """Compute t-SNE embedding.
 
     Args:
-        input (NeighborIndexOrResults): Input matrix, neighbor search index, or
-            a pre-computed list of nearest neighbors per cell.
-        options (RunTsneArgs): additional arguments specified by `RunTsneArgs`.
+        input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
+            or neighbors.
+        options (RunTsneArgs): Optional parameters.
+
     Returns:
         TsneEmbedding: Result containing first two dimensions.
     """

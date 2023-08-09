@@ -1,40 +1,70 @@
+from dataclasses import dataclass
+from typing import Optional, Sequence
+
 import numpy as np
 from mattress import TatamiNumericPointer
 
 from .. import cpphelpers as lib
 from ..types import MatrixTypes, validate_matrix_types
 from ..utils import factorize
-from .argtypes import LogNormalizeCountsArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 
-def log_norm_counts(
-    x: MatrixTypes, options: LogNormalizeCountsArgs = LogNormalizeCountsArgs()
-) -> TatamiNumericPointer:
-    """Compute log normalization.
+@dataclass
+class LogNormalizeCountsArgs:
+    """Arguments to Log-normalize counts -
+    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
-    This function expects the matrix (`x`) to be features (rows) by cells (columns).
+    Attributes:
+        block (Sequence, optional): Block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
+            block.
+        size_factors (np.ndarray, optional): Size factors for each cell.
+            Defaults to None.
+        center (bool, optional): Center the size factors?. Defaults to True.
+        allow_zeros (bool, optional): Allow zeros?. Defaults to False.
+        allow_non_finite (bool, optional): Allow `nan` or `inifnite` numbers?.
+            Defaults to False.
+        num_threads (int, optional): Number of threads. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    block: Optional[Sequence] = None
+    size_factors: Optional[np.ndarray] = None
+    center: bool = True
+    allow_zeros: bool = False
+    allow_non_finite: bool = False
+    num_threads: int = 1
+    verbose: bool = False
+
+
+def log_norm_counts(
+    input: MatrixTypes, options: LogNormalizeCountsArgs = LogNormalizeCountsArgs()
+) -> TatamiNumericPointer:
+    """Compute Log-normalization.
+
+    Note: rows are features, columns are cells.
 
     Args:
-        x (MatrixTypes): Inpute matrix.
-        options (LogNormalizeCountsArgs): additional arguments defined
-            by `LogNormalizeCountsArgs`.
+        input (MatrixTypes): Count matrix.
+        options (LogNormalizeCountsArgs): Additional parameters.
 
     Raises:
         TypeError, ValueError: If arguments don't meet expectations.
 
     Returns:
-        TatamiNumericPointer: Log normalized matrix.
+        TatamiNumericPointer: Log-normalized expression matrix.
     """
-    validate_matrix_types(x)
+    validate_matrix_types(input)
 
-    if not isinstance(x, TatamiNumericPointer):
-        raise ValueError("coming soon when DelayedArray support is implemented")
+    if not isinstance(input, TatamiNumericPointer):
+        raise ValueError("Coming soon when DelayedArray support is implemented")
 
-    NC = x.ncol()
+    NC = input.ncol()
 
     use_sf = options.size_factors is not None
     my_size_factors = None
@@ -68,7 +98,7 @@ def log_norm_counts(
         block_offset = block_info.indices.ctypes.data
 
     normed = lib.log_norm_counts(
-        x.ptr,
+        input.ptr,
         use_block,
         block_offset,
         use_sf,
@@ -79,4 +109,4 @@ def log_norm_counts(
         options.num_threads,
     )
 
-    return TatamiNumericPointer(ptr=normed, obj=[x.obj, my_size_factors])
+    return TatamiNumericPointer(ptr=normed, obj=[input.obj, my_size_factors])

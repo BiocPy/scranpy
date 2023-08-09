@@ -1,4 +1,6 @@
-from typing import Mapping
+import warnings
+from dataclasses import dataclass
+from typing import Mapping, Optional, Sequence
 
 import numpy as np
 from biocframe import BiocFrame
@@ -7,14 +9,13 @@ from .. import cpphelpers as lib
 from .._logging import logger
 from ..types import MatrixTypes, NDOutputArrays
 from ..utils import create_output_arrays, factorize, validate_and_tatamize_input
-from .argtypes import ScoreMarkersArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 
-def create_output_summary_arrays(rows, groups) -> NDOutputArrays:
+def create_output_summary_arrays(rows: int, groups: int) -> NDOutputArrays:
     """Create a list of ndarrays of shape (rows, groups) for marker detection results.
 
     Args:
@@ -39,14 +40,14 @@ def create_output_summary_arrays(rows, groups) -> NDOutputArrays:
 
 
 def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
-    """Create a BiocFrame object for score markers results.
+    """Create a :py:class:`~biocframe.BiocFrame` object for score markers results.
 
     Args:
         summary (NDOutputArrays): Summary result from score markers.
         group (int): Group or cluster to access.
 
     Returns:
-        BiocFrame: A `BiocFrame` with "min", "mean" and "min_rank" scores.
+        BiocFrame: DataFrame with "min", "mean" and "min_rank" scores.
     """
     return BiocFrame(
         {
@@ -57,19 +58,59 @@ def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
     )
 
 
+@dataclass
+class ScoreMarkersArgs:
+    """Arguments to score markers -
+    :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
+
+    Attributes:
+        grouping (Sequence, optional): Group assignment for each cell. Defaults to
+            None, indicating all cells are part of the same group.
+        block (Sequence, optional): Block assignment for each cell.
+            This is used to segregate cells in order to perform comparisons within
+            each block. Defaults to None, indicating all cells are part of the same
+            block.
+        threshold (float, optional): Log-fold change threshold to use for computing
+            `Cohen's d` and `AUC`. Large positive values favor markers with large
+            log-fold changes over those with low variance. Defaults to 0.
+        compute_auc (bool, optional): Whether to compute the AUCs as an effect size.
+            This can be set to False for greater speed and memory efficiency.
+            Defaults to True.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    grouping: Optional[Sequence] = None
+    block: Optional[Sequence] = None
+    threshold: float = 0
+    compute_auc: bool = True
+    num_threads: int = 1
+    verbose: bool = False
+
+    def __post_init__(self):
+        if self.grouping is None:
+            warnings.warn(
+                "No `cluster/group` information is provided for each cell "
+                "in this scenario, we consider all cells to be the same cluster"
+            )
+
+
 def score_markers(
     input: MatrixTypes, options: ScoreMarkersArgs = ScoreMarkersArgs()
 ) -> Mapping:
     """Score genes as potential markers for each group of cells.
 
-    This function expects the matrix (`input`) to be features (rows) by cells (columns).
+    ``input`` would be a normalized log-expression matrix from
+    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
+
+    Note: rows are features, columns are cells.
 
     Args:
-        input (MatrixTypes): Input matrix.
-        options (ScoreMarkersArgs): additional arguments defined by `ScoreMarkersArgs`.
+        input (MatrixTypes): Log-normalized expression matrix.
+        options (ScoreMarkersArgs): Optional parameters.
 
     Raises:
-        ValueError: If inputs do not match expectations.
+        ValueError: If ``input`` is not an expected type.
 
     Returns:
         Mapping: Dictionary with computed metrics for each group.
@@ -82,13 +123,15 @@ def score_markers(
     # TODO: should we do this?
     if options.grouping is None:
         if options.verbose is True:
-            logger.info("grouping is none, assigning all cells to the same cluster...")
+            logger.info(
+                "`grouping` is none, assigning all cells to the same cluster..."
+            )
 
         options.grouping = [0] * nc
 
     if len(options.grouping) != nc:
         raise ValueError(
-            "length of 'grouping' should be equal to the number of columns in 'x'"
+            "Length of 'grouping' should be equal to the number of columns in 'x'"
         )
 
     grouping = factorize(options.grouping)
@@ -99,7 +142,7 @@ def score_markers(
     if options.block is not None:
         if len(options.block) != nc:
             raise ValueError(
-                "length of 'block' should be equal to the number of columns in 'x'"
+                "Length of 'block' should be equal to the number of columns in 'x'"
             )
         block = factorize(options.block)
         num_blocks = len(block.levels)
@@ -118,7 +161,7 @@ def score_markers(
         auc_offset = auc.references.ctypes.data
 
     if options.verbose is True:
-        logger.info("scoring markers for each cluster...")
+        logger.info("Scoring markers for each cluster...")
 
     lib.score_markers(
         x.ptr,
