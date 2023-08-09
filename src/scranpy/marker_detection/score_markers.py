@@ -1,11 +1,13 @@
-from typing import Mapping, Optional, Sequence
+from typing import Mapping
 
 import numpy as np
 from biocframe import BiocFrame
 
 from .. import cpphelpers as lib
+from .._logging import logger
 from ..types import MatrixTypes, NDOutputArrays
 from ..utils import create_output_arrays, factorize, validate_and_tatamize_input
+from .argtypes import ScoreMarkersArgs
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -56,31 +58,15 @@ def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
 
 
 def score_markers(
-    x: MatrixTypes,
-    grouping: Sequence,
-    block: Optional[Sequence] = None,
-    threshold: float = 0,
-    compute_auc: bool = True,
-    num_threads: int = 1,
+    input: MatrixTypes, options: ScoreMarkersArgs = ScoreMarkersArgs()
 ) -> Mapping:
     """Score genes as potential markers for each group of cells.
 
-    This function expects the matrix (`x`) to be features (rows) by cells (columns).
+    This function expects the matrix (`input`) to be features (rows) by cells (columns).
 
     Args:
-        x (MatrixTypes): Input matrix.
-        grouping (Sequence): Group assignment for each cell.
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
-        threshold (float, optional): Log-fold change threshold to use for computing
-            Cohen's d and AUC. Large positive values favor markers with large
-            log-fold changes over those with low variance. Defaults to 0.
-        compute_auc (bool, optional): Whether to compute the AUCs as an effect size.
-            This can be set to false for greater speed and memory efficiency.
-            Defaults to True.
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        input (MatrixTypes): Input matrix.
+        options (ChooseHvgArgs): additional arguments defined by `ScoreMarkersArgs`.
 
     Raises:
         ValueError: If inputs do not match expectations.
@@ -88,27 +74,34 @@ def score_markers(
     Returns:
         Mapping: Dictionary with computed metrics for each group.
     """
-    x = validate_and_tatamize_input(x)
+    x = validate_and_tatamize_input(input)
 
     nr = x.nrow()
     nc = x.ncol()
 
-    if len(grouping) != nc:
+    # TODO: should we do this?
+    if options.grouping is None:
+        if options.verbose is True:
+            logger.info("grouping is none, assigning all cells to the same cluster...")
+
+        options.grouping = [0] * nc
+
+    if len(options.grouping) != nc:
         raise ValueError(
             "length of 'grouping' should be equal to the number of columns in 'x'"
         )
 
-    grouping = factorize(grouping)
+    grouping = factorize(options.grouping)
     num_groups = len(grouping.levels)
 
     block_offset = 0
     num_blocks = 1
-    if block is not None:
-        if len(block) != nc:
+    if options.block is not None:
+        if len(options.block) != nc:
             raise ValueError(
                 "length of 'block' should be equal to the number of columns in 'x'"
             )
-        block = factorize(block)
+        block = factorize(options.block)
         num_blocks = len(block.levels)
         block_offset = block.indices.ctypes.data
 
@@ -120,9 +113,12 @@ def score_markers(
 
     auc = None
     auc_offset = 0
-    if compute_auc is True:
+    if options.compute_auc is True:
         auc = create_output_summary_arrays(nr, num_groups)
         auc_offset = auc.references.ctypes.data
+
+    if options.verbose is True:
+        logger.info("scoring markers for each cluster...")
 
     lib.score_markers(
         x.ptr,
@@ -130,15 +126,15 @@ def score_markers(
         grouping.indices,
         num_blocks,
         block_offset,
-        compute_auc,
-        threshold,
+        options.compute_auc,
+        options.threshold,
         means.references.ctypes.data,
         detected.references.ctypes.data,
         cohen.references.ctypes.data,
         auc_offset,
         lfc.references.ctypes.data,
         delta_detected.references.ctypes.data,
-        num_threads,
+        options.num_threads,
     )
 
     output = {}
@@ -151,7 +147,7 @@ def score_markers(
             "delta_detected": create_summary_biocframe(delta_detected, g),
         }
 
-        if compute_auc is True:
+        if options.compute_auc is True:
             current["auc"] = create_summary_biocframe(auc, g)
 
         output[grouping.levels[g]] = BiocFrame(current)
