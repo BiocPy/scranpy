@@ -1,8 +1,10 @@
 import ctypes as ct
+from dataclasses import dataclass
 
 import numpy as np
 
 from .. import cpphelpers as lib
+from .._logging import logger
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -50,19 +52,41 @@ class NeighborIndex:
         return lib.fetch_neighbor_index_ndim(self.__ptr)
 
 
-def build_neighbor_index(x: np.ndarray, approximate: bool = True) -> NeighborIndex:
-    """Build the nearest neighbor search index.
+@dataclass
+class BuildNeighborIndexArgs:
+    """Arguments to build nearest neighbor index -
+    :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
-    `x` represents coordinates fo each cell, usually the prinicpal components from the
-    PCA step. rows are variables, columns are cells.
-
-    Args:
-        x (np.ndarray): Coordinates for each cell in the dataset.
+    Attributes:
         approximate (bool, optional): Whether to build an index for an approximate
             neighbor search. Defaults to True.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    approximate: bool = True
+    verbose: bool = False
+
+
+def build_neighbor_index(
+    input: np.ndarray, options: BuildNeighborIndexArgs = BuildNeighborIndexArgs()
+) -> NeighborIndex:
+    """Build the nearest neighbor search index.
+
+    Note: rows are features, columns are cells.
+
+    Args:
+        input (np.ndarray): Co-ordinates for each cell in the dataset
+            usually the prinicpal components from the PCA step
+            (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
+        options (BuildNeighborIndexArgs): Optional parameters.
 
     Returns:
         NeighborIndex: Nearest neighbor search index.
     """
-    ptr = lib.build_neighbor_index(x.shape[0], x.shape[1], x, approximate)
+    if options.verbose is True:
+        logger.info("Building nearest neighbor index...")
+
+    ptr = lib.build_neighbor_index(
+        input.shape[0], input.shape[1], input, options.approximate
+    )
     return NeighborIndex(ptr)

@@ -90,3 +90,19 @@ def validate_matrix_types(x: MatrixTypes):
         raise TypeError(
             f"Input must be a tatami, numpy or sparse matrix, provided {type(x)}."
         )
+
+
+def validate_object_type(x:Any, target_type: Callable):
+    """Validate if x is an expected object type.
+
+    Args:
+        x (MatrixTypes): Inpute Matrix
+        target_type (Callable): Type to check for, e.g. str, int
+
+    Raises:
+        TypeError: if x is not the target type.
+    """
+    if not isinstance(x, target_type):
+        raise TypeError(
+            "Input is not an expected type."
+        )

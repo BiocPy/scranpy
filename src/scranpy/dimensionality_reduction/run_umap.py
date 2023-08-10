@@ -1,12 +1,15 @@
 import copy
 import ctypes as ct
 from collections import namedtuple
+from dataclasses import dataclass
 from typing import Optional
 
 import numpy as np
 
 from .. import cpphelpers as lib
+from .._logging import logger
 from ..nearest_neighbors import (
+    FindNearestNeighborsArgs,
     NeighborIndex,
     NeighborResults,
     build_neighbor_index,
@@ -110,67 +113,127 @@ class UmapStatus:
         return UmapEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
 
-def initialize_umap(
-    input: NeighborIndexOrResults,
-    min_dist: float = 0.1,
-    num_neighbors: int = 15,
-    num_epochs: int = 500,
-    num_threads: int = 1,
-    seed: int = 42,
-) -> UmapStatus:
-    """Initialize the UMAP step.
+@dataclass
+class InitializeUmapArgs:
+    """Arguments to initialize UMAP algorithm.
 
-    `input` is either a pre-built neighbor search index for the dataset, or a
-    pre-computed set of neighbor search results for all cells. If `input` is a matrix,
-    we compute the nearest neighbors for each cell, assuming it represents the
-    coordinates for each cell, usually the result of PCA step.
-    rows are variables, columns are cells.
-
-    Args:
-        input (NeighborIndexOrResults): Input matrix or pre-computed neighbors.
+    Arguments:
         min_dist (float, optional): Minimum distance between points. Defaults to 0.1.
         num_neighbors (int, optional): Number of neighbors to use in the UMAP algorithm.
-            Ignored if `input` is a `NeighborResults` object. Defaults to 15.
+            Ignored if ``input`` is a
+            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
+            object. Defaults to 15.
         num_epochs (int, optional): Number of epochs to run. Defaults to 500.
         num_threads (int, optional): Number of threads to use. Defaults to 1.
         seed (int, optional): Seed to use for RNG. Defaults to 42.
+        verbose (bool): Display logs? Defaults to False.
+    """
+
+    min_dist: float = 0.1
+    num_neighbors: int = 15
+    num_epochs: int = 500
+    seed: int = 42
+    num_threads: int = 1
+    verbose: bool = False
+
+
+def initialize_umap(
+    input: NeighborIndexOrResults, options: InitializeUmapArgs = InitializeUmapArgs()
+) -> UmapStatus:
+    """Initialize the UMAP step.
+
+    ``input`` is either a pre-built neighbor search index for the dataset
+    (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`), or a
+    pre-computed set of neighbor search results for all cells
+    (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
+    If ``input`` is a matrix (:py:class:`numpy.ndarray`),
+    we compute the nearest neighbors for each cell, assuming it represents the
+    coordinates for each cell, usually the result of PCA step
+    (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
+
+    Args:
+        input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
+            or neighbors.
+        options (InitializeUmapArgs): Optional parameters.
 
     Raises:
-        TypeError: If input does not match expectations.
+        TypeError: If ``input`` is not an expected type.
 
     Returns:
         UmapStatus: a umap status object.
     """
     if not is_neighbor_class(input):
         raise TypeError(
-            "`x` must be either the nearest neighbor search index, search results or "
-            "a matrix."
+            "`input` must be either the nearest neighbor search index, "
+            "search results or a matrix."
         )
 
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
+            if options.verbose is True:
+                logger.info("`input` is a matrix, building nearest neighbor index...")
+
             input = build_neighbor_index(input)
-        input = find_nearest_neighbors(input, k=num_neighbors, num_threads=num_threads)
+
+        if options.verbose is True:
+            logger.info("Finding the nearest neighbors...")
+
+        input = find_nearest_neighbors(
+            input,
+            FindNearestNeighborsArgs(
+                k=options.num_neighbors, num_threads=options.num_threads
+            ),
+        )
 
     coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
-    ptr = lib.initialize_umap(input.ptr, num_epochs, min_dist, coords, num_threads)
+    ptr = lib.initialize_umap(
+        input.ptr, options.num_epochs, options.min_dist, coords, options.num_threads
+    )
 
     return UmapStatus(ptr, coords)
 
 
-def run_umap(input: NeighborIndexOrResults, **kwargs) -> UmapEmbedding:
+@dataclass
+class RunUmapArgs:
+    """Arguments to compute UMAP embeddings -
+    :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
+
+    Attributes:
+        initialize_umap (InitializeUmapArgs): Arguments to initialize UMAP -
+            :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap`
+            function.
+        verbose (bool): Display logs? Defaults to False.
+    """
+
+    initialize_umap: InitializeUmapArgs = InitializeUmapArgs()
+    verbose: bool = False
+
+
+def run_umap(
+    input: NeighborIndexOrResults, options: RunUmapArgs = RunUmapArgs()
+) -> UmapEmbedding:
     """Compute UMAP embedding.
 
     Args:
-        input (NeighborIndexOrResults): Input matrix, neighbor search index, or 
-            a pre-computed list of nearest neighbors per cell.
-        **kwargs: Arguments specified by `initialize_umap` function.
+        input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
+            or neighbors.
+        options (RunUmapArgs): Optional parameters.
 
     Returns:
         UmapEmbedding: Result containing the first two dimensions.
     """
-    status = initialize_umap(input, **kwargs)
+    if options.verbose is True:
+        logger.info("Initializing UMAP...")
+
+    status = initialize_umap(input, options=options.initialize_umap)
+
+    if options.verbose is True:
+        logger.info("Running the UMAP...")
+
     status.run()
+
+    if options.verbose is True:
+        logger.info("Done computing UMAP embeddings...")
 
     output = status.extract()
     x = copy.deepcopy(output.x)  # is this really necessary?

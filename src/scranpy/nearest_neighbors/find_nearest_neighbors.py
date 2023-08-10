@@ -1,9 +1,11 @@
 import ctypes as ct
 from collections import namedtuple
+from dataclasses import dataclass
 
 import numpy as np
 
 from .. import cpphelpers as lib
+from .._logging import logger
 from .build_neighbor_index import NeighborIndex
 
 __author__ = "ltla, jkanche"
@@ -101,25 +103,51 @@ class NeighborResults:
         """
         idx = content.index
         dist = content.distance
-        ptr = lib.unserialize_neighbor_results(
-            idx.shape[0], idx.shape[1], idx, dist
-        )
+        ptr = lib.unserialize_neighbor_results(idx.shape[0], idx.shape[1], idx, dist)
         return cls(ptr)
 
 
+@dataclass
+class FindNearestNeighborsArgs:
+    """Arguments to find nearest neighbors -
+    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
+
+    Attributes:
+        k (int): Number of neighbors to find.
+        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        verbose (bool, optional): Display logs?. Defaults to False.
+    """
+
+    k: int = 10
+    num_threads: int = 1
+    verbose: bool = False
+
+
 def find_nearest_neighbors(
-    idx: NeighborIndex, k: int, num_threads: int = 1
+    idx: NeighborIndex, options: FindNearestNeighborsArgs = FindNearestNeighborsArgs()
 ) -> NeighborResults:
     """Find the nearest neighbors for each cell.
 
     Args:
         idx (NeighborIndex): Object that holds the nearest neighbor search index.
-            usually the result of `build_neighbor_index`.
-        k (int): Number of neighbors to find.
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
+            usually the result of
+            :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
+        options (FindNearestNeighborsArgs): Optional parameters.
 
     Returns:
         NeighborResults: Object with search results.
+
+    Raises:
+        TypeError: If ``idx`` is not a nearest neighbor index.
     """
-    ptr = lib.find_nearest_neighbors(idx.ptr, k, num_threads)
+    if options.verbose is True:
+        logger.info("Finding nearest neighbors...")
+
+    if not isinstance(idx, NeighborIndex):
+        raise TypeError(
+            "'idx' is not a nearest neighbor index, "
+            "run the `build_neighbor_index` function first."
+        )
+
+    ptr = lib.find_nearest_neighbors(idx.ptr, options.k, options.num_threads)
     return NeighborResults(ptr)

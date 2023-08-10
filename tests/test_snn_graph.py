@@ -1,5 +1,5 @@
 import igraph as ig
-from scranpy.clustering import build_snn_graph
+from scranpy.clustering import BuildSnnGraphArgs, build_snn_graph
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -18,7 +18,6 @@ def test_build_snn_graph(mock_data):
     assert clustering.membership is not None
 
     # Same results in parallel.
-    outp = build_snn_graph(y, num_threads = 3)
+    outp = build_snn_graph(y, options=BuildSnnGraphArgs(num_threads=3))
     assert outp.es["weight"] == out.es["weight"]
     assert outp.es.indices == out.es.indices
-
