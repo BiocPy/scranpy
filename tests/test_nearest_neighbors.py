@@ -1,5 +1,6 @@
-import numpy as np
 from scranpy.nearest_neighbors import (
+    BuildNeighborIndexArgs,
+    FindNearestNeighborsArgs,
     NeighborResults,
     NNResult,
     build_neighbor_index,
@@ -13,11 +14,11 @@ __license__ = "MIT"
 
 def test_neighbors(mock_data):
     y = mock_data.pcs
-    idx = build_neighbor_index(y, approximate=False)
+    idx = build_neighbor_index(y, BuildNeighborIndexArgs(approximate=False))
     assert idx.num_cells() == 1000
     assert idx.num_dimensions() == 50
 
-    res = find_nearest_neighbors(idx, k=10)
+    res = find_nearest_neighbors(idx, FindNearestNeighborsArgs(k=10))
     assert res.num_cells() == 1000
     assert res.num_neighbors() == 10
     assert isinstance(res.get(2), NNResult)
@@ -27,7 +28,7 @@ def test_neighbors(mock_data):
     assert res2 is not None
 
     # Same results after parallelization.
-    resp = find_nearest_neighbors(idx, k=10, num_threads=3)
+    resp = find_nearest_neighbors(idx, FindNearestNeighborsArgs(k=10, num_threads=3))
     nn_old = res.get(0)
     nn_new = resp.get(0)
     assert (nn_old.index == nn_new.index).all()

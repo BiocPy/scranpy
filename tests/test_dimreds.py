@@ -1,10 +1,13 @@
 from scranpy.dimensionality_reduction import (
+    InitializeTsneArgs,
+    InitializeUmapArgs,
+    RunTsneArgs,
+    RunUmapArgs,
     TsneEmbedding,
     UmapEmbedding,
     run_tsne,
     run_umap,
 )
-import numpy as np
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -20,9 +23,12 @@ def test_run_tsne(mock_data):
     assert out.x.shape[0] == y.shape[1]
 
     # Same results with multiple threads.
-    outp = run_tsne(input = y, num_threads = 3)
+    outp = run_tsne(
+        input=y, options=RunTsneArgs(initialize_tsne=InitializeTsneArgs(num_threads=3))
+    )
     assert (out.x == outp.x).all()
     assert (out.y == outp.y).all()
+
 
 def test_run_umap(mock_data):
     y = mock_data.pcs
@@ -33,8 +39,8 @@ def test_run_umap(mock_data):
     assert out.x.shape[0] == y.shape[1]
 
     # Same results with multiple threads.
-    outp = run_umap(input = y, num_threads = 3)
+    outp = run_umap(
+        input=y, options=RunUmapArgs(initialize_umap=InitializeUmapArgs(num_threads=3))
+    )
     assert (out.x == outp.x).all()
     assert (out.y == outp.y).all()
-
-

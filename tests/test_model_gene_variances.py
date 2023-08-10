@@ -1,5 +1,4 @@
-import numpy as np
-from scranpy.feature_selection import model_gene_variances
+from scranpy.feature_selection import ModelGeneVariancesArgs, model_gene_variances
 
 __author__ = "ltla"
 __copyright__ = "ltla"
@@ -18,13 +17,14 @@ def test_numpy_no_blocks(mock_data):
     assert res.column("residuals") is not None
 
     # Same results with multiple threads.
-    resp = model_gene_variances(x, num_threads = 3)
+    resp = model_gene_variances(x, ModelGeneVariancesArgs(num_threads=3))
     assert (res.column("residuals") == resp.column("residuals")).all()
+
 
 def test_numpy_blocks(mock_data):
     x = mock_data.x
 
-    resblock = model_gene_variances(x, block=mock_data.block)
+    resblock = model_gene_variances(x, ModelGeneVariancesArgs(block=mock_data.block))
 
     assert resblock is not None
     assert resblock.column("means") is not None

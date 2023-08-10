@@ -1,5 +1,13 @@
 import numpy as np
-from scranpy.quality_control import *
+from scranpy.quality_control import (
+    CreateRnaQcFilter,
+    PerCellRnaQcMetricsArgs,
+    SuggestRnaQcFilters,
+    create_rna_qc_filter,
+    guess_mito_from_symbols,
+    per_cell_rna_qc_metrics,
+    suggest_rna_qc_filters,
+)
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -8,7 +16,9 @@ __license__ = "MIT"
 
 def test_quality_control_numpy(mock_data):
     x = mock_data.x
-    result = per_cell_rna_qc_metrics(x, subsets={"foo": [1, 10, 100]})
+    result = per_cell_rna_qc_metrics(
+        x, options=PerCellRnaQcMetricsArgs(subsets={"foo": [1, 10, 100]})
+    )
 
     assert result is not None
     assert result.dims[0] == 100
@@ -24,7 +34,9 @@ def test_quality_control_numpy(mock_data):
     assert result0.column("subset_proportions").shape[1] == 0
 
     # Same results when running in parallel.
-    resultp = per_cell_rna_qc_metrics(x, subsets={"BAR": [1, 10, 100]}, num_threads=3)
+    resultp = per_cell_rna_qc_metrics(
+        x, options=PerCellRnaQcMetricsArgs(subsets={"BAR": [1, 10, 100]}, num_threads=3)
+    )
     assert np.array_equal(result.column("sums"), resultp.column("sums"))
     assert np.array_equal(result.column("detected"), resultp.column("detected"))
     assert np.array_equal(
@@ -40,7 +52,9 @@ def test_guess_mito_from_symbols():
 
 def test_suggest_rna_qc_filters(mock_data):
     x = mock_data.x
-    result = per_cell_rna_qc_metrics(x, subsets={"foo": [1, 10, 100]})
+    result = per_cell_rna_qc_metrics(
+        x, options=PerCellRnaQcMetricsArgs(subsets={"foo": [1, 10, 100]})
+    )
     filters = suggest_rna_qc_filters(result)
 
     assert filters is not None
@@ -52,7 +66,9 @@ def test_suggest_rna_qc_filters(mock_data):
 
     #  with blocks
     x = mock_data.x * 20
-    filters_blocked = suggest_rna_qc_filters(result, block=mock_data.block)
+    filters_blocked = suggest_rna_qc_filters(
+        result, options=SuggestRnaQcFilters(block=mock_data.block)
+    )
 
     assert filters_blocked.shape[0] == 3
     assert len(list(set(filters_blocked.rowNames).difference(["A", "B", "C"]))) == 0
@@ -64,5 +80,7 @@ def test_suggest_rna_qc_filters(mock_data):
     keep = create_rna_qc_filter(result, filters)
     assert len(keep) == result.shape[0]
 
-    keep_blocked = create_rna_qc_filter(result, filters_blocked, block=mock_data.block)
+    keep_blocked = create_rna_qc_filter(
+        result, filters_blocked, options=CreateRnaQcFilter(block=mock_data.block)
+    )
     assert len(keep_blocked) == result.shape[0]
