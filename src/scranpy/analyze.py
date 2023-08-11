@@ -1,6 +1,6 @@
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from functools import singledispatch
-from multiprocessing import Process, Queue
 from typing import Any, Literal, Mapping, Optional, Sequence, Union
 
 import numpy as np
@@ -22,26 +22,14 @@ __copyright__ = "ltla"
 __license__ = "MIT"
 
 
-def tsne_mp(q: Queue, *args, **kwargs):
-    """Run the t-SNe in parallel along with other steps.
-
-    Args:
-        q (Queue): task queue.
-        *args, *kwargs: arguments to pass on to `run_tsne` function.
-    """
-    res = dimred.run_tsne(*args, **kwargs)
-    q.put({"x": res.x, "y": res.y, "type": "tsne"})
+def run_tsne(obj, opts):
+    res = dimred.run_tsne(obj, opts)
+    return {"x": res.x, "y": res.y}
 
 
-def umap_mp(q, *args, **kwargs):
-    """Run the UMAP in parallel along with other steps.
-
-    Args:
-        q (Queue): task queue.
-        *args, *kwargs: arguments to pass on to `run_umap` function.
-    """
-    res = dimred.run_umap(*args, **kwargs)
-    q.put({"x": res.x, "y": res.y, "type": "umap"})
+def run_umap(obj, opts):
+    res = dimred.run_umap(obj, opts)
+    return {"x": res.x, "y": res.y}
 
 
 @dataclass
@@ -52,8 +40,8 @@ class QualityControlOpts:
         mito_subset (Unions[str, bool], optional): Prefix to filter
             mitochindrial genes. Can be a
 
-            - ``True`` to use the default prefix "-mt".
-            - ``String`` to find mitochondrial genes by this prefix.
+            - ``True`` to use the default prefix "mt-".
+            - a (string) custom prefix to identify mitochondrial genes.
             Defaults to None.
         num_mads (int, optional): Number of median absolute deviations to
             filter low-quality cells. Defaults to 3.
@@ -179,14 +167,14 @@ class SharedNearestNeighborOpts:
             of the shared neighbors ("rank"), the number of shared neighbors ("number")
             or the Jaccard index of the neighbor sets between cells ("jaccard").
             Defaults to "ranked".
-        resolution: Resolution parameter to use in modularity to identify clusters.
+        resolution (int): Resolution parameter to use in modularity to identify clusters.
             Defaults to 1.
     """
 
     num_neighbors: int = clust.BuildSnnGraphArgs.num_neighbors
     approximate: bool = True
     weight_scheme: Literal["ranked", "jaccard", "number"] = "ranked"
-    resolution: float = 1
+    resolution: int = 1
 
 
 @dataclass
@@ -265,7 +253,7 @@ def __analyze(
             raise TypeError("'qc_custom_thresholds' is not a `BiocFrame` object.")
 
         for col in qc_thresholds.columnNames:
-            if col in qc_options.custom_thresholds:
+            if col in qc_options.custom_thresholds.columnNames:
                 qc_thresholds.column(col).fill(qc_options.custom_thresholds[col])
 
     qc_filter = qc.create_rna_qc_filter(
@@ -326,26 +314,29 @@ def __analyze(
             options=nn.FindNearestNeighborsArgs(k=k, num_threads=num_threads),
         )
 
-    Q = Queue()
-    tsne_p = Process(
-        target=tsne_mp,
-        args=(Q, nn_dict[tsne_nn]),
-        kwargs={
-            "options": dimred.RunTsneArgs(
+    executor = ProcessPoolExecutor(max_workers=2)
+    _tasks = []
+
+    _tasks.append(
+        executor.submit(
+            run_tsne,
+            nn_dict[tsne_nn],
+            dimred.RunTsneArgs(
                 max_iterations=tsne_options.max_iterations,
                 initialize_tsne=dimred.InitializeTsneArgs(
                     perplexity=tsne_options.perplexity,
                     seed=seed,
                     num_threads=num_threads,
                 ),
-            )
-        },
+            ),
+        )
     )
-    umap_p = Process(
-        target=umap_mp,
-        args=(Q, nn_dict[umap_nn]),
-        kwargs={
-            "options": dimred.RunUmapArgs(
+
+    _tasks.append(
+        executor.submit(
+            run_umap,
+            nn_dict[umap_nn],
+            dimred.RunUmapArgs(
                 initialize_umap=dimred.InitializeUmapArgs(
                     min_dist=umap_options.min_dist,
                     num_neighbors=umap_options.num_neighbors,
@@ -353,12 +344,9 @@ def __analyze(
                     seed=seed,
                     num_threads=num_threads,
                 )
-            )
-        },
+            ),
+        )
     )
-
-    tsne_p.start()
-    umap_p.start()
 
     remaining_threads = max(1, num_threads - 2)
     graph = clust.build_snn_graph(
@@ -387,20 +375,11 @@ def __analyze(
         ),
     )
 
-    res1 = Q.get()
-    res2 = Q.get()
-    if res1["type"] == "tsne":
-        tsne = res1
-        umap = res2
-    else:
-        tsne = res2
-        umap = res1
+    embeddings = []
+    for task in _tasks:
+        embeddings.append(task.result())
 
-    del tsne["type"]
-    del umap["type"]
-
-    tsne_p.join()
-    umap_p.join()
+    executor.shutdown()
 
     return {
         "qc_metrics": qc_metrics,
@@ -409,8 +388,8 @@ def __analyze(
         "variances": var_stats,
         "hvgs": selected_feats,
         "pca": pca,
-        "tsne": tsne,
-        "umap": umap,
+        "tsne": embeddings[0],
+        "umap": embeddings[1],
         "clustering": clusters,
         "marker_detection": markers,
     }
