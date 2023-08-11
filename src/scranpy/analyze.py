@@ -22,16 +22,6 @@ __copyright__ = "ltla"
 __license__ = "MIT"
 
 
-def run_tsne(obj, opts):
-    res = dimred.run_tsne(obj, opts)
-    return {"x": res.x, "y": res.y}
-
-
-def run_umap(obj, opts):
-    res = dimred.run_umap(obj, opts)
-    return {"x": res.x, "y": res.y}
-
-
 @dataclass
 class QualityControlOpts:
     """Options for Quality Control (RNA).
@@ -319,7 +309,7 @@ def __analyze(
 
     _tasks.append(
         executor.submit(
-            run_tsne,
+            dimred.run_tsne,
             nn_dict[tsne_nn],
             dimred.RunTsneArgs(
                 max_iterations=tsne_options.max_iterations,
@@ -334,7 +324,7 @@ def __analyze(
 
     _tasks.append(
         executor.submit(
-            run_umap,
+            dimred.run_umap,
             nn_dict[umap_nn],
             dimred.RunUmapArgs(
                 initialize_umap=dimred.InitializeUmapArgs(
