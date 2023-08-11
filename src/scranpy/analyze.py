@@ -1,4 +1,3 @@
-import inspect
 from dataclasses import dataclass
 from functools import singledispatch
 from multiprocessing import Process, Queue
@@ -50,8 +49,12 @@ class QualityControlOpts:
     """Options for Quality Control (RNA).
 
     Attributes:
-        mito_subset (str, optional): Prefix to filter
-            mitochindrial genes. Defaults to None.
+        mito_subset (Unions[str, bool], optional): Prefix to filter
+            mitochindrial genes. Can be a
+
+            - ``True`` to use the default prefix "-mt".
+            - ``String`` to find mitochondrial genes by this prefix.
+            Defaults to None.
         num_mads (int, optional): Number of median absolute deviations to
             filter low-quality cells. Defaults to 3.
         custom_thresholds (BiocFrame, optional): Suggested (or modified) filters from
@@ -59,9 +62,7 @@ class QualityControlOpts:
             function. Defaults to None.
     """
 
-    mito_subset: Optional[Union[str, bool]] = (
-        inspect.signature(qc.guess_mito_from_symbols).parameters["prefix"].default
-    )
+    mito_subset: Optional[Union[str, bool]] = None
     num_mads: int = qc.SuggestRnaQcFilters.num_mads
     custom_thresholds: Optional[BiocFrame] = None
 
@@ -558,13 +559,13 @@ def analyze_sce(
         num_threads (int, optional): Number of threads to se. Defaults to 1.
 
     Raises:
-        NotImplementedError: _description_
+        ValueError: object does not contain a 'counts' matrix.
 
     Returns:
         Mapping: Results from various steps
     """
     if "counts" not in matrix.assayNames:
-        raise ValueError("SCE does not contain a 'count' matrix.")
+        raise ValueError("SCE does not contain a 'counts' matrix.")
 
     return __analyze(
         matrix.assay("counts"),
