@@ -24,21 +24,12 @@ __license__ = "MIT"
 
 
 @dataclass
-class QualityControlOpts:
-    """Options for Quality Control (RNA).
+class QualityControlArgs:
+    """Options for Quality Control (RNA),
 
-    Attributes:
-        mito_subset (Unions[str, bool], optional): Prefix to filter
-            mitochindrial genes. Can be a
-
-            - ``True`` to use the default prefix "mt-".
-            - a (string) custom prefix to identify mitochondrial genes.
-            Defaults to None.
-        num_mads (int, optional): Number of median absolute deviations to
-            filter low-quality cells. Defaults to 3.
-        custom_thresholds (BiocFrame, optional): Suggested (or modified) filters from
-            :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`
-            function. Defaults to None.
+    These parameters are documented in
+    :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`,
+    :py:meth:`~scranpy.quality_control.rna.guess_mito_from_symbols`.
     """
 
     mito_subset: Optional[Union[str, bool]] = None
@@ -47,16 +38,11 @@ class QualityControlOpts:
 
 
 @dataclass
-class LogNormalizationOpts:
+class LogNormalizationArgs:
     """Log-normalize counts.
 
-    Attributes:
-        size_factors (np.ndarray, optional): Size factors for each cell.
-            Defaults to None.
-        center (bool, optional): Center the size factors?. Defaults to True.
-        allow_zeros (bool, optional): Allow zeros?. Defaults to False.
-        allow_non_finite (bool, optional): Allow `nan` or `inifnite` numbers?.
-            Defaults to False.
+    These parameters are documented in
+    :py:meth:`~scranpy.normalization.LogNormalizeCountsArgs`.
     """
 
     size_factors: Optional[np.ndarray] = norm.LogNormalizeCountsArgs.size_factors
@@ -66,13 +52,12 @@ class LogNormalizationOpts:
 
 
 @dataclass
-class FeatureSelectionOpts:
+class FeatureSelectionArgs:
     """Feature selection.
 
-    Attributes:
-        span (float, optional): Span to use for the LOWESS trend fitting.
-            Defaults to 0.3.
-        num_hvgs (int, optional): Number of HVGs to pick. Defaults to 4000.
+    These parameters are documented in
+    :py:meth:`~scranpy.feature_selection.ModelGeneVariancesArgs`,
+    :py:meth:`~scranpy.feature_selection.ChooseHvgArgs`.
     """
 
     span: float = feat.ModelGeneVariancesArgs.span
@@ -80,31 +65,11 @@ class FeatureSelectionOpts:
 
 
 @dataclass
-class PcaOpts:
+class PcaArgs:
     """Compute Principal Components.
 
-    Attributes:
-        rank (int): Number of top PC's to compute.
-        scale (bool, optional): Whether to scale each feature to unit variance.
-            Defaults to False.
-        block_method (Literal["none", "project", "regress"], optional): How to adjust
-            the PCA for the blocking factor.
-
-            - ``"regress"`` will regress out the factor, effectively performing a PCA on
-                the residuals. This only makes sense in limited cases, e.g., inter-block
-                differences are linear and the composition of each block is the same.
-            - ``"project"`` will compute the rotation vectors from the residuals but
-                will project the cells onto the PC space. This focuses the PCA on
-                within-block variance while avoiding any assumptions about the
-                nature of the inter-block differences.
-            - ``"none"`` will ignore any blocking factor, i.e., as if ``block = null``.
-                Any inter-block differences will both contribute to the determination of
-                the rotation vectors and also be preserved in the PC space.
-                This option is only used if ``block`` is not `null`.
-            Defaults to "project".
-        block_weights (bool, optional): Whether to weight each block so that it
-            contributes the same number of effective observations to the covariance
-            matrix. Defaults to True.
+    These parameters are documented in
+    :py:meth:`~scranpy.dimensionality_reduction.RunPcaArgs`.
     """
 
     rank: int = dimred.RunPcaArgs.rank
@@ -114,14 +79,12 @@ class PcaOpts:
 
 
 @dataclass
-class TsneOpts:
+class TsneArgs:
     """Compute t-SNE embeddings.
 
-    Attributes:
-        perplexity (int, optional): Perplexity to use when computing neighbor
-            probabilities. Defaults to 30.
-        max_iterations (int, optional): Maximum number of iterations. Defaults to 500.
-
+    These parameters are documented in
+    :py:meth:`~scranpy.dimensionality_reduction.InitializeTsneArgs`,
+    :py:meth:`~scranpy.dimensionality_reduction.RunTsneArgs`.
     """
 
     perplexity: int = dimred.InitializeTsneArgs.perplexity
@@ -129,14 +92,11 @@ class TsneOpts:
 
 
 @dataclass
-class UmapOpts:
+class UmapArgs:
     """Compute UMAP embeddings.
 
-    Attributes:
-        min_dist (float, optional): Minimum distance between points. Defaults to 0.1.
-        num_neighbors (int, optional): Number of neighbors to use in the UMAP algorithm.
-            Defaults to 15.
-        num_epochs (int, optional): Number of epochs to run. Defaults to 500.
+    These parameters are documented in
+    :py:meth:`~scranpy.dimensionality_reduction.InitializeUmapArgs`.
     """
 
     min_dist: float = dimred.InitializeUmapArgs.min_dist
@@ -145,21 +105,12 @@ class UmapOpts:
 
 
 @dataclass
-class SharedNearestNeighborOpts:
-    """Options for Clustering step.
+class ClusterArgs:
+    """Identify clusters.
 
-    Attributes:
-        num_neighbors (int, optional): Number of neighbors to use.
-            Defaults to 15.
-        approximate (bool, optional): Whether to build an index for an approximate
-            neighbor search. Defaults to True.
-        weight_scheme (Literal["ranked", "jaccard", "number"], optional): Weighting
-            scheme for the edges between cells. This can be based on the top ranks
-            of the shared neighbors ("rank"), the number of shared neighbors ("number")
-            or the Jaccard index of the neighbor sets between cells ("jaccard").
-            Defaults to "ranked".
-        resolution (int): Resolution parameter to use in modularity to identify
-            clusters. Defaults to 1.
+    These parameters are documented in
+    :py:meth:`~scranpy.cluster.BuildSnnGraphArgs`,
+    :py:meth:`~igraph.Graph.community_multilevel`.
     """
 
     num_neighbors: int = clust.BuildSnnGraphArgs.num_neighbors
@@ -169,16 +120,11 @@ class SharedNearestNeighborOpts:
 
 
 @dataclass
-class ScoreMarkersOpts:
+class ScoreMarkersArgs:
     """Options to rank markers for each cluster.
 
-    Attributes:
-        threshold (float, optional): Log-fold change threshold to use for computing
-            `Cohen's d` and `AUC`. Large positive values favor markers with large
-            log-fold changes over those with low variance. Defaults to 0.
-        compute_auc (bool, optional): Whether to compute the AUCs as an effect size.
-            This can be set to False for greater speed and memory efficiency.
-            Defaults to True.
+    These parameters are documented in
+    :py:meth:`~scranpy.marker_detection.ScoreMarkersArgs`.
     """
 
     threshold: float = mark.ScoreMarkersArgs.threshold
@@ -189,14 +135,14 @@ def __analyze(
     matrix: Any,
     features: Sequence[str],
     block: Optional[Sequence] = None,
-    qc_options: QualityControlOpts = QualityControlOpts(),
-    norm_options: LogNormalizationOpts = LogNormalizationOpts(),
-    feature_selection_options: FeatureSelectionOpts = FeatureSelectionOpts(),
-    pca_options: PcaOpts = PcaOpts(),
-    tsne_options: TsneOpts = TsneOpts(),
-    umap_options: UmapOpts = UmapOpts(),
-    cluster_options: SharedNearestNeighborOpts = SharedNearestNeighborOpts(),
-    marker_options: ScoreMarkersOpts = ScoreMarkersOpts(),
+    qc_options: QualityControlArgs = QualityControlArgs(),
+    norm_options: LogNormalizationArgs = LogNormalizationArgs(),
+    feature_selection_options: FeatureSelectionArgs = FeatureSelectionArgs(),
+    pca_options: PcaArgs = PcaArgs(),
+    tsne_options: TsneArgs = TsneArgs(),
+    umap_options: UmapArgs = UmapArgs(),
+    cluster_options: ClusterArgs = ClusterArgs(),
+    marker_options: ScoreMarkersArgs = ScoreMarkersArgs(),
     seed: int = 42,
     num_threads: int = 1,
 ) -> Mapping:
@@ -391,14 +337,14 @@ def analyze(
     matrix: Any,
     features: Sequence[str],
     block: Optional[Sequence] = None,
-    qc_options: QualityControlOpts = QualityControlOpts(),
-    norm_options: LogNormalizationOpts = LogNormalizationOpts(),
-    feature_selection_options: FeatureSelectionOpts = FeatureSelectionOpts(),
-    pca_options: PcaOpts = PcaOpts(),
-    tsne_options: TsneOpts = TsneOpts(),
-    umap_options: UmapOpts = UmapOpts(),
-    cluster_options: SharedNearestNeighborOpts = SharedNearestNeighborOpts(),
-    marker_options: ScoreMarkersOpts = ScoreMarkersOpts(),
+    qc_options: QualityControlArgs = QualityControlArgs(),
+    norm_options: LogNormalizationArgs = LogNormalizationArgs(),
+    feature_selection_options: FeatureSelectionArgs = FeatureSelectionArgs(),
+    pca_options: PcaArgs = PcaArgs(),
+    tsne_options: TsneArgs = TsneArgs(),
+    umap_options: UmapArgs = UmapArgs(),
+    cluster_options: ClusterArgs = ClusterArgs(),
+    marker_options: ScoreMarkersArgs = ScoreMarkersArgs(),
     seed: int = 42,
     num_threads: int = 1,
 ) -> Mapping:
@@ -420,26 +366,26 @@ def analyze(
             This is used to segregate cells in order to perform comparisons within
             each block. Defaults to None, indicating all cells are part of the same
             block.
-        qc_options (QualityControlOpts, optional): Additional parameters to the QC step.
-            Defaults to :py:class:`~scranpy.analyze.QualityControlOpts`.
-        norm_options (LogNormalizationOpts, optional): Additional params to compute
+        qc_options (QualityControlArgs, optional): Additional parameters to the QC step.
+            Defaults to :py:class:`~scranpy.analyze.QualityControlArgs`.
+        norm_options (LogNormalizationArgs, optional): Additional params to compute
             log-normalization. Defaults to
-            :py:class:`~scranpy.analyze.QualityControlOpts`.
-        feature_selection_options (FeatureSelectionOpts, optional): Addition parameters
+            :py:class:`~scranpy.analyze.QualityControlArgs`.
+        feature_selection_options (FeatureSelectionArgs, optional): Addition parameters
             for feature selection. Defaults to
-            :py:class:`~scranpy.analyze.FeatureSelectionOpts`.
-        pca_options (PcaOpts, optional): Additional params to compute PC's. Defaults to
-            :py:class:`~scranpy.analyze.PcaOpts`.
-        tsne_options (TsneOpts, optional): Additional parameters to compute t-SNE
-            embedding. Defaults to :py:class:`~scranpy.analyze.TsneOpts`.
-        umap_options (UmapOpts, optional): Additional parameters to compute UMAP
-            embedding. Defaults to :py:class:`~scranpy.analyze.UmapOpts`.
-        cluster_options (SharedNearestNeighborOpts, optional): Additional parameters to
+            :py:class:`~scranpy.analyze.FeatureSelectionArgs`.
+        pca_options (PcaArgs, optional): Additional params to compute PC's. Defaults to
+            :py:class:`~scranpy.analyze.PcaArgs`.
+        tsne_options (TsneArgs, optional): Additional parameters to compute t-SNE
+            embedding. Defaults to :py:class:`~scranpy.analyze.TsneArgs`.
+        umap_options (UmapArgs, optional): Additional parameters to compute UMAP
+            embedding. Defaults to :py:class:`~scranpy.analyze.UmapArgs`.
+        cluster_options (ClusterArgs, optional): Additional parameters to
             build the shared nearest neighbor index. Defaults to
-            :py:class:`~scranpy.analyze.SharedNearestNeighborOpts`.
-        marker_options (ScoreMarkersOpts, optional): Additional parameters to identify
+            :py:class:`~scranpy.analyze.ClusterArgs`.
+        marker_options (ScoreMarkersArgs, optional): Additional parameters to identify
             top ranked markers for each group. Defaults to
-            :py:class:`~scranpy.analyze.ScoreMarkersOpts`.
+            :py:class:`~scranpy.analyze.ScoreMarkersArgs`.
         seed (int, optional): Seed to set for RNG. Defaults to 42.
         num_threads (int, optional): Number of threads to se. Defaults to 1.
 
@@ -477,14 +423,14 @@ def analyze_sce(
     features: Union[Sequence[str], str],
     block: Optional[Union[Sequence, str]] = None,
     assay: str = "counts",
-    qc_options: QualityControlOpts = QualityControlOpts(),
-    norm_options: LogNormalizationOpts = LogNormalizationOpts(),
-    feature_selection_options: FeatureSelectionOpts = FeatureSelectionOpts(),
-    pca_options: PcaOpts = PcaOpts(),
-    tsne_options: TsneOpts = TsneOpts(),
-    umap_options: UmapOpts = UmapOpts(),
-    cluster_options: SharedNearestNeighborOpts = SharedNearestNeighborOpts(),
-    marker_options: ScoreMarkersOpts = ScoreMarkersOpts(),
+    qc_options: QualityControlArgs = QualityControlArgs(),
+    norm_options: LogNormalizationArgs = LogNormalizationArgs(),
+    feature_selection_options: FeatureSelectionArgs = FeatureSelectionArgs(),
+    pca_options: PcaArgs = PcaArgs(),
+    tsne_options: TsneArgs = TsneArgs(),
+    umap_options: UmapArgs = UmapArgs(),
+    cluster_options: ClusterArgs = ClusterArgs(),
+    marker_options: ScoreMarkersArgs = ScoreMarkersArgs(),
     seed: int = 42,
     num_threads: int = 1,
 ) -> Mapping:
@@ -508,26 +454,26 @@ def analyze_sce(
             each block. Defaults to None, indicating all cells are part of the same
             block.
         assay (str): assay matrix to use for analysis. Defaults to "counts".
-        qc_options (QualityControlOpts, optional): Additional parameters to the QC step.
-            Defaults to :py:class:`~scranpy.analyze.QualityControlOpts`.
-        norm_options (LogNormalizationOpts, optional): Additional params to compute
+        qc_options (QualityControlArgs, optional): Additional parameters to the QC step.
+            Defaults to :py:class:`~scranpy.analyze.QualityControlArgs`.
+        norm_options (LogNormalizationArgs, optional): Additional params to compute
             log-normalization. Defaults to
-            :py:class:`~scranpy.analyze.QualityControlOpts`.
-        feature_selection_options (FeatureSelectionOpts, optional): Addition parameters
+            :py:class:`~scranpy.analyze.QualityControlArgs`.
+        feature_selection_options (FeatureSelectionArgs, optional): Addition parameters
             for feature selection. Defaults to
-            :py:class:`~scranpy.analyze.FeatureSelectionOpts`.
-        pca_options (PcaOpts, optional): Additional params to compute PC's. Defaults to
-            :py:class:`~scranpy.analyze.PcaOpts`.
-        tsne_options (TsneOpts, optional): Additional parameters to compute t-SNE
-            embedding. Defaults to :py:class:`~scranpy.analyze.TsneOpts`.
-        umap_options (UmapOpts, optional): Additional parameters to compute UMAP
-            embedding. Defaults to :py:class:`~scranpy.analyze.UmapOpts`.
-        cluster_options (SharedNearestNeighborOpts, optional): Additional parameters to
+            :py:class:`~scranpy.analyze.FeatureSelectionArgs`.
+        pca_options (PcaArgs, optional): Additional params to compute PC's. Defaults to
+            :py:class:`~scranpy.analyze.PcaArgs`.
+        tsne_options (TsneArgs, optional): Additional parameters to compute t-SNE
+            embedding. Defaults to :py:class:`~scranpy.analyze.TsneArgs`.
+        umap_options (UmapArgs, optional): Additional parameters to compute UMAP
+            embedding. Defaults to :py:class:`~scranpy.analyze.UmapArgs`.
+        cluster_options (ClusterArgs, optional): Additional parameters to
             build the shared nearest neighbor index. Defaults to
-            :py:class:`~scranpy.analyze.SharedNearestNeighborOpts`.
-        marker_options (ScoreMarkersOpts, optional): Additional parameters to identify
+            :py:class:`~scranpy.analyze.ClusterArgs`.
+        marker_options (ScoreMarkersArgs, optional): Additional parameters to identify
             top ranked markers for each group. Defaults to
-            :py:class:`~scranpy.analyze.ScoreMarkersOpts`.
+            :py:class:`~scranpy.analyze.ScoreMarkersArgs`.
         seed (int, optional): Seed to set for RNG. Defaults to 42.
         num_threads (int, optional): Number of threads to se. Defaults to 1.
 
