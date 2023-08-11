@@ -6,6 +6,7 @@ from .run_tsne import (
     TsneStatus,
     initialize_tsne,
     run_tsne,
+    tsne_perplexity_to_neighbors,
 )
 from .run_umap import (
     InitializeUmapArgs,

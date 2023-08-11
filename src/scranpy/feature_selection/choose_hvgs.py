@@ -19,7 +19,7 @@ class ChooseHvgArgs:
         verbose (bool): display logs? Defaults to False.
     """
 
-    number: int = 2500
+    number: int = 4000
     verbose: bool = False
 
 
