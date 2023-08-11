@@ -4,6 +4,7 @@ from functools import singledispatch
 from typing import Any, Literal, Mapping, Optional, Sequence, Union
 
 import numpy as np
+import summarizedexperiment as se
 from biocframe import BiocFrame
 from mattress import tatamize
 from singlecellexperiment import SingleCellExperiment
@@ -157,8 +158,8 @@ class SharedNearestNeighborOpts:
             of the shared neighbors ("rank"), the number of shared neighbors ("number")
             or the Jaccard index of the neighbor sets between cells ("jaccard").
             Defaults to "ranked".
-        resolution (int): Resolution parameter to use in modularity to identify clusters.
-            Defaults to 1.
+        resolution (int): Resolution parameter to use in modularity to identify
+            clusters. Defaults to 1.
     """
 
     num_neighbors: int = clust.BuildSnnGraphArgs.num_neighbors
@@ -424,8 +425,8 @@ def analyze(
         norm_options (LogNormalizationOpts, optional): Additional params to compute
             log-normalization. Defaults to
             :py:class:`~scranpy.analyze.QualityControlOpts`.
-        feature_selection_options (FeatureSelectionOpts, optional): Addition parameters for
-            feature selection. Defaults to
+        feature_selection_options (FeatureSelectionOpts, optional): Addition parameters
+            for feature selection. Defaults to
             :py:class:`~scranpy.analyze.FeatureSelectionOpts`.
         pca_options (PcaOpts, optional): Additional params to compute PC's. Defaults to
             :py:class:`~scranpy.analyze.PcaOpts`.
@@ -473,8 +474,9 @@ def analyze(
 @analyze.register
 def analyze_sce(
     matrix: SingleCellExperiment,
-    features: Sequence[str],
-    block: Optional[Sequence] = None,
+    features: Union[Sequence[str], str],
+    block: Optional[Union[Sequence, str]] = None,
+    assay: str = "counts",
     qc_options: QualityControlOpts = QualityControlOpts(),
     norm_options: LogNormalizationOpts = LogNormalizationOpts(),
     feature_selection_options: FeatureSelectionOpts = FeatureSelectionOpts(),
@@ -499,18 +501,20 @@ def analyze_sce(
 
     Args:
         matrix (Any): "Count" matrix.
-        features (Sequence[str]): Features information for the rows of the matrix.
-        block (Sequence, optional): Block assignment for each cell.
+        features (Union[Sequence[str], str]): Features information for the rows of
+            the matrix.
+        block (Union[Sequence, str], optional): Block assignment for each cell.
             This is used to segregate cells in order to perform comparisons within
             each block. Defaults to None, indicating all cells are part of the same
             block.
+        assay (str): assay matrix to use for analysis. Defaults to "counts".
         qc_options (QualityControlOpts, optional): Additional parameters to the QC step.
             Defaults to :py:class:`~scranpy.analyze.QualityControlOpts`.
         norm_options (LogNormalizationOpts, optional): Additional params to compute
             log-normalization. Defaults to
             :py:class:`~scranpy.analyze.QualityControlOpts`.
-        feature_selection_options (FeatureSelectionOpts, optional): Addition parameters for
-            feature selection. Defaults to
+        feature_selection_options (FeatureSelectionOpts, optional): Addition parameters
+            for feature selection. Defaults to
             :py:class:`~scranpy.analyze.FeatureSelectionOpts`.
         pca_options (PcaOpts, optional): Additional params to compute PC's. Defaults to
             :py:class:`~scranpy.analyze.PcaOpts`.
@@ -533,8 +537,20 @@ def analyze_sce(
     Returns:
         Mapping: Results from various steps
     """
-    if "counts" not in matrix.assayNames:
-        raise ValueError("SCE does not contain a 'counts' matrix.")
+    if assay not in matrix.assayNames:
+        raise ValueError(f"SCE does not contain a '{assay}' matrix.")
+
+    if isinstance(features, str):
+        if isinstance(matrix.rowData, BiocFrame):
+            features = matrix.rowData.column(features)
+        else:
+            features = matrix.rowData[features]
+
+    if isinstance(block, str):
+        if isinstance(matrix.rowData, BiocFrame):
+            block = block.colData.column(block)
+        else:
+            block = block.colData1[block]
 
     return __analyze(
         matrix.assay("counts"),
