@@ -4,10 +4,10 @@ import os
 import ctypes as ct
 
 def catch_errors(f):
-    def wrapper(*args):
+    def wrapper(*Options):
         errcode = ct.c_int32(0)
         errmsg = ct.c_char_p(0)
-        output = f(*args, ct.byref(errcode), ct.byref(errmsg))
+        output = f(*Options, ct.byref(errcode), ct.byref(errmsg))
         if errcode.value != 0:
             msg = errmsg.value.decode('ascii')
             lib.free_error_message(errmsg)

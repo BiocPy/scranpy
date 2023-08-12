@@ -1,7 +1,8 @@
-from .run_pca import RunPcaArgs, run_pca
+from .run import DimensionalityReductionStepOptions
+from .run_pca import RunPcaOptions, run_pca
 from .run_tsne import (
-    InitializeTsneArgs,
-    RunTsneArgs,
+    InitializeTsneOptions,
+    RunTsneOptions,
     TsneEmbedding,
     TsneStatus,
     initialize_tsne,
@@ -9,8 +10,8 @@ from .run_tsne import (
     tsne_perplexity_to_neighbors,
 )
 from .run_umap import (
-    InitializeUmapArgs,
-    RunUmapArgs,
+    InitializeUmapOptions,
+    RunUmapOptions,
     UmapEmbedding,
     UmapStatus,
     initialize_umap,

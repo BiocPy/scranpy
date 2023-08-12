@@ -1,7 +1,7 @@
 import numpy as np
 from scranpy.quality_control import (
     CreateRnaQcFilter,
-    PerCellRnaQcMetricsArgs,
+    PerCellRnaQcMetricsOptions,
     SuggestRnaQcFilters,
     create_rna_qc_filter,
     guess_mito_from_symbols,
@@ -17,7 +17,7 @@ __license__ = "MIT"
 def test_quality_control_numpy(mock_data):
     x = mock_data.x
     result = per_cell_rna_qc_metrics(
-        x, options=PerCellRnaQcMetricsArgs(subsets={"foo": [1, 10, 100]})
+        x, options=PerCellRnaQcMetricsOptions(subsets={"foo": [1, 10, 100]})
     )
 
     assert result is not None
@@ -35,7 +35,10 @@ def test_quality_control_numpy(mock_data):
 
     # Same results when running in parallel.
     resultp = per_cell_rna_qc_metrics(
-        x, options=PerCellRnaQcMetricsArgs(subsets={"BAR": [1, 10, 100]}, num_threads=3)
+        x,
+        options=PerCellRnaQcMetricsOptions(
+            subsets={"BAR": [1, 10, 100]}, num_threads=3
+        ),
     )
     assert np.array_equal(result.column("sums"), resultp.column("sums"))
     assert np.array_equal(result.column("detected"), resultp.column("detected"))
@@ -53,7 +56,7 @@ def test_guess_mito_from_symbols():
 def test_suggest_rna_qc_filters(mock_data):
     x = mock_data.x
     result = per_cell_rna_qc_metrics(
-        x, options=PerCellRnaQcMetricsArgs(subsets={"foo": [1, 10, 100]})
+        x, options=PerCellRnaQcMetricsOptions(subsets={"foo": [1, 10, 100]})
     )
     filters = suggest_rna_qc_filters(result)
 

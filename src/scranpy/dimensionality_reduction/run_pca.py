@@ -47,7 +47,7 @@ def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PCAResult:
 
 
 @dataclass
-class RunPcaArgs:
+class RunPcaOptions:
     """Arguments for principal components analysis -
     :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
@@ -104,12 +104,12 @@ class RunPcaArgs:
             )
 
 
-def run_pca(input: MatrixTypes, options: RunPcaArgs = RunPcaArgs()) -> PCAResult:
+def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> PCAResult:
     """Run Prinicpal Component Analysis (PCA).
 
     Args:
         input (MatrixTypes): Input Matrix.
-        options (PcaArgs): Optional parameters.
+        options (RunPcaOptions): Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not an expected type.

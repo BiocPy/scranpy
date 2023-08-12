@@ -8,7 +8,7 @@ import numpy as np
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..nearest_neighbors import (
-    FindNearestNeighborsArgs,
+    FindNearestNeighborsOptions,
     NeighborIndex,
     NeighborResults,
     build_neighbor_index,
@@ -87,7 +87,7 @@ class TsneStatus:
     def run(self, iteration: int):
         """Run the t-SNE algorithm for specified iterations.
 
-        Args:
+        Options(AbstractStepOptions)
             iteration (int): Number of iteratons to run.
         """
         lib.run_tsne(self.__ptr, iteration, self.coordinates)
@@ -114,7 +114,7 @@ def tsne_perplexity_to_neighbors(perplexity: float) -> int:
 
 
 @dataclass
-class InitializeTsneArgs:
+class InitializeTsneOptions:
     """Arguments to initialize t-SNE -
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
 
@@ -133,7 +133,8 @@ class InitializeTsneArgs:
 
 
 def initialize_tsne(
-    input: NeighborIndexOrResults, options: InitializeTsneArgs = InitializeTsneArgs()
+    input: NeighborIndexOrResults,
+    options: InitializeTsneOptions = InitializeTsneOptions(),
 ) -> TsneStatus:
     """Initialize the t-SNE step.
 
@@ -149,7 +150,7 @@ def initialize_tsne(
     Args:
         input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
             or neighbors.
-        options (InitializeTsneArgs): Optional parameters.
+        options (InitializeTsneOptions): Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not an expected type.
@@ -175,7 +176,7 @@ def initialize_tsne(
             logger.info("Finding the nearest neighbors...")
 
         input = find_nearest_neighbors(
-            input, FindNearestNeighborsArgs(k=k, num_threads=options.num_threads)
+            input, FindNearestNeighborsOptions(k=k, num_threads=options.num_threads)
         )
 
     ptr = lib.initialize_tsne(input.ptr, options.perplexity, options.num_threads)
@@ -186,31 +187,31 @@ def initialize_tsne(
 
 
 @dataclass
-class RunTsneArgs:
+class RunTsneOptions:
     """Arguments to compute t-SNE embeddings -
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
 
     Attributes:
         max_iterations (int, optional): Maximum number of iterations. Defaults to 500.
-        initialize_tsne (InitializeTsneArgs): Arguments to initialize t-SNE -
+        initialize_tsne (InitializeTsneOptions): Arguments to initialize t-SNE -
             :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
         verbose (bool): Display logs? Defaults to False.
     """
 
     max_iterations: int = 500
-    initialize_tsne: InitializeTsneArgs = InitializeTsneArgs()
+    initialize_tsne: InitializeTsneOptions = InitializeTsneOptions()
     verbose: bool = False
 
 
 def run_tsne(
-    input: NeighborIndexOrResults, options: RunTsneArgs = RunTsneArgs()
+    input: NeighborIndexOrResults, options: RunTsneOptions = RunTsneOptions()
 ) -> TsneEmbedding:
     """Compute t-SNE embedding.
 
     Args:
         input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
             or neighbors.
-        options (RunTsneArgs): Optional parameters.
+        options (RunTsneOptions): Optional parameters.
 
     Returns:
         TsneEmbedding: Result containing first two dimensions.

@@ -25,7 +25,7 @@ distance (np.ndarray): Distances to the neighbors for each cell.
 class NeighborResults:
     """Class to manage the find nearest neighbor search results from scran.
 
-    Args:
+    Options(AbstractStepOptions)
         ptr (ct.c_void_p): Pointer reference to libscran's `find_nearest_neighbor`
             result.
     """
@@ -66,7 +66,7 @@ class NeighborResults:
     def get(self, i: int) -> NNResult:
         """Get nearest neighbors of i-th observation/cell.
 
-        Args:
+        Options(AbstractStepOptions)
             i (int): i-th observation to access.
 
         Returns:
@@ -95,7 +95,7 @@ class NeighborResults:
     def unserialize(cls, content: NNResult) -> "NeighborResults":
         """Initialize a class from serialized NN results.
 
-        Args:
+        Options(AbstractStepOptions)
             content (NNResult): Usually the result of `serialize` method.
 
         Returns:
@@ -108,7 +108,7 @@ class NeighborResults:
 
 
 @dataclass
-class FindNearestNeighborsArgs:
+class FindNearestNeighborsOptions:
     """Arguments to find nearest neighbors -
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
@@ -124,7 +124,8 @@ class FindNearestNeighborsArgs:
 
 
 def find_nearest_neighbors(
-    idx: NeighborIndex, options: FindNearestNeighborsArgs = FindNearestNeighborsArgs()
+    idx: NeighborIndex,
+    options: FindNearestNeighborsOptions = FindNearestNeighborsOptions(),
 ) -> NeighborResults:
     """Find the nearest neighbors for each cell.
 
@@ -132,7 +133,7 @@ def find_nearest_neighbors(
         idx (NeighborIndex): Object that holds the nearest neighbor search index.
             usually the result of
             :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
-        options (FindNearestNeighborsArgs): Optional parameters.
+        options (FindNearestNeighborsOptions): Optional parameters.
 
     Returns:
         NeighborResults: Object with search results.

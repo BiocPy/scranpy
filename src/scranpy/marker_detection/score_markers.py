@@ -59,7 +59,7 @@ def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
 
 
 @dataclass
-class ScoreMarkersArgs:
+class ScoreMarkersOptions:
     """Arguments to score markers -
     :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
 
@@ -96,7 +96,7 @@ class ScoreMarkersArgs:
 
 
 def score_markers(
-    input: MatrixTypes, options: ScoreMarkersArgs = ScoreMarkersArgs()
+    input: MatrixTypes, options: ScoreMarkersOptions = ScoreMarkersOptions()
 ) -> Mapping:
     """Score genes as potential markers for each group of cells.
 
@@ -107,7 +107,7 @@ def score_markers(
 
     Args:
         input (MatrixTypes): Log-normalized expression matrix.
-        options (ScoreMarkersArgs): Optional parameters.
+        options (ScoreMarkersOptions): Optional parameters.
 
     Raises:
         ValueError: If ``input`` is not an expected type.

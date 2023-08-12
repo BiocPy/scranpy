@@ -14,7 +14,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class LogNormalizeCountsArgs:
+class LogNormalizeCountsOptions:
     """Arguments to Log-normalize counts -
     :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
@@ -43,7 +43,7 @@ class LogNormalizeCountsArgs:
 
 
 def log_norm_counts(
-    input: MatrixTypes, options: LogNormalizeCountsArgs = LogNormalizeCountsArgs()
+    input: MatrixTypes, options: LogNormalizeCountsOptions = LogNormalizeCountsOptions()
 ) -> TatamiNumericPointer:
     """Compute Log-normalization.
 
@@ -51,7 +51,7 @@ def log_norm_counts(
 
     Args:
         input (MatrixTypes): Count matrix.
-        options (LogNormalizeCountsArgs): Additional parameters.
+        options (LogNormalizeCountsOptions): Additional parameters.
 
     Raises:
         TypeError, ValueError: If arguments don't meet expectations.

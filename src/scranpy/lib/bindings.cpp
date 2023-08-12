@@ -2,6 +2,7 @@
 
 #include <cstring>
 #include <stdexcept>
+#include <cstdint>
 
 #ifdef _WIN32
 #define PYAPI __declspec(dllexport)

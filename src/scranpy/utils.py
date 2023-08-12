@@ -20,7 +20,7 @@ __license__ = "MIT"
 def factorize(x: Sequence) -> FactorizedArray:
     """Factorize an array.
 
-    Args:
+    Options(AbstractStepOptions)
         x (Sequence): an array.
 
     Returns:
@@ -49,7 +49,7 @@ def factorize(x: Sequence) -> FactorizedArray:
 def to_logical(selection: SelectionTypes, length: int) -> np.ndarray:
     """Convert a selection to a logical array.
 
-    Args:
+    Options(AbstractStepOptions)
         selection (SelectionTypes): list/array of integer indices.
             a list/array of booleans, a range or a slice object.
         length (int): length of the output array, i.e.,
@@ -105,7 +105,7 @@ def to_logical(selection: SelectionTypes, length: int) -> np.ndarray:
 def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
     """Validate and tatamize the input matrix.
 
-    Args:
+    Options(AbstractStepOptions)
         x (MatrixTypes): Input Matrix.
 
     Raises:
@@ -125,7 +125,7 @@ def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
 def create_output_arrays(rows: int, columns: int) -> NDOutputArrays:
     """Create a list of ndarrays of shape (rows, columns).
 
-    Args:
+    Options(AbstractStepOptions)
         rows (int): number of rows.
         columns (int): number of columns.
 

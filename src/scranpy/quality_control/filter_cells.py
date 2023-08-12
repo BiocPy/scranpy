@@ -13,7 +13,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class FilterCellsArgs:
+class FilterCellsOptions:
     """Arguments to filter cells -
     :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
@@ -29,7 +29,9 @@ class FilterCellsArgs:
 
 
 def filter_cells(
-    input: MatrixTypes, filter: np.ndarray, options: FilterCellsArgs = FilterCellsArgs()
+    input: MatrixTypes,
+    filter: np.ndarray,
+    options: FilterCellsOptions = FilterCellsOptions(),
 ) -> TatamiNumericPointer:
     """Filter out low-quality cells.
 
@@ -39,7 +41,7 @@ def filter_cells(
             can be converted into one.
         filter (np.ndarray): Boolean :py:class:`~numpy.ndarray` containing integer
             indices or booleans, specifying the columns of `input` to keep/discard.
-        options (FilterCellsArgs): Optional parameters.
+        options (FilterCellsOptions): Optional parameters.
 
     Returns:
         TatamiNumericPointer: If `input` is a

@@ -9,7 +9,7 @@ import numpy as np
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..nearest_neighbors import (
-    FindNearestNeighborsArgs,
+    FindNearestNeighborsOptions,
     NeighborIndex,
     NeighborResults,
     build_neighbor_index,
@@ -114,7 +114,7 @@ class UmapStatus:
 
 
 @dataclass
-class InitializeUmapArgs:
+class InitializeUmapOptions:
     """Arguments to initialize UMAP algorithm.
 
     Arguments:
@@ -138,7 +138,8 @@ class InitializeUmapArgs:
 
 
 def initialize_umap(
-    input: NeighborIndexOrResults, options: InitializeUmapArgs = InitializeUmapArgs()
+    input: NeighborIndexOrResults,
+    options: InitializeUmapOptions = InitializeUmapOptions(),
 ) -> UmapStatus:
     """Initialize the UMAP step.
 
@@ -154,7 +155,7 @@ def initialize_umap(
     Args:
         input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
             or neighbors.
-        options (InitializeUmapArgs): Optional parameters.
+        options (InitializeUmapOptions): Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not an expected type.
@@ -180,7 +181,7 @@ def initialize_umap(
 
         input = find_nearest_neighbors(
             input,
-            FindNearestNeighborsArgs(
+            FindNearestNeighborsOptions(
                 k=options.num_neighbors, num_threads=options.num_threads
             ),
         )
@@ -194,30 +195,30 @@ def initialize_umap(
 
 
 @dataclass
-class RunUmapArgs:
+class RunUmapOptions:
     """Arguments to compute UMAP embeddings -
     :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
 
     Attributes:
-        initialize_umap (InitializeUmapArgs): Arguments to initialize UMAP -
+        initialize_umap (InitializeUmapOptions): Arguments to initialize UMAP -
             :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap`
             function.
         verbose (bool): Display logs? Defaults to False.
     """
 
-    initialize_umap: InitializeUmapArgs = InitializeUmapArgs()
+    initialize_umap: InitializeUmapOptions = InitializeUmapOptions()
     verbose: bool = False
 
 
 def run_umap(
-    input: NeighborIndexOrResults, options: RunUmapArgs = RunUmapArgs()
+    input: NeighborIndexOrResults, options: RunUmapOptions = RunUmapOptions()
 ) -> UmapEmbedding:
     """Compute UMAP embedding.
 
     Args:
         input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
             or neighbors.
-        options (RunUmapArgs): Optional parameters.
+        options (RunUmapOptions): Optional parameters.
 
     Returns:
         UmapEmbedding: Result containing the first two dimensions.

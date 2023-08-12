@@ -1,8 +1,8 @@
 from scranpy.dimensionality_reduction import (
-    InitializeTsneArgs,
-    InitializeUmapArgs,
-    RunTsneArgs,
-    RunUmapArgs,
+    InitializeTsneOptions,
+    InitializeUmapOptions,
+    RunTsneOptions,
+    RunUmapOptions,
     TsneEmbedding,
     UmapEmbedding,
     run_tsne,
@@ -24,7 +24,8 @@ def test_run_tsne(mock_data):
 
     # Same results with multiple threads.
     outp = run_tsne(
-        input=y, options=RunTsneArgs(initialize_tsne=InitializeTsneArgs(num_threads=3))
+        input=y,
+        options=RunTsneOptions(initialize_tsne=InitializeTsneOptions(num_threads=3)),
     )
     assert (out.x == outp.x).all()
     assert (out.y == outp.y).all()
@@ -40,7 +41,8 @@ def test_run_umap(mock_data):
 
     # Same results with multiple threads.
     outp = run_umap(
-        input=y, options=RunUmapArgs(initialize_umap=InitializeUmapArgs(num_threads=3))
+        input=y,
+        options=RunUmapOptions(initialize_umap=InitializeUmapOptions(num_threads=3)),
     )
     assert (out.x == outp.x).all()
     assert (out.y == outp.y).all()
