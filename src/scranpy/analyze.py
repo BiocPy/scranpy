@@ -61,7 +61,7 @@ class AnalyzeOptions:
         if self.num_threads != 1:
             self.set_threads(num_threads=self.num_threads)
 
-        self.set_verbose(verbose=self.set_verbose)
+        self.set_verbose(verbose=self.verbose)
 
     def set_seed(self, seed: int = 42):
         """Set seed for RNG.
@@ -156,7 +156,7 @@ def __analyze(
     if options.quality_control.mito_subset is not None:
         if isinstance(options.quality_control.mito_subset, str):
             subsets["mito"] = qc.guess_mito_from_symbols(
-                features, options.quality_control.options.quality_control.mito_subset
+                features, options.quality_control.mito_subset
             )
         elif isinstance(options.quality_control.mito_subset, bool):
             subsets["mito"] = qc.guess_mito_from_symbols(features)
