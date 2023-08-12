@@ -88,7 +88,7 @@ class RunPcaOptions:
     """
 
     rank: int = 50
-    subset: Optional[Sequence] = None
+    subset: Optional[np.ndarray] = None
     block: Optional[Sequence] = None
     scale: bool = False
     block_method: Literal["none", "project", "regress"] = "project"

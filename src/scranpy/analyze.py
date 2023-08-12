@@ -195,7 +195,9 @@ def __analyze(
     qc_filtered = qc.filter_cells(ptr, filter=qc_filter)
 
     # Log-normalize counts
-    normed = norm.log_norm_counts(qc_filtered, options=options.normalization)
+    normed = norm.log_norm_counts(
+        qc_filtered, options=options.normalization.log_normalize_counts
+    )
 
     #  Model gene variances
     var_stats = feat.model_gene_variances(
@@ -208,6 +210,7 @@ def __analyze(
     )
 
     # Compute PC's
+    options.dimensionality_reduction.run_pca.subset = selected_feats
     pca = dimred.run_pca(
         normed,
         options=options.dimensionality_reduction.run_pca,
@@ -371,6 +374,6 @@ def analyze_sce(
         if isinstance(matrix.rowData, BiocFrame):
             block = matrix.colData.column(options.block)
         else:
-            block = matrix.colData1[block]
+            block = matrix.colData[block]
 
     return __analyze(matrix.assay("counts"), features=features, options=options)

@@ -74,14 +74,3 @@ class DimensionalityReductionStepOptions(AbstractStepOptions):
                 for each cell. Defaults to None.
         """
         self.run_pca.block = block
-
-    def set_subset(self, subset: Optional[Mapping] = None):
-        """Set subsets.
-
-        Args:
-            subset (Mapping, optional): Set subsets. Defaults to None.
-        """
-        if subset is None:
-            subset = {}
-
-        self.run_pca.subset = subset
