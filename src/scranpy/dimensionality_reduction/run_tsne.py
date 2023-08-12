@@ -87,7 +87,7 @@ class TsneStatus:
     def run(self, iteration: int):
         """Run the t-SNE algorithm for specified iterations.
 
-        Options(AbstractStepOptions)
+        Args:
             iteration (int): Number of iteratons to run.
         """
         lib.run_tsne(self.__ptr, iteration, self.coordinates)
