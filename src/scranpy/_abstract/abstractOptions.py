@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Mapping, Optional, Sequence
 
 __author__ = "ltla, jkanche"
-__copyright__ = "ltla"
+__copyright__ = "jkanche"
 __license__ = "MIT"
 
 

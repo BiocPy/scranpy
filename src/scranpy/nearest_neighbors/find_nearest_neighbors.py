@@ -25,7 +25,7 @@ distance (np.ndarray): Distances to the neighbors for each cell.
 class NeighborResults:
     """Class to manage the find nearest neighbor search results from scran.
 
-    Options(AbstractStepOptions)
+    Args:
         ptr (ct.c_void_p): Pointer reference to libscran's `find_nearest_neighbor`
             result.
     """
@@ -66,7 +66,7 @@ class NeighborResults:
     def get(self, i: int) -> NNResult:
         """Get nearest neighbors of i-th observation/cell.
 
-        Options(AbstractStepOptions)
+        Args:
             i (int): i-th observation to access.
 
         Returns:
@@ -95,7 +95,7 @@ class NeighborResults:
     def unserialize(cls, content: NNResult) -> "NeighborResults":
         """Initialize a class from serialized NN results.
 
-        Options(AbstractStepOptions)
+        Args:
             content (NNResult): Usually the result of `serialize` method.
 
         Returns:

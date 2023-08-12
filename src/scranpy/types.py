@@ -33,7 +33,7 @@ references (np.ndarray): references to each inner ndarray.
 def is_matrix_expected_type(x: Any) -> bool:
     """Checks if `x` is an expected matrix type.
 
-    Options(AbstractStepOptions)
+    Args:
         x (Any): any object.
 
     Returns:
@@ -49,7 +49,7 @@ def is_matrix_expected_type(x: Any) -> bool:
 def is_neighbor_class(x: Any) -> bool:
     """Checks if `x` is an expected nearest neighbor input.
 
-    Options(AbstractStepOptions)
+    Args:
         x (Any): any object.
 
     Returns:
@@ -65,7 +65,7 @@ def is_neighbor_class(x: Any) -> bool:
 def is_list_of_type(x: Any, target_type: Callable) -> bool:
     """Checks if `x` is a list of `target_type`.
 
-    Options(AbstractStepOptions)
+    Args:
         x (Any): any object.
         target_type (Callable): Type to check for, e.g. str, int
 
@@ -80,7 +80,7 @@ def is_list_of_type(x: Any, target_type: Callable) -> bool:
 def validate_matrix_types(x: MatrixTypes):
     """Validate if x is an expected matrix type.
 
-    Options(AbstractStepOptions)
+    Args:
         x (MatrixTypes): Inpute Matrix
 
     Raises:
@@ -95,7 +95,7 @@ def validate_matrix_types(x: MatrixTypes):
 def validate_object_type(x:Any, target_type: Callable):
     """Validate if x is an expected object type.
 
-    Options(AbstractStepOptions)
+    Args:
         x (MatrixTypes): Inpute Matrix
         target_type (Callable): Type to check for, e.g. str, int
 

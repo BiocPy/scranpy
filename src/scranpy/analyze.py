@@ -303,7 +303,7 @@ def analyze(
     - Marker detection for each cluster
 
 
-    Options(AbstractStepOptions)
+    Arguments:
         matrix (Any): "Count" matrix.
         features (Sequence[str]): Features information for the rows of the matrix.
         block (Sequence, optional): Block assignment for each cell.
@@ -344,7 +344,7 @@ def analyze_sce(
     - Marker detection for each cluster
 
 
-    Options(AbstractStepOptions)
+    Arguments:
         matrix (Any): "Count" matrix.
         features (Union[Sequence[str], str]): Features information for the rows of
             the matrix.
