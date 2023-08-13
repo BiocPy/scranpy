@@ -3,9 +3,9 @@ from typing import Mapping, Optional, Sequence
 
 from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
-from .run_pca import RunPcaOptions
-from .run_tsne import RunTsneOptions
-from .run_umap import RunUmapOptions
+from .run_pca import PCAResult, RunPcaOptions
+from .run_tsne import RunTsneOptions, TsneEmbedding
+from .run_umap import RunUmapOptions, UmapEmbedding
 
 __author__ = "jkanche"
 __copyright__ = "jkanche"
@@ -74,3 +74,21 @@ class DimensionalityReductionStepOptions(AbstractStepOptions):
                 for each cell. Defaults to None.
         """
         self.run_pca.block = block
+
+
+@dataclass
+class DimensionalityReductionStepResults:
+    """Results of the dimensionality reduction step.
+
+    Attributes:
+        pca (PCAResult, optional): Result of
+            :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+        tsne (TsneEmbedding, optional): Result of
+            :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
+        umap (UmapEmbedding, optional): Result of
+            :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
+    """
+
+    pca: Optional[PCAResult] = None
+    tsne: Optional[TsneEmbedding] = None
+    umap: Optional[UmapEmbedding] = None

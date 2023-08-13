@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Mapping, Optional, Sequence, Union
 
+import numpy as np
 from biocframe import BiocFrame
 
 from .._abstract import AbstractStepOptions
@@ -14,7 +15,7 @@ __license__ = "MIT"
 
 @dataclass
 class RnaQualityControlOptions(AbstractStepOptions):
-    """Arguments to filter out low quality cells.,
+    """Arguments to filter out low quality cells.
 
     Attributes:
         per_cell_rna_qc_metrics (PerCellRnaQcMetricsOptions): Arguments to compute
@@ -73,3 +74,27 @@ class RnaQualityControlOptions(AbstractStepOptions):
             subset (Mapping, optional): Set subsets. Defaults to None.
         """
         self.per_cell_rna_qc_metrics.subsets = subset
+
+
+@dataclass
+class RnaQualityControlResults:
+    """Results of RNA QC step.
+
+    Attributes:
+        qc_metrics (BiocFrame, optional): Result of
+            per cell qc metrics.
+            (:py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`).
+        qc_filters (np/ndarray, optional): Result of create qc filter
+            (:py:meth:`~scranpy.quality_control.rna.create_rna_qc_filters`)
+        qc_thresholds (BiocFrame, optional): Result of
+            :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+        subsets (Mapping, optional): Subsets.
+        filtered_cells (np.ndarray, optional): Result of
+            :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
+    """
+
+    qc_metrics: Optional[BiocFrame] = None
+    qc_filter: Optional[np.ndarray] = None
+    qc_thresholds: Optional[BiocFrame] = None
+    subsets: Optional[Mapping] = None
+    filtered_cells: Optional[np.ndarray] = None

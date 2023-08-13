@@ -1,5 +1,8 @@
 from dataclasses import dataclass
-from typing import Mapping, Optional, Sequence
+from typing import Optional, Sequence
+
+import numpy as np
+from biocframe import BiocFrame
 
 from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
@@ -55,3 +58,19 @@ class FeatureSelectionStepOptions(AbstractStepOptions):
                 for each cell. Defaults to None.
         """
         self.model_gene_variances.block = block
+
+
+@dataclass
+class FeatureSelectionStepResults:
+    """Results of the feature selection step.
+
+    Attributes:
+        hvgs (np.ndarray, optional): Results of highly variable genes
+            (:py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`).
+        gene_variances (Biocframe, optional): Result of model gene
+            variances
+            (:py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`).
+    """
+
+    hvgs: Optional[np.ndarray] = None
+    gene_variances: Optional[BiocFrame] = None

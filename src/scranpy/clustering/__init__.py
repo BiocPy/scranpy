@@ -3,4 +3,4 @@ from .build_snn_graph import (
     BuildSnnGraphOptions,
     build_snn_graph,
 )
-from .run import ClusterStepOptions
+from .run import ClusterStepOptions, ClusterStepResults

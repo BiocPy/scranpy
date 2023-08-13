@@ -1,4 +1,4 @@
-from .run import DimensionalityReductionStepOptions
+from .run import DimensionalityReductionStepOptions, DimensionalityReductionStepResults
 from .run_pca import RunPcaOptions, run_pca
 from .run_tsne import (
     InitializeTsneOptions,

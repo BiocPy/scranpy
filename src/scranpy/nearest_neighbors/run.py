@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from .._abstract import AbstractStepOptions
-from .build_neighbor_index import BuildNeighborIndexOptions
-from .find_nearest_neighbors import FindNearestNeighborsOptions
+from .build_neighbor_index import BuildNeighborIndexOptions, NeighborIndex
+from .find_nearest_neighbors import FindNearestNeighborsOptions, NeighborResults
 
 __author__ = "jkanche"
 __copyright__ = "jkanche"
@@ -46,3 +47,20 @@ class NearestNeighborStepOptions(AbstractStepOptions):
         """
         self.build_nn_index.verbose = verbose
         self.find_nn.verbose = verbose
+
+
+@dataclass
+class NearestNeighborStepResults:
+    """Results of the nearest neighbor step.
+
+    Attributes:
+        nearest_neighbor_index (NeighborIndex, optional): Result of build nearest
+            neighbor index
+            (:py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`).
+        nearest_neighbors (NeighborResults, optional): Result of find nearest
+            neighbors
+            (:py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`).
+    """
+
+    nearest_neighbor_index: Optional[NeighborIndex] = None
+    nearest_neighbors: Optional[NeighborResults] = None

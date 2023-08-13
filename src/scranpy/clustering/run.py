@@ -1,4 +1,7 @@
 from dataclasses import dataclass
+from typing import Optional, Sequence
+
+import igraph as ig
 
 from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
@@ -39,3 +42,17 @@ class ClusterStepOptions(AbstractStepOptions):
             verbose (bool, optional): Display logs? Defaults to False.
         """
         self.build_snn_graph.verbose = verbose
+
+
+@dataclass
+class ClusterStepResults:
+    """Results of the cluster step.
+
+    Attributes:
+        snn_graph (ig.Graph, optional): An igraph object representing the SNN graph
+            from (:py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`).
+        clusters (Sequence, optional): Clusters identified by igraph.
+    """
+
+    snn_graph: Optional[ig.Graph] = None
+    clusters: Optional[Sequence] = None

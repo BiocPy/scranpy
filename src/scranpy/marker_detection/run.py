@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Mapping
 
 from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
@@ -48,3 +48,14 @@ class MarkerDetectionStepOptions(AbstractStepOptions):
                 for each cell. Defaults to None.
         """
         self.score_markers.block = block
+
+@dataclass
+class MarkerDetectionStepResults:
+    """Results of the marker detection step.
+
+    Attributes:
+        markers (Mapping, optional): Result of score markers
+            (:py:meth:`~scranpy.marker_detection.score_markers.score_markers`).
+    """
+
+    markers: Optional[Mapping] = None

@@ -9,4 +9,4 @@ from .find_nearest_neighbors import (
     NNResult,
     find_nearest_neighbors,
 )
-from .run import NearestNeighborStepOptions
+from .run import NearestNeighborStepOptions, NearestNeighborStepResults

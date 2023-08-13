@@ -23,6 +23,8 @@ __license__ = "MIT"
 
 @dataclass
 class AnalyzeOptions:
+    """Class to manage options across all steps."""
+
     quality_control: qc.RnaQualityControlOptions = qc.RnaQualityControlOptions()
     normalization: norm.NormalizationStepOptions = norm.NormalizationStepOptions()
     feature_selection: feat.FeatureSelectionStepOptions = (
@@ -132,9 +134,30 @@ class AnalyzeOptions:
         self.marker_detection.set_threads(num_threads)
 
 
+@dataclass
+class AnalyzeResults:
+    """Class to manage the results across all analyis steps."""
+
+    quality_control: qc.RnaQualityControlResults = qc.RnaQualityControlResults()
+    normalization: norm.NormalizationStepResults = norm.NormalizationStepResults()
+    feature_selection: feat.FeatureSelectionStepResults = (
+        feat.FeatureSelectionStepResults()
+    )
+    dimensionality_reduction: dimred.DimensionalityReductionStepResults = (
+        dimred.DimensionalityReductionStepResults()
+    )
+    clustering: clust.ClusterStepResults = clust.ClusterStepResults()
+    nearest_neighbors: nn.NearestNeighborStepResults = nn.NearestNeighborStepResults()
+    marker_detection: mark.MarkerDetectionStepResults = (
+        mark.MarkerDetectionStepResults()
+    )
+
+
 def __analyze(
     matrix: Any, features: Sequence[str], options: AnalyzeOptions = AnalyzeOptions()
-) -> Mapping:
+) -> AnalyzeResults:
+    results = AnalyzeResults()
+
     ptr = tatamize(matrix)
 
     NR = ptr.nrow()
@@ -166,14 +189,16 @@ def __analyze(
                 f" {options.quality_control.mito_subset}"
             )
 
+    results.quality_control.subsets = subsets
+
     options.set_subset(subset=subsets)
 
-    qc_metrics = qc.per_cell_rna_qc_metrics(
+    results.quality_control.qc_metrics = qc.per_cell_rna_qc_metrics(
         matrix,
         options=options.quality_control.per_cell_rna_qc_metrics,
     )
-    qc_thresholds = qc.suggest_rna_qc_filters(
-        qc_metrics,
+    results.quality_control.qc_thresholds = qc.suggest_rna_qc_filters(
+        results.quality_control.qc_metrics,
         options=options.quality_control.suggest_rna_qc_filters,
     )
 
@@ -181,43 +206,51 @@ def __analyze(
         if not isinstance(options.quality_control.custom_thresholds, BiocFrame):
             raise TypeError("'qc_custom_thresholds' is not a `BiocFrame` object.")
 
-        for col in qc_thresholds.columnNames:
+        for col in results.quality_control.qc_thresholds.columnNames:
             if col in options.quality_control.custom_thresholds.columnNames:
-                qc_thresholds.column(col).fill(
+                results.quality_control.qc_thresholds.column(col).fill(
                     options.quality_control.custom_thresholds[col]
                 )
 
-    qc_filter = qc.create_rna_qc_filter(
-        qc_metrics, qc_thresholds, options.quality_control.create_rna_qc_filters
+    results.quality_control.qc_filter = qc.create_rna_qc_filter(
+        results.quality_control.qc_metrics,
+        results.quality_control.qc_thresholds,
+        options.quality_control.create_rna_qc_filters,
     )
 
     # Finally QC cells
-    qc_filtered = qc.filter_cells(ptr, filter=qc_filter)
+    results.quality_control.filtered_cells = qc.filter_cells(
+        ptr, filter=results.quality_control.qc_filter
+    )
 
     # Log-normalize counts
-    normed = norm.log_norm_counts(
-        qc_filtered, options=options.normalization.log_normalize_counts
+    results.normalization.log_normalized_counts = norm.log_norm_counts(
+        results.quality_control.filtered_cells,
+        options=options.normalization.log_normalize_counts,
     )
 
     #  Model gene variances
-    var_stats = feat.model_gene_variances(
-        normed, options=options.feature_selection.model_gene_variances
+    results.feature_selection.gene_variances = feat.model_gene_variances(
+        results.normalization.log_normalized_counts,
+        options=options.feature_selection.model_gene_variances,
     )
 
     # Choose highly variable genes
-    selected_feats = feat.choose_hvgs(
-        var_stats.column("residuals"), options=options.feature_selection.choose_hvgs
+    results.feature_selection.hvgs = feat.choose_hvgs(
+        results.feature_selection.gene_variances.column("residuals"),
+        options=options.feature_selection.choose_hvgs,
     )
 
     # Compute PC's
-    options.dimensionality_reduction.run_pca.subset = selected_feats
-    pca = dimred.run_pca(
-        normed,
+    options.dimensionality_reduction.run_pca.subset = results.feature_selection.hvgs
+    results.dimensionality_reduction.pca = dimred.run_pca(
+        results.normalization.log_normalized_counts,
         options=options.dimensionality_reduction.run_pca,
     )
 
-    neighbor_idx = nn.build_neighbor_index(
-        pca.principal_components, options=nn.BuildNeighborIndexOptions(approximate=True)
+    results.nearest_neighbors.nearest_neighbor_index = nn.build_neighbor_index(
+        results.dimensionality_reduction.pca.principal_components,
+        options=nn.BuildNeighborIndexOptions(approximate=True),
     )
 
     tsne_nn = dimred.tsne_perplexity_to_neighbors(
@@ -229,7 +262,7 @@ def __analyze(
     nn_dict = {}
     for k in set([umap_nn, tsne_nn, snn_nn]):
         nn_dict[k] = nn.find_nearest_neighbors(
-            neighbor_idx,
+            results.nearest_neighbors.nearest_neighbor_index,
             options=options.nearest_neighbors.find_nn,
         )
 
@@ -252,19 +285,19 @@ def __analyze(
 
     remaining_threads = max(1, options.num_threads - 2)
     options.clustering.set_threads(remaining_threads)
-    graph = clust.build_snn_graph(
+    results.clustering.snn_graph = clust.build_snn_graph(
         nn_dict[snn_nn], options=options.clustering.build_snn_graph
     )
 
     # clusters
-    clusters = graph.community_multilevel(
+    results.clustering.clusters = results.clustering.snn_graph.community_multilevel(
         resolution=options.clustering.resolution
     ).membership
 
     # Score Markers for each cluster
     options.marker_detection.set_threads(remaining_threads)
-    markers = mark.score_markers(
-        normed,
+    results.marker_detection.markers = mark.score_markers(
+        results.normalization.log_normalized_counts,
         options=options.marker_detection.score_markers,
     )
 
@@ -274,24 +307,16 @@ def __analyze(
 
     executor.shutdown()
 
-    return {
-        "qc_metrics": qc_metrics,
-        "qc_thresholds": qc_thresholds,
-        "qc_filter": qc_filter,
-        "variances": var_stats,
-        "hvgs": selected_feats,
-        "pca": pca,
-        "tsne": embeddings[0],
-        "umap": embeddings[1],
-        "clustering": clusters,
-        "marker_detection": markers,
-    }
+    results.dimensionality_reduction.tsne = embeddings[0]
+    results.dimensionality_reduction.umap = embeddings[1]
+
+    return results
 
 
 @singledispatch
 def analyze(
     matrix: Any, features: Sequence[str], options: AnalyzeOptions = AnalyzeOptions()
-) -> Mapping:
+) -> AnalyzeResults:
     """Run all steps of the scran workflow for single-cell RNA-seq datasets.
 
     - Remove low-quality cells
@@ -316,7 +341,7 @@ def analyze(
         NotImplementedError: if ``matrix`` is not an expected type.
 
     Returns:
-        Mapping: Results from various steps.
+        AnalyzeResults: Results from various steps.
     """
     if is_matrix_expected_type(matrix):
         return __analyze(matrix, features=features, options=options)
@@ -332,7 +357,7 @@ def analyze_sce(
     features: Union[Sequence[str], str],
     assay: str = "counts",
     options: AnalyzeOptions = AnalyzeOptions(),
-) -> Mapping:
+) -> AnalyzeResults:
     """Run all steps of the scran workflow for single-cell RNA-seq datasets.
 
     - Remove low-quality cells
@@ -345,21 +370,22 @@ def analyze_sce(
 
 
     Arguments:
-        matrix (Any): "Count" matrix.
-        features (Union[Sequence[str], str]): Features information for the rows of
+        matrix (SingleCellExperiment): A
+            :py:class:`singlecellexperiment.SingleCellExperiment` object.
+        features (Union[Sequence[str], str]): Features for the rows of
             the matrix.
-        block (Union[Sequence, str], optional): Block assignment for each cell.
+        block (Union[Sequence, str], optional): Block assignments for each cell.
             This is used to segregate cells in order to perform comparisons within
             each block. Defaults to None, indicating all cells are part of the same
             block.
-        assay (str): assay matrix to use for analysis. Defaults to "counts".
+        assay (str): Assay matrix to use for analysis. Defaults to "counts".
         options (AnalyzeOptions): Optional analysis parameters.
 
     Raises:
-        ValueError: object does not contain a 'counts' matrix.
+        ValueError: If object does not contain a ``assay`` matrix.
 
     Returns:
-        Mapping: Results from various steps
+        AnalyzeResults: Results from various steps.
     """
     if assay not in matrix.assayNames:
         raise ValueError(f"SCE does not contain a '{assay}' matrix.")

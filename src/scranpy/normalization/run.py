@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Optional, Sequence
 
+from mattress import TatamiNumericPointer
+
 from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
 from .log_norm_counts import LogNormalizeCountsOptions
@@ -48,3 +50,15 @@ class NormalizationStepOptions(AbstractStepOptions):
                 for each cell. Defaults to None.
         """
         self.log_normalize_counts.block = block
+
+
+@dataclass
+class NormalizationStepResults:
+    """Results of the normalization step.
+
+    Attributes:
+        log_normalized_counts (TatamiNumericPointer, optional): Log-normalized matrix
+            :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
+    """
+
+    log_normalized_counts: Optional[TatamiNumericPointer] = None
