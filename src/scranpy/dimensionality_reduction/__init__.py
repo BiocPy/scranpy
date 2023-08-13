@@ -1,4 +1,3 @@
-from .run import DimensionalityReductionStepOptions, DimensionalityReductionStepResults
 from .run_pca import RunPcaOptions, run_pca
 from .run_tsne import (
     InitializeTsneOptions,
@@ -16,4 +15,8 @@ from .run_umap import (
     UmapStatus,
     initialize_umap,
     run_umap,
+)
+from .types import (
+    DimensionalityReductionStepOptions,
+    DimensionalityReductionStepResults,
 )
