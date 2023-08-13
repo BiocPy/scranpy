@@ -1,6 +1,6 @@
 import numpy as np
 from mattress import tatamize
-from scranpy.quality_control import FilterCellsArgs, filter_cells
+from scranpy.quality_control import FilterCellsOptions, filter_cells
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -11,7 +11,7 @@ def test_filter_cells(mock_data):
     x = mock_data.x
     y = tatamize(x)
     filtered = filter_cells(
-        y, filter=np.asarray([2, 4, 6, 8]), options=FilterCellsArgs(discard=False)
+        y, filter=np.asarray([2, 4, 6, 8]), options=FilterCellsOptions(discard=False)
     )
 
     assert filtered.ncol() == 4
@@ -26,7 +26,7 @@ def test_filter_cells(mock_data):
     for i in range(0, y.ncol(), 3):
         keep[i] = True
 
-    filtered = filter_cells(y, filter=keep, options=FilterCellsArgs(discard=False))
+    filtered = filter_cells(y, filter=keep, options=FilterCellsOptions(discard=False))
     assert filtered.ncol() == keep.sum()
     filtered = filter_cells(y, filter=keep)
     assert filtered.ncol() == y.ncol() - keep.sum()

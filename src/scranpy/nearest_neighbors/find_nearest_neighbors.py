@@ -108,7 +108,7 @@ class NeighborResults:
 
 
 @dataclass
-class FindNearestNeighborsArgs:
+class FindNearestNeighborsOptions:
     """Arguments to find nearest neighbors -
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
@@ -124,7 +124,8 @@ class FindNearestNeighborsArgs:
 
 
 def find_nearest_neighbors(
-    idx: NeighborIndex, options: FindNearestNeighborsArgs = FindNearestNeighborsArgs()
+    idx: NeighborIndex,
+    options: FindNearestNeighborsOptions = FindNearestNeighborsOptions(),
 ) -> NeighborResults:
     """Find the nearest neighbors for each cell.
 
@@ -132,7 +133,7 @@ def find_nearest_neighbors(
         idx (NeighborIndex): Object that holds the nearest neighbor search index.
             usually the result of
             :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
-        options (FindNearestNeighborsArgs): Optional parameters.
+        options (FindNearestNeighborsOptions): Optional parameters.
 
     Returns:
         NeighborResults: Object with search results.

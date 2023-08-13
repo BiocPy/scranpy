@@ -8,7 +8,7 @@ import numpy as np
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..nearest_neighbors import (
-    BuildNeighborIndexArgs,
+    BuildNeighborIndexOptions,
     NeighborIndex,
     NeighborResults,
     build_neighbor_index,
@@ -21,7 +21,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class BuildSnnGraphArgs:
+class BuildSnnGraphOptions:
     """Arguments to build a shared nearest neighbor
     graph - :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
@@ -59,7 +59,8 @@ class BuildSnnGraphArgs:
 
 
 def build_snn_graph(
-    input: NeighborIndexOrResults, options: BuildSnnGraphArgs = BuildSnnGraphArgs()
+    input: NeighborIndexOrResults,
+    options: BuildSnnGraphOptions = BuildSnnGraphOptions(),
 ) -> ig.Graph:
     """Build Shared nearest neighbor graph.
 
@@ -77,7 +78,7 @@ def build_snn_graph(
     Args:
         input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
             or neighbors.
-        options (BuildSnnGraphArgs): Optional parameters.
+        options (BuildSnnGraphOptions): Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not a nearest neighbor search index or search result
@@ -102,7 +103,7 @@ def build_snn_graph(
                 logger.info("`input` is a matrix, building nearest neighbor index...")
 
             input = build_neighbor_index(
-                input, BuildNeighborIndexArgs(approximate=options.approximate)
+                input, BuildNeighborIndexOptions(approximate=options.approximate)
             )
 
         if options.verbose is True:

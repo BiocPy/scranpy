@@ -15,7 +15,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class ModelGeneVariancesArgs:
+class ModelGeneVariancesOptions:
     """Arguments to model gene variances -
     :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
@@ -37,7 +37,7 @@ class ModelGeneVariancesArgs:
 
 
 def model_gene_variances(
-    input: MatrixTypes, options: ModelGeneVariancesArgs = ModelGeneVariancesArgs()
+    input: MatrixTypes, options: ModelGeneVariancesOptions = ModelGeneVariancesOptions()
 ) -> BiocFrame:
     """Compute model gene variances.
 
@@ -48,7 +48,7 @@ def model_gene_variances(
 
     Args:
         input (MatrixTypes): Log-normalized expression matrix..
-        options (ModelGeneVariancesArgs): Optional parameters.
+        options (ModelGeneVariancesOptions): Optional parameters.
 
     Returns:
         BiocFrame: Frame with metrics.

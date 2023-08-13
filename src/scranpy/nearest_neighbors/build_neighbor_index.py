@@ -53,7 +53,7 @@ class NeighborIndex:
 
 
 @dataclass
-class BuildNeighborIndexArgs:
+class BuildNeighborIndexOptions:
     """Arguments to build nearest neighbor index -
     :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
@@ -68,7 +68,7 @@ class BuildNeighborIndexArgs:
 
 
 def build_neighbor_index(
-    input: np.ndarray, options: BuildNeighborIndexArgs = BuildNeighborIndexArgs()
+    input: np.ndarray, options: BuildNeighborIndexOptions = BuildNeighborIndexOptions()
 ) -> NeighborIndex:
     """Build the nearest neighbor search index.
 
@@ -78,7 +78,7 @@ def build_neighbor_index(
         input (np.ndarray): Co-ordinates for each cell in the dataset
             usually the prinicpal components from the PCA step
             (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
-        options (BuildNeighborIndexArgs): Optional parameters.
+        options (BuildNeighborIndexOptions): Optional parameters.
 
     Returns:
         NeighborIndex: Nearest neighbor search index.

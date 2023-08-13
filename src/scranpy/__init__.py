@@ -15,10 +15,13 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-from . import clustering
-from . import dimensionality_reduction
-from . import feature_selection
-from . import marker_detection
-from . import nearest_neighbors
-from . import normalization
-from . import quality_control
+from . import (
+    clustering,
+    dimensionality_reduction,
+    feature_selection,
+    marker_detection,
+    nearest_neighbors,
+    normalization,
+    quality_control,
+)
+from .analyze import analyze

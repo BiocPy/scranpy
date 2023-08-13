@@ -31,7 +31,7 @@ def create_pointer_array(arrs):
 
 
 @dataclass
-class PerCellRnaQcMetricsArgs:
+class PerCellRnaQcMetricsOptions:
     """Arguments to compute per cell QC metrics (RNA) -
     :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
 
@@ -50,7 +50,8 @@ class PerCellRnaQcMetricsArgs:
 
 
 def per_cell_rna_qc_metrics(
-    input: MatrixTypes, options: PerCellRnaQcMetricsArgs = PerCellRnaQcMetricsArgs()
+    input: MatrixTypes,
+    options: PerCellRnaQcMetricsOptions = PerCellRnaQcMetricsOptions(),
 ) -> BiocFrame:
     """Compute QC metrics (RNA).
 
@@ -58,7 +59,7 @@ def per_cell_rna_qc_metrics(
 
     Args:
         input (MatrixTypes): Input matrix.
-        options (PerCellRnaQcMetricsArgs): Optional parameters.
+        options (PerCellRnaQcMetricsOptions): Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not an expected matrix type.
@@ -236,9 +237,11 @@ class CreateRnaQcFilter:
             This is used to segregate cells in order to perform comparisons within
             each block. Defaults to None, indicating all cells are part of the same
             block.
+        verbose (bool, optional): Display logs?. Defaults to False.
     """
 
     block: Optional[Sequence] = None
+    verbose: bool = False
 
 
 def create_rna_qc_filter(

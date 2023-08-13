@@ -43,34 +43,8 @@ mat = sp.csc_matrix(
 )
 features = [x.decode("ascii") for x in fhandle["matrix"]["features"]["name"]]
 
-# Performing QC.
 import scranpy
-metrics = scranpy.quality_control.per_cell_rna_qc_metrics(
-    mat, 
-    { "mito": scranpy.quality_control.guess_mito_from_symbols(features) }
-)
-thresholds = scranpy.quality_control.suggest_rna_qc_filters(metrics)
-filter = scranpy.quality_control.create_rna_qc_filter(metrics, thresholds)
-
-import mattress
-ptr = mattress.tatamize(mat)
-filtered = qc.filter_cells(ptr, filter)
-
-import scranpy.normalization as norm
-normed = norm.log_norm_counts(filtered)
-
-varstats = scranpy.feature_selection.model_gene_variances(normed)
-selected = scranpy.feature_selection.choose_hvgs(varstats.column("residuals"))
-pca = scranpy.dimensionality_reduction.run_pca(normed, rank=20, subset=selected)
-
-# TODO: run these all at once.
-tsne = scranpy.dimensionality_reduction.run_tsne(pca.principal_components)
-umap = scranpy.dimensionality_reduction.run_umap(pca.principal_components)
-
-g = scranpy.clustering.build_snn_graph(pca.principal_components)
-clusters = g.community_multilevel().membership
-
-markers = scranpy.marker_detection.score_markers(normed, clusters)
+results = scranpy.analyze(mat, features)
 ```
 
 ## Developer Notes

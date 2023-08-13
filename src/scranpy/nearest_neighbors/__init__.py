@@ -1,12 +1,12 @@
 from .build_neighbor_index import (
-    BuildNeighborIndexArgs,
+    BuildNeighborIndexOptions,
     NeighborIndex,
     build_neighbor_index,
 )
 from .find_nearest_neighbors import (
-    FindNearestNeighborsArgs,
+    FindNearestNeighborsOptions,
     NeighborResults,
     NNResult,
     find_nearest_neighbors,
 )
-from .run import NearestNeighborStepArgs
+from .types import NearestNeighborStepOptions, NearestNeighborStepResults

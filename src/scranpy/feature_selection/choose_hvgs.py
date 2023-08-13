@@ -10,7 +10,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class ChooseHvgArgs:
+class ChooseHvgsOptions:
     """Arguments to choose highly variable genes -
     :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
@@ -19,12 +19,12 @@ class ChooseHvgArgs:
         verbose (bool): display logs? Defaults to False.
     """
 
-    number: int = 2500
+    number: int = 4000
     verbose: bool = False
 
 
 def choose_hvgs(
-    stat: np.ndarray, options: ChooseHvgArgs = ChooseHvgArgs()
+    stat: np.ndarray, options: ChooseHvgsOptions = ChooseHvgsOptions()
 ) -> np.ndarray:
     """Choose highly variable genes.
 
@@ -34,7 +34,7 @@ def choose_hvgs(
             This usually contains the residuals of the fitted
             mean-variance trend from
             (:py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`).
-        options (ChooseHvgArgs): Optional parameters.
+        options (ChooseHvgsOptions): Optional parameters.
 
     Return:
         np.ndarray: Array of booleans of length equal to ``stat``,
