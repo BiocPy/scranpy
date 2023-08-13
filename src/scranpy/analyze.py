@@ -159,28 +159,12 @@ class AnalyzeResults:
 
         keep = [not y for y in self.quality_control.qc_filter.tolist()]
 
-        print(keep)
-        print(len(keep))
-
         # TODO: need to add logcounts
         sce = SingleCellExperiment(assays={assay: x[:, keep]})
-
-        print(self.quality_control.qc_metrics)
-        print(self.quality_control.qc_metrics.shape)
 
         sce.colData = self.quality_control.qc_metrics
         sce.colData["clusters"] = self.clustering.clusters
 
-        print(self.dimensionality_reduction.tsne.x)
-
-        print(
-            np.array(
-                [
-                    self.dimensionality_reduction.tsne.x,
-                    self.dimensionality_reduction.tsne.y,
-                ]
-            )
-        )
         sce.reducedDims = {
             "pca": self.dimensionality_reduction.pca.principal_components.T,
             "tsne": np.array(
