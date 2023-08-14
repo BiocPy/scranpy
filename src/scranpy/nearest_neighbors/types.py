@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 from .._abstract import AbstractStepOptions
@@ -22,8 +22,12 @@ class NearestNeighborStepOptions(AbstractStepOptions):
             (:py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`).
     """
 
-    build_nn_index: BuildNeighborIndexOptions = BuildNeighborIndexOptions()
-    find_nn: FindNearestNeighborsOptions = FindNearestNeighborsOptions()
+    build_nn_index: BuildNeighborIndexOptions = field(
+        default_factory=BuildNeighborIndexOptions
+    )
+    find_nn: FindNearestNeighborsOptions = field(
+        default_factory=FindNearestNeighborsOptions
+    )
 
     def __post_init__(self):
         from ..types import validate_object_type

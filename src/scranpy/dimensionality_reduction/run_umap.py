@@ -1,7 +1,7 @@
 import copy
 import ctypes as ct
 from collections import namedtuple
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 import numpy as np
@@ -206,7 +206,9 @@ class RunUmapOptions:
         verbose (bool): Display logs? Defaults to False.
     """
 
-    initialize_umap: InitializeUmapOptions = InitializeUmapOptions()
+    initialize_umap: InitializeUmapOptions = field(
+        default_factory=InitializeUmapOptions
+    )
     verbose: bool = False
 
 

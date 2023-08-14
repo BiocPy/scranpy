@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from typing import Mapping, Optional, Sequence
+from dataclasses import dataclass, field
+from typing import Optional, Sequence
 
 from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
@@ -25,9 +25,9 @@ class DimensionalityReductionStepOptions(AbstractStepOptions):
             :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
     """
 
-    run_pca: RunPcaOptions = RunPcaOptions()
-    run_tsne: RunTsneOptions = RunTsneOptions()
-    run_umap: RunUmapOptions = RunUmapOptions()
+    run_pca: RunPcaOptions = field(default_factory=RunPcaOptions)
+    run_tsne: RunTsneOptions = field(default_factory=RunTsneOptions)
+    run_umap: RunUmapOptions = field(default_factory=RunUmapOptions)
 
     def __post_init__(self):
         validate_object_type(self.run_pca, RunPcaOptions)

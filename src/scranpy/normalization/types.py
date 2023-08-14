@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
 from mattress import TatamiNumericPointer
@@ -21,7 +21,9 @@ class NormalizationStepOptions(AbstractStepOptions):
             :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
     """
 
-    log_normalize_counts: LogNormalizeCountsOptions = LogNormalizeCountsOptions()
+    log_normalize_counts: LogNormalizeCountsOptions = field(
+        default_factory=LogNormalizeCountsOptions
+    )
 
     def __post_init__(self):
         validate_object_type(self.log_normalize_counts, LogNormalizeCountsOptions)
