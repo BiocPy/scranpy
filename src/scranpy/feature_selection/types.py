@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
 import numpy as np
@@ -26,8 +26,10 @@ class FeatureSelectionStepOptions(AbstractStepOptions):
             (:py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`).
     """
 
-    choose_hvgs: ChooseHvgsOptions = ChooseHvgsOptions()
-    model_gene_variances: ModelGeneVariancesOptions = ModelGeneVariancesOptions()
+    choose_hvgs: ChooseHvgsOptions = field(default_factory=ChooseHvgsOptions)
+    model_gene_variances: ModelGeneVariancesOptions = field(
+        default_factory=ModelGeneVariancesOptions
+    )
 
     def __post_init__(self):
         validate_object_type(self.choose_hvgs, ChooseHvgsOptions)

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
 import igraph as ig
@@ -21,7 +21,7 @@ class ClusterStepOptions(AbstractStepOptions):
         (:py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`).
     """
 
-    build_snn_graph: BuildSnnGraphOptions = BuildSnnGraphOptions()
+    build_snn_graph: BuildSnnGraphOptions = field(default_factory=BuildSnnGraphOptions)
     resolution: int = 1
 
     def __post_init__(self):

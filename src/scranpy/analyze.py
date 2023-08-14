@@ -1,5 +1,5 @@
 from concurrent.futures import ProcessPoolExecutor
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import singledispatch, singledispatchmethod
 from typing import Mapping, Optional, Sequence, Union
 
@@ -26,18 +26,26 @@ __license__ = "MIT"
 class AnalyzeOptions:
     """Class to manage options across all steps."""
 
-    quality_control: qc.RnaQualityControlOptions = qc.RnaQualityControlOptions()
-    normalization: norm.NormalizationStepOptions = norm.NormalizationStepOptions()
-    feature_selection: feat.FeatureSelectionStepOptions = (
-        feat.FeatureSelectionStepOptions()
+    quality_control: qc.RnaQualityControlOptions = field(
+        default_factory=qc.RnaQualityControlOptions
     )
-    dimensionality_reduction: dimred.DimensionalityReductionStepOptions = (
-        dimred.DimensionalityReductionStepOptions()
+    normalization: norm.NormalizationStepOptions = field(
+        default_factory=norm.NormalizationStepOptions
     )
-    clustering: clust.ClusterStepOptions = clust.ClusterStepOptions()
-    nearest_neighbors: nn.NearestNeighborStepOptions = nn.NearestNeighborStepOptions()
-    marker_detection: mark.MarkerDetectionStepOptions = (
-        mark.MarkerDetectionStepOptions()
+    feature_selection: feat.FeatureSelectionStepOptions = field(
+        default_factory=feat.FeatureSelectionStepOptions
+    )
+    dimensionality_reduction: dimred.DimensionalityReductionStepOptions = field(
+        default_factory=dimred.DimensionalityReductionStepOptions
+    )
+    clustering: clust.ClusterStepOptions = field(
+        default_factory=clust.ClusterStepOptions
+    )
+    nearest_neighbors: nn.NearestNeighborStepOptions = field(
+        default_factory=nn.NearestNeighborStepOptions
+    )
+    marker_detection: mark.MarkerDetectionStepOptions = field(
+        default_factory=mark.MarkerDetectionStepOptions
     )
     block: Optional[Sequence] = None
     seed: int = 42
@@ -139,18 +147,26 @@ class AnalyzeOptions:
 class AnalyzeResults:
     """Class to manage results across all analyis steps."""
 
-    quality_control: qc.RnaQualityControlResults = qc.RnaQualityControlResults()
-    normalization: norm.NormalizationStepResults = norm.NormalizationStepResults()
-    feature_selection: feat.FeatureSelectionStepResults = (
-        feat.FeatureSelectionStepResults()
+    quality_control: qc.RnaQualityControlResults = field(
+        default_factory=qc.RnaQualityControlResults
     )
-    dimensionality_reduction: dimred.DimensionalityReductionStepResults = (
-        dimred.DimensionalityReductionStepResults()
+    normalization: norm.NormalizationStepResults = field(
+        default_factory=norm.NormalizationStepResults
     )
-    clustering: clust.ClusterStepResults = clust.ClusterStepResults()
-    nearest_neighbors: nn.NearestNeighborStepResults = nn.NearestNeighborStepResults()
-    marker_detection: mark.MarkerDetectionStepResults = (
-        mark.MarkerDetectionStepResults()
+    feature_selection: feat.FeatureSelectionStepResults = field(
+        default_factory=feat.FeatureSelectionStepResults
+    )
+    dimensionality_reduction: dimred.DimensionalityReductionStepResults = field(
+        default_factory=dimred.DimensionalityReductionStepResults
+    )
+    clustering: clust.ClusterStepResults = field(
+        default_factory=clust.ClusterStepResults
+    )
+    nearest_neighbors: nn.NearestNeighborStepResults = field(
+        default_factory=nn.NearestNeighborStepResults
+    )
+    marker_detection: mark.MarkerDetectionStepResults = field(
+        default_factory=mark.MarkerDetectionStepResults
     )
 
     def __to_sce(self, x: MatrixTypes, assay: str, include_gene_data: bool = False):
