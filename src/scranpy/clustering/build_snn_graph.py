@@ -22,31 +22,31 @@ __license__ = "MIT"
 
 @dataclass
 class BuildSnnGraphOptions:
-    """Optional arguments for building a shared nearest neighbor (SNN) graph
-    via :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`,
-    typically in preparation for clustering by community detection.
+    """Optional arguments for :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Attributes:
-        num_neighbors (int, optional): Number of neighbors to use. Larger values result 
-            in a more interconnected graph and generally broader clusters from community detection.
-            Ignored if ``input`` is a
-            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
-            object. Defaults to 15.
-        weight_scheme (Literal["ranked", "jaccard", "number"], optional): Weighting
-            scheme for the edges between cells. This can be based on the top ranks
+        num_neighbors (int, optional): Number of neighbors to use. 
+            Larger values result in a more interconnected graph and generally broader clusters from community detection.
+            Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` object. 
+            Defaults to 15.
+
+        weight_scheme (Literal["ranked", "jaccard", "number"], optional): 
+            Weighting scheme for the edges between cells. This can be based on the top ranks
             of the shared neighbors ("rank"), the number of shared neighbors ("number")
             or the Jaccard index of the neighbor sets between cells ("jaccard").
             Defaults to "ranked".
+
         build_neighbor_index_options (BuildNeighborIndexOptions):
             Optional arguments to use for building a nearest neighbors index.
             Only used if ``input`` is a :py:class:`~numpy.ndarray`.
-         num_threads (int, optional): Number of threads to use for the SNN graph
-            construction. This is also used for the neighbor search if ``input``
-            is not already a 
+
+         num_threads (int, optional): 
+            Number of threads to use for the SNN graph construction. 
+            This is also used for the neighbor search if ``input`` is not already a 
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`.
             Defaults to 1.
-        verbose (bool): Whether to print logging information. Defaults to False.
 
+        verbose (bool): Whether to print logging information. Defaults to False.
 
     Raises:
         ValueError: If ``weight_scheme`` is not an expected value.
@@ -72,7 +72,7 @@ def build_snn_graph(
 ) -> ig.Graph:
     """Build a shared nearest neighbor (SNN) graph where each cell is a node and
     edges are formed between cells that share one or more nearest neighbors.
-    This can be used for community detection to detect clusters of similar cells.
+    This can be used for community detection to define clusters of similar cells.
 
     Args:
         input  (NeighborIndex | NeighborResults | np.ndarray):

@@ -41,7 +41,7 @@ def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PcaResult:
 
 @dataclass
 class RunPcaOptions:
-    """Optional arguments for principal components analysis (PCA) -
+    """Optional arguments for
     :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
     Attributes:
