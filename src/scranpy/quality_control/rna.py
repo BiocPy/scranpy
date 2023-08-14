@@ -282,8 +282,10 @@ def create_rna_qc_filter(
     Args:
         metrics (BiocFrame): Data frame of metrics,
             see :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` for the expected format.
+
         thresholds (BiocFrame): Data frame of filter thresholds,
             see :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters` for the expected format.
+
         options (CreateRnaQcFilter): Optional parameters.
 
     Returns:

@@ -5,7 +5,7 @@
 To use **scranpy**, you'll need Python 3.9 or higher.
 You'll also need to install **scranpy** itself (duh), which is available from [PyPi](https://pypi.org/project/scranpy) via the usual commands:
 
-```python
+```sh
 pip install scranpy
 ```
 
