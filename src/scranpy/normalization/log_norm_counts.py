@@ -57,7 +57,7 @@ class LogNormCountsOptions:
 
 
 def log_norm_counts(
-    input: MatrixTypes, options: LogNormalizeCountsOptions = LogNormalizeCountsOptions()
+    input: MatrixTypes, options: LogNormCountsOptions = LogNormCountsOptions()
 ) -> TatamiNumericPointer:
     """Compute log-transformed normalized values.
     The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.
@@ -69,7 +69,7 @@ def log_norm_counts(
             Matrix-like object containing cells in columns and features in rows, typically with count data.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
-        options (LogNormalizeCountsOptions): Optional parameters.
+        options (LogNormCountsOptions): Optional parameters.
 
     Raises:
         TypeError, ValueError: If arguments don't meet expectations.

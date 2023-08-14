@@ -3,7 +3,6 @@ from typing import Optional, Sequence
 
 import igraph as ig
 
-from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
 from .build_snn_graph import BuildSnnGraphOptions
 
@@ -13,7 +12,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class ClusteringOptions(AbstractStepOptions):
+class ClusteringOptions:
     """Options for clustering.
 
     Attributes:

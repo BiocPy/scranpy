@@ -73,13 +73,6 @@ class ScoreMarkersOptions:
     num_threads: int = 1
     verbose: bool = False
 
-    def __post_init__(self):
-        if self.grouping is None:
-            warnings.warn(
-                "No `cluster/group` information is provided for each cell "
-                "in this scenario, we consider all cells to be the same cluster"
-            )
-
 
 def score_markers(
     input: MatrixTypes, 
@@ -116,21 +109,12 @@ def score_markers(
     nr = x.nrow()
     nc = x.ncol()
 
-    # TODO: should we do this?
-    if options.grouping is None:
-        if options.verbose is True:
-            logger.info(
-                "`grouping` is none, assigning all cells to the same cluster..."
-            )
-
-        options.grouping = [0] * nc
-
-    if len(options.grouping) != nc:
+    if len(grouping) != nc:
         raise ValueError(
             "Length of 'grouping' should be equal to the number of columns in 'x'"
         )
 
-    grouping = factorize(options.grouping)
+    grouping = factorize(grouping)
     num_groups = len(grouping.levels)
 
     block_offset = 0

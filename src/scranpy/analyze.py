@@ -29,23 +29,23 @@ class AnalyzeOptions:
     quality_control: qc.RnaQualityControlOptions = field(
         default_factory=qc.RnaQualityControlOptions
     )
-    normalization: norm.NormalizationStepOptions = field(
-        default_factory=norm.NormalizationStepOptions
+    normalization: norm.NormalizationOptions = field(
+        default_factory=norm.NormalizationOptions
     )
-    feature_selection: feat.FeatureSelectionStepOptions = field(
-        default_factory=feat.FeatureSelectionStepOptions
+    feature_selection: feat.FeatureSelectionOptions = field(
+        default_factory=feat.FeatureSelectionOptions
     )
-    dimensionality_reduction: dimred.DimensionalityReductionStepOptions = field(
-        default_factory=dimred.DimensionalityReductionStepOptions
+    dimensionality_reduction: dimred.DimensionalityReductionOptions = field(
+        default_factory=dimred.DimensionalityReductionOptions
     )
     clustering: clust.ClusteringOptions = field(
         default_factory=clust.ClusteringOptions
     )
-    nearest_neighbors: nn.NearestNeighborStepOptions = field(
-        default_factory=nn.NearestNeighborStepOptions
+    nearest_neighbors: nn.NearestNeighborsOptions = field(
+        default_factory=nn.NearestNeighborsOptions
     )
-    marker_detection: mark.MarkerDetectionStepOptions = field(
-        default_factory=mark.MarkerDetectionStepOptions
+    marker_detection: mark.MarkerDetectionOptions = field(
+        default_factory=mark.MarkerDetectionOptions
     )
     block: Optional[Sequence] = None
     seed: int = 42
@@ -54,14 +54,14 @@ class AnalyzeOptions:
 
     def __post_init__(self):
         validate_object_type(self.quality_control, qc.RnaQualityControlOptions)
-        validate_object_type(self.normalization, norm.NormalizationStepOptions)
-        validate_object_type(self.feature_selection, feat.FeatureSelectionStepOptions)
+        validate_object_type(self.normalization, norm.NormalizationOptions)
+        validate_object_type(self.feature_selection, feat.FeatureSelectionOptions)
         validate_object_type(
-            self.dimensionality_reduction, dimred.DimensionalityReductionStepOptions
+            self.dimensionality_reduction, dimred.DimensionalityReductionOptions
         )
         validate_object_type(self.clustering, clust.ClusteringOptions)
-        validate_object_type(self.nearest_neighbors, nn.NearestNeighborStepOptions)
-        validate_object_type(self.marker_detection, mark.MarkerDetectionStepOptions)
+        validate_object_type(self.nearest_neighbors, nn.NearestNeighborsOptions)
+        validate_object_type(self.marker_detection, mark.MarkerDetectionOptions)
 
         if self.block is not None:
             self.set_block(block=self.block)
@@ -150,23 +150,20 @@ class AnalyzeResults:
     quality_control: qc.RnaQualityControlResults = field(
         default_factory=qc.RnaQualityControlResults
     )
-    normalization: norm.NormalizationStepResults = field(
-        default_factory=norm.NormalizationStepResults
+    normalization: norm.NormalizationResults = field(
+        default_factory=norm.NormalizationResults
     )
-    feature_selection: feat.FeatureSelectionStepResults = field(
-        default_factory=feat.FeatureSelectionStepResults
+    feature_selection: feat.FeatureSelectionResults = field(
+        default_factory=feat.FeatureSelectionResults
     )
-    dimensionality_reduction: dimred.DimensionalityReductionStepResults = field(
-        default_factory=dimred.DimensionalityReductionStepResults
+    dimensionality_reduction: dimred.DimensionalityReductionResults = field(
+        default_factory=dimred.DimensionalityReductionResults
     )
     clustering: clust.ClusteringResults = field(
         default_factory=clust.ClusteringResults
     )
-    nearest_neighbors: nn.NearestNeighborStepResults = field(
-        default_factory=nn.NearestNeighborStepResults
-    )
-    marker_detection: mark.MarkerDetectionStepResults = field(
-        default_factory=mark.MarkerDetectionStepResults
+    marker_detection: mark.MarkerDetectionResults = field(
+        default_factory=mark.MarkerDetectionResults
     )
 
     def __to_sce(self, x: MatrixTypes, assay: str, include_gene_data: bool = False):

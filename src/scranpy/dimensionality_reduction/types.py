@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
-from .._abstract import AbstractOptions
 from ..types import validate_object_type
 from .run_pca import PcaResult, RunPcaOptions
 from .run_tsne import RunTsneOptions, TsneEmbedding
@@ -13,7 +12,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class DimensionalityReductionOptions(AbstractOptions):
+class DimensionalityReductionOptions:
     """Arguments to run the dimensionality reduction step.
 
     Attributes:
