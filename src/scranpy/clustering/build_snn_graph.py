@@ -40,7 +40,7 @@ class BuildSnnGraphOptions:
             Optional arguments to use for building a nearest neighbors index.
             Only used if ``input`` is a :py:class:`~numpy.ndarray`.
 
-         num_threads (int, optional): 
+        num_threads (int, optional): 
             Number of threads to use for the SNN graph construction. 
             This is also used for the neighbor search if ``input`` is not already a 
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`.
