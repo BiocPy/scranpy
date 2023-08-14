@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, Union
+import numpy as np
 
 from .._abstract import AbstractStepOptions
 from .build_neighbor_index import BuildNeighborIndexOptions, NeighborIndex
@@ -68,3 +69,5 @@ class NearestNeighborStepResults:
 
     nearest_neighbor_index: Optional[NeighborIndex] = None
     nearest_neighbors: Optional[NeighborResults] = None
+
+NeighborlyInputs = Union[NeighborIndex, NeighborResults, np.ndarray]

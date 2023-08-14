@@ -11,9 +11,9 @@ from ..nearest_neighbors import (
     BuildNeighborIndexOptions,
     NeighborIndex,
     NeighborResults,
+    NeighborlyInputs, 
     build_neighbor_index,
 )
-from ..types import NeighborIndexOrResults, is_neighbor_class
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -24,7 +24,7 @@ __license__ = "MIT"
 class BuildSnnGraphOptions:
     """Optional arguments for building a shared nearest neighbor (SNN) graph
     via :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`,
-    typically in preparation for clustering by communtiy detection.
+    typically in preparation for clustering by community detection.
 
     Attributes:
         num_neighbors (int, optional): Number of neighbors to use. Larger values result 
@@ -37,7 +37,7 @@ class BuildSnnGraphOptions:
             Ignored if ``input`` is a 
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
             or 
-            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborIndex`
+            :py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`
             object. Defaults to True.
         weight_scheme (Literal["ranked", "jaccard", "number"], optional): Weighting
             scheme for the edges between cells. This can be based on the top ranks
@@ -67,7 +67,7 @@ class BuildSnnGraphOptions:
 
 
 def build_snn_graph(
-    input: NeighborIndexOrResults,
+    input: NeighborlyInputs,
     options: BuildSnnGraphOptions = BuildSnnGraphOptions(),
 ) -> ig.Graph:
     """Build a shared nearest neighbor (SNN) graph where each cell is a node and
@@ -75,8 +75,10 @@ def build_snn_graph(
     This can be used for community detection to detect clusters of similar cells.
 
     Args:
-        input (NeighborIndexOrResults): 
-            A 2-dimensional :py:class:`numpy.ndarray` containing per-cell
+        input  (NeighborIndex | NeighborResults | np.ndarray):
+            Object containing per-cell nearest neighbor results or data that can be used to derive them.
+
+            This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
             coordinates, where rows are features/dimensions and columns are
             cells. This is most typically the result of the PCA step
             (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).

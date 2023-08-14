@@ -6,7 +6,12 @@ from .build_neighbor_index import (
 from .find_nearest_neighbors import (
     FindNearestNeighborsOptions,
     NeighborResults,
-    NNResult,
+    SingleNeighborResults,
+    SerializedNeighborResults,
     find_nearest_neighbors,
 )
-from .types import NearestNeighborStepOptions, NearestNeighborStepResults
+from .types import (
+    NearestNeighborStepOptions, 
+    NearestNeighborStepResults, 
+    NeighborlyInputs
+)
