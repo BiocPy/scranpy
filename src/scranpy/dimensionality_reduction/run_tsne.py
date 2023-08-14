@@ -115,10 +115,13 @@ class InitializeTsneOptions:
             Perplexity to use when computing neighbor probabilities. 
             Larger values cause the embedding to focus more on broad structure instead of local structure.
             Defaults to 30.
+
         num_threads (int, optional): Number of threads to use for the 
             neighbor search and t-SNE iterations. Defaults to 1.
+
         seed (int, optional): Seed to use for random initialization of
             the t-SNE coordinates. Defaults to 42.
+
         verbose (bool): Whether to display logs. Defaults to False.
     """
 

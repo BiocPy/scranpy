@@ -16,16 +16,6 @@ __license__ = "MIT"
 
 
 def create_output_summary_arrays(rows: int, groups: int) -> NDOutputArrays:
-    """Create a list of ndarrays of shape (rows, groups) for marker detection results.
-
-    Args:
-        rows (int): Number of rows.
-        groups (int): Number of groups.
-
-    Returns:
-        NDOutputArrays: A tuple with list of
-        ndarrays and their references.
-    """
     output = {
         "min": create_output_arrays(rows, groups),
         "mean": create_output_arrays(rows, groups),
@@ -40,15 +30,6 @@ def create_output_summary_arrays(rows: int, groups: int) -> NDOutputArrays:
 
 
 def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
-    """Create a :py:class:`~biocframe.BiocFrame` object for score markers results.
-
-    Args:
-        summary (NDOutputArrays): Summary result from score markers.
-        group (int): Group or cluster to access.
-
-    Returns:
-        BiocFrame: DataFrame with "min", "mean" and "min_rank" scores.
-    """
     return BiocFrame(
         {
             "min": summary.arrays["min"].arrays[group],
@@ -60,27 +41,32 @@ def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
 
 @dataclass
 class ScoreMarkersOptions:
-    """Arguments to score markers -
+    """Optional arguments for 
     :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
 
     Attributes:
-        grouping (Sequence, optional): Group assignment for each cell. Defaults to
-            None, indicating all cells are part of the same group.
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
-        threshold (float, optional): Log-fold change threshold to use for computing
-            `Cohen's d` and `AUC`. Large positive values favor markers with large
-            log-fold changes over those with low variance. Defaults to 0.
-        compute_auc (bool, optional): Whether to compute the AUCs as an effect size.
+        block (Sequence, optional): 
+            Block assignment for each cell.
+            Comparisons are only performed within each block to avoid interference from inter-block differences, e.g., batch effects.
+
+            If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.
+            Defaults to None, indicating all cells are part of the same block.
+
+        threshold (float, optional): 
+            Log-fold change threshold to use for computing Cohen's d and the AUC. 
+            Large positive values favor markers with large log-fold changes over those with low variance. 
+            Defaults to 0.
+
+        compute_auc (bool, optional): 
+            Whether to compute the AUCs.
             This can be set to False for greater speed and memory efficiency.
             Defaults to True.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
-        verbose (bool, optional): Display logs?. Defaults to False.
+
+        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
-    grouping: Optional[Sequence] = None
     block: Optional[Sequence] = None
     threshold: float = 0
     compute_auc: bool = True
@@ -96,17 +82,27 @@ class ScoreMarkersOptions:
 
 
 def score_markers(
-    input: MatrixTypes, options: ScoreMarkersOptions = ScoreMarkersOptions()
+    input: MatrixTypes, 
+    grouping: Sequence,
+    options: ScoreMarkersOptions = ScoreMarkersOptions()
 ) -> Mapping:
-    """Score genes as potential markers for each group of cells.
-
-    ``input`` would be a normalized log-expression matrix from
-    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
-
-    Note: rows are features, columns are cells.
+    """Score genes as potential markers for groups of cells.
+    Markers are genes that are strongly up-regulated within each group, 
+    allowing users to associate each group with some known (or novel) cell type or state. 
+    The groups themselves are typically constructed from the data, e.g., with
+    :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Args:
-        input (MatrixTypes): Log-normalized expression matrix.
+        input (MatrixTypes): 
+            Matrix-like object where rows are features and columns are cells, typically containing log-normalized values.
+            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
+            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+
+        grouping (Sequence, optional): 
+            Group assignment for each cell. 
+            This should have length equal to the number of cells,
+            where the entry for each cell specifies the assigned group for that cell.
+
         options (ScoreMarkersOptions): Optional parameters.
 
     Raises:
