@@ -6,7 +6,7 @@ from biocframe import BiocFrame
 
 from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
-from .rna import CreateRnaQcFilter, PerCellRnaQcMetricsOptions, SuggestRnaQcFilters
+from .rna import PerCellRnaQcMetricsOptions, SuggestRnaQcFiltersOptions, CreateRnaQcFilterOptions 
 
 __author__ = "jkanche"
 __copyright__ = "jkanche"
@@ -15,33 +15,32 @@ __license__ = "MIT"
 
 @dataclass
 class RnaQualityControlOptions(AbstractStepOptions):
-    """Arguments to filter out low quality cells.
+    """Optional arguments to perform quality control on RNA data.
 
     Attributes:
-        per_cell_rna_qc_metrics (PerCellRnaQcMetricsOptions): Arguments to compute
-            per cell qc metrics.
+        per_cell_rna_qc_metrics (PerCellRnaQcMetricsOptions): Optional arguments to pass to
             (:py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`).
-        create_rna_qc_filters (CreateRnaQcFilter): Arguments to create qc filter
-            (:py:meth:`~scranpy.quality_control.rna.create_rna_qc_filters`).
-        suggest_rna_qc_filters (SuggestRnaQcFilters): Arguments to
+        suggest_rna_qc_filters (SuggestRnaQcFiltersOptions): Optional arguments to pass to
             :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+        create_rna_qc_filter (CreateRnaQcFilterOptions): Optional arguments to pass to
+            (:py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`).
         mito_subset (Union[str, bool], optional): subset mitochondrial genes.
     """
 
     per_cell_rna_qc_metrics: PerCellRnaQcMetricsOptions = field(
         default_factory=PerCellRnaQcMetricsOptions
     )
-    create_rna_qc_filters: CreateRnaQcFilter = field(default_factory=CreateRnaQcFilter)
     suggest_rna_qc_filters: SuggestRnaQcFilters = field(
         default_factory=SuggestRnaQcFilters
     )
+    create_rna_qc_filter: CreateRnaQcFilter = field(default_factory=CreateRnaQcFilter)
     mito_subset: Optional[Union[str, int]] = None
     custom_thresholds: Optional[BiocFrame] = None
 
     def __post_init__(self):
         validate_object_type(self.per_cell_rna_qc_metrics, PerCellRnaQcMetricsOptions)
-        validate_object_type(self.create_rna_qc_filters, CreateRnaQcFilter)
         validate_object_type(self.suggest_rna_qc_filters, SuggestRnaQcFilters)
+        validate_object_type(self.create_rna_qc_filter, CreateRnaQcFilter)
 
     def set_threads(self, num_threads: int = 1):
         """Set number of threads to use.
@@ -59,7 +58,7 @@ class RnaQualityControlOptions(AbstractStepOptions):
         """
         self.per_cell_rna_qc_metrics.verbose = verbose
         self.suggest_rna_qc_filters.verbose = verbose
-        self.create_rna_qc_filters.verbose = verbose
+        self.create_rna_qc_filter.verbose = verbose
 
     def set_block(self, block: Optional[Sequence] = None):
         """Set block.
@@ -69,7 +68,7 @@ class RnaQualityControlOptions(AbstractStepOptions):
                 for each cell. Defaults to None.
         """
         self.suggest_rna_qc_filters.block = block
-        self.create_rna_qc_filters.block = block
+        self.create_rna_qc_filter.block = block
 
     def set_subset(self, subset: Optional[Mapping] = None):
         """Set subsets.
@@ -85,13 +84,12 @@ class RnaQualityControlResults:
     """Results of RNA QC step.
 
     Attributes:
-        qc_metrics (BiocFrame, optional): Result of
-            per cell qc metrics.
-            (:py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`).
-        qc_filters (np/ndarray, optional): Result of create qc filter
-            (:py:meth:`~scranpy.quality_control.rna.create_rna_qc_filters`)
-        qc_thresholds (BiocFrame, optional): Result of
+        per_cell_rna_qc_metrics (BiocFrame, optional): Result of
+            :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
+        suggest_rna_qc_filters (BiocFrame, optional): Result of
             :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+        create_rna_qc_filter (np.ndarray, optional): Result of create qc filter
+            (:py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`)
         subsets (Mapping, optional): Subsets.
         filtered_cells (np.ndarray, optional): Result of
             :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.

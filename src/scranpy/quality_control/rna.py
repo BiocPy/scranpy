@@ -37,10 +37,16 @@ class PerCellRnaQcMetricsOptions:
 
     Attributes:
         subsets (Mapping, optional): Dictionary of feature subsets.
-            Each key is the name of the subset and each value is an array of
-            integer indices or booleans, specifying the rows of `input` belonging to the
-            subset. Defaults to {}.
+            Each key is the name of the subset and each value is an array.
+
+            Each array may contain integer indices to the rows of `input` belonging to the subset. 
+            Alternatively, each array is of length equal to the number of rows in ``input``
+            and contains booleans specifying that the corresponding row belongs to the subset.
+
+            Defaults to {}.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
+
         verbose (bool, optional): Display logs?. Defaults to False.
     """
 
@@ -53,20 +59,24 @@ def per_cell_rna_qc_metrics(
     input: MatrixTypes,
     options: PerCellRnaQcMetricsOptions = PerCellRnaQcMetricsOptions(),
 ) -> BiocFrame:
-    """Compute QC metrics (RNA).
-
-    Note: rows are features, columns are cells.
+    """Compute per-cell quality control metrics for RNA data.
 
     Args:
-        input (MatrixTypes): Input matrix.
+        input (MatrixTypes): 
+            Matrix-like object containing cells in columns and features in rows, typically with count data.
+            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
+            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
         options (PerCellRnaQcMetricsOptions): Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not an expected matrix type.
 
     Returns:
-        BiocFrame: DataFrame containing per-cell 'counts', 'sums', 'number of detected
-        features' and the 'proportion' of counts in each subset.
+        BiocFrame: 
+            A data frame containing one row per cell and the following fields - 
+            ``"sums"``, the total count for each cell;
+            ``"detected"``, the number of detected features for each cell;
+            and ``"subset_proportions"``, a nested BiocFrame where each column is named after an entry in ``subsets`` and contains the proportion of counts in that subset.
     """
     x = validate_and_tatamize_input(input)
 
@@ -115,17 +125,19 @@ def per_cell_rna_qc_metrics(
 
 
 @dataclass
-class SuggestRnaQcFilters:
-    """Arguments to suggest QC Filters (RNA) -
-    :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+class SuggestRnaQcFiltersOptions:
+    """Optional arguments to suggest filter thresholds 
+    in :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
 
     Attributes:
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
+        block (Sequence, optional): 
+            Block assignment for each cell.
+            Thresholds are computed within each block to avoid inflated variances from inter-block differences.
+
+            If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.
+            Defaults to None, indicating all cells are part of the same block.
         num_mads (int, optional): Number of median absolute deviations to
-            filter low-quality cells. Defaults to 3.
+            use to compute a threshold for low-quality outliers. Defaults to 3.
         verbose (bool, optional): Display logs?. Defaults to False.
     """
 
@@ -135,14 +147,15 @@ class SuggestRnaQcFilters:
 
 
 def suggest_rna_qc_filters(
-    metrics: BiocFrame, options: SuggestRnaQcFilters = SuggestRnaQcFilters()
+    metrics: BiocFrame, options: SuggestRnaQcFiltersOptions = SuggestRnaQcFiltersOptions()
 ) -> BiocFrame:
-    """Suggest filters for qc (RNA).
+    """Suggest filter thresholds for RNA-based per-cell quality control (QC) metrics.
+    This identifies outliers on the relevant tails of the distribution of each QC metric.
+    Outlier cells are considered to be low-quality and should be removed before further analysis.
 
     Args:
-        metrics (BiocFrame): A BiocFrame that contains 'sums', 'detected'
-            and 'proportions' for each cell. Usually the result of
-            :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` method.
+        metrics (BiocFrame): A data frame containing QC metrics for each cell,
+            see the output of :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` for the expected format.
         options (SuggestRnaQcFilters): Optional parameters.
 
     Raises:
@@ -150,7 +163,13 @@ def suggest_rna_qc_filters(
             not contain expected metrics.
 
     Returns:
-        BiocFrame: suggested filters for each metric.
+        BiocFrame: 
+            A data frame containing one row per block and the following fields - 
+            ``"sums"``, the suggested (lower) threshold on the total count for each cell;
+            ``"detected"``, the suggested (lower) threshold on the number of detected features for each cell;
+            and ``"subset_proportions"``, a nested BiocFrame where each column is named after an entry in ``subsets`` and contains the suggested (upper) threshold on the proportion of counts in that subset.
+
+            If ``options.block`` is None, all cells are assumed to belong to a single block, and the output BiocFrame contains a single row.
     """
     use_block = options.block is not None
     block_info = None
@@ -228,16 +247,16 @@ def suggest_rna_qc_filters(
 
 
 @dataclass
-class CreateRnaQcFilter:
-    """Arguments to create an RNA QC Filter -
-    :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+class CreateRnaQcFilterOptions:
+    """Optional arguments to create a filtering vector 
+    in :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
     Attributes:
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
-        verbose (bool, optional): Display logs?. Defaults to False.
+        block (Sequence, optional): 
+            Block assignment for each cell.
+            This should be the same as that used in 
+            in :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
@@ -247,19 +266,15 @@ class CreateRnaQcFilter:
 def create_rna_qc_filter(
     metrics: BiocFrame,
     thresholds: BiocFrame,
-    options: CreateRnaQcFilter = CreateRnaQcFilter(),
+    options: CreateRnaQcFilterOptions = CreateRnaQcFilterOptions(),
 ) -> np.ndarray:
-    """Defines a QC filter (RNA) based on the per-cell
-    QC metrics computed from an RNA count matrix and thresholds suggested
-    by the :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+    """Defines a filtering vector based on the RNA-derived per-cell quality control (QC) metrics and thresholds.
 
     Args:
-        metrics (BiocFrame): DataFrame of results from
-            :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`
-            function.
-        thresholds (BiocFrame): Suggested (or modified) filters from
-            :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`
-            function.
+        metrics (BiocFrame): Data frame of metrics,
+            see :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` for the expected format.
+        thresholds (BiocFrame): Data frame of filter thresholds,
+            see :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters` for the expected format.
         options (CreateRnaQcFilter): Optional parameters.
 
     Returns:
@@ -324,7 +339,7 @@ def guess_mito_from_symbols(
     """Guess mitochondrial genes based on the gene symbols.
 
     Args:
-        symbols (Sequence[str]): List of symbols, one per gene.
+        symbols (Sequence[str]): List of gene symbols.
         prefix (str): Case-insensitive prefix to guess mitochondrial genes.
 
     Return:
