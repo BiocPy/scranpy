@@ -22,23 +22,31 @@ __license__ = "MIT"
 
 @dataclass
 class BuildSnnGraphOptions:
-    """Arguments to build a shared nearest neighbor
-    graph - :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
+    """Optional arguments for building a shared nearest neighbor (SNN)
+    graph, typically in preparation for clustering by communtiy detection.
+    - :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Attributes:
-        num_neighbors (int, optional): Number of neighbors to use.
+        num_neighbors (int, optional): Number of neighbors to use. Larger values result 
+            in a more interconnected graph and generally broader clusters from community detection.
             Ignored if ``input`` is a
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
             object. Defaults to 15.
-        approximate (bool, optional): Whether to build an index for an approximate
-            neighbor search. Defaults to True.
+        approximate (bool, optional): Whether to use an approximate
+            neighbor search, which sacrifices some accuracy for speed.
+            Ignored if ``input`` is a 
+            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
+            or 
+            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborIndex`
+            object. Defaults to True.
         weight_scheme (Literal["ranked", "jaccard", "number"], optional): Weighting
             scheme for the edges between cells. This can be based on the top ranks
             of the shared neighbors ("rank"), the number of shared neighbors ("number")
             or the Jaccard index of the neighbor sets between cells ("jaccard").
             Defaults to "ranked".
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
-        verbose (bool): Display logs? Defaults to False.
+        num_threads (int, optional): Number of threads to use for neighbor detection
+            and SNN graph construction. Defaults to 1.
+        verbose (bool): Whether to print logging information. Defaults to False.
 
     Raises:
         ValueError: If ``weight_scheme`` is not an expected value.
@@ -62,22 +70,26 @@ def build_snn_graph(
     input: NeighborIndexOrResults,
     options: BuildSnnGraphOptions = BuildSnnGraphOptions(),
 ) -> ig.Graph:
-    """Build Shared nearest neighbor graph.
-
-    ``input`` is either a pre-built neighbor search index for the dataset
-    (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`), or a
-    pre-computed set of neighbor search results for all cells
-    (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
-    If ``input`` is a matrix (:py:class:`numpy.ndarray`),
-    we compute the nearest neighbors for each cell, assuming it represents the
-    coordinates for each cell, usually the result of PCA step
-    (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
-
-    Note: rows are features, columns are cells.
+    """Build a shared nearest neighbor (SNN) graph where each cell is a node and
+    edges are formed between cells that share one or more nearest neighbors.
+    This can be used for community detection via the igraph package.
 
     Args:
-        input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
-            or neighbors.
+        input (NeighborIndexOrResults): 
+            A 2-dimensional :py:class:`numpy.ndarray` containing per-cell
+            coordinates, where rows are features/dimensions and columns are
+            cells. This is most typically the result of the PCA step
+            (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
+
+            Alternatively, ``input`` may be a pre-built neighbor search index
+            (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`)
+            for the dataset, typically constructed from the PC coordinates for all cells.
+
+            Alternatively, ``input`` may be a pre-computed set of neighbor
+            search results 
+            (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
+            for all cells in the dataset.
+
         options (BuildSnnGraphOptions): Optional parameters.
 
     Raises:
