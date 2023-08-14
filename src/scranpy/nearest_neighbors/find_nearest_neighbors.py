@@ -102,11 +102,11 @@ class NeighborResults:
         """Initialize an instance of this class from serialized nearest neighbor results.
 
         Args:
-            content (SerializedNeighborResults): The result of the 
-            :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize`.
+            content (SerializedNeighborResults): Result of 
+                :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize`.
 
         Returns:
-            NeighborResults: Result object.
+            NeighborResults: Instance of this class, constructed from the data in ``content``.
         """
         idx = content.index
         dist = content.distance
@@ -120,18 +120,17 @@ class FindNearestNeighborsOptions:
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Attributes:
-        k (int): Number of neighbors to find for each cell.
         num_threads (int, optional): Number of threads to use. Defaults to 1.
         verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
-    k: int = 10
     num_threads: int = 1
     verbose: bool = False
 
 
 def find_nearest_neighbors(
     idx: NeighborIndex,
+    k: int,
     options: FindNearestNeighborsOptions = FindNearestNeighborsOptions(),
 ) -> NeighborResults:
     """Find the nearest neighbors for each cell.
@@ -139,6 +138,7 @@ def find_nearest_neighbors(
     Args:
         idx (NeighborIndex): The nearest neighbor search index, usually built by
             :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
+        k (int): Number of neighbors to find for each cell. 
         options (FindNearestNeighborsOptions): Optional parameters.
 
     Returns:
@@ -156,5 +156,5 @@ def find_nearest_neighbors(
             "run the `build_neighbor_index` function first."
         )
 
-    ptr = lib.find_nearest_neighbors(idx.ptr, options.k, options.num_threads)
+    ptr = lib.find_nearest_neighbors(idx.ptr, k, options.num_threads)
     return NeighborResults(ptr)

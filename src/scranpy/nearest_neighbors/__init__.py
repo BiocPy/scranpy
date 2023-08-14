@@ -11,7 +11,6 @@ from .find_nearest_neighbors import (
     find_nearest_neighbors,
 )
 from .types import (
-    NearestNeighborStepOptions, 
-    NearestNeighborStepResults, 
+    NearestNeighborsOptions, 
     NeighborlyInputs
 )
