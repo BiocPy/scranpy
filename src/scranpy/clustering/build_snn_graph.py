@@ -22,9 +22,9 @@ __license__ = "MIT"
 
 @dataclass
 class BuildSnnGraphOptions:
-    """Optional arguments for building a shared nearest neighbor (SNN)
-    graph, typically in preparation for clustering by communtiy detection.
-    - :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
+    """Optional arguments for building a shared nearest neighbor (SNN) graph
+    via :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`,
+    typically in preparation for clustering by communtiy detection.
 
     Attributes:
         num_neighbors (int, optional): Number of neighbors to use. Larger values result 
@@ -72,7 +72,7 @@ def build_snn_graph(
 ) -> ig.Graph:
     """Build a shared nearest neighbor (SNN) graph where each cell is a node and
     edges are formed between cells that share one or more nearest neighbors.
-    This can be used for community detection via the igraph package.
+    This can be used for community detection to detect clusters of similar cells.
 
     Args:
         input (NeighborIndexOrResults): 

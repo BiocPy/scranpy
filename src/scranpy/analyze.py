@@ -34,7 +34,7 @@ class AnalyzeOptions:
     dimensionality_reduction: dimred.DimensionalityReductionStepOptions = (
         dimred.DimensionalityReductionStepOptions()
     )
-    clustering: clust.ClusterStepOptions = clust.ClusterStepOptions()
+    clustering: clust.ClusteringOptions = clust.ClusteringOptions()
     nearest_neighbors: nn.NearestNeighborStepOptions = nn.NearestNeighborStepOptions()
     marker_detection: mark.MarkerDetectionStepOptions = (
         mark.MarkerDetectionStepOptions()
@@ -51,7 +51,7 @@ class AnalyzeOptions:
         validate_object_type(
             self.dimensionality_reduction, dimred.DimensionalityReductionStepOptions
         )
-        validate_object_type(self.clustering, clust.ClusterStepOptions)
+        validate_object_type(self.clustering, clust.ClusteringOptions)
         validate_object_type(self.nearest_neighbors, nn.NearestNeighborStepOptions)
         validate_object_type(self.marker_detection, mark.MarkerDetectionStepOptions)
 
@@ -147,7 +147,7 @@ class AnalyzeResults:
     dimensionality_reduction: dimred.DimensionalityReductionStepResults = (
         dimred.DimensionalityReductionStepResults()
     )
-    clustering: clust.ClusterStepResults = clust.ClusterStepResults()
+    clustering: clust.ClusteringResults = clust.ClusteringResults()
     nearest_neighbors: nn.NearestNeighborStepResults = nn.NearestNeighborStepResults()
     marker_detection: mark.MarkerDetectionStepResults = (
         mark.MarkerDetectionStepResults()
@@ -354,12 +354,12 @@ def __analyze(
 
     remaining_threads = max(1, options.num_threads - 2)
     options.clustering.set_threads(remaining_threads)
-    results.clustering.snn_graph = clust.build_snn_graph(
+    results.clustering.build_snn_graph = clust.build_snn_graph(
         nn_dict[snn_nn], options=options.clustering.build_snn_graph
     )
 
     # clusters
-    results.clustering.clusters = results.clustering.snn_graph.community_multilevel(
+    results.clustering.clusters = results.clustering.build_snn_graph.community_multilevel(
         resolution=options.clustering.resolution
     ).membership
 

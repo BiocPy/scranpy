@@ -13,11 +13,11 @@ __license__ = "MIT"
 
 
 @dataclass
-class ClusterStepOptions(AbstractStepOptions):
-    """Arguments to run the clustering step.
+class ClusteringOptions(AbstractStepOptions):
+    """Options for clustering.
 
     Attributes:
-        build_snn_graph (BuildSNNGraphOptions): Arguments to build the SNN graph
+        build_snn_graph (BuildSnnGraphOptions): Optional arguments to build the SNN graph
         (:py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`).
     """
 
@@ -28,7 +28,7 @@ class ClusterStepOptions(AbstractStepOptions):
         validate_object_type(self.build_snn_graph, BuildSnnGraphOptions)
 
     def set_threads(self, num_threads: int = 1):
-        """Set number of threads to use.
+        """Number of threads to use in steps that can be parallelized.
 
         Args:
             num_threads (int, optional): Number of threads. Defaults to 1.
@@ -45,14 +45,14 @@ class ClusterStepOptions(AbstractStepOptions):
 
 
 @dataclass
-class ClusterStepResults:
-    """Results of the cluster step.
+class ClusteringResults:
+    """Results of the clustering.
 
     Attributes:
-        snn_graph (ig.Graph, optional): An igraph object representing the SNN graph
-            from (:py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`).
+        build_snn_graph (ig.Graph, optional): The output of 
+            :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
         clusters (Sequence, optional): Clusters identified by igraph.
     """
 
-    snn_graph: Optional[ig.Graph] = None
+    build_snn_graph: Optional[ig.Graph] = None
     clusters: Optional[Sequence] = None
