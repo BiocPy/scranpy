@@ -32,7 +32,7 @@ def create_pointer_array(arrs):
 
 @dataclass
 class PerCellRnaQcMetricsOptions:
-    """Arguments to compute per cell QC metrics (RNA) -
+    """Optional arguments to compute per-cell QC metrics for RNA data with
     :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
 
     Attributes:

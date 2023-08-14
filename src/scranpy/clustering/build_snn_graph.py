@@ -8,11 +8,11 @@ import numpy as np
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..nearest_neighbors import (
-    BuildNeighborIndexOptions,
     NeighborIndex,
     NeighborResults,
     NeighborlyInputs, 
     build_neighbor_index,
+    BuildNeighborIndexOptions
 )
 
 __author__ = "ltla, jkanche"
@@ -32,31 +32,31 @@ class BuildSnnGraphOptions:
             Ignored if ``input`` is a
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
             object. Defaults to 15.
-        approximate (bool, optional): Whether to use an approximate
-            neighbor search, which sacrifices some accuracy for speed.
-            Ignored if ``input`` is a 
-            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
-            or 
-            :py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`
-            object. Defaults to True.
         weight_scheme (Literal["ranked", "jaccard", "number"], optional): Weighting
             scheme for the edges between cells. This can be based on the top ranks
             of the shared neighbors ("rank"), the number of shared neighbors ("number")
             or the Jaccard index of the neighbor sets between cells ("jaccard").
             Defaults to "ranked".
-        num_threads (int, optional): Number of threads to use for neighbor detection
-            and SNN graph construction. Defaults to 1.
+        build_neighbor_index_options (BuildNeighborIndexOptions):
+            Optional arguments to use for building a nearest neighbors index.
+            Only used if ``input`` is a :py:class:`~numpy.ndarray`.
+         num_threads (int, optional): Number of threads to use for the SNN graph
+            construction. This is also used for the neighbor search if ``input``
+            is not already a 
+            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`.
+            Defaults to 1.
         verbose (bool): Whether to print logging information. Defaults to False.
+
 
     Raises:
         ValueError: If ``weight_scheme`` is not an expected value.
     """
 
     num_neighbors: int = 15
-    approximate: bool = True
     weight_scheme: Literal["ranked", "jaccard", "number"] = "ranked"
-    verbose: bool = False
+#    build_neighbor_index_options: BuildNeighborIndexOptions = BuildNeighborIndexOptions()
     num_threads: int = 1
+    verbose: bool = False
 
     def __post_init__(self):
         if self.weight_scheme not in ["ranked", "jaccard", "number"]:
@@ -116,9 +116,7 @@ def build_snn_graph(
             if options.verbose is True:
                 logger.info("`input` is a matrix, building nearest neighbor index...")
 
-            input = build_neighbor_index(
-                input, BuildNeighborIndexOptions(approximate=options.approximate)
-            )
+            input = build_neighbor_index(input, options.build_neighbor_index_options)
 
         if options.verbose is True:
             logger.info("Building shared nearest neighbor graph...")

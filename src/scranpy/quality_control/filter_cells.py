@@ -14,14 +14,14 @@ __license__ = "MIT"
 
 @dataclass
 class FilterCellsOptions:
-    """Arguments to filter cells -
+    """Optional arguments to filter cells in
     :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
     Attributes:
         discard (bool): Whether to discard the cells listed in ``filter``.
             If False, the specified cells are retained instead, and all
             other cells are discarded. Defaults to True.
-        verbose (bool, optional): Display logs?. Defaults to False.
+        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     discard: bool = True
@@ -36,11 +36,17 @@ def filter_cells(
     """Filter out low-quality cells.
 
     Args:
-        input (MatrixTypes): Input matrix, either as a
-            :py:class:`~mattress.TatamiNumericPointer` or a supported matrix that
-            can be converted into one.
-        filter (np.ndarray): Boolean :py:class:`~numpy.ndarray` containing integer
-            indices or booleans, specifying the columns of `input` to keep/discard.
+        input (MatrixTypes): 
+            Matrix-like object containing cells in columns and features in rows.
+            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
+            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+
+        filter (Sequence[int] | Sequence[bool]): 
+            Array of integers containing indices to the columns of `input` to keep/discard.
+
+            Alternatively, an array of booleans of length equal to the number of cells,
+            specifying the columns of `input` to keep/discard.
+
         options (FilterCellsOptions): Optional parameters.
 
     Returns:
@@ -52,7 +58,7 @@ def filter_cells(
     filter = to_logical(filter, input.ncol())
 
     if len(filter) != input.ncol():
-        raise ValueError("Length of 'filter' should equal number of columns in 'x'")
+        raise ValueError("length of 'filter' should equal number of columns in 'x'")
 
     if not isinstance(input, TatamiNumericPointer):
         raise ValueError("Coming soon when `DelayedArray` support is implemented")

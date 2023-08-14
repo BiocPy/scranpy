@@ -112,8 +112,10 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
     biological heterogeneity is the major source of variation in the dataset.
 
     Args:
-        input (MatrixTypes): A matrix-like object where rows are features and
-        columns are cells. This typically contains log-normalized values.
+        input (MatrixTypes): 
+            Matrix-like object where rows are features and columns are cells, typically containing log-normalized values.
+            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
+            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
         options (RunPcaOptions): Optional parameters.
 
     Raises:
