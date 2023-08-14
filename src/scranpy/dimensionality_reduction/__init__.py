@@ -17,6 +17,6 @@ from .run_umap import (
     run_umap,
 )
 from .types import (
-    DimensionalityReductionStepOptions,
-    DimensionalityReductionStepResults,
+    DimensionalityReductionOptions,
+    DimensionalityReductionResults,
 )

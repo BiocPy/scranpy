@@ -21,42 +21,30 @@ __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 TsneEmbedding = namedtuple("TsneEmbedding", ["x", "y"])
-TsneEmbedding.__doc__ = """Named tuple of coordinates from t-SNE step.
+TsneEmbedding.__doc__ = """Named tuple of t-SNE coordinates.
 
-x (np.ndarray): a numpy view of the first dimension.
-y (np.ndarray): a numpy view of the second dimension.
+x (np.ndarray): a NumPy view of length equal to the number of cells,
+    containing the coordinate on the first dimension for each cell.
+y (np.ndarray): a numpy view of length equal to the number of cells,
+    containing the coordinate on the second dimension for each cell.
 """
 
 
 class TsneStatus:
-    """Class to manage t-SNE runs.
-
-    Args:
-        ptr (ct.c_void_p): Pointer that holds the result from
-            scran's `initialize_tsne` method.
-        coordinates (np.ndarray): Object to hold the embeddings.
+    """Status of a t-SNE run.
+    This should not be constructed manually but should be returned by
+    :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
     """
 
     def __init__(self, ptr: ct.c_void_p, coordinates: np.ndarray):
-        """Initialize the class."""
         self.__ptr = ptr
         self.coordinates = coordinates
 
     def __del__(self):
-        """Free the reference."""
         lib.free_tsne_status(self.__ptr)
 
-    @property
-    def ptr(self) -> ct.c_void_p:
-        """Get pointer to scran's tsne step.
-
-        Returns:
-            ct.c_void_p: Pointer reference.
-        """
-        return self.__ptr
-
     def num_cells(self) -> int:
-        """Get number of cells.
+        """Get the number of cells.
 
         Returns:
             int: Number of cells.
@@ -64,66 +52,72 @@ class TsneStatus:
         return lib.fetch_tsne_status_nobs(self.__ptr)
 
     def iteration(self) -> int:
-        """Get current iteration from the state.
+        """Get the current iteration number.
 
         Returns:
-            int: Iteration.
+            int: The current iteration number.
         """
         return lib.fetch_tsne_status_iteration(self.__ptr)
 
     def clone(self) -> "TsneStatus":
-        """deepcopy the current state.
+        """Create a deep copy of the current state.
 
         Returns:
-            TsneStatus: Copy of the current state.
+            TsneStatus: A new object containing a copy of the current state.
         """
         cloned = copy.deepcopy(self.coordinates)
         return TsneStatus(lib.clone_tsne_status(self.__ptr), cloned)
 
     def __deepcopy__(self, memo):
-        """Same as clone."""
         return self.clone()
 
     def run(self, iteration: int):
-        """Run the t-SNE algorithm for specified iterations.
+        """Run the t-SNE algorithm up to the specified number of iterations.
 
         Args:
-            iteration (int): Number of iteratons to run.
+            iteration (int): Number of iterations to run to.
+                This should be greater than the current iteration number
+                in :func:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.iteration`.
         """
         lib.run_tsne(self.__ptr, iteration, self.coordinates)
 
     def extract(self) -> TsneEmbedding:
-        """Access the first two dimensions.
+        """Extract the t-SNE coordinates for each cell at the current iteration.
 
         Returns:
-            TsneEmbedding: Object with x and y coordinates.
+            TsneEmbedding: x and y coordinates for all cells.
         """
         return TsneEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
 
 def tsne_perplexity_to_neighbors(perplexity: float) -> int:
-    """Convert perplexity to the required number of neighbors.
+    """Convert the t-SNE perplexity to the required number of neighbors.
+    This is typically used to perform a separate call to 
+    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`
+    before passing the nearest neighbor results to t-SNE functions.
 
     Args:
         perplexity (float): perplexity to use in the t-SNE algorithm.
 
     Returns:
-        Number of neighbors to detect.
+        int: Number of neighbors to search for.
     """
     return lib.perplexity_to_k(perplexity)
 
 
 @dataclass
 class InitializeTsneOptions:
-    """Arguments to initialize t-SNE -
+    """Optional arguments to initialize the t-SNE status in
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
 
     Attributes:
         perplexity (int, optional): Perplexity to use when computing neighbor
             probabilities. Defaults to 30.
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
-        seed (int, optional): Seed to use for RNG. Defaults to 42.
-        verbose (bool): Display logs? Defaults to False.
+        num_threads (int, optional): Number of threads to use for the 
+            neighbor search and t-SNE iterations. Defaults to 1.
+        seed (int, optional): Seed to use for random initialization of
+            the t-SNE coordinates. Defaults to 42.
+        verbose (bool): Whether to display logs. Defaults to False.
     """
 
     perplexity: int = 30
@@ -188,14 +182,14 @@ def initialize_tsne(
 
 @dataclass
 class RunTsneOptions:
-    """Arguments to compute t-SNE embeddings -
+    """Optional arguments to compute t-SNE embeddings in
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
 
     Attributes:
         max_iterations (int, optional): Maximum number of iterations. Defaults to 500.
-        initialize_tsne (InitializeTsneOptions): Arguments to initialize t-SNE -
-            :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
-        verbose (bool): Display logs? Defaults to False.
+        initialize_tsne (InitializeTsneOptions): Optional arguments for initialization
+            with :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
+        verbose (bool): Whether to print logs. Defaults to False.
     """
 
     max_iterations: int = 500
