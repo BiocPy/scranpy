@@ -60,6 +60,9 @@ def log_norm_counts(
     input: MatrixTypes, options: LogNormalizeCountsOptions = LogNormalizeCountsOptions()
 ) -> TatamiNumericPointer:
     """Compute log-transformed normalized values.
+    The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.
+    The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps; 
+    these relative changes in expression are more relevant than absolute changes.
 
     Args:
         input (MatrixTypes): 

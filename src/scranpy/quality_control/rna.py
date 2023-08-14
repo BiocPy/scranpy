@@ -32,7 +32,7 @@ def create_pointer_array(arrs):
 
 @dataclass
 class PerCellRnaQcMetricsOptions:
-    """Optional arguments to compute per-cell QC metrics for RNA data with
+    """Optional arguments for 
     :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
 
     Attributes:
@@ -60,6 +60,10 @@ def per_cell_rna_qc_metrics(
     options: PerCellRnaQcMetricsOptions = PerCellRnaQcMetricsOptions(),
 ) -> BiocFrame:
     """Compute per-cell quality control metrics for RNA data.
+    This includes the total count for each cell, where low values are indicative of problems with library preparation or sequencing;
+    the number of detected features per cell, where low values are indicative of problems with transcript capture;
+    and the proportion of counts in particular feature subsets, 
+    typically mitochondrial genes where high values are indicative of cell damage.
 
     Args:
         input (MatrixTypes): 
@@ -126,8 +130,8 @@ def per_cell_rna_qc_metrics(
 
 @dataclass
 class SuggestRnaQcFiltersOptions:
-    """Optional arguments to suggest filter thresholds 
-    in :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+    """Optional arguments for
+    :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
 
     Attributes:
         block (Sequence, optional): 
@@ -150,7 +154,7 @@ def suggest_rna_qc_filters(
     metrics: BiocFrame, options: SuggestRnaQcFiltersOptions = SuggestRnaQcFiltersOptions()
 ) -> BiocFrame:
     """Suggest filter thresholds for RNA-based per-cell quality control (QC) metrics.
-    This identifies outliers on the relevant tails of the distribution of each QC metric.
+    This identifies outliers on the relevant tail of the distribution of each QC metric.
     Outlier cells are considered to be low-quality and should be removed before further analysis.
 
     Args:
@@ -248,8 +252,8 @@ def suggest_rna_qc_filters(
 
 @dataclass
 class CreateRnaQcFilterOptions:
-    """Optional arguments to create a filtering vector 
-    in :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+    """Optional arguments for 
+    :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
     Attributes:
         block (Sequence, optional): 
@@ -336,7 +340,7 @@ def create_rna_qc_filter(
 def guess_mito_from_symbols(
     symbols: Sequence[str], prefix: str = "mt-"
 ) -> Sequence[int]:
-    """Guess mitochondrial genes based on the gene symbols.
+    """Guess mitochondrial genes from their gene symbols.
 
     Args:
         symbols (Sequence[str]): List of gene symbols.
