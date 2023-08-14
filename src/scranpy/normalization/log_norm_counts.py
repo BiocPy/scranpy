@@ -14,23 +14,37 @@ __license__ = "MIT"
 
 
 @dataclass
-class LogNormalizeCountsOptions:
-    """Arguments to Log-normalize counts -
+class LogNormCountsOptions:
+    """Optional arguments for 
     :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
     Attributes:
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
+        block (Sequence, optional): 
+            Block assignment for each cell.
+            This is used to adjust the centering of size factors so that higher-coverage blocks are scaled down.
+
+            If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.
+            Defaults to None, indicating all cells are part of the same block.
+
         size_factors (np.ndarray, optional): Size factors for each cell.
             Defaults to None.
-        center (bool, optional): Center the size factors?. Defaults to True.
-        allow_zeros (bool, optional): Allow zeros?. Defaults to False.
-        allow_non_finite (bool, optional): Allow `nan` or `inifnite` numbers?.
+
+        center (bool, optional): Whether to center the size factors. Defaults to True.
+
+        allow_zeros (bool, optional): Whether to gracefully handle zero size factors. 
+            If True, zero size factors are automatically set to the smallest non-zero size factor.
+            If False, an error is raised.
             Defaults to False.
-        num_threads (int, optional): Number of threads. Defaults to 1.
-        verbose (bool, optional): Display logs?. Defaults to False.
+
+        allow_non_finite (bool, optional): Whether to gracefully handle missing or infinite size factors.
+            If True, infinite size factors are automatically set to the largest non-zero size factor,
+            while missing values are automatically set to 1.
+            If False, an error is raised.
+
+        num_threads (int, optional): Number of threads to use to compute size factors,
+            if none are provided in ``size_factors``. Defaults to 1.
+
+        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
@@ -45,13 +59,14 @@ class LogNormalizeCountsOptions:
 def log_norm_counts(
     input: MatrixTypes, options: LogNormalizeCountsOptions = LogNormalizeCountsOptions()
 ) -> TatamiNumericPointer:
-    """Compute Log-normalization.
-
-    Note: rows are features, columns are cells.
+    """Compute log-transformed normalized values.
 
     Args:
-        input (MatrixTypes): Count matrix.
-        options (LogNormalizeCountsOptions): Additional parameters.
+        input (MatrixTypes): 
+            Matrix-like object containing cells in columns and features in rows, typically with count data.
+            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
+            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+        options (LogNormalizeCountsOptions): Optional parameters.
 
     Raises:
         TypeError, ValueError: If arguments don't meet expectations.
