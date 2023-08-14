@@ -116,7 +116,7 @@ class NeighborResults:
 
 @dataclass
 class FindNearestNeighborsOptions:
-    """Arguments to find nearest neighbors -
+    """Optional arguments for 
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Attributes:

@@ -3,7 +3,6 @@ from typing import Optional, Sequence
 
 from mattress import TatamiNumericPointer
 
-from .._abstract import AbstractOptions
 from ..types import validate_object_type
 from .log_norm_counts import LogNormCountsOptions
 
@@ -13,7 +12,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class NormalizationOptions(AbstractOptions):
+class NormalizationOptions:
     """Optional arguments for normalization.
 
     Attributes:
@@ -56,7 +55,7 @@ class NormalizationOptions(AbstractOptions):
 
 @dataclass
 class NormalizationResults:
-    """Results of the normalization step.
+    """Results of normalization.
 
     Attributes:
         log_norm_counts (TatamiNumericPointer, optional): Output of

@@ -4,7 +4,6 @@ from typing import Optional, Sequence
 import numpy as np
 from biocframe import BiocFrame
 
-from .._abstract import AbstractOptions
 from ..types import validate_object_type
 from .choose_hvgs import ChooseHvgsOptions
 from .model_gene_variances import ModelGeneVariancesOptions

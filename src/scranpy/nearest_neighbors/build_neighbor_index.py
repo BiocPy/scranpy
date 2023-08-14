@@ -42,7 +42,7 @@ class NeighborIndex:
 
 @dataclass
 class BuildNeighborIndexOptions:
-    """Optional arguments to build the nearest neighbor index in 
+    """Optional arguments for  
     :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
     Attributes:
@@ -59,12 +59,14 @@ class BuildNeighborIndexOptions:
 def build_neighbor_index(
     input: np.ndarray, options: BuildNeighborIndexOptions = BuildNeighborIndexOptions()
 ) -> NeighborIndex:
-    """Build a search index for finding nearest neighbors between cells.
+    """Build a search index for finding nearest neighbors between cells,
+    for input into functions like
+    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Args:
         input (np.ndarray): A matrix where rows are dimensions and cells are columns.
-            This is usually the principal components from the PCA step
-            (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
+            This is usually the principal components from the 
+            :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
         options (BuildNeighborIndexOptions): Optional parameters.
 
     Returns:
