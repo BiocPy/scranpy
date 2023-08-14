@@ -140,9 +140,14 @@ class SuggestRnaQcFiltersOptions:
 
             If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
-        num_mads (int, optional): Number of median absolute deviations to
-            use to compute a threshold for low-quality outliers. Defaults to 3.
-        verbose (bool, optional): Display logs?. Defaults to False.
+
+        num_mads (int, optional): 
+            Number of median absolute deviations for computing an outlier threshold.
+            Larger values will result in a less stringent threshold.
+            Defaults to 3.
+
+        verbose (bool, optional): Whether to print logging information. 
+            Defaults to False.
     """
 
     block: Optional[Sequence] = None

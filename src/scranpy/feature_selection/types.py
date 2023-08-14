@@ -4,7 +4,7 @@ from typing import Optional, Sequence
 import numpy as np
 from biocframe import BiocFrame
 
-from .._abstract import AbstractStepOptions
+from .._abstract import AbstractOptions
 from ..types import validate_object_type
 from .choose_hvgs import ChooseHvgsOptions
 from .model_gene_variances import ModelGeneVariancesOptions
@@ -15,15 +15,14 @@ __license__ = "MIT"
 
 
 @dataclass
-class FeatureSelectionStepOptions(AbstractStepOptions):
-    """Arguments to run the feature selection step.
+class FeatureSelectionOptions:
+    """Optional arguments for feature selection.
 
     Attributes:
-        choose_hvg (ChooseHvgsOptions): Arguments to choose highly variable genes
-            (:py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`).
-        model_gene_variance (ModelGeneVariancesOptions): Arguments to model gene
-            variances
-            (:py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`).
+        choose_hvgs (ChooseHvgsOptions): 
+            Optional arguments for  :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
+        model_gene_variances (ModelGeneVariancesOptions): 
+            Optional arguments for :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
     """
 
     choose_hvgs: ChooseHvgsOptions = field(default_factory=ChooseHvgsOptions)
@@ -36,7 +35,7 @@ class FeatureSelectionStepOptions(AbstractStepOptions):
         validate_object_type(self.model_gene_variances, ModelGeneVariancesOptions)
 
     def set_threads(self, num_threads: int = 1):
-        """Set number of threads to use.
+        """Set number of threads to use in each step.
 
         Args:
             num_threads (int, optional): Number of threads. Defaults to 1.
@@ -53,7 +52,7 @@ class FeatureSelectionStepOptions(AbstractStepOptions):
         self.model_gene_variances.verbose = verbose
 
     def set_block(self, block: Optional[Sequence] = None):
-        """Set block.
+        """Set the block.
 
         Args:
             block (Sequence, optional): Blocks assignments
@@ -63,15 +62,12 @@ class FeatureSelectionStepOptions(AbstractStepOptions):
 
 
 @dataclass
-class FeatureSelectionStepResults:
-    """Results of the feature selection step.
+class FeatureSelectionResults:
+    """Results of feature selection.
 
     Attributes:
-        hvgs (np.ndarray, optional): Results of highly variable genes
-            (:py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`).
-        gene_variances (Biocframe, optional): Result of model gene
-            variances
-            (:py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`).
+        choose_hvgs (np.ndarray, optional): Output of :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
+        model_gene_variances (BiocFrame, optional): Output of :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
     """
 
     hvgs: Optional[np.ndarray] = None
