@@ -1,7 +1,7 @@
 import copy
 import ctypes as ct
 from collections import namedtuple
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -193,7 +193,7 @@ class RunTsneOptions:
     """
 
     max_iterations: int = 500
-    initialize_tsne: InitializeTsneOptions = InitializeTsneOptions()
+    initialize_tsne: InitializeTsneOptions = field(default_factory=InitializeTsneOptions)
     verbose: bool = False
 
 

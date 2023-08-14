@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Mapping, Optional, Sequence, Union
 
 import numpy as np
@@ -22,15 +22,19 @@ class RnaQualityControlOptions(AbstractStepOptions):
             per cell qc metrics.
             (:py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`).
         create_rna_qc_filters (CreateRnaQcFilter): Arguments to create qc filter
-            (:py:meth:`~scranpy.quality_control.rna.create_rna_qc_filters`)
+            (:py:meth:`~scranpy.quality_control.rna.create_rna_qc_filters`).
         suggest_rna_qc_filters (SuggestRnaQcFilters): Arguments to
             :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
         mito_subset (Union[str, bool], optional): subset mitochondrial genes.
     """
 
-    per_cell_rna_qc_metrics: PerCellRnaQcMetricsOptions = PerCellRnaQcMetricsOptions()
-    create_rna_qc_filters: CreateRnaQcFilter = CreateRnaQcFilter()
-    suggest_rna_qc_filters: SuggestRnaQcFilters = SuggestRnaQcFilters()
+    per_cell_rna_qc_metrics: PerCellRnaQcMetricsOptions = field(
+        default_factory=PerCellRnaQcMetricsOptions
+    )
+    create_rna_qc_filters: CreateRnaQcFilter = field(default_factory=CreateRnaQcFilter)
+    suggest_rna_qc_filters: SuggestRnaQcFilters = field(
+        default_factory=SuggestRnaQcFilters
+    )
     mito_subset: Optional[Union[str, int]] = None
     custom_thresholds: Optional[BiocFrame] = None
 
