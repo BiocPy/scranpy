@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Literal, Optional, Sequence
 
-import numpy as np
+from numpy import ctypeslib, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -15,53 +15,62 @@ __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
-PCAResult = namedtuple("PCAResult", ["principal_components", "variance_explained"])
-PCAResult.__doc__ = """Named tuple of results from run pca step.
+PcaResult = namedtuple("PcaResult", ["principal_components", "variance_explained"])
+PcaResult.__doc__ = """Named tuple of results from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-principal_components (np.ndarray): principal components.
-variance_explained (np.ndarray): variance explained by each PC.
+principal_components (ndarray): Matrix of principal component (PC) coordinates,
+    where the rows are PCs and the columns are cells.
+variance_explained (ndarray): Array of length equal to the number of PCs,
+    containing the percentage of variance explained by each PC.
 """
 
 
-def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PCAResult:
-    """Extract principal components and variance explained from scran results.
-
-    Args:
-        pptr (ct.c_void_p): Pointer to scran::MultiBatchPca::Results.
-
-    Returns:
-        PCAResult: Results with principal components and variance explained.
-    """
+def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PcaResult:
     actual_rank = lib.fetch_simple_pca_num_dims(pptr)
 
     pc_pointer = lib.fetch_simple_pca_coordinates(pptr)
-    pc_array = deepcopy(np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc)))
+    pc_array = deepcopy(ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc)))
     principal_components = pc_array
 
     var_pointer = lib.fetch_simple_pca_variance_explained(pptr)
-    var_array = deepcopy(np.ctypeslib.as_array(var_pointer, shape=(actual_rank,)))
+    var_array = deepcopy(ctypeslib.as_array(var_pointer, shape=(actual_rank,)))
     total = lib.fetch_simple_pca_total_variance(pptr)
     variance_explained = var_array / total
 
-    return PCAResult(principal_components, variance_explained)
+    return PcaResult(principal_components, variance_explained)
 
 
 @dataclass
 class RunPcaOptions:
-    """Arguments for principal components analysis -
+    """Optional arguments for
     :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
     Attributes:
-        rank (int): Number of top PC's to compute.
-        subset (Mapping, optional): Array specifying which features should be
-            retained (e.g., HVGs). This may contain integer indices or booleans.
-            Defaults to None, then all features are retained.
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
-        scale (bool, optional): Whether to scale each feature to unit variance.
-            Defaults to False.
+        rank (int): Number of top PCs to compute.
+            Larger values capture more biological structure at the cost of increasing
+            computational work and absorbing more random noise.
+            Defaults to 25.
+
+        subset (ndarray, optional): Array specifying which features should be
+            used in the PCA (e.g., highly variable genes from
+            :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`).
+            This may contain integer indices or booleans.
+            Defaults to None, in which all features are used.
+
+        block (Sequence, optional):
+            Block assignment for each cell.
+            This can be used to reduce the effect of inter-block differences on the PCA
+            (see ``block_method`` for more details).
+
+            If provided, this should have length equal to the number of cells, where
+            cells have the same value if and only if they are in the same block.
+            Defaults to None, indicating all cells are part of the same block.
+
+        scale (bool, optional):
+            Whether to scale each feature to unit variance.
+            This improves robustness (i.e., reduces sensitivity) to a small number of
+            highly variable features. Defaults to False.
+
         block_method (Literal["none", "project", "regress"], optional): How to adjust
             the PCA for the blocking factor.
 
@@ -71,24 +80,30 @@ class RunPcaOptions:
             - ``"project"`` will compute the rotation vectors from the residuals but
                 will project the cells onto the PC space. This focuses the PCA on
                 within-block variance while avoiding any assumptions about the
-                nature of the inter-block differences.
+                nature of the inter-block differences. Any removal of block effects
+                should be performed separately.
             - ``"none"`` will ignore any blocking factor, i.e., as if ``block = null``.
                 Any inter-block differences will both contribute to the determination of
-                the rotation vectors and also be preserved in the PC space.
-                This option is only used if ``block`` is not `null`.
+                the rotation vectors and also be preserved in the PC space. Any removal of block effects
+                should be performed separately.
+
+            This option is only used if ``block`` is not `null`.
             Defaults to "project".
-        block_weights (bool, optional): Whether to weight each block so that it
-            contributes the same number of effective observations to the covariance
-            matrix. Defaults to True.
+
+        block_weights (bool, optional):
+            Whether to weight each block so that it contributes the same number of effective observations to the covariance matrix.
+            Defaults to True.
+
         num_threads (int, optional):  Number of threads to use. Defaults to 1.
-        verbose (bool): Display logs? Defaults to False.
+
+        verbose (bool): Whether to print logs. Defaults to False.
 
     Raises:
         ValueError: If ``block_method`` is not an expected value.
     """
 
-    rank: int = 50
-    subset: Optional[np.ndarray] = None
+    rank: int = 25
+    subset: Optional[ndarray] = None
     block: Optional[Sequence] = None
     scale: bool = False
     block_method: Literal["none", "project", "regress"] = "project"
@@ -104,11 +119,17 @@ class RunPcaOptions:
             )
 
 
-def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> PCAResult:
-    """Run Prinicpal Component Analysis (PCA).
+def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> PcaResult:
+    """Perform a principal component analysis (PCA) to retain the top PCs.
+    This is used to denoise and compact a dataset by removing later PCs
+    associated with random noise, under the assumption that interesting
+    biological heterogeneity is the major source of variation in the dataset.
 
     Args:
-        input (MatrixTypes): Input Matrix.
+        input (MatrixTypes):
+            Matrix-like object where rows are features and columns are cells, typically containing log-normalized values.
+            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
+            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
         options (RunPcaOptions): Optional parameters.
 
     Raises:
@@ -116,7 +137,8 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> PCA
         ValueError: if ``options.block`` does not match the number of cells.
 
     Returns:
-        PCAResult: Principal components and variable explained metrics.
+        PcaResult: Object containing the PC coordinates and the variance
+            explained by each PC.
     """
     x = validate_and_tatamize_input(input)
 

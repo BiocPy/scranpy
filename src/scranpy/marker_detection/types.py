@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Mapping, Optional, Sequence
 
-from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
 from .score_markers import ScoreMarkersOptions
 
@@ -11,7 +10,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class MarkerDetectionStepOptions(AbstractStepOptions):
+class MarkerDetectionOptions:
     """Arguments to run the marker detection step.
 
     Attributes:
@@ -36,7 +35,7 @@ class MarkerDetectionStepOptions(AbstractStepOptions):
         """Set verbose to display logs.
 
         Args:
-            verbose (bool, optional): Display logs? Defaults to False.
+            verbose (bool, optional): Whether to display logs. Defaults to False.
         """
         self.score_markers.verbose = verbose
 
@@ -51,7 +50,7 @@ class MarkerDetectionStepOptions(AbstractStepOptions):
 
 
 @dataclass
-class MarkerDetectionStepResults:
+class MarkerDetectionResults:
     """Results of the marker detection step.
 
     Attributes:

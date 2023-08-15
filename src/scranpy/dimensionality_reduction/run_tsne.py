@@ -3,7 +3,7 @@ import ctypes as ct
 from collections import namedtuple
 from dataclasses import dataclass, field
 
-import numpy as np
+from numpy import float64, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -14,49 +14,37 @@ from ..nearest_neighbors import (
     build_neighbor_index,
     find_nearest_neighbors,
 )
-from ..types import NeighborIndexOrResults, is_neighbor_class
+from ..nearest_neighbors.types import NeighborlyInputs, is_neighbor_class
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 TsneEmbedding = namedtuple("TsneEmbedding", ["x", "y"])
-TsneEmbedding.__doc__ = """Named tuple of coordinates from t-SNE step.
+TsneEmbedding.__doc__ = """Named tuple of t-SNE coordinates.
 
-x (np.ndarray): a numpy view of the first dimension.
-y (np.ndarray): a numpy view of the second dimension.
+x (ndarray): a NumPy view of length equal to the number of cells,
+    containing the coordinate on the first dimension for each cell.
+y (ndarray): a NumPy view of length equal to the number of cells,
+    containing the coordinate on the second dimension for each cell.
 """
 
 
 class TsneStatus:
-    """Class to manage t-SNE runs.
-
-    Args:
-        ptr (ct.c_void_p): Pointer that holds the result from
-            scran's `initialize_tsne` method.
-        coordinates (np.ndarray): Object to hold the embeddings.
+    """Status of a t-SNE run.
+    This should not be constructed manually but should be returned by
+    :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
     """
 
-    def __init__(self, ptr: ct.c_void_p, coordinates: np.ndarray):
-        """Initialize the class."""
+    def __init__(self, ptr: ct.c_void_p, coordinates: ndarray):
         self.__ptr = ptr
         self.coordinates = coordinates
 
     def __del__(self):
-        """Free the reference."""
         lib.free_tsne_status(self.__ptr)
 
-    @property
-    def ptr(self) -> ct.c_void_p:
-        """Get pointer to scran's tsne step.
-
-        Returns:
-            ct.c_void_p: Pointer reference.
-        """
-        return self.__ptr
-
     def num_cells(self) -> int:
-        """Get number of cells.
+        """Get the number of cells in the dataset.
 
         Returns:
             int: Number of cells.
@@ -64,15 +52,15 @@ class TsneStatus:
         return lib.fetch_tsne_status_nobs(self.__ptr)
 
     def iteration(self) -> int:
-        """Get current iteration from the state.
+        """Get the current iteration number.
 
         Returns:
-            int: Iteration.
+            int: The current iteration number.
         """
         return lib.fetch_tsne_status_iteration(self.__ptr)
 
     def clone(self) -> "TsneStatus":
-        """deepcopy the current state.
+        """Create a deep copy of the current state.
 
         Returns:
             TsneStatus: Copy of the current state.
@@ -81,49 +69,60 @@ class TsneStatus:
         return TsneStatus(lib.clone_tsne_status(self.__ptr), cloned)
 
     def __deepcopy__(self, memo):
-        """Same as clone."""
         return self.clone()
 
     def run(self, iteration: int):
-        """Run the t-SNE algorithm for specified iterations.
+        """Run the t-SNE algorithm up to the specified number of iterations.
 
         Args:
-            iteration (int): Number of iteratons to run.
+            iteration (int): Number of iterations to run to.
+                This should be greater than the current iteration number
+                in :func:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.iteration`.
         """
         lib.run_tsne(self.__ptr, iteration, self.coordinates)
 
     def extract(self) -> TsneEmbedding:
-        """Access the first two dimensions.
+        """Extract the t-SNE coordinates for each cell at the current iteration.
 
         Returns:
-            TsneEmbedding: Object with x and y coordinates.
+            TsneEmbedding: 'x' and 'y' t-SNE coordinates for all cells.
         """
         return TsneEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
 
 def tsne_perplexity_to_neighbors(perplexity: float) -> int:
-    """Convert perplexity to the required number of neighbors.
+    """Convert the t-SNE perplexity to the required number of neighbors.
+    This is typically used to perform a separate call to
+    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`
+    before passing the nearest neighbor results to t-SNE functions.
 
     Args:
-        perplexity (float): perplexity to use in the t-SNE algorithm.
+        perplexity (float): Perplexity to use in the t-SNE algorithm.
 
     Returns:
-        Number of neighbors to detect.
+        int: Number of neighbors to search for.
     """
     return lib.perplexity_to_k(perplexity)
 
 
 @dataclass
 class InitializeTsneOptions:
-    """Arguments to initialize t-SNE -
+    """Optional arguments for
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
 
     Attributes:
-        perplexity (int, optional): Perplexity to use when computing neighbor
-            probabilities. Defaults to 30.
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
-        seed (int, optional): Seed to use for RNG. Defaults to 42.
-        verbose (bool): Display logs? Defaults to False.
+        perplexity (int, optional):
+            Perplexity to use when computing neighbor probabilities.
+            Larger values cause the embedding to focus more on broad structure instead of local structure.
+            Defaults to 30.
+
+        num_threads (int, optional): Number of threads to use for the
+            neighbor search and t-SNE iterations. Defaults to 1.
+
+        seed (int, optional): Seed to use for random initialization of
+            the t-SNE coordinates. Defaults to 42.
+
+        verbose (bool): Whether to display logs. Defaults to False.
     """
 
     perplexity: int = 30
@@ -133,30 +132,41 @@ class InitializeTsneOptions:
 
 
 def initialize_tsne(
-    input: NeighborIndexOrResults,
+    input: NeighborlyInputs,
     options: InitializeTsneOptions = InitializeTsneOptions(),
 ) -> TsneStatus:
-    """Initialize the t-SNE step.
+    """Initialize the t-SNE algorithm.
+    This is useful for fine-tuned control over the progress of the algorithm,
+    e.g., to pause/resume the optimization of the coordinates.
 
-    ``input`` is either a pre-built neighbor search index for the dataset
-    (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`), or a
-    pre-computed set of neighbor search results for all cells
-    (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
-    If ``input`` is a matrix (:py:class:`numpy.ndarray`),
-    we compute the nearest neighbors for each cell, assuming it represents the
-    coordinates for each cell, usually the result of PCA step
-    (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
 
     Args:
-        input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
-            or neighbors.
+        input  (NeighborlyInputs):
+            Object containing per-cell nearest neighbor results or data that can be used to derive them.
+
+            This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
+            coordinates, where rows are features/dimensions and columns are
+            cells. This is most typically the result of
+            :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+
+            Alternatively, ``input`` may be a pre-built neighbor search index
+            (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`)
+            for the dataset, typically constructed from the PC coordinates for all cells.
+
+            Alternatively, ``input`` may be pre-computed neighbor search results
+            (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
+            for all cells in the dataset.
+            The number of neighbors should be consistent with the perplexity provided
+            in :py:class:`~scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions`
+            (see also :py:meth:`~scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors`).
+
         options (InitializeTsneOptions): Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not an expected type.
 
     Returns:
-        TsneStatus: A tsne status object.
+        TsneStatus: A t-SNE status object for further iterations.
     """
     if not is_neighbor_class(input):
         raise TypeError(
@@ -176,11 +186,13 @@ def initialize_tsne(
             logger.info("Finding the nearest neighbors...")
 
         input = find_nearest_neighbors(
-            input, FindNearestNeighborsOptions(k=k, num_threads=options.num_threads)
+            input,
+            k=k,
+            options=FindNearestNeighborsOptions(num_threads=options.num_threads),
         )
 
     ptr = lib.initialize_tsne(input.ptr, options.perplexity, options.num_threads)
-    coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
+    coords = ndarray((input.num_cells(), 2), dtype=float64, order="C")
     lib.randomize_tsne_start(coords.shape[0], coords, options.seed)
 
     return TsneStatus(ptr, coords)
@@ -188,29 +200,57 @@ def initialize_tsne(
 
 @dataclass
 class RunTsneOptions:
-    """Arguments to compute t-SNE embeddings -
+    """Optional arguments for
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
 
     Attributes:
-        max_iterations (int, optional): Maximum number of iterations. Defaults to 500.
-        initialize_tsne (InitializeTsneOptions): Arguments to initialize t-SNE -
+        max_iterations (int, optional):
+            Maximum number of iterations.
+            Larger numbers improve convergence at the cost of compute time.
+            Defaults to 500.
+
+        initialize_tsne (InitializeTsneOptions):
+            Optional arguments for
             :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
-        verbose (bool): Display logs? Defaults to False.
+
+        verbose (bool): Whether to print logs. Defaults to False.
     """
 
     max_iterations: int = 500
-    initialize_tsne: InitializeTsneOptions = field(default_factory=InitializeTsneOptions)
+    initialize_tsne: InitializeTsneOptions = field(
+        default_factory=InitializeTsneOptions
+    )
     verbose: bool = False
 
 
 def run_tsne(
-    input: NeighborIndexOrResults, options: RunTsneOptions = RunTsneOptions()
+    input: NeighborlyInputs, options: RunTsneOptions = RunTsneOptions()
 ) -> TsneEmbedding:
-    """Compute t-SNE embedding.
+    """Compute a two-dimensional t-SNE embedding for the cells.
+    Neighboring cells in high-dimensional space are placed next to each other on the embedding for intuitive visualization.
+    This function is a wrapper around :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`
+    with invocations of the :py:meth:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.run` method to the specified number of iterations.
 
     Args:
-        input (NeighborIndexOrResults): Input matrix, pre-computed neighbor index
-            or neighbors.
+        input (NeighborlyInputs):
+            Object containing per-cell nearest neighbor results or data that can be used to derive them.
+
+            This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
+            coordinates, where rows are features/dimensions and columns are
+            cells. This is most typically the result of
+            :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+
+            Alternatively, ``input`` may be a pre-built neighbor search index
+            (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`)
+            for the dataset, typically constructed from the PC coordinates for all cells.
+
+            Alternatively, ``input`` may be pre-computed neighbor search results
+            (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
+            for all cells in the dataset.
+            The number of neighbors should be consistent with the perplexity provided
+            in :py:class:`~scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions`
+            (see also :py:meth:`~scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors`).
+
         options (RunTsneOptions): Optional parameters.
 
     Returns:

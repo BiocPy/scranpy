@@ -15,7 +15,7 @@ def test_score_markers(mock_data):
     for i in range(out.ncol()):
         grouping.append(i % 5)
 
-    res = score_markers(out, ScoreMarkersOptions(grouping=grouping))
+    res = score_markers(out, grouping=grouping)
 
     assert res is not None
     assert "means" in res[1].columns
@@ -23,14 +23,16 @@ def test_score_markers(mock_data):
 
     # Works when blocks are supplied.
     resb = score_markers(
-        out, ScoreMarkersOptions(grouping=grouping, block=mock_data.block)
+        out, grouping=grouping, options=ScoreMarkersOptions(block=mock_data.block)
     )
     assert resb is not None
     assert "detected" in resb[1].columns
     assert isinstance(resb[1].column("lfc"), BiocFrame)
 
     # Same results in parallel.
-    resp = score_markers(out, ScoreMarkersOptions(grouping=grouping, num_threads=3))
+    resp = score_markers(
+        out, grouping=grouping, options=ScoreMarkersOptions(num_threads=3)
+    )
     assert (res[0].column("means") == resp[0].column("means")).all()
     assert (
         res[1].column("cohen").column("mean") == resp[1].column("cohen").column("mean")

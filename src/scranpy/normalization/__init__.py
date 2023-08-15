@@ -1,2 +1,2 @@
-from .log_norm_counts import LogNormalizeCountsOptions, log_norm_counts
-from .types import NormalizationStepOptions, NormalizationStepResults
+from .log_norm_counts import LogNormCountsOptions, log_norm_counts
+from .types import NormalizationOptions, NormalizationResults

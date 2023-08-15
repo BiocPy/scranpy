@@ -3,9 +3,9 @@ from dataclasses import dataclass, field
 from functools import singledispatch, singledispatchmethod
 from typing import Mapping, Optional, Sequence, Union
 
-import numpy as np
 from biocframe import BiocFrame
 from mattress import TatamiNumericPointer, tatamize
+from numpy import array
 from singlecellexperiment import SingleCellExperiment
 
 from . import clustering as clust
@@ -29,23 +29,21 @@ class AnalyzeOptions:
     quality_control: qc.RnaQualityControlOptions = field(
         default_factory=qc.RnaQualityControlOptions
     )
-    normalization: norm.NormalizationStepOptions = field(
-        default_factory=norm.NormalizationStepOptions
+    normalization: norm.NormalizationOptions = field(
+        default_factory=norm.NormalizationOptions
     )
-    feature_selection: feat.FeatureSelectionStepOptions = field(
-        default_factory=feat.FeatureSelectionStepOptions
+    feature_selection: feat.FeatureSelectionOptions = field(
+        default_factory=feat.FeatureSelectionOptions
     )
-    dimensionality_reduction: dimred.DimensionalityReductionStepOptions = field(
-        default_factory=dimred.DimensionalityReductionStepOptions
+    dimensionality_reduction: dimred.DimensionalityReductionOptions = field(
+        default_factory=dimred.DimensionalityReductionOptions
     )
-    clustering: clust.ClusterStepOptions = field(
-        default_factory=clust.ClusterStepOptions
+    clustering: clust.ClusteringOptions = field(default_factory=clust.ClusteringOptions)
+    nearest_neighbors: nn.NearestNeighborsOptions = field(
+        default_factory=nn.NearestNeighborsOptions
     )
-    nearest_neighbors: nn.NearestNeighborStepOptions = field(
-        default_factory=nn.NearestNeighborStepOptions
-    )
-    marker_detection: mark.MarkerDetectionStepOptions = field(
-        default_factory=mark.MarkerDetectionStepOptions
+    marker_detection: mark.MarkerDetectionOptions = field(
+        default_factory=mark.MarkerDetectionOptions
     )
     block: Optional[Sequence] = None
     seed: int = 42
@@ -54,14 +52,14 @@ class AnalyzeOptions:
 
     def __post_init__(self):
         validate_object_type(self.quality_control, qc.RnaQualityControlOptions)
-        validate_object_type(self.normalization, norm.NormalizationStepOptions)
-        validate_object_type(self.feature_selection, feat.FeatureSelectionStepOptions)
+        validate_object_type(self.normalization, norm.NormalizationOptions)
+        validate_object_type(self.feature_selection, feat.FeatureSelectionOptions)
         validate_object_type(
-            self.dimensionality_reduction, dimred.DimensionalityReductionStepOptions
+            self.dimensionality_reduction, dimred.DimensionalityReductionOptions
         )
-        validate_object_type(self.clustering, clust.ClusterStepOptions)
-        validate_object_type(self.nearest_neighbors, nn.NearestNeighborStepOptions)
-        validate_object_type(self.marker_detection, mark.MarkerDetectionStepOptions)
+        validate_object_type(self.clustering, clust.ClusteringOptions)
+        validate_object_type(self.nearest_neighbors, nn.NearestNeighborsOptions)
+        validate_object_type(self.marker_detection, mark.MarkerDetectionOptions)
 
         if self.block is not None:
             self.set_block(block=self.block)
@@ -78,7 +76,8 @@ class AnalyzeOptions:
         """Set seed for RNG.
 
         Args:
-            seed (int, optional): seed for RNG. Defaults to 42.
+            seed (int, optional): Seed for random number generation.
+                Defaults to 42.
         """
         self.dimensionality_reduction.set_seed(seed)
 
@@ -93,32 +92,26 @@ class AnalyzeOptions:
         self.normalization.set_block(block)
         self.feature_selection.set_block(block)
         self.dimensionality_reduction.set_block(block)
-        self.clustering.set_block(block)
-        self.nearest_neighbors.set_block(block)
         self.marker_detection.set_block(block)
 
     def set_subset(self, subset: Optional[Mapping] = None):
         """Set subsets.
 
         Args:
-            subset (Mapping, optional): Set subsets. Defaults to None.
+            subset (Mapping, optional): Set subsets.
+                Defaults to None.
         """
         if subset is None:
             subset = {}
 
         self.quality_control.set_subset(subset)
-        self.normalization.set_subset(subset)
-        self.feature_selection.set_subset(subset)
-        self.dimensionality_reduction.set_subset(subset)
-        self.clustering.set_subset(subset)
-        self.nearest_neighbors.set_subset(subset)
-        self.marker_detection.set_subset(subset)
 
     def set_verbose(self, verbose: bool = False):
         """Set verbose to display logs.
 
         Args:
-            verbose (bool, optional): Display logs? Defaults to False.
+            verbose (bool, optional): Whether to print logs.
+                Defaults to False.
         """
         self.quality_control.set_verbose(verbose)
         self.normalization.set_verbose(verbose)
@@ -150,23 +143,21 @@ class AnalyzeResults:
     quality_control: qc.RnaQualityControlResults = field(
         default_factory=qc.RnaQualityControlResults
     )
-    normalization: norm.NormalizationStepResults = field(
-        default_factory=norm.NormalizationStepResults
+    normalization: norm.NormalizationResults = field(
+        default_factory=norm.NormalizationResults
     )
-    feature_selection: feat.FeatureSelectionStepResults = field(
-        default_factory=feat.FeatureSelectionStepResults
+    feature_selection: feat.FeatureSelectionResults = field(
+        default_factory=feat.FeatureSelectionResults
     )
-    dimensionality_reduction: dimred.DimensionalityReductionStepResults = field(
-        default_factory=dimred.DimensionalityReductionStepResults
+    dimensionality_reduction: dimred.DimensionalityReductionResults = field(
+        default_factory=dimred.DimensionalityReductionResults
     )
-    clustering: clust.ClusterStepResults = field(
-        default_factory=clust.ClusterStepResults
+    clustering: clust.ClusteringResults = field(default_factory=clust.ClusteringResults)
+    marker_detection: mark.MarkerDetectionResults = field(
+        default_factory=mark.MarkerDetectionResults
     )
-    nearest_neighbors: nn.NearestNeighborStepResults = field(
-        default_factory=nn.NearestNeighborStepResults
-    )
-    marker_detection: mark.MarkerDetectionStepResults = field(
-        default_factory=mark.MarkerDetectionStepResults
+    nearest_neighbors: nn.NearestNeighborsResults = field(
+        default_factory=nn.NearestNeighborsResults
     )
 
     def __to_sce(self, x: MatrixTypes, assay: str, include_gene_data: bool = False):
@@ -183,13 +174,13 @@ class AnalyzeResults:
 
         sce.reducedDims = {
             "pca": self.dimensionality_reduction.pca.principal_components.T,
-            "tsne": np.array(
+            "tsne": array(
                 [
                     self.dimensionality_reduction.tsne.x,
                     self.dimensionality_reduction.tsne.y,
                 ]
             ).T,
-            "umap": np.array(
+            "umap": array(
                 [
                     self.dimensionality_reduction.umap.x,
                     self.dimensionality_reduction.umap.y,
@@ -210,8 +201,9 @@ class AnalyzeResults:
 
         Args:
             x: Input object. usually a matrix of raw counts.
-            assay (str, optional): assay name for the matrix. Defaults to "counts".
-            include_gene_data (bool, optional): Include gene variances?
+            assay (str, optional): assay name for the matrix.
+                Defaults to "counts".
+            include_gene_data (bool, optional): Whether to include gene variances.
                 Defaults to False.
 
         Returns:
@@ -250,13 +242,13 @@ def __analyze(
 
     if len(features) != NR:
         raise ValueError(
-            "Length of `features` not same as number of rows in the matrix."
+            "Length of `features` not same as number of `rows` in the matrix."
         )
 
     if options.block is not None:
         if len(options.block) != NC:
             raise ValueError(
-                "Length of `block` not same as number of columns in the matrix."
+                "Length of `block` not same as number of `columns` in the matrix."
             )
 
     # setting up QC metrics and filters.
@@ -300,7 +292,7 @@ def __analyze(
     results.quality_control.qc_filter = qc.create_rna_qc_filter(
         results.quality_control.qc_metrics,
         results.quality_control.qc_thresholds,
-        options.quality_control.create_rna_qc_filters,
+        options.quality_control.create_rna_qc_filter,
     )
 
     # Finally QC cells
@@ -309,14 +301,14 @@ def __analyze(
     )
 
     # Log-normalize counts
-    results.normalization.log_normalized_counts = norm.log_norm_counts(
+    results.normalization.log_norm_counts = norm.log_norm_counts(
         results.quality_control.filtered_cells,
-        options=options.normalization.log_normalize_counts,
+        options=options.normalization.log_norm_counts,
     )
 
     #  Model gene variances
     results.feature_selection.gene_variances = feat.model_gene_variances(
-        results.normalization.log_normalized_counts,
+        results.normalization.log_norm_counts,
         options=options.feature_selection.model_gene_variances,
     )
 
@@ -329,7 +321,7 @@ def __analyze(
     # Compute PC's
     options.dimensionality_reduction.run_pca.subset = results.feature_selection.hvgs
     results.dimensionality_reduction.pca = dimred.run_pca(
-        results.normalization.log_normalized_counts,
+        results.normalization.log_norm_counts,
         options=options.dimensionality_reduction.run_pca,
     )
 
@@ -348,7 +340,8 @@ def __analyze(
     for k in set([umap_nn, tsne_nn, snn_nn]):
         nn_dict[k] = nn.find_nearest_neighbors(
             results.nearest_neighbors.nearest_neighbor_index,
-            options=options.nearest_neighbors.find_nn,
+            k=k,
+            options=options.nearest_neighbors.find_nearest_neighbors,
         )
 
     executor = ProcessPoolExecutor(max_workers=2)
@@ -370,19 +363,22 @@ def __analyze(
 
     remaining_threads = max(1, options.num_threads - 2)
     options.clustering.set_threads(remaining_threads)
-    results.clustering.snn_graph = clust.build_snn_graph(
+    results.clustering.build_snn_graph = clust.build_snn_graph(
         nn_dict[snn_nn], options=options.clustering.build_snn_graph
     )
 
     # clusters
-    results.clustering.clusters = results.clustering.snn_graph.community_multilevel(
-        resolution=options.clustering.resolution
-    ).membership
+    results.clustering.clusters = (
+        results.clustering.build_snn_graph.community_multilevel(
+            resolution=options.clustering.resolution
+        ).membership
+    )
 
     # Score Markers for each cluster
     options.marker_detection.set_threads(remaining_threads)
     results.marker_detection.markers = mark.score_markers(
-        results.normalization.log_normalized_counts,
+        results.normalization.log_norm_counts,
+        grouping=results.clustering.clusters,
         options=options.marker_detection.score_markers,
     )
 
@@ -423,16 +419,16 @@ def analyze(
         options (AnalyzeOptions): Optional analysis parameters.
 
     Raises:
-        NotImplementedError: if ``matrix`` is not an expected type.
+        NotImplementedError: If ``matrix`` is not an expected type.
 
     Returns:
-        AnalyzeResults: Results from various steps.
+        AnalyzeResults: Results from all steps of the scran workflow.
     """
     if is_matrix_expected_type(matrix):
         return __analyze(matrix, features=features, options=options)
     else:
         raise NotImplementedError(
-            f"analyze is not supported for objects of class: {type(matrix)}"
+            f"'Analyze' is not supported for objects of class: `{type(matrix)}`"
         )
 
 
@@ -467,7 +463,7 @@ def analyze_sce(
         options (AnalyzeOptions): Optional analysis parameters.
 
     Raises:
-        ValueError: If object does not contain a ``assay`` matrix.
+        ValueError: If SCE does not contain a ``assay`` matrix.
 
     Returns:
         AnalyzeResults: Results from various steps.

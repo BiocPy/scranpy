@@ -1,7 +1,7 @@
 from typing import Sequence
 
-import numpy as np
 from mattress import TatamiNumericPointer, tatamize
+from numpy import bool_, float64, int32, int_, ndarray, uint8, uintp, zeros
 
 from .types import (
     FactorizedArray,
@@ -21,10 +21,10 @@ def factorize(x: Sequence) -> FactorizedArray:
     """Factorize an array.
 
     Args:
-        x (Sequence): an array.
+        x (Sequence): Any array.
 
     Returns:
-        FactorizedArray: a factorized tuple.
+        FactorizedArray: A factorized tuple.
     """
 
     if not isinstance(x, list):
@@ -32,7 +32,7 @@ def factorize(x: Sequence) -> FactorizedArray:
 
     levels = []
     mapping = {}
-    output = np.zeros((len(x),), dtype=np.int32)
+    output = zeros((len(x),), dtype=int32)
 
     for i in range(len(x)):
         lev = x[i]
@@ -46,17 +46,17 @@ def factorize(x: Sequence) -> FactorizedArray:
     return FactorizedArray(levels=levels, indices=output)
 
 
-def to_logical(selection: SelectionTypes, length: int) -> np.ndarray:
+def to_logical(selection: SelectionTypes, length: int) -> ndarray:
     """Convert a selection to a logical array.
 
     Args:
-        selection (SelectionTypes): list/array of integer indices.
+        selection (SelectionTypes): List/array of integer indices.
             a list/array of booleans, a range or a slice object.
-        length (int): length of the output array, i.e.,
+        length (int): Length of the output array, i.e.,
             the maximum possible index plus 1.
 
     Returns:
-        np.ndarray: An array of unsigned 8-bit integers where selected
+        ndarray: An array of unsigned 8-bit integers where selected
         entries are marked with 1 and all others are zero.
 
         If `selection` is an array of indices, the entries at the
@@ -65,19 +65,19 @@ def to_logical(selection: SelectionTypes, length: int) -> np.ndarray:
         If `selection` is an array of booleans, the entries are
         converted directly to unsigned 8 bit integers.
     """
-    output = np.zeros((length,), dtype=np.uint8)
+    output = zeros((length,), dtype=uint8)
 
     if isinstance(selection, range) or isinstance(selection, slice):
         output[selection] = 1
         return output
 
-    if isinstance(selection, np.ndarray):
-        if selection.dtype == np.bool_:
+    if isinstance(selection, ndarray):
+        if selection.dtype == bool_:
             if len(selection) != length:
                 raise ValueError("length of 'selection' is not equal to 'length'.")
             output[selection] = 1
             return output
-        elif selection.dtype == np.int_:
+        elif selection.dtype == int_:
             output[selection] = 1
             return output
         else:
@@ -109,10 +109,10 @@ def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
         x (MatrixTypes): Input Matrix.
 
     Raises:
-        TypeError: if x is not an expected matrix type.
+        TypeError: If x is not an expected matrix type.
 
     Returns:
-        TatamiNumericPointer: tatami representation.
+        TatamiNumericPointer: Tatami representation.
     """
     validate_matrix_types(x)
 
@@ -126,17 +126,17 @@ def create_output_arrays(rows: int, columns: int) -> NDOutputArrays:
     """Create a list of ndarrays of shape (rows, columns).
 
     Args:
-        rows (int): number of rows.
-        columns (int): number of columns.
+        rows (int): Number of rows.
+        columns (int): Number of columns.
 
     Returns:
         NDOutputArrays: A tuple with list of
         ndarrays and their references.
     """
-    outptrs = np.ndarray((columns,), dtype=np.uintp)
+    outptrs = ndarray((columns,), dtype=uintp)
     outarrs = []
     for g in range(columns):
-        curarr = np.ndarray((rows,), dtype=np.float64)
+        curarr = ndarray((rows,), dtype=float64)
         outptrs[g] = curarr.ctypes.data
         outarrs.append(curarr)
     return NDOutputArrays(outarrs, outptrs)

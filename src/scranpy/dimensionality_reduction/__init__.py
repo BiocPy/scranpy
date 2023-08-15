@@ -1,4 +1,4 @@
-from .run_pca import RunPcaOptions, run_pca
+from .run_pca import PcaResult, RunPcaOptions, run_pca
 from .run_tsne import (
     InitializeTsneOptions,
     RunTsneOptions,
@@ -17,6 +17,6 @@ from .run_umap import (
     run_umap,
 )
 from .types import (
-    DimensionalityReductionStepOptions,
-    DimensionalityReductionStepResults,
+    DimensionalityReductionOptions,
+    DimensionalityReductionResults,
 )

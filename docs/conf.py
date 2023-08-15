@@ -138,7 +138,7 @@ release = version
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv", "cpphelpers"]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
@@ -165,6 +165,9 @@ pygments_style = "sphinx"
 
 # If this is True, todo emits a warning for each TODO entries. The default is False.
 todo_emit_warnings = True
+
+napoleon_use_rtype = True  # having a separate entry generally helps readability
+napoleon_use_param = True
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -299,8 +302,9 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "setuptools": ("https://setuptools.pypa.io/en/stable/", None),
     "pyscaffold": ("https://pyscaffold.org/en/stable", None),
-    "biocframe": ("https://biocpy.github.io/BiocFrame/", None),
-    "mattress": ("https://biocpy.github.io/mattress/", None),
+    "biocframe": ("https://biocpy.github.io/BiocFrame", None),
+    "mattress": ("https://biocpy.github.io/mattress", None),
+    "igraph": ("https://python.igraph.org/en/stable", None),
 }
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)

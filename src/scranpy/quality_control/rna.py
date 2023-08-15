@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Mapping, Optional, Sequence
 
-import numpy as np
 from biocframe import BiocFrame
+from numpy import bool_, float64, int32, ndarray, uint8, uintp, zeros
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -16,7 +16,7 @@ __license__ = "MIT"
 
 def create_pointer_array(arrs):
     num = len(arrs)
-    output = np.ndarray((num,), dtype=np.uintp)
+    output = ndarray((num,), dtype=uintp)
 
     if isinstance(arrs, list):
         for i in range(num):
@@ -32,14 +32,19 @@ def create_pointer_array(arrs):
 
 @dataclass
 class PerCellRnaQcMetricsOptions:
-    """Arguments to compute per cell QC metrics (RNA) -
+    """Optional arguments for
     :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
 
     Attributes:
         subsets (Mapping, optional): Dictionary of feature subsets.
-            Each key is the name of the subset and each value is an array of
-            integer indices or booleans, specifying the rows of `input` belonging to the
-            subset. Defaults to {}.
+            Each key is the name of the subset and each value is an array.
+
+            Each array may contain integer indices to the rows of `input` belonging to the subset.
+            Alternatively, each array is of length equal to the number of rows in ``input``
+            and contains booleans specifying that the corresponding row belongs to the subset.
+
+            Defaults to {}.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
         verbose (bool, optional): Display logs?. Defaults to False.
     """
@@ -53,20 +58,30 @@ def per_cell_rna_qc_metrics(
     input: MatrixTypes,
     options: PerCellRnaQcMetricsOptions = PerCellRnaQcMetricsOptions(),
 ) -> BiocFrame:
-    """Compute QC metrics (RNA).
-
-    Note: rows are features, columns are cells.
+    """Compute per-cell quality control metrics for RNA data.
+    This includes the total count for each cell, where low values are indicative of
+    problems with library preparation or sequencing; the number of detected features
+    per cell, where low values are indicative of problems with transcript capture;
+    and the proportion of counts in particular feature subsets,
+    typically mitochondrial genes where high values are indicative of cell damage.
 
     Args:
-        input (MatrixTypes): Input matrix.
+        input (MatrixTypes):
+            Matrix-like object containing cells in columns and features in rows, typically with "count" data.
+            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
+            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
         options (PerCellRnaQcMetricsOptions): Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not an expected matrix type.
 
     Returns:
-        BiocFrame: DataFrame containing per-cell 'counts', 'sums', 'number of detected
-        features' and the 'proportion' of counts in each subset.
+        BiocFrame:
+            A data frame containing one row per cell and the following fields -
+            ``"sums"``, the total count for each cell;
+            ``"detected"``, the number of detected features for each cell;
+            and ``"subset_proportions"``, a nested BiocFrame where each column is named
+            after an entry in ``subsets`` and contains the proportion of counts in that subset.
     """
     x = validate_and_tatamize_input(input)
 
@@ -75,8 +90,8 @@ def per_cell_rna_qc_metrics(
 
     nr = x.nrow()
     nc = x.ncol()
-    sums = np.ndarray((nc,), dtype=np.float64)
-    detected = np.ndarray((nc,), dtype=np.int32)
+    sums = ndarray((nc,), dtype=float64)
+    detected = ndarray((nc,), dtype=int32)
 
     keys = list(options.subsets.keys())
     num_subsets = len(keys)
@@ -86,7 +101,7 @@ def per_cell_rna_qc_metrics(
     for i in range(num_subsets):
         in_arr = to_logical(options.subsets[keys[i]], nr)
         collected_in.append(in_arr)
-        out_arr = np.ndarray((nc,), dtype=np.float64)
+        out_arr = ndarray((nc,), dtype=float64)
         collected_out[keys[i]] = out_arr
 
     subset_in = create_pointer_array(collected_in)
@@ -115,18 +130,27 @@ def per_cell_rna_qc_metrics(
 
 
 @dataclass
-class SuggestRnaQcFilters:
-    """Arguments to suggest QC Filters (RNA) -
+class SuggestRnaQcFiltersOptions:
+    """Optional arguments for
     :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
 
     Attributes:
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
-        num_mads (int, optional): Number of median absolute deviations to
-            filter low-quality cells. Defaults to 3.
-        verbose (bool, optional): Display logs?. Defaults to False.
+        block (Sequence, optional):
+            Block assignment for each cell.
+            Thresholds are computed within each block to avoid inflated variances from
+            inter-block differences.
+
+            If provided, this should have length equal to the number of cells, where
+            cells have the same value if and only if they are in the same block.
+            Defaults to None, indicating all cells are part of the same block.
+
+        num_mads (int, optional):
+            Number of median absolute deviations for computing an outlier threshold.
+            Larger values will result in a less stringent threshold.
+            Defaults to 3.
+
+        verbose (bool, optional): Whether to print logging information.
+            Defaults to False.
     """
 
     block: Optional[Sequence] = None
@@ -135,14 +159,16 @@ class SuggestRnaQcFilters:
 
 
 def suggest_rna_qc_filters(
-    metrics: BiocFrame, options: SuggestRnaQcFilters = SuggestRnaQcFilters()
+    metrics: BiocFrame,
+    options: SuggestRnaQcFiltersOptions = SuggestRnaQcFiltersOptions(),
 ) -> BiocFrame:
-    """Suggest filters for qc (RNA).
+    """Suggest filter thresholds for RNA-based per-cell quality control (QC) metrics.
+    This identifies outliers on the relevant tail of the distribution of each QC metric.
+    Outlier cells are considered to be low-quality and should be removed before further analysis.
 
     Args:
-        metrics (BiocFrame): A BiocFrame that contains 'sums', 'detected'
-            and 'proportions' for each cell. Usually the result of
-            :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` method.
+        metrics (BiocFrame): A data frame containing QC metrics for each cell,
+            see the output of :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` for the expected format.
         options (SuggestRnaQcFilters): Optional parameters.
 
     Raises:
@@ -150,7 +176,16 @@ def suggest_rna_qc_filters(
             not contain expected metrics.
 
     Returns:
-        BiocFrame: suggested filters for each metric.
+        BiocFrame:
+            A data frame containing one row per block and the following fields -
+            ``"sums"``, the suggested (lower) threshold on the total count for each cell;
+            ``"detected"``, the suggested (lower) threshold on the number of detected features for each cell;
+            and ``"subset_proportions"``, a nested BiocFrame where each column is named
+            after an entry in ``subsets`` and contains the suggested (upper) threshold
+            on the proportion of counts in that subset.
+
+            If ``options.block`` is None, all cells are assumed to belong to a single
+            block, and the output BiocFrame contains a single row.
     """
     use_block = options.block is not None
     block_info = None
@@ -173,14 +208,14 @@ def suggest_rna_qc_filters(
         num_blocks = len(block_names)
 
     sums = metrics.column("sums")
-    if sums.dtype != np.float64:
+    if sums.dtype != float64:
         raise TypeError("expected the 'sums' column to be a float64 array.")
-    sums_out = np.ndarray((num_blocks,), dtype=np.float64)
+    sums_out = ndarray((num_blocks,), dtype=float64)
 
     detected = metrics.column("detected")
-    if detected.dtype != np.int32:
+    if detected.dtype != int32:
         raise TypeError("expected the 'detected' column to be an int32 array.")
-    detected_out = np.ndarray((num_blocks,), dtype=np.float64)
+    detected_out = ndarray((num_blocks,), dtype=float64)
 
     subsets = metrics.column("subset_proportions")
     skeys = subsets.columnNames
@@ -190,8 +225,8 @@ def suggest_rna_qc_filters(
 
     for i in range(num_subsets):
         cursub = subsets.column(i)
-        subset_in.append(cursub.astype(np.float64, copy=False))
-        curout = np.ndarray((num_blocks,), dtype=np.float64)
+        subset_in.append(cursub.astype(float64, copy=False))
+        curout = ndarray((num_blocks,), dtype=float64)
         subset_out[skeys[i]] = curout
 
     subset_in_ptrs = create_pointer_array(subset_in)
@@ -228,16 +263,16 @@ def suggest_rna_qc_filters(
 
 
 @dataclass
-class CreateRnaQcFilter:
-    """Arguments to create an RNA QC Filter -
+class CreateRnaQcFilterOptions:
+    """Optional arguments for
     :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
     Attributes:
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
-        verbose (bool, optional): Display logs?. Defaults to False.
+        block (Sequence, optional):
+            Block assignment for each cell.
+            This should be the same as that used in
+            in :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
@@ -247,23 +282,21 @@ class CreateRnaQcFilter:
 def create_rna_qc_filter(
     metrics: BiocFrame,
     thresholds: BiocFrame,
-    options: CreateRnaQcFilter = CreateRnaQcFilter(),
-) -> np.ndarray:
-    """Defines a QC filter (RNA) based on the per-cell
-    QC metrics computed from an RNA count matrix and thresholds suggested
-    by the :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+    options: CreateRnaQcFilterOptions = CreateRnaQcFilterOptions(),
+) -> ndarray:
+    """Defines a filtering vector based on the RNA-derived per-cell quality control (QC) metrics and thresholds.
 
     Args:
-        metrics (BiocFrame): DataFrame of results from
-            :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`
-            function.
-        thresholds (BiocFrame): Suggested (or modified) filters from
-            :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`
-            function.
+        metrics (BiocFrame): Data frame of metrics,
+            see :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` for the expected format.
+
+        thresholds (BiocFrame): Data frame of filter thresholds,
+            see :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters` for the expected format.
+
         options (CreateRnaQcFilter): Optional parameters.
 
     Returns:
-        np.ndarray: a numpy boolean array filled with 1 for cells to filter.
+        ndarray: A numpy boolean array filled with 1 for cells to filter.
     """
 
     if not isinstance(metrics, BiocFrame):
@@ -279,9 +312,9 @@ def create_rna_qc_filter(
 
     for i in range(num_subsets):
         cursub = subprop.column(i)
-        subset_in.append(cursub.astype(np.float64, copy=False))
+        subset_in.append(cursub.astype(float64, copy=False))
         curfilt = thresholds.column(i)
-        filter_in.append(curfilt.astype(np.float64, copy=False))
+        filter_in.append(curfilt.astype(float64, copy=False))
 
     subset_in_ptr = create_pointer_array(subset_in)
     filter_in_ptr = create_pointer_array(filter_in)
@@ -295,11 +328,11 @@ def create_rna_qc_filter(
         block_offset = block_info.indices.ctypes.data
         num_blocks = len(block_info.levels)
 
-    tmp_sums_in = metrics.column("sums").astype(np.float64, copy=False)
-    tmp_detected_in = metrics.column("detected").astype(np.int32, copy=False)
-    tmp_sums_thresh = thresholds.column("sums").astype(np.float64, copy=False)
-    tmp_detected_thresh = thresholds.column("detected").astype(np.float64, copy=False)
-    output = np.zeros(metrics.shape[0], dtype=np.uint8)
+    tmp_sums_in = metrics.column("sums").astype(float64, copy=False)
+    tmp_detected_in = metrics.column("detected").astype(int32, copy=False)
+    tmp_sums_thresh = thresholds.column("sums").astype(float64, copy=False)
+    tmp_detected_thresh = thresholds.column("detected").astype(float64, copy=False)
+    output = zeros(metrics.shape[0], dtype=uint8)
 
     lib.create_rna_qc_filter(
         metrics.shape[0],
@@ -315,16 +348,16 @@ def create_rna_qc_filter(
         output,
     )
 
-    return output.astype(np.bool_, copy=False)
+    return output.astype(bool_, copy=False)
 
 
 def guess_mito_from_symbols(
     symbols: Sequence[str], prefix: str = "mt-"
 ) -> Sequence[int]:
-    """Guess mitochondrial genes based on the gene symbols.
+    """Guess mitochondrial genes from their gene symbols.
 
     Args:
-        symbols (Sequence[str]): List of symbols, one per gene.
+        symbols (Sequence[str]): List of gene symbols.
         prefix (str): Case-insensitive prefix to guess mitochondrial genes.
 
     Return:

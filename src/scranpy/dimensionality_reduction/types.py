@@ -1,9 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
-from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
-from .run_pca import PCAResult, RunPcaOptions
+from .run_pca import PcaResult, RunPcaOptions
 from .run_tsne import RunTsneOptions, TsneEmbedding
 from .run_umap import RunUmapOptions, UmapEmbedding
 
@@ -13,7 +12,7 @@ __license__ = "MIT"
 
 
 @dataclass
-class DimensionalityReductionStepOptions(AbstractStepOptions):
+class DimensionalityReductionOptions:
     """Arguments to run the dimensionality reduction step.
 
     Attributes:
@@ -77,11 +76,11 @@ class DimensionalityReductionStepOptions(AbstractStepOptions):
 
 
 @dataclass
-class DimensionalityReductionStepResults:
+class DimensionalityReductionResults:
     """Results of the dimensionality reduction step.
 
     Attributes:
-        pca (PCAResult, optional): Result of
+        pca (PcaResult, optional): Result of
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
         tsne (TsneEmbedding, optional): Result of
             :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
@@ -89,6 +88,6 @@ class DimensionalityReductionStepResults:
             :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
     """
 
-    pca: Optional[PCAResult] = None
+    pca: Optional[PcaResult] = None
     tsne: Optional[TsneEmbedding] = None
     umap: Optional[UmapEmbedding] = None

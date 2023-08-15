@@ -1,7 +1,7 @@
 import ctypes as ct
 from dataclasses import dataclass
 
-import numpy as np
+from numpy import ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -12,31 +12,27 @@ __license__ = "MIT"
 
 
 class NeighborIndex:
-    """Class for nearest neighbor search index.
-
-    Args:
-        ptr (ct.c_void_p): Pointer reference to scran's nearest neighbor index.
+    """The nearest neighbor search index.
+    This should not be manually constructed but should be created
+    by :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
     """
 
     def __init__(self, ptr: ct.c_void_p):
-        """Initialize the class."""
         self.__ptr = ptr
 
     def __del__(self):
-        """Free the reference."""
         lib.free_neighbor_index(self.__ptr)
 
     @property
     def ptr(self) -> ct.c_void_p:
         """Get pointer to scran's NN search index.
-
         Returns:
             ct.c_void_p: Pointer reference.
         """
         return self.__ptr
 
     def num_cells(self) -> int:
-        """Get number of cells.
+        """Get number of cells in this index.
 
         Returns:
             int: Number of cells.
@@ -44,7 +40,7 @@ class NeighborIndex:
         return lib.fetch_neighbor_index_nobs(self.__ptr)
 
     def num_dimensions(self) -> int:
-        """Get number of dimensions.
+        """Get number of dimensions in this index.
 
         Returns:
             int: Number of dimensions.
@@ -54,13 +50,14 @@ class NeighborIndex:
 
 @dataclass
 class BuildNeighborIndexOptions:
-    """Arguments to build nearest neighbor index -
+    """Optional arguments for
     :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
     Attributes:
         approximate (bool, optional): Whether to build an index for an approximate
-            neighbor search. Defaults to True.
-        verbose (bool, optional): Display logs?. Defaults to False.
+            neighbor search. This sacrifices some accuracy for speed.
+            Defaults to True.
+        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     approximate: bool = True
@@ -68,16 +65,16 @@ class BuildNeighborIndexOptions:
 
 
 def build_neighbor_index(
-    input: np.ndarray, options: BuildNeighborIndexOptions = BuildNeighborIndexOptions()
+    input: ndarray, options: BuildNeighborIndexOptions = BuildNeighborIndexOptions()
 ) -> NeighborIndex:
-    """Build the nearest neighbor search index.
-
-    Note: rows are features, columns are cells.
+    """Build a search index for finding nearest neighbors between cells,
+    for input into functions like
+    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Args:
-        input (np.ndarray): Co-ordinates for each cell in the dataset
-            usually the prinicpal components from the PCA step
-            (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
+        input (ndarray): A matrix where rows are dimensions and cells are columns.
+            This is usually the principal components from the
+            :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
         options (BuildNeighborIndexOptions): Optional parameters.
 
     Returns:

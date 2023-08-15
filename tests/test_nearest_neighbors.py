@@ -2,7 +2,7 @@ from scranpy.nearest_neighbors import (
     BuildNeighborIndexOptions,
     FindNearestNeighborsOptions,
     NeighborResults,
-    NNResult,
+    SingleNeighborResults,
     build_neighbor_index,
     find_nearest_neighbors,
 )
@@ -18,17 +18,19 @@ def test_neighbors(mock_data):
     assert idx.num_cells() == 1000
     assert idx.num_dimensions() == 50
 
-    res = find_nearest_neighbors(idx, FindNearestNeighborsOptions(k=10))
+    res = find_nearest_neighbors(idx, k=10)
     assert res.num_cells() == 1000
     assert res.num_neighbors() == 10
-    assert isinstance(res.get(2), NNResult)
+    assert isinstance(res.get(2), SingleNeighborResults)
 
     stuff = res.serialize()
     res2 = NeighborResults.unserialize(stuff)
     assert res2 is not None
 
     # Same results after parallelization.
-    resp = find_nearest_neighbors(idx, FindNearestNeighborsOptions(k=10, num_threads=3))
+    resp = find_nearest_neighbors(
+        idx, k=10, options=FindNearestNeighborsOptions(num_threads=3)
+    )
     nn_old = res.get(0)
     nn_new = resp.get(0)
     assert (nn_old.index == nn_new.index).all()

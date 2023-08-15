@@ -1,9 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
-import igraph as ig
+from igraph import Graph
 
-from .._abstract import AbstractStepOptions
 from ..types import validate_object_type
 from .build_snn_graph import BuildSnnGraphOptions
 
@@ -13,11 +12,11 @@ __license__ = "MIT"
 
 
 @dataclass
-class ClusterStepOptions(AbstractStepOptions):
-    """Arguments to run the clustering step.
+class ClusteringOptions:
+    """Options for clustering.
 
     Attributes:
-        build_snn_graph (BuildSNNGraphOptions): Arguments to build the SNN graph
+        build_snn_graph (BuildSnnGraphOptions): Optional arguments to build the SNN graph
         (:py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`).
     """
 
@@ -28,7 +27,7 @@ class ClusterStepOptions(AbstractStepOptions):
         validate_object_type(self.build_snn_graph, BuildSnnGraphOptions)
 
     def set_threads(self, num_threads: int = 1):
-        """Set number of threads to use.
+        """Number of threads to use in steps that can be parallelized.
 
         Args:
             num_threads (int, optional): Number of threads. Defaults to 1.
@@ -39,20 +38,20 @@ class ClusterStepOptions(AbstractStepOptions):
         """Set verbose to display logs.
 
         Args:
-            verbose (bool, optional): Display logs? Defaults to False.
+            verbose (bool, optional): Whether to display logs. Defaults to False.
         """
         self.build_snn_graph.verbose = verbose
 
 
 @dataclass
-class ClusterStepResults:
-    """Results of the cluster step.
+class ClusteringResults:
+    """Results of the clustering step.
 
     Attributes:
-        snn_graph (ig.Graph, optional): An igraph object representing the SNN graph
-            from (:py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`).
+        build_snn_graph (Graph, optional): The output of
+            :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
         clusters (Sequence, optional): Clusters identified by igraph.
     """
 
-    snn_graph: Optional[ig.Graph] = None
+    build_snn_graph: Optional[Graph] = None
     clusters: Optional[Sequence] = None
