@@ -83,7 +83,7 @@ def build_neighbor_index(
     if options.verbose is True:
         logger.info("Building nearest neighbor index...")
 
-    if not input.flags.C_CONTIGUOUS:
+    if not input.flags.c_contiguous:
         raise ValueError("expected 'input' to have row-major layout")
 
     ptr = lib.build_neighbor_index(

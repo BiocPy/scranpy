@@ -124,13 +124,13 @@ class NeighborResults:
             NeighborResults: Instance of this class, constructed from the data in ``content``.
         """
         idx = content.index
-        if idx.flags.C_CONTIGUOUS:
+        if idx.flags.c_contiguous:
             raise ValueError("expected 'content.index' to have a row-major layout")
 
         dist = content.distance
         if dist.shape != idx.shape: 
             raise ValueError("expected 'content.distance' and 'content.index' to have the same shape")
-        if dist.flags.C_CONTIGUOUS:
+        if dist.flags.c_contiguous:
             raise ValueError("expected 'content.index' to have a row-major layout")
 
         ptr = lib.unserialize_neighbor_results(idx.shape[0], idx.shape[1], idx, dist)
