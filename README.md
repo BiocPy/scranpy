@@ -10,7 +10,7 @@
 
 [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/)
 [![PyPI-Server](https://img.shields.io/pypi/v/scranpy.svg)](https://pypi.org/project/scranpy/)
-[![Monthly Downloads](https://pepy.tech/badge/scranpy/month)](https://pepy.tech/project/scranpy)
+[![Downloads](https://pepy.tech/badge/scranpy/month)](https://pepy.tech/project/scranpy)
 ![Unit tests](https://github.com/BiocPy/scranpy/actions/workflows/pypi-test.yml/badge.svg)
 
 # scran, in Python
