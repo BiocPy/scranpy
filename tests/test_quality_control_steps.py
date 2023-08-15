@@ -1,8 +1,8 @@
 import numpy as np
 from scranpy.quality_control import (
-    CreateRnaQcFilter,
+    CreateRnaQcFilterOptions,
     PerCellRnaQcMetricsOptions,
-    SuggestRnaQcFilters,
+    SuggestRnaQcFiltersOptions,
     create_rna_qc_filter,
     guess_mito_from_symbols,
     per_cell_rna_qc_metrics,
@@ -70,7 +70,7 @@ def test_suggest_rna_qc_filters(mock_data):
     #  with blocks
     x = mock_data.x * 20
     filters_blocked = suggest_rna_qc_filters(
-        result, options=SuggestRnaQcFilters(block=mock_data.block)
+        result, options=SuggestRnaQcFiltersOptions(block=mock_data.block)
     )
 
     assert filters_blocked.shape[0] == 3
@@ -84,6 +84,6 @@ def test_suggest_rna_qc_filters(mock_data):
     assert len(keep) == result.shape[0]
 
     keep_blocked = create_rna_qc_filter(
-        result, filters_blocked, options=CreateRnaQcFilter(block=mock_data.block)
+        result, filters_blocked, options=CreateRnaQcFilterOptions(block=mock_data.block)
     )
     assert len(keep_blocked) == result.shape[0]

@@ -24,7 +24,9 @@ distance (np.ndarray):
     ordered by increasing distance.
 """
 
-SerializedNeighborResults = namedtuple("SerializedNeighborResults", ["index", "distance"])
+SerializedNeighborResults = namedtuple(
+    "SerializedNeighborResults", ["index", "distance"]
+)
 SerializedNeighborResults.__doc__ = """\
 Named tuple of serialized results from the nearest neighbor search.
 
@@ -36,8 +38,9 @@ distance (np.ndarray):
     Each row is a cell and each column is a neighbor, ordered by increasing distance.
 """
 
+
 class NeighborResults:
-    """Nearest neighbor search results. 
+    """Nearest neighbor search results.
     This should not be constructed manually but instead should be created by
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
     """
@@ -47,6 +50,14 @@ class NeighborResults:
 
     def __del__(self):
         lib.free_neighbor_results(self.__ptr)
+
+    @property
+    def ptr(self) -> ct.c_void_p:
+        """Get pointer to scran's NN search index.
+        Returns:
+            ct.c_void_p: Pointer reference.
+        """
+        return self.__ptr
 
     def num_cells(self) -> int:
         """Get the number of cells in this object.
@@ -80,10 +91,10 @@ class NeighborResults:
         return SingleNeighborResults(out_i, out_d)
 
     def serialize(self) -> SerializedNeighborResults:
-        """Serialize nearest neighbors for all cells, typically to 
+        """Serialize nearest neighbors for all cells, typically to
         save or transfer to a new process.
-        This can be used to construct a new 
-        :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` 
+        This can be used to construct a new
+        :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
         object by calling
         :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize`.
 
@@ -102,7 +113,7 @@ class NeighborResults:
         """Initialize an instance of this class from serialized nearest neighbor results.
 
         Args:
-            content (SerializedNeighborResults): Result of 
+            content (SerializedNeighborResults): Result of
                 :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize`.
 
         Returns:
@@ -116,7 +127,7 @@ class NeighborResults:
 
 @dataclass
 class FindNearestNeighborsOptions:
-    """Optional arguments for 
+    """Optional arguments for
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Attributes:
@@ -138,14 +149,14 @@ def find_nearest_neighbors(
     Args:
         idx (NeighborIndex): The nearest neighbor search index, usually built by
             :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
-        k (int): Number of neighbors to find for each cell. 
+        k (int): Number of neighbors to find for each cell.
         options (FindNearestNeighborsOptions): Optional parameters.
-
-    Returns:
-        NeighborResults: Object with search results.
 
     Raises:
         TypeError: If ``idx`` is not a nearest neighbor index.
+
+    Returns:
+        NeighborResults: 'k' nearest neighbors for each cell.
     """
     if options.verbose is True:
         logger.info("Finding nearest neighbors...")

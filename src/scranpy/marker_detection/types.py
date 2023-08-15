@@ -35,7 +35,7 @@ class MarkerDetectionOptions:
         """Set verbose to display logs.
 
         Args:
-            verbose (bool, optional): Display logs? Defaults to False.
+            verbose (bool, optional): Whether to display logs. Defaults to False.
         """
         self.score_markers.verbose = verbose
 

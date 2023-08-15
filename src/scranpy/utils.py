@@ -21,10 +21,10 @@ def factorize(x: Sequence) -> FactorizedArray:
     """Factorize an array.
 
     Args:
-        x (Sequence): an array.
+        x (Sequence): Any array.
 
     Returns:
-        FactorizedArray: a factorized tuple.
+        FactorizedArray: A factorized tuple.
     """
 
     if not isinstance(x, list):
@@ -50,9 +50,9 @@ def to_logical(selection: SelectionTypes, length: int) -> np.ndarray:
     """Convert a selection to a logical array.
 
     Args:
-        selection (SelectionTypes): list/array of integer indices.
+        selection (SelectionTypes): List/array of integer indices.
             a list/array of booleans, a range or a slice object.
-        length (int): length of the output array, i.e.,
+        length (int): Length of the output array, i.e.,
             the maximum possible index plus 1.
 
     Returns:
@@ -109,10 +109,10 @@ def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
         x (MatrixTypes): Input Matrix.
 
     Raises:
-        TypeError: if x is not an expected matrix type.
+        TypeError: If x is not an expected matrix type.
 
     Returns:
-        TatamiNumericPointer: tatami representation.
+        TatamiNumericPointer: Tatami representation.
     """
     validate_matrix_types(x)
 
@@ -126,8 +126,8 @@ def create_output_arrays(rows: int, columns: int) -> NDOutputArrays:
     """Create a list of ndarrays of shape (rows, columns).
 
     Args:
-        rows (int): number of rows.
-        columns (int): number of columns.
+        rows (int): Number of rows.
+        columns (int): Number of columns.
 
     Returns:
         NDOutputArrays: A tuple with list of

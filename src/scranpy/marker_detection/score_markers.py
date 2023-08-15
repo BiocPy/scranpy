@@ -1,4 +1,3 @@
-import warnings
 from dataclasses import dataclass
 from typing import Mapping, Optional, Sequence
 
@@ -41,29 +40,30 @@ def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
 
 @dataclass
 class ScoreMarkersOptions:
-    """Optional arguments for 
+    """Optional arguments for
     :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
 
     Attributes:
-        block (Sequence, optional): 
+        block (Sequence, optional):
             Block assignment for each cell.
-            Comparisons are only performed within each block to avoid interference from inter-block differences, e.g., batch effects.
+            Comparisons are only performed within each block to avoid interference from
+            inter-block differences, e.g., batch effects.
 
-            If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.
+            If provided, this should have length equal to the number of cells, where
+            cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
-        threshold (float, optional): 
-            Log-fold change threshold to use for computing Cohen's d and the AUC. 
-            Large positive values favor markers with large log-fold changes over those with low variance. 
-            Defaults to 0.
+        threshold (float, optional):
+            Log-fold change threshold to use for computing Cohen's d and the AUC.
+            Large positive values favor markers with large log-fold changes over those
+            with low variance. Defaults to 0.
 
-        compute_auc (bool, optional): 
+        compute_auc (bool, optional):
             Whether to compute the AUCs.
-            This can be set to False for greater speed and memory efficiency.
+            This can be set to ``False`` for greater speed and memory efficiency.
             Defaults to True.
 
         num_threads (int, optional): Number of threads to use. Defaults to 1.
-
         verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
@@ -75,24 +75,24 @@ class ScoreMarkersOptions:
 
 
 def score_markers(
-    input: MatrixTypes, 
+    input: MatrixTypes,
     grouping: Sequence,
-    options: ScoreMarkersOptions = ScoreMarkersOptions()
+    options: ScoreMarkersOptions = ScoreMarkersOptions(),
 ) -> Mapping:
     """Score genes as potential markers for groups of cells.
-    Markers are genes that are strongly up-regulated within each group, 
-    allowing users to associate each group with some known (or novel) cell type or state. 
+    Markers are genes that are strongly up-regulated within each group,
+    allowing users to associate each group with some known (or novel) cell type or state.
     The groups themselves are typically constructed from the data, e.g., with
     :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Args:
-        input (MatrixTypes): 
+        input (MatrixTypes):
             Matrix-like object where rows are features and columns are cells, typically containing log-normalized values.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
 
-        grouping (Sequence, optional): 
-            Group assignment for each cell. 
+        grouping (Sequence, optional):
+            Group assignment for each cell.
             This should have length equal to the number of cells,
             where the entry for each cell specifies the assigned group for that cell.
 

@@ -15,15 +15,16 @@ __license__ = "MIT"
 
 @dataclass
 class LogNormCountsOptions:
-    """Optional arguments for 
+    """Optional arguments for
     :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
     Attributes:
-        block (Sequence, optional): 
+        block (Sequence, optional):
             Block assignment for each cell.
             This is used to adjust the centering of size factors so that higher-coverage blocks are scaled down.
 
-            If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.
+            If provided, this should have length equal to the number of cells, where
+            cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
         size_factors (np.ndarray, optional): Size factors for each cell.
@@ -31,7 +32,7 @@ class LogNormCountsOptions:
 
         center (bool, optional): Whether to center the size factors. Defaults to True.
 
-        allow_zeros (bool, optional): Whether to gracefully handle zero size factors. 
+        allow_zeros (bool, optional): Whether to gracefully handle zero size factors.
             If True, zero size factors are automatically set to the smallest non-zero size factor.
             If False, an error is raised.
             Defaults to False.
@@ -61,11 +62,11 @@ def log_norm_counts(
 ) -> TatamiNumericPointer:
     """Compute log-transformed normalized values.
     The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.
-    The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps; 
+    The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps;
     these relative changes in expression are more relevant than absolute changes.
 
     Args:
-        input (MatrixTypes): 
+        input (MatrixTypes):
             Matrix-like object containing cells in columns and features in rows, typically with count data.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.

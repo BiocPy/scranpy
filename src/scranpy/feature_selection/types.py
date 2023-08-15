@@ -18,9 +18,9 @@ class FeatureSelectionOptions:
     """Optional arguments for feature selection.
 
     Attributes:
-        choose_hvgs (ChooseHvgsOptions): 
+        choose_hvgs (ChooseHvgsOptions):
             Optional arguments for  :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
-        model_gene_variances (ModelGeneVariancesOptions): 
+        model_gene_variances (ModelGeneVariancesOptions):
             Optional arguments for :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
     """
 
@@ -45,7 +45,7 @@ class FeatureSelectionOptions:
         """Set verbose to display logs.
 
         Args:
-            verbose (bool, optional): Display logs? Defaults to False.
+            verbose (bool, optional): Whether to display logs. Defaults to False.
         """
         self.choose_hvgs.verbose = verbose
         self.model_gene_variances.verbose = verbose

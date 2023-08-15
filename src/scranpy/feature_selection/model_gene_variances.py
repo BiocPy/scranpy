@@ -16,7 +16,7 @@ __license__ = "MIT"
 
 @dataclass
 class ModelGeneVariancesOptions:
-    """Optional arguments for 
+    """Optional arguments for
     :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
     Attributes:
@@ -27,7 +27,7 @@ class ModelGeneVariancesOptions:
             Defaults to None, indicating all cells are part of the same block.
 
         span (float, optional): Span to use for the LOWESS trend fitting.
-            Larger values yield a smoother curve and reduces the risk of overfitting, 
+            Larger values yield a smoother curve and reduces the risk of overfitting,
             at the cost of being less responsive to local variations.
             Defaults to 0.3.
 
@@ -57,7 +57,8 @@ def model_gene_variances(
         options (ModelGeneVariancesOptions): Optional parameters.
 
     Returns:
-        BiocFrame: Frame with metrics.
+        BiocFrame: Data frame with variance modelling results
+        (means, variance, fitted, residuals).
     """
     x = validate_and_tatamize_input(input)
 

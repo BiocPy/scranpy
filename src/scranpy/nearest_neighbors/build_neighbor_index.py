@@ -23,6 +23,14 @@ class NeighborIndex:
     def __del__(self):
         lib.free_neighbor_index(self.__ptr)
 
+    @property
+    def ptr(self) -> ct.c_void_p:
+        """Get pointer to scran's NN search index.
+        Returns:
+            ct.c_void_p: Pointer reference.
+        """
+        return self.__ptr
+
     def num_cells(self) -> int:
         """Get number of cells in this index.
 
@@ -42,7 +50,7 @@ class NeighborIndex:
 
 @dataclass
 class BuildNeighborIndexOptions:
-    """Optional arguments for  
+    """Optional arguments for
     :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
     Attributes:
@@ -65,7 +73,7 @@ def build_neighbor_index(
 
     Args:
         input (np.ndarray): A matrix where rows are dimensions and cells are columns.
-            This is usually the principal components from the 
+            This is usually the principal components from the
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
         options (BuildNeighborIndexOptions): Optional parameters.
 

@@ -1,7 +1,9 @@
 from dataclasses import dataclass, field
-from typing import Optional, Union
+from typing import Any, Optional, Union
+
 import numpy as np
 
+from ..types import validate_object_type
 from .build_neighbor_index import BuildNeighborIndexOptions, NeighborIndex
 from .find_nearest_neighbors import FindNearestNeighborsOptions, NeighborResults
 
@@ -30,8 +32,6 @@ class NearestNeighborsOptions:
     )
 
     def __post_init__(self):
-        from ..types import validate_object_type
-
         validate_object_type(self.build_neighbor_index, BuildNeighborIndexOptions)
         validate_object_type(self.find_nearest_neighbors, FindNearestNeighborsOptions)
 
@@ -52,4 +52,36 @@ class NearestNeighborsOptions:
         self.build_neighbor_index.verbose = verbose
         self.find_nearest_neighbors.verbose = verbose
 
+
 NeighborlyInputs = Union[NeighborIndex, NeighborResults, np.ndarray]
+
+
+@dataclass
+class NearestNeighborsResults:
+    """Results of the nearest neighbor step.
+
+    Attributes:
+        build_neighbor_index (NeighborIndex): Output of
+            :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
+        nearest_neighbors (NeighborResults): Output of
+            :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
+    """
+
+    nearest_neighbor_index: Optional[NeighborIndex] = None
+    find_nearest_neighbors: Optional[NeighborResults] = None
+
+
+def is_neighbor_class(x: Any) -> bool:
+    """Checks whether `x` is an expected nearest neighbor input.
+
+    Args:
+        x (Any): Any object.
+
+    Returns:
+        bool: True if `x` is supported.
+    """
+    return (
+        isinstance(x, NeighborIndex)
+        or isinstance(x, NeighborResults)
+        or isinstance(x, np.ndarray)
+    )

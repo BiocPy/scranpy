@@ -24,6 +24,7 @@ variance_explained (np.ndarray): Array of length equal to the number of PCs,
     containing the percentage of variance explained by each PC.
 """
 
+
 def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PcaResult:
     actual_rank = lib.fetch_simple_pca_num_dims(pptr)
 
@@ -46,27 +47,29 @@ class RunPcaOptions:
 
     Attributes:
         rank (int): Number of top PCs to compute.
-            Larger values capture more biological structure at the cost of increasing computational work and absorbing more random noise.
+            Larger values capture more biological structure at the cost of increasing 
+            computational work and absorbing more random noise.
             Defaults to 25.
 
-        subset (Mapping, optional): Array specifying which features should be
+        subset (np.ndarray, optional): Array specifying which features should be
             used in the PCA (e.g., highly variable genes from
             :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`).
             This may contain integer indices or booleans.
             Defaults to None, in which all features are used.
 
-        block (Sequence, optional): 
+        block (Sequence, optional):
             Block assignment for each cell.
             This can be used to reduce the effect of inter-block differences on the PCA
             (see ``block_method`` for more details).
 
-            If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.
+            If provided, this should have length equal to the number of cells, where 
+            cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
-        scale (bool, optional): 
+        scale (bool, optional):
             Whether to scale each feature to unit variance.
-            This improves robustness (i.e., reduces sensitivity) to a small number of highly variable features.
-            Defaults to False.
+            This improves robustness (i.e., reduces sensitivity) to a small number of 
+            highly variable features. Defaults to False.
 
         block_method (Literal["none", "project", "regress"], optional): How to adjust
             the PCA for the blocking factor.
@@ -87,8 +90,8 @@ class RunPcaOptions:
             This option is only used if ``block`` is not `null`.
             Defaults to "project".
 
-        block_weights (bool, optional): 
-            Whether to weight each block so that it contributes the same number of effective observations to the covariance matrix. 
+        block_weights (bool, optional):
+            Whether to weight each block so that it contributes the same number of effective observations to the covariance matrix.
             Defaults to True.
 
         num_threads (int, optional):  Number of threads to use. Defaults to 1.
@@ -123,7 +126,7 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
     biological heterogeneity is the major source of variation in the dataset.
 
     Args:
-        input (MatrixTypes): 
+        input (MatrixTypes):
             Matrix-like object where rows are features and columns are cells, typically containing log-normalized values.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
@@ -134,7 +137,7 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
         ValueError: if ``options.block`` does not match the number of cells.
 
     Returns:
-        PcaResult: Object containing the PC coordinates and the variance 
+        PcaResult: Object containing the PC coordinates and the variance
             explained by each PC.
     """
     x = validate_and_tatamize_input(input)

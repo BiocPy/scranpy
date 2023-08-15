@@ -15,12 +15,13 @@ class ChooseHvgsOptions:
     :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
     Attributes:
-        number (int): 
+        number (int):
             Number of HVGs to retain.
-            Larger values preserve more biological structure at the cost of increasing computational work and random noise from less-variable genes.
+            Larger values preserve more biological structure at the cost of increasing 
+            computational work and random noise from less-variable genes.
             Defaults to 2500.
 
-        verbose (bool): display logs? Defaults to False.
+        verbose (bool): Whether to display logs. Defaults to False.
     """
 
     number: int = 2500

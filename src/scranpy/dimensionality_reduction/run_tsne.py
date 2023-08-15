@@ -14,7 +14,7 @@ from ..nearest_neighbors import (
     build_neighbor_index,
     find_nearest_neighbors,
 )
-from ..types import NeighborIndexOrResults, is_neighbor_class
+from ..nearest_neighbors.types import NeighborlyInputs, is_neighbor_class
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -25,7 +25,7 @@ TsneEmbedding.__doc__ = """Named tuple of t-SNE coordinates.
 
 x (np.ndarray): a NumPy view of length equal to the number of cells,
     containing the coordinate on the first dimension for each cell.
-y (np.ndarray): a numpy view of length equal to the number of cells,
+y (np.ndarray): a NumPy view of length equal to the number of cells,
     containing the coordinate on the second dimension for each cell.
 """
 
@@ -85,19 +85,19 @@ class TsneStatus:
         """Extract the t-SNE coordinates for each cell at the current iteration.
 
         Returns:
-            TsneEmbedding: x and y t-SNE coordinates for all cells.
+            TsneEmbedding: 'x' and 'y' t-SNE coordinates for all cells.
         """
         return TsneEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
 
 def tsne_perplexity_to_neighbors(perplexity: float) -> int:
     """Convert the t-SNE perplexity to the required number of neighbors.
-    This is typically used to perform a separate call to 
+    This is typically used to perform a separate call to
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`
     before passing the nearest neighbor results to t-SNE functions.
 
     Args:
-        perplexity (float): perplexity to use in the t-SNE algorithm.
+        perplexity (float): Perplexity to use in the t-SNE algorithm.
 
     Returns:
         int: Number of neighbors to search for.
@@ -111,12 +111,12 @@ class InitializeTsneOptions:
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
 
     Attributes:
-        perplexity (int, optional): 
-            Perplexity to use when computing neighbor probabilities. 
+        perplexity (int, optional):
+            Perplexity to use when computing neighbor probabilities.
             Larger values cause the embedding to focus more on broad structure instead of local structure.
             Defaults to 30.
 
-        num_threads (int, optional): Number of threads to use for the 
+        num_threads (int, optional): Number of threads to use for the
             neighbor search and t-SNE iterations. Defaults to 1.
 
         seed (int, optional): Seed to use for random initialization of
@@ -132,7 +132,7 @@ class InitializeTsneOptions:
 
 
 def initialize_tsne(
-    input: NeighborIndexOrResults,
+    input: NeighborlyInputs,
     options: InitializeTsneOptions = InitializeTsneOptions(),
 ) -> TsneStatus:
     """Initialize the t-SNE algorithm.
@@ -146,14 +146,14 @@ def initialize_tsne(
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
             coordinates, where rows are features/dimensions and columns are
-            cells. This is most typically the result of 
+            cells. This is most typically the result of
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
             Alternatively, ``input`` may be a pre-built neighbor search index
             (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`)
             for the dataset, typically constructed from the PC coordinates for all cells.
 
-            Alternatively, ``input`` may be pre-computed neighbor search results 
+            Alternatively, ``input`` may be pre-computed neighbor search results
             (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
             for all cells in the dataset.
             The number of neighbors should be consistent with the perplexity provided
@@ -186,7 +186,9 @@ def initialize_tsne(
             logger.info("Finding the nearest neighbors...")
 
         input = find_nearest_neighbors(
-            input, FindNearestNeighborsOptions(k=k, num_threads=options.num_threads)
+            input,
+            k=k,
+            options=FindNearestNeighborsOptions(num_threads=options.num_threads),
         )
 
     ptr = lib.initialize_tsne(input.ptr, options.perplexity, options.num_threads)
@@ -202,25 +204,27 @@ class RunTsneOptions:
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
 
     Attributes:
-        max_iterations (int, optional): 
-            Maximum number of iterations. 
+        max_iterations (int, optional):
+            Maximum number of iterations.
             Larger numbers improve convergence at the cost of compute time.
             Defaults to 500.
 
-        initialize_tsne (InitializeTsneOptions): 
-            Optional arguments for 
+        initialize_tsne (InitializeTsneOptions):
+            Optional arguments for
             :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
 
         verbose (bool): Whether to print logs. Defaults to False.
     """
 
     max_iterations: int = 500
-    initialize_tsne: InitializeTsneOptions = field(default_factory=InitializeTsneOptions)
+    initialize_tsne: InitializeTsneOptions = field(
+        default_factory=InitializeTsneOptions
+    )
     verbose: bool = False
 
 
 def run_tsne(
-    input: NeighborIndexOrResults, options: RunTsneOptions = RunTsneOptions()
+    input: NeighborlyInputs, options: RunTsneOptions = RunTsneOptions()
 ) -> TsneEmbedding:
     """Compute a two-dimensional t-SNE embedding for the cells.
     Neighboring cells in high-dimensional space are placed next to each other on the embedding for intuitive visualization.
@@ -228,19 +232,19 @@ def run_tsne(
     with invocations of the :py:meth:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.run` method to the specified number of iterations.
 
     Args:
-        input (NeighborIndexOrResults): 
+        input (NeighborlyInputs):
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
             coordinates, where rows are features/dimensions and columns are
-            cells. This is most typically the result of 
+            cells. This is most typically the result of
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
             Alternatively, ``input`` may be a pre-built neighbor search index
             (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`)
             for the dataset, typically constructed from the PC coordinates for all cells.
 
-            Alternatively, ``input`` may be pre-computed neighbor search results 
+            Alternatively, ``input`` may be pre-computed neighbor search results
             (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
             for all cells in the dataset.
             The number of neighbors should be consistent with the perplexity provided

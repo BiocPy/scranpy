@@ -5,7 +5,11 @@ import numpy as np
 from biocframe import BiocFrame
 
 from ..types import validate_object_type
-from .rna import PerCellRnaQcMetricsOptions, SuggestRnaQcFiltersOptions, CreateRnaQcFilterOptions 
+from .rna import (
+    CreateRnaQcFilterOptions,
+    PerCellRnaQcMetricsOptions,
+    SuggestRnaQcFiltersOptions,
+)
 
 __author__ = "jkanche"
 __copyright__ = "jkanche"
@@ -55,7 +59,7 @@ class RnaQualityControlOptions:
         """Set verbose to display logs.
 
         Args:
-            verbose (bool, optional): Display logs? Defaults to False.
+            verbose (bool, optional): Whether to display logs. Defaults to False.
         """
         self.per_cell_rna_qc_metrics.verbose = verbose
         self.suggest_rna_qc_filters.verbose = verbose

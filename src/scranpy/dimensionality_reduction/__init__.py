@@ -1,4 +1,4 @@
-from .run_pca import RunPcaOptions, run_pca, PcaResult
+from .run_pca import PcaResult, RunPcaOptions, run_pca
 from .run_tsne import (
     InitializeTsneOptions,
     RunTsneOptions,

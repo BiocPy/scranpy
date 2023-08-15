@@ -38,17 +38,17 @@ class ClusteringOptions:
         """Set verbose to display logs.
 
         Args:
-            verbose (bool, optional): Display logs? Defaults to False.
+            verbose (bool, optional): Whether to display logs. Defaults to False.
         """
         self.build_snn_graph.verbose = verbose
 
 
 @dataclass
 class ClusteringResults:
-    """Results of the clustering.
+    """Results of the clustering step.
 
     Attributes:
-        build_snn_graph (ig.Graph, optional): The output of 
+        build_snn_graph (ig.Graph, optional): The output of
             :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
         clusters (Sequence, optional): Clusters identified by igraph.
     """

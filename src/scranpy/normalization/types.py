@@ -20,9 +20,7 @@ class NormalizationOptions:
             :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
     """
 
-    log_norm_counts: LogNormCountsOptions = field(
-        default_factory=LogNormCountsOptions
-    )
+    log_norm_counts: LogNormCountsOptions = field(default_factory=LogNormCountsOptions)
 
     def __post_init__(self):
         validate_object_type(self.log_norm_counts, LogNormCountsOptions)

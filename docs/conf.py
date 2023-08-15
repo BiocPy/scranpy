@@ -299,8 +299,9 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "setuptools": ("https://setuptools.pypa.io/en/stable/", None),
     "pyscaffold": ("https://pyscaffold.org/en/stable", None),
-    "biocframe": ("https://biocpy.github.io/BiocFrame/", None),
-    "mattress": ("https://biocpy.github.io/mattress/", None),
+    "biocframe": ("https://biocpy.github.io/BiocFrame/api/modules.html", None),
+    "mattress": ("https://biocpy.github.io/mattress/api/modules.html", None),
+    "igraph": ("https://python.igraph.org/en/stable/", None),
 }
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)

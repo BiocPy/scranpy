@@ -14,7 +14,7 @@ __license__ = "MIT"
 
 @dataclass
 class FilterCellsOptions:
-    """Optional arguments for 
+    """Optional arguments for
     :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
     Attributes:
@@ -37,12 +37,12 @@ def filter_cells(
     e.g., :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
     Args:
-        input (MatrixTypes): 
+        input (MatrixTypes):
             Matrix-like object containing cells in columns and features in rows.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
 
-        filter (Sequence[int] | Sequence[bool]): 
+        filter (Sequence[int] | Sequence[bool]):
             Array of integers containing indices to the columns of `input` to keep/discard.
 
             Alternatively, an array of booleans of length equal to the number of cells,
@@ -51,7 +51,7 @@ def filter_cells(
         options (FilterCellsOptions): Optional parameters.
 
     Returns:
-        TatamiNumericPointer: If `input` is a
+        TatamiNumericPointer: If ``input`` is a
         :py:class:`~mattress.TatamiNumericPointer`,
         a :py:class:`~mattress.TatamiNumericPointer` is returned
         containing the filtered matrix.
