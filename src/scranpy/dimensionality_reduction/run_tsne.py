@@ -145,8 +145,8 @@ def initialize_tsne(
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
-            coordinates, where rows are features/dimensions and columns are
-            cells. This is most typically the result of
+            coordinates, where rows are cells and columns are dimensions.
+            This is most typically the result of
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
             Alternatively, ``input`` may be a pre-built neighbor search index
@@ -236,8 +236,8 @@ def run_tsne(
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
-            coordinates, where rows are features/dimensions and columns are
-            cells. This is most typically the result of
+            coordinates, where rows are cells and columns are features/dimensions.
+            This is most typically the result of
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
             Alternatively, ``input`` may be a pre-built neighbor search index

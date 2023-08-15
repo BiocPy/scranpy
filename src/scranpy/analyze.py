@@ -173,7 +173,7 @@ class AnalyzeResults:
         sce.colData["clusters"] = self.clustering.clusters
 
         sce.reducedDims = {
-            "pca": self.dimensionality_reduction.pca.principal_components.T,
+            "pca": self.dimensionality_reduction.pca.principal_components,
             "tsne": array(
                 [
                     self.dimensionality_reduction.tsne.x,
