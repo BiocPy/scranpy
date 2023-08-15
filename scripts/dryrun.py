@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # This script generates a dry-run version of the __analyze function in 
 # src/scranpy/analyze.py. The idea is to allow users to create a dry-run
 # of all the individual commands that they can copy-paste into their
@@ -5,9 +7,10 @@
 # to actually deal with learning all of the individual steps.
 #
 # The meta-parsing rules are as follows:
-# - We only start converting code after 'results'.
-# - Any non-If, non-For expression is converted into a stringified expression.
-# - Any If or For is retained.
+# - We only consider code after the initialization of 'results'.
+# - Control flow (if, for, raise) statements are evaluated immediately,
+#   under the assumption that they only use 'options'.
+# - Everything else is stringified.
 
 import ast 
 import astor
@@ -42,41 +45,61 @@ def translate(name):
             return "scranpy." + translations[header] + name[i:]
     return name
 
-def sanitize(expr):
+def trawl(expr):
     if isinstance(expr, ast.Expr):
-        sanitize(expr.value)
+        trawl(expr.value)
 
     elif isinstance(expr, ast.Call):
-        sanitize(expr.func)
+        trawl(expr.func)
         for i in range(len(expr.args)):
-            sanitize(expr.args[i])
+            trawl(expr.args[i])
 
     elif isinstance(expr, ast.Name):
-        translate(expr.id)
+        expr.id = translate(expr.id)
 
     elif isinstance(expr, ast.Assign):
-        sanitize(expr.value)
+        trawl(expr.value)
 
     elif isinstance(expr, ast.Attribute):
-        sanitize(expr.value)
+        trawl(expr.value)
 
     elif isinstance(expr, ast.Dict):
         for i in range(len(expr.keys)):
-            sanitize(expr.keys[i])
+            trawl(expr.keys[i])
         for i in range(len(expr.values)):
-            sanitize(expr.values[i])
+            trawl(expr.values[i])
 
     elif isinstance(expr, ast.Constant):
         pass
 
-    else:
-        return
-        raise TypeError("don't yet know how to handle an 'ast." + expr.__class__.__name__ +"' instance at:\n" + astor.to_source(expr))
+    elif isinstance(expr, ast.If):
+        new_body = []
+        for i in range(len(expr.body)):
+            if not trawl(expr.body[i]):
+                new_body.append(capture(expr.body[i]))
+            else:
+                new_body.append(expr.body[i])
+        expr.body = new_body
 
-def is_capturable(expr):
-    if isinstance(expr, ast.If) or isinstance(expr, ast.For) or isinstance(expr, ast.Raise):
-        return False
-    return True
+        for i in range(len(expr.orelse)):
+            trawl(expr.orelse[i])
+        return True
+
+    elif isinstance(expr, ast.For): 
+        new_body = []
+        for i in range(len(expr.body)):
+            if not trawl(expr.body[i]):
+                new_body.append(capture(expr.body[i]))
+            else:
+                new_body.append(expr.body[i])
+        expr.body = new_body
+        return True
+
+    else:
+        pass
+        #raise TypeError("don't yet know how to handle an 'ast." + expr.__class__.__name__ +"' instance at:\n" + astor.to_source(expr))
+
+    return False
 
 def capture(expr):
     return ast.Expr(
@@ -90,34 +113,9 @@ def capture(expr):
         )
     )
 
-def trawl(expr):
-    if isinstance(expr, ast.If):
-        new_body = []
-        for i in range(len(expr.body)):
-            trawl(expr.body[i])
-            if is_capturable(expr.body[i]):
-                new_body.append(capture(expr.body[i]))
-            else:
-                new_body.append(expr.body[i])
-        expr.body = new_body
-
-        for i in range(len(expr.orelse)):
-            trawl(expr.orelse[i])
-
-    elif isinstance(expr, ast.For): 
-        new_body = []
-        for i in range(len(expr.body)):
-            trawl(expr.body[i])
-            if is_capturable(expr.body[i]):
-                new_body.append(capture(expr.body[i]))
-            else:
-                new_body.append(expr.body[i])
-        expr.body = new_body
-
 capturing = False
 new_body = []
 for expr in fun.body:
-    sanitize(expr)
     if not capturing:
         if isinstance(expr, ast.Assign):
             if isinstance(expr.targets[0], ast.Name) and expr.targets[0].id == "results":
@@ -125,13 +123,27 @@ for expr in fun.body:
                 new_body.append(ast.parse("__commands = []").body[0])
                 new_body.append(capture(expr))
     else:
-        if not is_capturable(expr):
-            trawl(expr)
-            new_body.append(expr)
-        else:
+        if not trawl(expr):
             new_body.append(capture(expr))
+        else:
+            new_body.append(expr)
 
+
+new_body.append(
+    ast.Return(
+        value = ast.Call( 
+            func = ast.Attribute(
+                attr = "join",
+                value = ast.Constant('')
+            ),
+            args = [ast.Name("__commands")],
+            keywords = []
+        )
+    )
+)
+fun.returns = ast.Name("string")
 fun.body = new_body
+fun.name = "__dry_analyze"
 
 # Peel out the arguments.
 new_args = []
@@ -146,3 +158,5 @@ for i in range(nargs):
 
 fun.args.args = new_args
 fun.args.defaults = new_arg_defaults
+
+print(astor.to_source(fun))
