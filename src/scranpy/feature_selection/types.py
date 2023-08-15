@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
-import numpy as np
 from biocframe import BiocFrame
+from numpy import ndarray
 
 from ..types import validate_object_type
 from .choose_hvgs import ChooseHvgsOptions
@@ -65,9 +65,9 @@ class FeatureSelectionResults:
     """Results of feature selection.
 
     Attributes:
-        choose_hvgs (np.ndarray, optional): Output of :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
+        choose_hvgs (ndarray, optional): Output of :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
         model_gene_variances (BiocFrame, optional): Output of :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
     """
 
-    hvgs: Optional[np.ndarray] = None
+    hvgs: Optional[ndarray] = None
     gene_variances: Optional[BiocFrame] = None

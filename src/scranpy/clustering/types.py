@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
-import igraph as ig
+from igraph import Graph
 
 from ..types import validate_object_type
 from .build_snn_graph import BuildSnnGraphOptions
@@ -48,10 +48,10 @@ class ClusteringResults:
     """Results of the clustering step.
 
     Attributes:
-        build_snn_graph (ig.Graph, optional): The output of
+        build_snn_graph (Graph, optional): The output of
             :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
         clusters (Sequence, optional): Clusters identified by igraph.
     """
 
-    build_snn_graph: Optional[ig.Graph] = None
+    build_snn_graph: Optional[Graph] = None
     clusters: Optional[Sequence] = None

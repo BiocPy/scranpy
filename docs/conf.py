@@ -72,6 +72,9 @@ extensions = [
     "sphinx.ext.ifconfig",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
+    # "sphinx_toolbox",
+    # "sphinx_toolbox.more_autodoc.typehints",
+    # "sphinx_autodoc_typehints",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -138,7 +141,7 @@ release = version
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv", "cpphelpers"]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
@@ -166,6 +169,30 @@ pygments_style = "sphinx"
 # If this is True, todo emits a warning for each TODO entries. The default is False.
 todo_emit_warnings = True
 
+# github_username = "jkanche"
+
+# autodoc_type_aliases = {
+#     "MatrixTypes": "scranpy.types.MatrixTypes",
+#     "SelectionTypes": "scranpy.types.SelectionTypes",
+#     "NeighborlyInputs": "scranpy.nearest_neighbors.types.NeighborlyInputs"
+# }
+
+# autodoc_typehints = "description"
+
+# typehints_defaults = "braces"
+# always_document_param_types = True
+# typehints_use_signature = True
+# typehints_use_signature_return = True
+
+# autosummary_generate = True
+# autodoc_member_order = "bysource"
+# bibtex_reference_style = "author_year"
+# napoleon_google_docstring = True  # for pytorch lightning
+# napoleon_numpy_docstring = True  # use numpydoc style
+# napoleon_include_init_with_doc = False
+# napoleon_use_rtype = True  # having a separate entry generally helps readability
+# napoleon_use_param = True
+# typehints_defaults = "braces"
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -299,9 +326,9 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "setuptools": ("https://setuptools.pypa.io/en/stable/", None),
     "pyscaffold": ("https://pyscaffold.org/en/stable", None),
-    "biocframe": ("https://biocpy.github.io/BiocFrame/api/modules.html", None),
-    "mattress": ("https://biocpy.github.io/mattress/api/modules.html", None),
-    "igraph": ("https://python.igraph.org/en/stable/", None),
+    "biocframe": ("https://biocpy.github.io/BiocFrame", None),
+    "mattress": ("https://biocpy.github.io/mattress", None),
+    "igraph": ("https://python.igraph.org/en/stable", None),
 }
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)

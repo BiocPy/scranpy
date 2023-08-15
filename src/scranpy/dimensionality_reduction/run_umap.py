@@ -4,7 +4,7 @@ from collections import namedtuple
 from dataclasses import dataclass, field
 from typing import Optional
 
-import numpy as np
+from numpy import float64, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -24,9 +24,9 @@ __license__ = "MIT"
 UmapEmbedding = namedtuple("UmapEmbedding", ["x", "y"])
 UmapEmbedding.__doc__ = """Named tuple of UMAP coordinates.
 
-x (np.ndarray): a NumPy view of length equal to the number of cells,
+x (ndarray): a NumPy view of length equal to the number of cells,
     containing the coordinate on the first dimension for each cell.
-y (np.ndarray): a NumPy view of length equal to the number of cells,
+y (ndarray): a NumPy view of length equal to the number of cells,
     containing the coordinate on the second dimension for each cell.
 """
 
@@ -37,7 +37,7 @@ class UmapStatus:
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_umap`.
     """
 
-    def __init__(self, ptr: ct.c_void_p, coordinates: np.ndarray):
+    def __init__(self, ptr: ct.c_void_p, coordinates: ndarray):
         self.__ptr = ptr
         self.coordinates = coordinates
 
@@ -208,7 +208,7 @@ def initialize_umap(
             options=FindNearestNeighborsOptions(num_threads=options.num_threads),
         )
 
-    coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
+    coords = ndarray((input.num_cells(), 2), dtype=float64, order="C")
     ptr = lib.initialize_umap(
         input.ptr, options.num_epochs, options.min_dist, coords, options.num_threads
     )

@@ -2,8 +2,8 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Literal
 
-import igraph as ig
-import numpy as np
+from igraph import Graph
+from numpy import ctypeslib
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -72,7 +72,7 @@ class BuildSnnGraphOptions:
 def build_snn_graph(
     input: NeighborlyInputs,
     options: BuildSnnGraphOptions = BuildSnnGraphOptions(),
-) -> ig.Graph:
+) -> Graph:
     """Build a shared nearest neighbor (SNN) graph where each cell is a node and
     edges are formed between cells that share one or more nearest neighbors.
     This can be used for community detection to define clusters of similar cells.
@@ -103,7 +103,7 @@ def build_snn_graph(
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
 
     Returns:
-        ig.Graph: An igraph object.
+        Graph: An igraph object.
     """
     if not is_neighbor_class(input):
         raise TypeError(
@@ -138,9 +138,9 @@ def build_snn_graph(
     try:
         nedges = lib.fetch_snn_graph_edges(built)
         idx_pointer = lib.fetch_snn_graph_indices(built)
-        idx_array = np.ctypeslib.as_array(idx_pointer, shape=(nedges * 2,))
+        idx_array = ctypeslib.as_array(idx_pointer, shape=(nedges * 2,))
         w_pointer = lib.fetch_snn_graph_weights(built)
-        w_array = np.ctypeslib.as_array(w_pointer, shape=(nedges,))
+        w_array = ctypeslib.as_array(w_pointer, shape=(nedges,))
 
         edge_list = []
         for i in range(nedges):
@@ -151,7 +151,7 @@ def build_snn_graph(
         if options.verbose is True:
             logger.info("Generating the iGraph object...")
 
-        graph = ig.Graph(n=nc, edges=edge_list)
+        graph = Graph(n=nc, edges=edge_list)
         graph.es["weight"] = deepcopy(w_array)
 
     finally:

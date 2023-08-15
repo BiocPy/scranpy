@@ -7,3 +7,5 @@ sphinx>=3.2.1
 furo
 mattress
 biocframe
+sphinx-autodoc-typehints
+sphinx-toolbox

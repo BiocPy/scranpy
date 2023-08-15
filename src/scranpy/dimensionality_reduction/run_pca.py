@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Literal, Optional, Sequence
 
-import numpy as np
+from numpy import ctypeslib, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -18,9 +18,9 @@ __license__ = "MIT"
 PcaResult = namedtuple("PcaResult", ["principal_components", "variance_explained"])
 PcaResult.__doc__ = """Named tuple of results from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-principal_components (np.ndarray): Matrix of principal component (PC) coordinates,
+principal_components (ndarray): Matrix of principal component (PC) coordinates,
     where the rows are PCs and the columns are cells.
-variance_explained (np.ndarray): Array of length equal to the number of PCs,
+variance_explained (ndarray): Array of length equal to the number of PCs,
     containing the percentage of variance explained by each PC.
 """
 
@@ -29,11 +29,11 @@ def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PcaResult:
     actual_rank = lib.fetch_simple_pca_num_dims(pptr)
 
     pc_pointer = lib.fetch_simple_pca_coordinates(pptr)
-    pc_array = deepcopy(np.ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc)))
+    pc_array = deepcopy(ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc)))
     principal_components = pc_array
 
     var_pointer = lib.fetch_simple_pca_variance_explained(pptr)
-    var_array = deepcopy(np.ctypeslib.as_array(var_pointer, shape=(actual_rank,)))
+    var_array = deepcopy(ctypeslib.as_array(var_pointer, shape=(actual_rank,)))
     total = lib.fetch_simple_pca_total_variance(pptr)
     variance_explained = var_array / total
 
@@ -47,11 +47,11 @@ class RunPcaOptions:
 
     Attributes:
         rank (int): Number of top PCs to compute.
-            Larger values capture more biological structure at the cost of increasing 
+            Larger values capture more biological structure at the cost of increasing
             computational work and absorbing more random noise.
             Defaults to 25.
 
-        subset (np.ndarray, optional): Array specifying which features should be
+        subset (ndarray, optional): Array specifying which features should be
             used in the PCA (e.g., highly variable genes from
             :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`).
             This may contain integer indices or booleans.
@@ -62,13 +62,13 @@ class RunPcaOptions:
             This can be used to reduce the effect of inter-block differences on the PCA
             (see ``block_method`` for more details).
 
-            If provided, this should have length equal to the number of cells, where 
+            If provided, this should have length equal to the number of cells, where
             cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
         scale (bool, optional):
             Whether to scale each feature to unit variance.
-            This improves robustness (i.e., reduces sensitivity) to a small number of 
+            This improves robustness (i.e., reduces sensitivity) to a small number of
             highly variable features. Defaults to False.
 
         block_method (Literal["none", "project", "regress"], optional): How to adjust
@@ -103,7 +103,7 @@ class RunPcaOptions:
     """
 
     rank: int = 25
-    subset: Optional[np.ndarray] = None
+    subset: Optional[ndarray] = None
     block: Optional[Sequence] = None
     scale: bool = False
     block_method: Literal["none", "project", "regress"] = "project"

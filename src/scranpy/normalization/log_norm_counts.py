@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional, Sequence
 
-import numpy as np
 from mattress import TatamiNumericPointer
+from numpy import float64, ndarray
 
 from .. import cpphelpers as lib
 from ..types import MatrixTypes, validate_matrix_types
@@ -27,7 +29,7 @@ class LogNormCountsOptions:
             cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
-        size_factors (np.ndarray, optional): Size factors for each cell.
+        size_factors (ndarray, optional): Size factors for each cell.
             Defaults to None.
 
         center (bool, optional): Whether to center the size factors. Defaults to True.
@@ -49,7 +51,7 @@ class LogNormCountsOptions:
     """
 
     block: Optional[Sequence] = None
-    size_factors: Optional[np.ndarray] = None
+    size_factors: Optional[ndarray] = None
     center: bool = True
     allow_zeros: bool = False
     allow_non_finite: bool = False
@@ -95,10 +97,10 @@ def log_norm_counts(
                 f" for all cells (expected: {NC})"
             )
 
-        if not isinstance(options.size_factors, np.ndarray):
+        if not isinstance(options.size_factors, ndarray):
             raise TypeError("'size_factors' must be a numpy ndarray.")
 
-        my_size_factors = options.size_factors.astype(np.float64)
+        my_size_factors = options.size_factors.astype(float64)
         sf_offset = my_size_factors.ctypes.data
 
     use_block = options.block is not None

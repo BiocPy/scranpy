@@ -3,7 +3,7 @@ import ctypes as ct
 from collections import namedtuple
 from dataclasses import dataclass, field
 
-import numpy as np
+from numpy import float64, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -23,9 +23,9 @@ __license__ = "MIT"
 TsneEmbedding = namedtuple("TsneEmbedding", ["x", "y"])
 TsneEmbedding.__doc__ = """Named tuple of t-SNE coordinates.
 
-x (np.ndarray): a NumPy view of length equal to the number of cells,
+x (ndarray): a NumPy view of length equal to the number of cells,
     containing the coordinate on the first dimension for each cell.
-y (np.ndarray): a NumPy view of length equal to the number of cells,
+y (ndarray): a NumPy view of length equal to the number of cells,
     containing the coordinate on the second dimension for each cell.
 """
 
@@ -36,7 +36,7 @@ class TsneStatus:
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
     """
 
-    def __init__(self, ptr: ct.c_void_p, coordinates: np.ndarray):
+    def __init__(self, ptr: ct.c_void_p, coordinates: ndarray):
         self.__ptr = ptr
         self.coordinates = coordinates
 
@@ -141,7 +141,7 @@ def initialize_tsne(
 
 
     Args:
-        input  (NeighborIndex | NeighborResults | np.ndarray):
+        input  (NeighborlyInputs):
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
@@ -192,7 +192,7 @@ def initialize_tsne(
         )
 
     ptr = lib.initialize_tsne(input.ptr, options.perplexity, options.num_threads)
-    coords = np.ndarray((input.num_cells(), 2), dtype=np.float64, order="C")
+    coords = ndarray((input.num_cells(), 2), dtype=float64, order="C")
     lib.randomize_tsne_start(coords.shape[0], coords, options.seed)
 
     return TsneStatus(ptr, coords)

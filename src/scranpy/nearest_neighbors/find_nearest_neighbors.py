@@ -2,7 +2,7 @@ import ctypes as ct
 from collections import namedtuple
 from dataclasses import dataclass
 
-import numpy as np
+from numpy import float64, int32, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -16,10 +16,10 @@ SingleNeighborResults = namedtuple("SingleNeighborResults", ["index", "distance"
 SingleNeighborResults.__doc__ = """\
 Named tuple of nearest neighbors for a single cell.
 
-index (np.ndarray): 
+index (ndarray): 
     Array containing 0-based indices of a cell's neighbor neighbors,
     ordered by increasing distance.
-distance (np.ndarray): 
+distance (ndarray): 
     Array containing distances to a cell's nearest neighbors,
     ordered by increasing distance.
 """
@@ -30,10 +30,10 @@ SerializedNeighborResults = namedtuple(
 SerializedNeighborResults.__doc__ = """\
 Named tuple of serialized results from the nearest neighbor search.
 
-index (np.ndarray): 
+index (ndarray): 
     Row-major matrix containing 0-based indices of the neighbor neighbors for each cell.
     Each row is a cell and each column is a neighbor, ordered by increasing distance.
-distance (np.ndarray): 
+distance (ndarray): 
     Row-major matrix containing distances to the nearest neighbors for each cell.
     Each row is a cell and each column is a neighbor, ordered by increasing distance.
 """
@@ -85,8 +85,8 @@ class NeighborResults:
             SingleNeighborResults: A tuple with indices and distances.
         """
         k = lib.fetch_neighbor_results_k(self.__ptr)
-        out_d = np.ndarray((k,), dtype=np.float64)
-        out_i = np.ndarray((k,), dtype=np.int32)
+        out_d = ndarray((k,), dtype=float64)
+        out_i = ndarray((k,), dtype=int32)
         lib.fetch_neighbor_results_single(self.__ptr, i, out_i, out_d)
         return SingleNeighborResults(out_i, out_d)
 
@@ -103,8 +103,8 @@ class NeighborResults:
         """
         nobs = lib.fetch_neighbor_results_nobs(self.__ptr)
         k = lib.fetch_neighbor_results_k(self.__ptr)
-        out_i = np.ndarray((k, nobs), dtype=np.int32)
-        out_d = np.ndarray((k, nobs), dtype=np.float64)
+        out_i = ndarray((k, nobs), dtype=int32)
+        out_d = ndarray((k, nobs), dtype=float64)
         lib.serialize_neighbor_results(self.__ptr, out_i, out_d)
         return SerializedNeighborResults(out_i, out_d)
 

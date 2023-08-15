@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Mapping, Optional, Sequence
 
-import numpy as np
 from biocframe import BiocFrame
+from numpy import ndarray, uintp
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -21,7 +21,7 @@ def create_output_summary_arrays(rows: int, groups: int) -> NDOutputArrays:
         "min_rank": create_output_arrays(rows, groups),
     }
 
-    outptrs = np.ndarray((3,), dtype=np.uintp)
+    outptrs = ndarray((3,), dtype=uintp)
     outptrs[0] = output["min"].references.ctypes.data
     outptrs[1] = output["mean"].references.ctypes.data
     outptrs[2] = output["min_rank"].references.ctypes.data

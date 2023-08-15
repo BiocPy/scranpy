@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import Any, Optional, Union
 
-import numpy as np
+from numpy import ndarray
 
 from ..types import validate_object_type
 from .build_neighbor_index import BuildNeighborIndexOptions, NeighborIndex
@@ -53,7 +55,7 @@ class NearestNeighborsOptions:
         self.find_nearest_neighbors.verbose = verbose
 
 
-NeighborlyInputs = Union[NeighborIndex, NeighborResults, np.ndarray]
+NeighborlyInputs = Union[NeighborIndex, NeighborResults, ndarray]
 
 
 @dataclass
@@ -83,5 +85,5 @@ def is_neighbor_class(x: Any) -> bool:
     return (
         isinstance(x, NeighborIndex)
         or isinstance(x, NeighborResults)
-        or isinstance(x, np.ndarray)
+        or isinstance(x, ndarray)
     )

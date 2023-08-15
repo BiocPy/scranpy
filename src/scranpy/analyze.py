@@ -3,9 +3,9 @@ from dataclasses import dataclass, field
 from functools import singledispatch, singledispatchmethod
 from typing import Mapping, Optional, Sequence, Union
 
-import numpy as np
 from biocframe import BiocFrame
 from mattress import TatamiNumericPointer, tatamize
+from numpy import array
 from singlecellexperiment import SingleCellExperiment
 
 from . import clustering as clust
@@ -174,13 +174,13 @@ class AnalyzeResults:
 
         sce.reducedDims = {
             "pca": self.dimensionality_reduction.pca.principal_components.T,
-            "tsne": np.array(
+            "tsne": array(
                 [
                     self.dimensionality_reduction.tsne.x,
                     self.dimensionality_reduction.tsne.y,
                 ]
             ).T,
-            "umap": np.array(
+            "umap": array(
                 [
                     self.dimensionality_reduction.umap.x,
                     self.dimensionality_reduction.umap.y,

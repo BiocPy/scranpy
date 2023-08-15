@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-import numpy as np
 from mattress import TatamiNumericPointer
+from numpy import ndarray
 
 from .. import cpphelpers as lib
 from ..types import MatrixTypes
@@ -30,7 +30,7 @@ class FilterCellsOptions:
 
 def filter_cells(
     input: MatrixTypes,
-    filter: np.ndarray,
+    filter: ndarray,
     options: FilterCellsOptions = FilterCellsOptions(),
 ) -> TatamiNumericPointer:
     """Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data,

@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Mapping, Optional, Sequence
 
-import numpy as np
 from biocframe import BiocFrame
+from numpy import bool_, float64, int32, ndarray, uint8, uintp, zeros
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -16,7 +16,7 @@ __license__ = "MIT"
 
 def create_pointer_array(arrs):
     num = len(arrs)
-    output = np.ndarray((num,), dtype=np.uintp)
+    output = ndarray((num,), dtype=uintp)
 
     if isinstance(arrs, list):
         for i in range(num):
@@ -90,8 +90,8 @@ def per_cell_rna_qc_metrics(
 
     nr = x.nrow()
     nc = x.ncol()
-    sums = np.ndarray((nc,), dtype=np.float64)
-    detected = np.ndarray((nc,), dtype=np.int32)
+    sums = ndarray((nc,), dtype=float64)
+    detected = ndarray((nc,), dtype=int32)
 
     keys = list(options.subsets.keys())
     num_subsets = len(keys)
@@ -101,7 +101,7 @@ def per_cell_rna_qc_metrics(
     for i in range(num_subsets):
         in_arr = to_logical(options.subsets[keys[i]], nr)
         collected_in.append(in_arr)
-        out_arr = np.ndarray((nc,), dtype=np.float64)
+        out_arr = ndarray((nc,), dtype=float64)
         collected_out[keys[i]] = out_arr
 
     subset_in = create_pointer_array(collected_in)
@@ -208,14 +208,14 @@ def suggest_rna_qc_filters(
         num_blocks = len(block_names)
 
     sums = metrics.column("sums")
-    if sums.dtype != np.float64:
+    if sums.dtype != float64:
         raise TypeError("expected the 'sums' column to be a float64 array.")
-    sums_out = np.ndarray((num_blocks,), dtype=np.float64)
+    sums_out = ndarray((num_blocks,), dtype=float64)
 
     detected = metrics.column("detected")
-    if detected.dtype != np.int32:
+    if detected.dtype != int32:
         raise TypeError("expected the 'detected' column to be an int32 array.")
-    detected_out = np.ndarray((num_blocks,), dtype=np.float64)
+    detected_out = ndarray((num_blocks,), dtype=float64)
 
     subsets = metrics.column("subset_proportions")
     skeys = subsets.columnNames
@@ -225,8 +225,8 @@ def suggest_rna_qc_filters(
 
     for i in range(num_subsets):
         cursub = subsets.column(i)
-        subset_in.append(cursub.astype(np.float64, copy=False))
-        curout = np.ndarray((num_blocks,), dtype=np.float64)
+        subset_in.append(cursub.astype(float64, copy=False))
+        curout = ndarray((num_blocks,), dtype=float64)
         subset_out[skeys[i]] = curout
 
     subset_in_ptrs = create_pointer_array(subset_in)
@@ -283,7 +283,7 @@ def create_rna_qc_filter(
     metrics: BiocFrame,
     thresholds: BiocFrame,
     options: CreateRnaQcFilterOptions = CreateRnaQcFilterOptions(),
-) -> np.ndarray:
+) -> ndarray:
     """Defines a filtering vector based on the RNA-derived per-cell quality control (QC) metrics and thresholds.
 
     Args:
@@ -296,7 +296,7 @@ def create_rna_qc_filter(
         options (CreateRnaQcFilter): Optional parameters.
 
     Returns:
-        np.ndarray: A numpy boolean array filled with 1 for cells to filter.
+        ndarray: A numpy boolean array filled with 1 for cells to filter.
     """
 
     if not isinstance(metrics, BiocFrame):
@@ -312,9 +312,9 @@ def create_rna_qc_filter(
 
     for i in range(num_subsets):
         cursub = subprop.column(i)
-        subset_in.append(cursub.astype(np.float64, copy=False))
+        subset_in.append(cursub.astype(float64, copy=False))
         curfilt = thresholds.column(i)
-        filter_in.append(curfilt.astype(np.float64, copy=False))
+        filter_in.append(curfilt.astype(float64, copy=False))
 
     subset_in_ptr = create_pointer_array(subset_in)
     filter_in_ptr = create_pointer_array(filter_in)
@@ -328,11 +328,11 @@ def create_rna_qc_filter(
         block_offset = block_info.indices.ctypes.data
         num_blocks = len(block_info.levels)
 
-    tmp_sums_in = metrics.column("sums").astype(np.float64, copy=False)
-    tmp_detected_in = metrics.column("detected").astype(np.int32, copy=False)
-    tmp_sums_thresh = thresholds.column("sums").astype(np.float64, copy=False)
-    tmp_detected_thresh = thresholds.column("detected").astype(np.float64, copy=False)
-    output = np.zeros(metrics.shape[0], dtype=np.uint8)
+    tmp_sums_in = metrics.column("sums").astype(float64, copy=False)
+    tmp_detected_in = metrics.column("detected").astype(int32, copy=False)
+    tmp_sums_thresh = thresholds.column("sums").astype(float64, copy=False)
+    tmp_detected_thresh = thresholds.column("detected").astype(float64, copy=False)
+    output = zeros(metrics.shape[0], dtype=uint8)
 
     lib.create_rna_qc_filter(
         metrics.shape[0],
@@ -348,7 +348,7 @@ def create_rna_qc_filter(
         output,
     )
 
-    return output.astype(np.bool_, copy=False)
+    return output.astype(bool_, copy=False)
 
 
 def guess_mito_from_symbols(

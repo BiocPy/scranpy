@@ -1,7 +1,7 @@
 import ctypes as ct
 from dataclasses import dataclass
 
-import numpy as np
+from numpy import ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -65,14 +65,14 @@ class BuildNeighborIndexOptions:
 
 
 def build_neighbor_index(
-    input: np.ndarray, options: BuildNeighborIndexOptions = BuildNeighborIndexOptions()
+    input: ndarray, options: BuildNeighborIndexOptions = BuildNeighborIndexOptions()
 ) -> NeighborIndex:
     """Build a search index for finding nearest neighbors between cells,
     for input into functions like
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Args:
-        input (np.ndarray): A matrix where rows are dimensions and cells are columns.
+        input (ndarray): A matrix where rows are dimensions and cells are columns.
             This is usually the principal components from the
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
         options (BuildNeighborIndexOptions): Optional parameters.

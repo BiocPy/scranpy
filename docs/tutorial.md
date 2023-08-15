@@ -9,7 +9,7 @@ You'll also need to install **scranpy** itself (duh), which is available from [P
 pip install scranpy
 ```
 
-## Loading a dataset
+# Loading a dataset
 
 The full **scranpy** workflow starts from a feature-by-cell count matrix.
 To illustrate, let's load one of the famous peripheral blood mononuclear cell (PBMC) datasets from 10X Genomics.
@@ -23,10 +23,10 @@ fhandle = h5.File(path)
 import scipy.sparse as sp
 mat = sp.csc_matrix(
     (
-        fhandle["matrix"]["data"], 
-        fhandle["matrix"]["indices"], 
+        fhandle["matrix"]["data"],
+        fhandle["matrix"]["indices"],
         fhandle["matrix"]["indptr"]
-    ), 
+    ),
     fhandle["matrix"]["shape"]
 )
 features = [x.decode("ascii") for x in fhandle["matrix"]["features"]["name"]]
@@ -36,7 +36,7 @@ Obviously, you'll be using different code for your own dataset.
 The important thing is that you get a count matrix where features are in the rows and cells are in the columns.
 Oh, and an array of feature names.
 
-## Running the analysis
+# Running the analysis
 
 Now we draw the rest of the owl.
 
@@ -62,5 +62,6 @@ Specifically:
 We won't go over the theory here as it's explained more thoroughly in the book.
 But you can also check out each module's reference documentation for more details.
 
-## Customizing the analysis
+# Customizing the analysis
 
+Stay tuned!

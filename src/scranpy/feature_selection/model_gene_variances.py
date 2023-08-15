@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Optional, Sequence
 
-import numpy as np
 from biocframe import BiocFrame
+from numpy import float64, ndarray, uintp
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -63,10 +63,10 @@ def model_gene_variances(
     x = validate_and_tatamize_input(input)
 
     NR = x.nrow()
-    means = np.ndarray((NR,), dtype=np.float64)
-    variances = np.ndarray((NR,), dtype=np.float64)
-    fitted = np.ndarray((NR,), dtype=np.float64)
-    residuals = np.ndarray((NR,), dtype=np.float64)
+    means = ndarray((NR,), dtype=float64)
+    variances = ndarray((NR,), dtype=float64)
+    fitted = ndarray((NR,), dtype=float64)
+    residuals = ndarray((NR,), dtype=float64)
     extra = None
 
     if options.block is None:
@@ -109,16 +109,16 @@ def model_gene_variances(
         all_variances = []
         all_fitted = []
         all_residuals = []
-        all_means_ptr = np.ndarray((nlevels,), dtype=np.uintp)
-        all_variances_ptr = np.ndarray((nlevels,), dtype=np.uintp)
-        all_fitted_ptr = np.ndarray((nlevels,), dtype=np.uintp)
-        all_residuals_ptr = np.ndarray((nlevels,), dtype=np.uintp)
+        all_means_ptr = ndarray((nlevels,), dtype=uintp)
+        all_variances_ptr = ndarray((nlevels,), dtype=uintp)
+        all_fitted_ptr = ndarray((nlevels,), dtype=uintp)
+        all_residuals_ptr = ndarray((nlevels,), dtype=uintp)
 
         for lvl in range(nlevels):
-            cur_means = np.ndarray((NR,), dtype=np.float64)
-            cur_variances = np.ndarray((NR,), dtype=np.float64)
-            cur_fitted = np.ndarray((NR,), dtype=np.float64)
-            cur_residuals = np.ndarray((NR,), dtype=np.float64)
+            cur_means = ndarray((NR,), dtype=float64)
+            cur_variances = ndarray((NR,), dtype=float64)
+            cur_fitted = ndarray((NR,), dtype=float64)
+            cur_residuals = ndarray((NR,), dtype=float64)
 
             all_means_ptr[lvl] = cur_means.ctypes.data
             all_variances_ptr[lvl] = cur_variances.ctypes.data

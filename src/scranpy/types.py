@@ -1,29 +1,29 @@
 from collections import namedtuple
 from typing import Any, Callable, Sequence, Union
 
-import numpy as np
-import scipy.sparse as sp
+import numpy
 from mattress import TatamiNumericPointer
+from scipy import sparse
 
 __author__ = "jkanche"
 __copyright__ = "jkanche"
 __license__ = "MIT"
 
-MatrixTypes = Union[TatamiNumericPointer, np.ndarray, sp.spmatrix]
-SelectionTypes = Union[Sequence, np.ndarray, range, slice]
+MatrixTypes = Union[TatamiNumericPointer, numpy.ndarray, sparse.spmatrix]
+SelectionTypes = Union[Sequence, numpy.ndarray, range, slice]
 
 FactorizedArray = namedtuple("FactorizedArray", ["levels", "indices"])
 FactorizedArray.__doc__ = """Named tuple of a Factorized Array.
 
-levels (np.ndarray): Levels in the array.
-indices (np.ndarray): Indices.
+levels (numpy.ndarray): Levels in the array.
+indices (numpy.ndarray): Indices.
 """
 
 NDOutputArrays = namedtuple("NDOutputArrays", ["arrays", "references"])
 NDOutputArrays.__doc__ = """Named tuple of a list of numpy ndarrays (used for outputs).
 
-array (List[np.ndarray]): List of ndarray objects.
-references (np.ndarray): References to each inner ndarray.
+array (List[numpy.ndarray]): List of ndarray objects.
+references (numpy.ndarray): References to each inner ndarray.
 """
 
 
@@ -39,8 +39,8 @@ def is_matrix_expected_type(x: Any) -> bool:
     """
     return (
         isinstance(x, TatamiNumericPointer)
-        or isinstance(x, np.ndarray)
-        or isinstance(x, sp.spmatrix)
+        or isinstance(x, numpy.ndarray)
+        or isinstance(x, sparse.spmatrix)
     )
 
 

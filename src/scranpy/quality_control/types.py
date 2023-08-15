@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Mapping, Optional, Sequence, Union
 
-import numpy as np
 from biocframe import BiocFrame
+from numpy import ndarray
 
 from ..types import validate_object_type
 from .rna import (
@@ -93,15 +93,15 @@ class RnaQualityControlResults:
             :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
         suggest_rna_qc_filters (BiocFrame, optional): Result of
             :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
-        create_rna_qc_filter (np.ndarray, optional): Result of create qc filter
+        create_rna_qc_filter (ndarray, optional): Result of create qc filter
             (:py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`)
         subsets (Mapping, optional): Subsets.
-        filtered_cells (np.ndarray, optional): Result of
+        filtered_cells (ndarray, optional): Result of
             :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
     """
 
     qc_metrics: Optional[BiocFrame] = None
-    qc_filter: Optional[np.ndarray] = None
+    qc_filter: Optional[ndarray] = None
     qc_thresholds: Optional[BiocFrame] = None
     subsets: Optional[Mapping] = None
-    filtered_cells: Optional[np.ndarray] = None
+    filtered_cells: Optional[ndarray] = None
