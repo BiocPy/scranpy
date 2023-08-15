@@ -38,14 +38,6 @@ translations = {
     "qc": "quality_control"
 }
 
-def translate(name):
-    i = name.find(".")
-    if i > 0:
-        header = name[:i]
-        if header in translations:
-            return "scranpy." + translations[header] + name[i:]
-    return name
-
 def trawl(expr):
     if isinstance(expr, ast.Expr):
         trawl(expr.value)
@@ -56,13 +48,17 @@ def trawl(expr):
             trawl(expr.args[i])
 
     elif isinstance(expr, ast.Name):
-        expr.id = translate(expr.id)
+        pass
 
     elif isinstance(expr, ast.Assign):
         trawl(expr.value)
 
     elif isinstance(expr, ast.Attribute):
-        trawl(expr.value)
+        if isinstance(expr.value, ast.Name):
+            if expr.value.id in translations:
+                expr.value = ast.Attribute(value = ast.Name("scranpy"), attr = translations[expr.value.id])
+        else:
+            trawl(expr.value)
 
     elif isinstance(expr, ast.Dict):
         for i in range(len(expr.keys)):

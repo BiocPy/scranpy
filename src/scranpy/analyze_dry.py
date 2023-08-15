@@ -10,13 +10,15 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
     if options.quality_control.mito_subset is not None:
         if isinstance(options.quality_control.mito_subset, str):
             __commands.append(
-                """subsets['mito'] = qc.guess_mito_from_symbols(features, options.
-    quality_control.mito_subset)
+                """subsets['mito'] = scranpy.quality_control.guess_mito_from_symbols(features,
+    options.quality_control.mito_subset)
 """
                 )
         elif isinstance(options.quality_control.mito_subset, bool):
             __commands.append(
-                "subsets['mito'] = qc.guess_mito_from_symbols(features)\n")
+                """subsets['mito'] = scranpy.quality_control.guess_mito_from_symbols(features)
+"""
+                )
         else:
             raise ValueError(
                 f'Unsupported value provided for `qc_mito_subset`: {options.quality_control.mito_subset}'
@@ -28,14 +30,14 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
         )
     __commands.append('rna_options.subsets = subsets\n')
     __commands.append(
-        """results.quality_control.qc_metrics = qc.per_cell_rna_qc_metrics(matrix,
-    options=rna_options)
+        """results.quality_control.qc_metrics = (scranpy.quality_control.
+    per_cell_rna_qc_metrics(matrix, options=rna_options))
 """
         )
     __commands.append(
-        """results.quality_control.qc_thresholds = qc.suggest_rna_qc_filters(results.
-    quality_control.qc_metrics, options=options.quality_control.
-    suggest_rna_qc_filters)
+        """results.quality_control.qc_thresholds = (scranpy.quality_control.
+    suggest_rna_qc_filters(results.quality_control.qc_metrics, options=
+    options.quality_control.suggest_rna_qc_filters))
 """
         )
     if options.quality_control.custom_thresholds is not None:
@@ -53,32 +55,33 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
 """
                     )
     __commands.append(
-        """results.quality_control.qc_filter = qc.create_rna_qc_filter(results.
-    quality_control.qc_metrics, results.quality_control.qc_thresholds,
-    options.quality_control.create_rna_qc_filter)
+        """results.quality_control.qc_filter = (scranpy.quality_control.
+    create_rna_qc_filter(results.quality_control.qc_metrics, results.
+    quality_control.qc_thresholds, options.quality_control.
+    create_rna_qc_filter))
 """
         )
     __commands.append(
-        """results.quality_control.filtered_cells = qc.filter_cells(ptr, filter=
-    results.quality_control.qc_filter)
+        """results.quality_control.filtered_cells = scranpy.quality_control.filter_cells(
+    ptr, filter=results.quality_control.qc_filter)
 """
         )
     __commands.append(
-        """results.normalization.log_norm_counts = norm.log_norm_counts(results.
-    quality_control.filtered_cells, options=options.normalization.
+        """results.normalization.log_norm_counts = scranpy.normalization.log_norm_counts(
+    results.quality_control.filtered_cells, options=options.normalization.
     log_norm_counts)
 """
         )
     __commands.append(
-        """results.feature_selection.gene_variances = feat.model_gene_variances(results
-    .normalization.log_norm_counts, options=options.feature_selection.
-    model_gene_variances)
+        """results.feature_selection.gene_variances = (scranpy.feature_selection.
+    model_gene_variances(results.normalization.log_norm_counts, options=
+    options.feature_selection.model_gene_variances))
 """
         )
     __commands.append(
-        """results.feature_selection.hvgs = feat.choose_hvgs(results.feature_selection
-    .gene_variances.column('residuals'), options=options.feature_selection.
-    choose_hvgs)
+        """results.feature_selection.hvgs = scranpy.feature_selection.choose_hvgs(results
+    .feature_selection.gene_variances.column('residuals'), options=options.
+    feature_selection.choose_hvgs)
 """
         )
     __commands.append(
@@ -87,19 +90,21 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
 """
         )
     __commands.append(
-        """results.dimensionality_reduction.pca = dimred.run_pca(results.normalization
-    .log_norm_counts, options=options.dimensionality_reduction.run_pca)
+        """results.dimensionality_reduction.pca = (scranpy.dimensionality_reduction.
+    run_pca(results.normalization.log_norm_counts, options=options.
+    dimensionality_reduction.run_pca))
 """
         )
     __commands.append(
-        """results.nearest_neighbors.nearest_neighbor_index = nn.build_neighbor_index(
-    results.dimensionality_reduction.pca.principal_components, options=nn.
-    BuildNeighborIndexOptions(approximate=True))
+        """results.nearest_neighbors.nearest_neighbor_index = (scranpy.
+    nearest_neighbors.build_neighbor_index(results.dimensionality_reduction
+    .pca.principal_components, options=nn.BuildNeighborIndexOptions(
+    approximate=True)))
 """
         )
     __commands.append(
-        """tsne_nn = dimred.tsne_perplexity_to_neighbors(options.
-    dimensionality_reduction.run_tsne.initialize_tsne.perplexity)
+        """tsne_nn = scranpy.dimensionality_reduction.tsne_perplexity_to_neighbors(options
+    .dimensionality_reduction.run_tsne.initialize_tsne.perplexity)
 """
         )
     __commands.append(
@@ -112,28 +117,28 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
     __commands.append('nn_dict = {}\n')
     for k in set([umap_nn, tsne_nn, snn_nn]):
         __commands.append(
-            """nn_dict[k] = nn.find_nearest_neighbors(results.nearest_neighbors.
-    nearest_neighbor_index, k=k, options=options.nearest_neighbors.
-    find_nearest_neighbors)
+            """nn_dict[k] = scranpy.nearest_neighbors.find_nearest_neighbors(results.
+    nearest_neighbors.nearest_neighbor_index, k=k, options=options.
+    nearest_neighbors.find_nearest_neighbors)
 """
             )
     __commands.append('executor = ProcessPoolExecutor(max_workers=2)\n')
     __commands.append('_tasks = []\n')
     __commands.append(
-        """_tasks.append(executor.submit(dimred.run_tsne, nn_dict[tsne_nn], options.
-    dimensionality_reduction.run_tsne))
+        """_tasks.append(executor.submit(scranpy.dimensionality_reduction.run_tsne,
+    nn_dict[tsne_nn], options.dimensionality_reduction.run_tsne))
 """
         )
     __commands.append(
-        """_tasks.append(executor.submit(dimred.run_umap, nn_dict[umap_nn], options.
-    dimensionality_reduction.run_umap))
+        """_tasks.append(executor.submit(scranpy.dimensionality_reduction.run_umap,
+    nn_dict[umap_nn], options.dimensionality_reduction.run_umap))
 """
         )
     __commands.append('remaining_threads = max(1, options.num_threads - 2)\n')
     __commands.append('options.clustering.set_threads(remaining_threads)\n')
     __commands.append(
-        """results.clustering.build_snn_graph = clust.build_snn_graph(nn_dict[snn_nn],
-    options=options.clustering.build_snn_graph)
+        """results.clustering.build_snn_graph = scranpy.clustering.build_snn_graph(nn_dict
+    [snn_nn], options=options.clustering.build_snn_graph)
 """
         )
     __commands.append(
@@ -144,9 +149,9 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
     __commands.append(
         'options.marker_detection.set_threads(remaining_threads)\n')
     __commands.append(
-        """results.marker_detection.markers = mark.score_markers(results.normalization
-    .log_norm_counts, grouping=results.clustering.clusters, options=options
-    .marker_detection.score_markers)
+        """results.marker_detection.markers = scranpy.marker_detection.score_markers(
+    results.normalization.log_norm_counts, grouping=results.clustering.
+    clusters, options=options.marker_detection.score_markers)
 """
         )
     __commands.append('embeddings = []\n')
