@@ -224,14 +224,11 @@ class AnalyzeResults:
         mat = x.assay(assay)
         return self.__to_sce(mat, assay, include_gene_data)
 
-
 def __analyze(
     matrix: MatrixTypes,
     features: Sequence[str],
     options: AnalyzeOptions = AnalyzeOptions(),
 ) -> AnalyzeResults:
-    results = AnalyzeResults()
-
     if not is_matrix_expected_type(matrix):
         raise TypeError("matrix is not an expected type.")
 
@@ -250,6 +247,9 @@ def __analyze(
             raise ValueError(
                 "Length of `block` not same as number of `columns` in the matrix."
             )
+
+    # Start of the capture.
+    results = AnalyzeResults()
 
     # setting up QC metrics and filters.
     subsets = {}
