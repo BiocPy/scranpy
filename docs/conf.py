@@ -72,9 +72,6 @@ extensions = [
     "sphinx.ext.ifconfig",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
-    # "sphinx_toolbox",
-    # "sphinx_toolbox.more_autodoc.typehints",
-    # "sphinx_autodoc_typehints",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -169,30 +166,9 @@ pygments_style = "sphinx"
 # If this is True, todo emits a warning for each TODO entries. The default is False.
 todo_emit_warnings = True
 
-# github_username = "jkanche"
+napoleon_use_rtype = True  # having a separate entry generally helps readability
+napoleon_use_param = True
 
-# autodoc_type_aliases = {
-#     "MatrixTypes": "scranpy.types.MatrixTypes",
-#     "SelectionTypes": "scranpy.types.SelectionTypes",
-#     "NeighborlyInputs": "scranpy.nearest_neighbors.types.NeighborlyInputs"
-# }
-
-# autodoc_typehints = "description"
-
-# typehints_defaults = "braces"
-# always_document_param_types = True
-# typehints_use_signature = True
-# typehints_use_signature_return = True
-
-# autosummary_generate = True
-# autodoc_member_order = "bysource"
-# bibtex_reference_style = "author_year"
-# napoleon_google_docstring = True  # for pytorch lightning
-# napoleon_numpy_docstring = True  # use numpydoc style
-# napoleon_include_init_with_doc = False
-# napoleon_use_rtype = True  # having a separate entry generally helps readability
-# napoleon_use_param = True
-# typehints_defaults = "braces"
 
 # -- Options for HTML output -------------------------------------------------
 

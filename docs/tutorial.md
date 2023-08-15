@@ -9,7 +9,7 @@ You'll also need to install **scranpy** itself (duh), which is available from [P
 pip install scranpy
 ```
 
-# Loading a dataset
+## Loading a dataset
 
 The full **scranpy** workflow starts from a feature-by-cell count matrix.
 To illustrate, let's load one of the famous peripheral blood mononuclear cell (PBMC) datasets from 10X Genomics.
@@ -36,7 +36,7 @@ Obviously, you'll be using different code for your own dataset.
 The important thing is that you get a count matrix where features are in the rows and cells are in the columns.
 Oh, and an array of feature names.
 
-# Running the analysis
+## Running the analysis
 
 Now we draw the rest of the owl.
 
