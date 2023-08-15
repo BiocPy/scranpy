@@ -16,6 +16,7 @@ def test_build_snn_graph(mock_data):
 
     assert clustering is not None
     assert clustering.membership is not None
+    assert len(clustering.membership) == y.shape[0]
 
     # Same results in parallel.
     outp = build_snn_graph(y, options=BuildSnnGraphOptions(num_threads=3))

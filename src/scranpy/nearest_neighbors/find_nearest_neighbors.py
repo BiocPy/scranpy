@@ -104,7 +104,7 @@ class NeighborResults:
         nobs = lib.fetch_neighbor_results_nobs(self.__ptr)
         k = lib.fetch_neighbor_results_k(self.__ptr)
 
-        # C++ stores this data as column-major, but NumPy defaults to 
+        # C++ stores this data as column-major k*nobs, but NumPy defaults to 
         # row-major, so we just flip the dimensions to keep everyone happy.
         out_i = ndarray((nobs, k), dtype=int32)
         out_d = ndarray((nobs, k), dtype=float64)
@@ -124,13 +124,13 @@ class NeighborResults:
             NeighborResults: Instance of this class, constructed from the data in ``content``.
         """
         idx = content.index
-        if idx.flags.c_contiguous:
+        if not idx.flags.c_contiguous:
             raise ValueError("expected 'content.index' to have a row-major layout")
 
         dist = content.distance
         if dist.shape != idx.shape: 
             raise ValueError("expected 'content.distance' and 'content.index' to have the same shape")
-        if dist.flags.c_contiguous:
+        if not dist.flags.c_contiguous:
             raise ValueError("expected 'content.index' to have a row-major layout")
 
         ptr = lib.unserialize_neighbor_results(idx.shape[0], idx.shape[1], idx, dist)

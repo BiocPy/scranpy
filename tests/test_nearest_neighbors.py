@@ -15,11 +15,11 @@ __license__ = "MIT"
 def test_neighbors(mock_data):
     y = mock_data.pcs
     idx = build_neighbor_index(y, BuildNeighborIndexOptions(approximate=False))
-    assert idx.num_cells() == 1000
-    assert idx.num_dimensions() == 50
+    assert idx.num_cells() == y.shape[0]
+    assert idx.num_dimensions() == y.shape[1]
 
     res = find_nearest_neighbors(idx, k=10)
-    assert res.num_cells() == 1000
+    assert res.num_cells() == y.shape[0]
     assert res.num_neighbors() == 10
     assert isinstance(res.get(2), SingleNeighborResults)
 

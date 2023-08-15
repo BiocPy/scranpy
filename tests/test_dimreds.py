@@ -20,7 +20,7 @@ def test_run_tsne(mock_data):
 
     assert isinstance(out, TsneEmbedding)
     assert out.x.shape[0] == out.y.shape[0]
-    assert out.x.shape[0] == y.shape[1]
+    assert out.x.shape[0] == y.shape[0]
 
     # Same results with multiple threads.
     outp = run_tsne(
@@ -37,7 +37,7 @@ def test_run_umap(mock_data):
 
     assert isinstance(out, UmapEmbedding)
     assert out.x.shape[0] == out.y.shape[0]
-    assert out.x.shape[0] == y.shape[1]
+    assert out.x.shape[0] == y.shape[0]
 
     # Same results with multiple threads.
     outp = run_umap(
