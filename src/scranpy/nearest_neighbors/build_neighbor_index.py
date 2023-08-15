@@ -72,8 +72,8 @@ def build_neighbor_index(
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Args:
-        input (ndarray): A matrix where rows are dimensions and cells are columns.
-            This is usually the principal components from the
+        input (ndarray): A matrix where rows are cells and dimensions are columns.
+            This is usually the principal components matrix from 
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
         options (BuildNeighborIndexOptions): Optional parameters.
 
@@ -83,7 +83,10 @@ def build_neighbor_index(
     if options.verbose is True:
         logger.info("Building nearest neighbor index...")
 
+    if not input.flags.C_CONTIGUOUS:
+        raise ValueError("expected 'input' to have row-major layout")
+
     ptr = lib.build_neighbor_index(
-        input.shape[0], input.shape[1], input, options.approximate
+        input.shape[1], input.shape[0], input, options.approximate
     )
     return NeighborIndex(ptr)

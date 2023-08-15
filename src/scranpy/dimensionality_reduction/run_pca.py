@@ -19,7 +19,7 @@ PcaResult = namedtuple("PcaResult", ["principal_components", "variance_explained
 PcaResult.__doc__ = """Named tuple of results from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
 principal_components (ndarray): Matrix of principal component (PC) coordinates,
-    where the rows are PCs and the columns are cells.
+    where the rows are cells and columns are PCs. 
 variance_explained (ndarray): Array of length equal to the number of PCs,
     containing the percentage of variance explained by each PC.
 """
@@ -29,7 +29,11 @@ def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PcaResult:
     actual_rank = lib.fetch_simple_pca_num_dims(pptr)
 
     pc_pointer = lib.fetch_simple_pca_coordinates(pptr)
-    pc_array = deepcopy(ctypeslib.as_array(pc_pointer, shape=(actual_rank, nc)))
+
+    # In C++, the PCs are stored as s a column-major dim*cell matrix. As NumPy
+    # typically stores things in row-major format, we switch the dimensions so
+    # that it's in a more conventional format when we copy it to Python.
+    pc_array = deepcopy(ctypeslib.as_array(pc_pointer, shape=(nc, actual_rank)))
     principal_components = pc_array
 
     var_pointer = lib.fetch_simple_pca_variance_explained(pptr)
