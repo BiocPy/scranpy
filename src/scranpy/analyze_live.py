@@ -171,7 +171,7 @@ class AnalyzeResults:
         # TODO: need to add logcounts
         sce = SingleCellExperiment(assays={assay: x[:, keep]})
 
-        sce.colData = self.quality_control.qc_metrics
+        sce.colData = self.quality_control.qc_metrics[keep,:]
         sce.colData["clusters"] = self.clustering.clusters
 
         sce.reducedDims = {
@@ -417,13 +417,15 @@ def __analyze(
         ptr, filter=results.quality_control.qc_filter
     )
 
-    results.normalization.log_norm_counts = norm.log_norm_counts(
+    # Until a delayed array is supported, we can't expose these pointers to 
+    # users, so we'll just hold onto them.
+    normed = norm.log_norm_counts(
         results.quality_control.filtered_cells,
         options=options.normalization.log_norm_counts,
     )
 
     results.feature_selection.gene_variances = feat.model_gene_variances(
-        results.normalization.log_norm_counts,
+        normed,
         options=options.feature_selection.model_gene_variances,
     )
 
@@ -435,7 +437,7 @@ def __analyze(
     pca_options = deepcopy(options.dimensionality_reduction.run_pca)
     pca_options.subset = results.feature_selection.hvgs
     results.dimensionality_reduction.pca = dimred.run_pca(
-        results.normalization.log_norm_counts,
+        normed,
         options=options.dimensionality_reduction.run_pca,
     )
 
@@ -459,7 +461,7 @@ def __analyze(
     marker_options = deepcopy(options.marker_detection)
     marker_options.num_threads = remaining_threads
     results.marker_detection.markers = mark.score_markers(
-        results.normalization.log_norm_counts,
+        normed,
         grouping=results.clustering.clusters,
         options=options.marker_detection.score_markers,
     )
