@@ -224,6 +224,69 @@ class AnalyzeResults:
         mat = x.assay(assay)
         return self.__to_sce(mat, assay, include_gene_data)
 
+
+def run_neighbor_suite(
+    principal_components,
+    build_neighbor_index_options: nn.BuildNeighborIndexOptions = nn.BuildNeighborIndexOptions(),
+    find_nearest_neighbors_options: nn.FindNearestNeighborsOptions = nn.FindNearestNeighborsOptions(),
+    run_umap_options: dimred.RunUmapOptions = dimred.RunUmapOptions(),
+    run_tsne_options: dimred.RunTsneOptions = dimred.RunTsneOptions(),
+    build_snn_graph_options: clust.BuildSnnGraphOptions = clust.BuildSnnGraphOptions(),
+    num_threads: int = 3
+):
+    index = nn.build_neighbor_index(
+        principal_components,
+        options=build_neighbor_index_options,
+    )
+
+    tsne_nn = dimred.tsne_perplexity_to_neighbors(
+        run_tsne_options.initialize_tsne.perplexity
+    )
+    umap_nn = run_umap_options.initialize_umap.num_neighbors
+    snn_nn = build_snn_graph_options.num_neighbors
+
+    nn_dict = {}
+    for k in set([umap_nn, tsne_nn, snn_nn]):
+        nn_dict[k] = nn.find_nearest_neighbors(
+            index=index,
+            k=k,
+            options=options.nearest_neighbors.find_nearest_neighbors,
+        )
+
+    executor = ProcessPoolExecutor(max_workers=2)
+    _tasks = []
+
+    _tasks.append(
+        executor.submit(
+            dimred.run_tsne,
+            nn_dict[tsne_nn],
+            options.dimensionality_reduction.run_tsne,
+        )
+    )
+
+    _tasks.append(
+        executor.submit(
+            dimred.run_umap, nn_dict[umap_nn], options.dimensionality_reduction.run_umap
+        )
+    )
+
+    remaining_threads = max(1, options.num_threads - 2)
+    copy = options.clustering
+    options.clustering.set_threads(remaining_threads)
+    results.clustering.build_snn_graph = clust.build_snn_graph(
+        nn_dict[snn_nn], options=options.clustering.build_snn_graph
+    )
+
+    # clusters
+    results.clustering.clusters = (
+        results.clustering.build_snn_graph.community_multilevel(
+            resolution=options.clustering.resolution
+        ).membership
+    )
+
+    return clustering
+
+
 def __analyze(
     matrix: MatrixTypes,
     features: Sequence[str],
@@ -315,54 +378,6 @@ def __analyze(
         options=options.dimensionality_reduction.run_pca,
     )
 
-    results.nearest_neighbors.nearest_neighbor_index = nn.build_neighbor_index(
-        results.dimensionality_reduction.pca.principal_components,
-        options=nn.BuildNeighborIndexOptions(approximate=True),
-    )
-
-    tsne_nn = dimred.tsne_perplexity_to_neighbors(
-        options.dimensionality_reduction.run_tsne.initialize_tsne.perplexity
-    )
-    umap_nn = options.dimensionality_reduction.run_umap.initialize_umap.num_neighbors
-    snn_nn = options.clustering.build_snn_graph.num_neighbors
-
-    nn_dict = {}
-    for k in set([umap_nn, tsne_nn, snn_nn]):
-        nn_dict[k] = nn.find_nearest_neighbors(
-            results.nearest_neighbors.nearest_neighbor_index,
-            k=k,
-            options=options.nearest_neighbors.find_nearest_neighbors,
-        )
-
-    executor = ProcessPoolExecutor(max_workers=2)
-    _tasks = []
-
-    _tasks.append(
-        executor.submit(
-            dimred.run_tsne,
-            nn_dict[tsne_nn],
-            options.dimensionality_reduction.run_tsne,
-        )
-    )
-
-    _tasks.append(
-        executor.submit(
-            dimred.run_umap, nn_dict[umap_nn], options.dimensionality_reduction.run_umap
-        )
-    )
-
-    remaining_threads = max(1, options.num_threads - 2)
-    options.clustering.set_threads(remaining_threads)
-    results.clustering.build_snn_graph = clust.build_snn_graph(
-        nn_dict[snn_nn], options=options.clustering.build_snn_graph
-    )
-
-    # clusters
-    results.clustering.clusters = (
-        results.clustering.build_snn_graph.community_multilevel(
-            resolution=options.clustering.resolution
-        ).membership
-    )
 
     # Score Markers for each cluster
     options.marker_detection.set_threads(remaining_threads)
