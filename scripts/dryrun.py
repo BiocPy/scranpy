@@ -138,7 +138,7 @@ new_body.append(
         )
     )
 )
-fun.returns = ast.Name("string")
+fun.returns = ast.Name("str")
 fun.body = new_body
 fun.name = "__dry_analyze"
 

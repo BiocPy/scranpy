@@ -2,6 +2,7 @@ from typing import Sequence, Union
 from functools import singledispatch, singledispatchmethod
 
 from .analyze_live import AnalyzeOptions, AnalyzeResults, __analyze
+from .analyze_dry import __dry_analyze
 from .types import is_matrix_expected_type
 
 from singlecellexperiment import SingleCellExperiment
@@ -9,8 +10,11 @@ from biocframe import BiocFrame
 
 @singledispatch
 def analyze(
-    matrix, features: Sequence[str], options: AnalyzeOptions = AnalyzeOptions()
-) -> AnalyzeResults:
+    matrix, 
+    features: Sequence[str], 
+    options: AnalyzeOptions = AnalyzeOptions(),
+    dry_run: bool = False
+) -> Union[AnalyzeResults, str]:
     """Run all steps of the scran workflow for single-cell RNA-seq datasets.
 
     - Remove low-quality cells
@@ -21,22 +25,25 @@ def analyze(
     - dimensionality reductions, t-SNE & UMAP
     - Marker detection for each cluster
 
-
     Arguments:
         matrix (Any): "Count" matrix.
+
         features (Sequence[str]): Features information for the rows of the matrix.
-        block (Sequence, optional): Block assignment for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
-        options (AnalyzeOptions): Optional analysis parameters.
+
+        options (AnalyzeOptions, optional): Optional analysis parameters.
+
+        dry_run (bool, optional): Whether to perform a dry run.
 
     Raises:
         NotImplementedError: If ``matrix`` is not an expected type.
 
     Returns:
-        AnalyzeResults: Results from all steps of the scran workflow.
+        If ``dry_run = False``, a :py:class:`~scranpy.analyze_live.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
+
+        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis. 
     """
+    if dry_run:
+        return __dry_analyze(options)
     if is_matrix_expected_type(matrix):
         return __analyze(matrix, features=features, options=options)
     else:
@@ -51,7 +58,8 @@ def analyze_sce(
     features: Union[Sequence[str], str],
     assay: str = "counts",
     options: AnalyzeOptions = AnalyzeOptions(),
-) -> AnalyzeResults:
+    dry_run: bool = False
+) -> Union[AnalyzeResults, str]:
     """Run all steps of the scran workflow for single-cell RNA-seq datasets.
 
     - Remove low-quality cells
@@ -61,7 +69,6 @@ def analyze_sce(
     - graph-based clustering
     - dimensionality reductions, t-SNE & UMAP
     - Marker detection for each cluster
-
 
     Arguments:
         matrix (SingleCellExperiment): A
@@ -79,7 +86,9 @@ def analyze_sce(
         ValueError: If SCE does not contain a ``assay`` matrix.
 
     Returns:
-        AnalyzeResults: Results from various steps.
+        If ``dry_run = False``, a :py:class:`~scranpy.analyze_live.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
+
+        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis. 
     """
     if assay not in matrix.assayNames:
         raise ValueError(f"SCE does not contain a '{assay}' matrix.")
@@ -90,10 +99,4 @@ def analyze_sce(
         else:
             features = matrix.rowData[features]
 
-    if isinstance(options.block, str):
-        if isinstance(matrix.rowData, BiocFrame):
-            block = matrix.colData.column(options.block)
-        else:
-            block = matrix.colData[block]
-
-    return __analyze(matrix.assay("counts"), features=features, options=options)
+    return __analyze(matrix.assay("counts"), features=features, options=options, dry_run=dry_run)

@@ -3,7 +3,7 @@
 
 from .analyze_live import AnalyzeOptions
 
-def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
+def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->str:
     __commands = []
     __commands.append('results = AnalyzeResults()\n')
     __commands.append('subsets = {}\n')
@@ -25,8 +25,7 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
                 )
     __commands.append('results.quality_control.subsets = subsets\n')
     __commands.append(
-        """rna_options = copy.deepcopy(options.quality_control.per_cell_rna_qc_metrics)
-"""
+        'rna_options = deepcopy(options.quality_control.per_cell_rna_qc_metrics)\n'
         )
     __commands.append('rna_options.subsets = subsets\n')
     __commands.append(
@@ -40,20 +39,6 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
     options.quality_control.suggest_rna_qc_filters))
 """
         )
-    if options.quality_control.custom_thresholds is not None:
-        if not isinstance(options.quality_control.custom_thresholds, BiocFrame
-            ):
-            __commands.append(
-                """raise TypeError("'qc_custom_thresholds' is not a `BiocFrame` object.")
-"""
-                )
-        for col in results.quality_control.qc_thresholds.columnNames:
-            if col in options.quality_control.custom_thresholds.columnNames:
-                __commands.append(
-                    """results.quality_control.qc_thresholds.column(col).fill(options.
-    quality_control.custom_thresholds[col])
-"""
-                    )
     __commands.append(
         """results.quality_control.qc_filter = (scranpy.quality_control.
     create_rna_qc_filter(results.quality_control.qc_metrics, results.
@@ -85,10 +70,8 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
 """
         )
     __commands.append(
-        """options.dimensionality_reduction.run_pca.subset = (results.
-    feature_selection.hvgs)
-"""
-        )
+        'pca_options = deepcopy(options.dimensionality_reduction.run_pca)\n')
+    __commands.append('pca_options.subset = results.feature_selection.hvgs\n')
     __commands.append(
         """results.dimensionality_reduction.pca = (scranpy.dimensionality_reduction.
     run_pca(results.normalization.log_norm_counts, options=options.
@@ -96,68 +79,32 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->string:
 """
         )
     __commands.append(
-        """results.nearest_neighbors.nearest_neighbor_index = (scranpy.
-    nearest_neighbors.build_neighbor_index(results.dimensionality_reduction
-    .pca.principal_components, options=nn.BuildNeighborIndexOptions(
-    approximate=True)))
+        """callback, graph, remaining_threads = run_neighbor_suite(results.
+    dimensionality_reduction.pca.principal_components,
+    build_neighbor_index_options=options.nearest_neighbors.
+    build_neighbor_index, find_nearest_neighbors_options=options.
+    nearest_neighbors.find_nearest_neighbors, run_umap_options=options.
+    dimensionality_reduction.run_umap, run_tsne_options=options.
+    dimensionality_reduction.run_tsne, build_snn_graph_options=options.
+    clustering.build_snn_graph, num_threads=options.nearest_neighbors.
+    find_nearest_neighbors.num_threads)
 """
         )
-    __commands.append(
-        """tsne_nn = scranpy.dimensionality_reduction.tsne_perplexity_to_neighbors(options
-    .dimensionality_reduction.run_tsne.initialize_tsne.perplexity)
-"""
-        )
-    __commands.append(
-        """umap_nn = (options.dimensionality_reduction.run_umap.initialize_umap.
-    num_neighbors)
-"""
-        )
-    __commands.append(
-        'snn_nn = options.clustering.build_snn_graph.num_neighbors\n')
-    __commands.append('nn_dict = {}\n')
-    for k in set([umap_nn, tsne_nn, snn_nn]):
-        __commands.append(
-            """nn_dict[k] = scranpy.nearest_neighbors.find_nearest_neighbors(results.
-    nearest_neighbors.nearest_neighbor_index, k=k, options=options.
-    nearest_neighbors.find_nearest_neighbors)
-"""
-            )
-    __commands.append('executor = ProcessPoolExecutor(max_workers=2)\n')
-    __commands.append('_tasks = []\n')
-    __commands.append(
-        """_tasks.append(executor.submit(scranpy.dimensionality_reduction.run_tsne,
-    nn_dict[tsne_nn], options.dimensionality_reduction.run_tsne))
-"""
-        )
-    __commands.append(
-        """_tasks.append(executor.submit(scranpy.dimensionality_reduction.run_umap,
-    nn_dict[umap_nn], options.dimensionality_reduction.run_umap))
-"""
-        )
-    __commands.append('remaining_threads = max(1, options.num_threads - 2)\n')
-    __commands.append('options.clustering.set_threads(remaining_threads)\n')
-    __commands.append(
-        """results.clustering.build_snn_graph = scranpy.clustering.build_snn_graph(nn_dict
-    [snn_nn], options=options.clustering.build_snn_graph)
-"""
-        )
+    __commands.append('results.clustering.build_snn_graph = graph\n')
     __commands.append(
         """results.clustering.clusters = (results.clustering.build_snn_graph.
     community_multilevel(resolution=options.clustering.resolution).membership)
 """
         )
-    __commands.append(
-        'options.marker_detection.set_threads(remaining_threads)\n')
+    __commands.append('marker_options = deepcopy(options.marker_detection)\n')
+    __commands.append('marker_options.num_threads = remaining_threads\n')
     __commands.append(
         """results.marker_detection.markers = scranpy.marker_detection.score_markers(
     results.normalization.log_norm_counts, grouping=results.clustering.
     clusters, options=options.marker_detection.score_markers)
 """
         )
-    __commands.append('embeddings = []\n')
-    for task in _tasks:
-        __commands.append('embeddings.append(task.result())\n')
-    __commands.append('executor.shutdown()\n')
+    __commands.append('embeddings = callback()\n')
     __commands.append('results.dimensionality_reduction.tsne = embeddings[0]\n'
         )
     __commands.append('results.dimensionality_reduction.umap = embeddings[1]\n'
