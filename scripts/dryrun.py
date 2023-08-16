@@ -53,7 +53,8 @@ def trawl(expr):
             trawl(expr.args[i])
 
     elif isinstance(expr, ast.Name):
-        pass
+        if expr.id == "ptr":
+            expr.id = "matrix"
 
     elif isinstance(expr, ast.Assign):
         trawl(expr.value)
