@@ -1,12 +1,14 @@
 from concurrent.futures import ProcessPoolExecutor
 from functools import singledispatch, singledispatchmethod
 from dataclasses import dataclass, field
-from typing import Mapping, Optional, Sequence, Union
+from typing import Tuple, List, Mapping, Optional, Sequence, Union, Callable
 
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
 from mattress import TatamiNumericPointer, tatamize
 from numpy import array
+from copy import deepcopy
+from igraph import Graph
 
 from . import clustering as clust
 from . import dimensionality_reduction as dimred
@@ -225,6 +227,10 @@ class AnalyzeResults:
         return self.__to_sce(mat, assay, include_gene_data)
 
 
+def _unserialize_neighbors_before_run(f, serialized, opt):
+    nnres = nn.NeighborResults.unserialize(serialized)
+    return f(nnres, opt)
+
 def run_neighbor_suite(
     principal_components,
     build_neighbor_index_options: nn.BuildNeighborIndexOptions = nn.BuildNeighborIndexOptions(),
@@ -232,8 +238,48 @@ def run_neighbor_suite(
     run_umap_options: dimred.RunUmapOptions = dimred.RunUmapOptions(),
     run_tsne_options: dimred.RunTsneOptions = dimred.RunTsneOptions(),
     build_snn_graph_options: clust.BuildSnnGraphOptions = clust.BuildSnnGraphOptions(),
-    num_threads: int = 3
-):
+    num_threads: int = 1
+) -> Tuple[Callable[[], Tuple[List, List]], Graph, int]:
+    """Run the suite of nearest neighbor methods together.
+    This builds the index once and re-uses it for all methods.
+    Given enough threads, it also runs all post-neighbor-detection functions in parallel,
+    as none of them depend on each other.
+
+    Args:
+        principal_components (ndarray):
+            Matrix of principal components where rows are cells and columns are PCs.
+            Thi is usually produced by :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+
+        build_neighbor_index_options (BuildNeighborIndexOptions, optional):
+            Optional arguments to pass to :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
+
+        find_nearest_neighbors_options (FindNearestNeighborsOptions, optional):
+            Optional arguments to pass to :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
+
+        run_umap_options (RunUmapOptions, optional):
+            Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
+
+        run_tsne_options (RunTsneOptions, optional):
+            Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
+
+        build_snn_graph_options (BuildSnnGraphOptions, optional):
+            Optional arguments to pass to :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
+
+        num_threads (int, optional):
+            Number of threads to use for the parallel execution of UMAP, t-SNE and SNN graph construction.
+            This overrides the specified number of threads in ``run_umap``, ``run_tsne`` and ``build_snn_graph``.
+
+    Returns:
+        A tuple containing, in order:
+        - A function that takes no arguments and returns a tuple containing the t-SNE and UMAP coordinates.
+        - The shared nearest neighbor graph from :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
+        - The number of remaining threads.
+
+        The idea is that the number of remaining threads can be used to perform tasks on the main thread (e.g., clustering, marker detection) while the t-SNE and UMAP are still being computed;
+        once all tasks on the main thread have completed, the first function can be called to obtain the coordinates.
+    """
+
+
     index = nn.build_neighbor_index(
         principal_components,
         options=build_neighbor_index_options,
@@ -248,44 +294,64 @@ def run_neighbor_suite(
     nn_dict = {}
     for k in set([umap_nn, tsne_nn, snn_nn]):
         nn_dict[k] = nn.find_nearest_neighbors(
-            index=index,
+            index,
             k=k,
-            options=options.nearest_neighbors.find_nearest_neighbors,
+            options=find_nearest_neighbors_options,
         )
 
-    executor = ProcessPoolExecutor(max_workers=2)
+    serialized_dict = {}
+    for k in set([umap_nn, tsne_nn]):
+        serialized_dict[k] = nn_dict[k].serialize()
+
+    # Attempting to evenly distribute threads across the tasks.  t-SNE and UMAP
+    # are run on separate processes while the SNN graph construction is kept on
+    # the main thread because we'll need the output for marker detection.
+    threads_per_task = max(1, int(num_threads / 3))
+    executor = ProcessPoolExecutor(max_workers=min(2, num_threads))
     _tasks = []
 
+    run_tsne_copy = deepcopy(run_tsne_options)
+    run_tsne_copy.set_threads(threads_per_task)
     _tasks.append(
         executor.submit(
+            _unserialize_neighbors_before_run,
             dimred.run_tsne,
-            nn_dict[tsne_nn],
-            options.dimensionality_reduction.run_tsne,
+            serialized_dict[tsne_nn],
+            run_tsne_copy,
         )
     )
 
+    run_umap_copy = deepcopy(run_umap_options)
+    run_umap_copy.set_threads(threads_per_task)
     _tasks.append(
         executor.submit(
-            dimred.run_umap, nn_dict[umap_nn], options.dimensionality_reduction.run_umap
+            _unserialize_neighbors_before_run,
+            dimred.run_umap, 
+            serialized_dict[umap_nn], 
+            run_umap_copy,
         )
     )
 
-    remaining_threads = max(1, options.num_threads - 2)
-    copy = options.clustering
-    options.clustering.set_threads(remaining_threads)
-    results.clustering.build_snn_graph = clust.build_snn_graph(
-        nn_dict[snn_nn], options=options.clustering.build_snn_graph
-    )
+    def retrieve():
+        embeddings = []
+        for task in _tasks:
+            embeddings.append(task.result())
+        executor.shutdown()
+        return (embeddings[0], embeddings[1])
 
-    # clusters
-    results.clustering.clusters = (
-        results.clustering.build_snn_graph.community_multilevel(
-            resolution=options.clustering.resolution
-        ).membership
-    )
+    callback = retrieve
+    if num_threads <= 2:
+        embeddings = retrieve()
+        def trivial():
+            return embeddings
+        callback = trivial
 
-    return clustering
+    build_snn_graph_copy = deepcopy(build_snn_graph_options)
+    remaining_threads = max(1, num_threads - threads_per_task * 2)
+    build_snn_graph_copy.set_threads(remaining_threads)
+    graph = clust.build_snn_graph(nn_dict[snn_nn], options=build_snn_graph_copy)
 
+    return callback, graph, remaining_threads
 
 def __analyze(
     matrix: MatrixTypes,
@@ -314,7 +380,6 @@ def __analyze(
     # Start of the capture.
     results = AnalyzeResults()
 
-    # setting up QC metrics and filters.
     subsets = {}
     if options.quality_control.mito_subset is not None:
         if isinstance(options.quality_control.mito_subset, str):
@@ -331,7 +396,7 @@ def __analyze(
 
     results.quality_control.subsets = subsets
 
-    rna_options = copy.deepcopy(options.quality_control.per_cell_rna_qc_metrics)
+    rna_options = deepcopy(options.quality_control.per_cell_rna_qc_metrics)
     rna_options.subsets = subsets
     results.quality_control.qc_metrics = qc.per_cell_rna_qc_metrics(
         matrix,
@@ -348,51 +413,58 @@ def __analyze(
         options.quality_control.create_rna_qc_filter,
     )
 
-    # Finally QC cells
     results.quality_control.filtered_cells = qc.filter_cells(
         ptr, filter=results.quality_control.qc_filter
     )
 
-    # Log-normalize counts
     results.normalization.log_norm_counts = norm.log_norm_counts(
         results.quality_control.filtered_cells,
         options=options.normalization.log_norm_counts,
     )
 
-    #  Model gene variances
     results.feature_selection.gene_variances = feat.model_gene_variances(
         results.normalization.log_norm_counts,
         options=options.feature_selection.model_gene_variances,
     )
 
-    # Choose highly variable genes
     results.feature_selection.hvgs = feat.choose_hvgs(
         results.feature_selection.gene_variances.column("residuals"),
         options=options.feature_selection.choose_hvgs,
     )
 
-    # Compute PC's
-    options.dimensionality_reduction.run_pca.subset = results.feature_selection.hvgs
+    pca_options = deepcopy(options.dimensionality_reduction.run_pca)
+    pca_options.subset = results.feature_selection.hvgs
     results.dimensionality_reduction.pca = dimred.run_pca(
         results.normalization.log_norm_counts,
         options=options.dimensionality_reduction.run_pca,
     )
 
+    callback, graph, remaining_threads = run_neighbor_suite(
+        results.dimensionality_reduction.pca.principal_components,
+        build_neighbor_index_options=options.nearest_neighbors.build_neighbor_index,
+        find_nearest_neighbors_options=options.nearest_neighbors.find_nearest_neighbors,
+        run_umap_options=options.dimensionality_reduction.run_umap,
+        run_tsne_options=options.dimensionality_reduction.run_tsne,
+        build_snn_graph_options=options.clustering.build_snn_graph,
+        num_threads=options.nearest_neighbors.find_nearest_neighbors.num_threads # using this as the parallelization extent.
+    )
 
-    # Score Markers for each cluster
-    options.marker_detection.set_threads(remaining_threads)
+    results.clustering.build_snn_graph = graph
+    results.clustering.clusters = (
+        results.clustering.build_snn_graph.community_multilevel(
+            resolution=options.clustering.resolution
+        ).membership
+    )
+
+    marker_options = deepcopy(options.marker_detection)
+    marker_options.num_threads = remaining_threads
     results.marker_detection.markers = mark.score_markers(
         results.normalization.log_norm_counts,
         grouping=results.clustering.clusters,
         options=options.marker_detection.score_markers,
     )
 
-    embeddings = []
-    for task in _tasks:
-        embeddings.append(task.result())
-
-    executor.shutdown()
-
+    embeddings = callback()
     results.dimensionality_reduction.tsne = embeddings[0]
     results.dimensionality_reduction.umap = embeddings[1]
 

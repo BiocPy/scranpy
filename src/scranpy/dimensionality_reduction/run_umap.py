@@ -143,6 +143,9 @@ class InitializeUmapOptions:
     num_threads: int = 1
     verbose: bool = False
 
+    def set_threads(self, num_threads: int):
+        self.num_threads = num_threads
+
 
 def initialize_umap(
     input: NeighborlyInputs,
@@ -233,6 +236,9 @@ class RunUmapOptions:
         default_factory=InitializeUmapOptions
     )
     verbose: bool = False
+
+    def set_threads(self, num_threads: int):
+        self.initialize_umap.set_threads(num_threads)
 
 
 def run_umap(

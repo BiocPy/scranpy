@@ -2,6 +2,7 @@ from typing import Sequence, Union
 from functools import singledispatch, singledispatchmethod
 
 from .analyze_live import AnalyzeOptions, AnalyzeResults, __analyze
+from .types import is_matrix_expected_type
 
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
