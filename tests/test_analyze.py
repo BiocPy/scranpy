@@ -18,4 +18,5 @@ def test_analyze(mock_data):
     assert as_sce.shape[1] == len(out.clustering.clusters)
 
     dry = analyze(None, None, dry_run=True)
+    print(dry)
     assert isinstance(dry, str)
