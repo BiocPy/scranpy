@@ -4,7 +4,7 @@
 from .analyze_live import AnalyzeOptions
 
 def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->str:
-    __commands = []
+    __commands = ['import scranpy\n', 'import copy\n']
     __commands.append('results = AnalyzeResults()\n')
     __commands.append('subsets = {}\n')
     if options.quality_control.mito_subset is not None:
@@ -25,7 +25,8 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->str:
                 )
     __commands.append('results.quality_control.subsets = subsets\n')
     __commands.append(
-        'rna_options = deepcopy(options.quality_control.per_cell_rna_qc_metrics)\n'
+        """rna_options = copy.deepcopy(options.quality_control.per_cell_rna_qc_metrics)
+"""
         )
     __commands.append('rna_options.subsets = subsets\n')
     __commands.append(
@@ -70,7 +71,8 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->str:
 """
         )
     __commands.append(
-        'pca_options = deepcopy(options.dimensionality_reduction.run_pca)\n')
+        'pca_options = copy.deepcopy(options.dimensionality_reduction.run_pca)\n'
+        )
     __commands.append('pca_options.subset = results.feature_selection.hvgs\n')
     __commands.append(
         """results.dimensionality_reduction.pca = (scranpy.dimensionality_reduction.
@@ -79,7 +81,7 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->str:
 """
         )
     __commands.append(
-        """callback, graph, remaining_threads = run_neighbor_suite(results.
+        """callback, graph, remaining_threads = scranpy.run_neighbor_suite(results.
     dimensionality_reduction.pca.principal_components,
     build_neighbor_index_options=options.nearest_neighbors.
     build_neighbor_index, find_nearest_neighbors_options=options.
@@ -96,7 +98,8 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) ->str:
     community_multilevel(resolution=options.clustering.resolution).membership)
 """
         )
-    __commands.append('marker_options = deepcopy(options.marker_detection)\n')
+    __commands.append(
+        'marker_options = copy.deepcopy(options.marker_detection)\n')
     __commands.append('marker_options.num_threads = remaining_threads\n')
     __commands.append(
         """results.marker_detection.markers = scranpy.marker_detection.score_markers(

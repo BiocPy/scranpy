@@ -43,7 +43,13 @@ def trawl(expr):
         trawl(expr.value)
 
     elif isinstance(expr, ast.Call):
-        trawl(expr.func)
+        if isinstance(expr.func, ast.Name):
+            if expr.func.id == "deepcopy":
+                expr.func = ast.Attribute(value = ast.Name("copy"), attr = expr.func.id)
+            elif expr.func.id == "run_neighbor_suite":
+                expr.func = ast.Attribute(value = ast.Name("scranpy"), attr = expr.func.id)
+        else:
+            trawl(expr.func)
         for i in range(len(expr.args)):
             trawl(expr.args[i])
 
@@ -117,7 +123,7 @@ for expr in fun.body:
         if isinstance(expr, ast.Assign):
             if isinstance(expr.targets[0], ast.Name) and expr.targets[0].id == "results":
                 capturing = True
-                new_body.append(ast.parse("__commands = []").body[0])
+                new_body.append(ast.parse("__commands = ['import scranpy\\n', 'import copy\\n']").body[0])
                 new_body.append(capture(expr))
     elif not isinstance(expr, ast.Return):
         if not trawl(expr):
