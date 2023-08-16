@@ -149,12 +149,24 @@ class SuggestRnaQcFiltersOptions:
             Larger values will result in a less stringent threshold.
             Defaults to 3.
 
+        custom_thresholds (BiocFrame, optional):
+            Data frame containing one or more columns with the same names as those in the return value of
+            :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+            If a column is present, it should contain custom thresholds for the corresponding metric
+            and will override any suggested thresholds in the final BiocFrame.
+
+            If ``block = None``, this data frame should contain one row.
+            Otherwise, the number of rows should be equal to the number of blocks, 
+            where each row contains a block-specific threshold for the relevant metrics. 
+            The identity of each block should be stored in the row names.
+
         verbose (bool, optional): Whether to print logging information.
             Defaults to False.
     """
 
     block: Optional[Sequence] = None
     num_mads: int = 3
+    custom_thresholds: Optional[BiocFrame] = None
     verbose: bool = False
 
 
@@ -246,16 +258,33 @@ def suggest_rna_qc_filters(
         options.num_mads,
     )
 
+    sub_out = BiocFrame(
+        subset_out,
+        columnNames=skeys,
+        numberOfRows=num_blocks,
+        rowNames=block_names,
+    )
+
+    if options.custom_thresholds is not None:
+        # Reorder blocks.
+
+
+        if options.custom_thresholds.hasColumn("sums"):
+            sums_out = options.custom_thresholds.column("sums")
+        if options.custom_thresholds.hasColumn("detected"):
+            detected_out = options.custom_thresholds.column("detected")
+        if options.custom_thresholds.hasColumn("subset_proportions"):
+            custom_subs = options.custom_thresholds.column("subset_proportions")
+            for s in sub_out.columnNames:
+                if custom_subs.hasColumn(s):
+                    sub_out = sub_out.column(s)
+
+
     return BiocFrame(
         {
             "sums": sums_out,
             "detected": detected_out,
-            "subset_proportions": BiocFrame(
-                subset_out,
-                columnNames=skeys,
-                numberOfRows=num_blocks,
-                rowNames=block_names,
-            ),
+            "subset_proportions": sub_out
         },
         numberOfRows=num_blocks,
         rowNames=block_names,
