@@ -123,7 +123,7 @@ for expr in fun.body:
         if isinstance(expr, ast.Assign):
             if isinstance(expr.targets[0], ast.Name) and expr.targets[0].id == "results":
                 capturing = True
-                new_body.append(ast.parse("__commands = ['import scranpy\\n', 'import copy\\n']").body[0])
+                new_body.append(ast.parse("__commands = ['import scranpy', 'import copy', '']").body[0])
                 new_body.append(capture(expr))
     elif not isinstance(expr, ast.Return):
         if not trawl(expr):

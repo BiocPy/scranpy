@@ -4,7 +4,7 @@
 from .analyze_live import AnalyzeOptions
 
 def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) -> str:
-    __commands = ['import scranpy\n', 'import copy\n']
+    __commands = ['import scranpy', 'import copy', '']
     __commands.append('results = AnalyzeResults()')
     __commands.append('subsets = {}')
     if options.quality_control.mito_subset is not None:
@@ -27,7 +27,7 @@ def __dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) -> str:
     __commands.append('pca_options = copy.deepcopy(options.dimensionality_reduction.run_pca)')
     __commands.append('pca_options.subset = results.feature_selection.hvgs')
     __commands.append('results.dimensionality_reduction.pca = scranpy.dimensionality_reduction.run_pca(normed, options=options.dimensionality_reduction.run_pca)')
-    __commands.append('callback, graph, remaining_threads = scranpy.run_neighbor_suite(results.dimensionality_reduction.pca.principal_components, build_neighbor_index_options=options.nearest_neighbors.build_neighbor_index, find_nearest_neighbors_options=options.nearest_neighbors.find_nearest_neighbors, run_umap_options=options.dimensionality_reduction.run_umap, run_tsne_options=options.dimensionality_reduction.run_tsne, build_snn_graph_options=options.clustering.build_snn_graph, num_threads=options.nearest_neighbors.find_nearest_neighbors.num_threads)')
+    __commands.append('(callback, graph, remaining_threads) = scranpy.run_neighbor_suite(results.dimensionality_reduction.pca.principal_components, build_neighbor_index_options=options.nearest_neighbors.build_neighbor_index, find_nearest_neighbors_options=options.nearest_neighbors.find_nearest_neighbors, run_umap_options=options.dimensionality_reduction.run_umap, run_tsne_options=options.dimensionality_reduction.run_tsne, build_snn_graph_options=options.clustering.build_snn_graph, num_threads=options.nearest_neighbors.find_nearest_neighbors.num_threads)')
     __commands.append('results.clustering.build_snn_graph = graph')
     __commands.append('results.clustering.clusters = results.clustering.build_snn_graph.community_multilevel(resolution=options.clustering.resolution).membership')
     __commands.append('marker_options = copy.deepcopy(options.marker_detection)')
