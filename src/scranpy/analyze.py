@@ -1,5 +1,7 @@
 from typing import Sequence, Union
-from .analyze_live import AnalyzeOptions, __analyze
+from functools import singledispatch, singledispatchmethod
+
+from .analyze_live import AnalyzeOptions, AnalyzeResults, __analyze
 
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame

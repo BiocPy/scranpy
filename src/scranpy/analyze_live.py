@@ -1,8 +1,9 @@
 from concurrent.futures import ProcessPoolExecutor
-from dataclasses import dataclass, field
 from functools import singledispatch, singledispatchmethod
+from dataclasses import dataclass, field
 from typing import Mapping, Optional, Sequence, Union
 
+from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
 from mattress import TatamiNumericPointer, tatamize
 from numpy import array
@@ -277,16 +278,6 @@ def __analyze(
         results.quality_control.qc_metrics,
         options=options.quality_control.suggest_rna_qc_filters,
     )
-
-    if options.quality_control.custom_thresholds is not None:
-        if not isinstance(options.quality_control.custom_thresholds, BiocFrame):
-            raise TypeError("'qc_custom_thresholds' is not a `BiocFrame` object.")
-
-        for col in results.quality_control.qc_thresholds.columnNames:
-            if col in options.quality_control.custom_thresholds.columnNames:
-                results.quality_control.qc_thresholds.column(col).fill(
-                    options.quality_control.custom_thresholds[col]
-                )
 
     results.quality_control.qc_filter = qc.create_rna_qc_filter(
         results.quality_control.qc_metrics,

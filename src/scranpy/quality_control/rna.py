@@ -7,7 +7,7 @@ from numpy import bool_, float64, int32, ndarray, uint8, uintp, zeros
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..types import MatrixTypes
-from ..utils import factorize, to_logical, validate_and_tatamize_input
+from ..utils import factorize, to_logical, match_lists, validate_and_tatamize_input
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -258,33 +258,36 @@ def suggest_rna_qc_filters(
         options.num_mads,
     )
 
-    sub_out = BiocFrame(
-        subset_out,
-        columnNames=skeys,
-        numberOfRows=num_blocks,
-        rowNames=block_names,
-    )
+    custom_thresholds = options.custom_thresholds
+    if custom_thresholds is not None:
+        if num_blocks != custom_thresholds.shape[0]:
+            raise ValueError("number of rows in 'custom_thresholds' should equal the number of blocks")
+        if num_blocks > 1 and custom_thresholds.rownames != block_names:
+            m = match_lists(block_names, custom_thresholds.rownames)
+            if m is None:
+                raise ValueError("row names of 'custom_thresholds' should equal the unique values of 'block'")
+            custom_thresholds = custom_thresholds[m,:]
 
-    if options.custom_thresholds is not None:
-        # Reorder blocks.
-
-
-        if options.custom_thresholds.hasColumn("sums"):
-            sums_out = options.custom_thresholds.column("sums")
-        if options.custom_thresholds.hasColumn("detected"):
-            detected_out = options.custom_thresholds.column("detected")
-        if options.custom_thresholds.hasColumn("subset_proportions"):
-            custom_subs = options.custom_thresholds.column("subset_proportions")
-            for s in sub_out.columnNames:
+        if custom_thresholds.hasColumn("sums"):
+            sums_out = custom_thresholds.column("sums")
+        if custom_thresholds.hasColumn("detected"):
+            detected_out = custom_thresholds.column("detected")
+        if custom_thresholds.hasColumn("subset_proportions"):
+            custom_subs = custom_thresholds.column("subset_proportions")
+            for s in subset_out.keys():
                 if custom_subs.hasColumn(s):
-                    sub_out = sub_out.column(s)
-
+                    subset_out[s] = custom_subs.column(s)
 
     return BiocFrame(
         {
             "sums": sums_out,
             "detected": detected_out,
-            "subset_proportions": sub_out
+            "subset_proportions": BiocFrame(
+                subset_out,
+                columnNames=skeys,
+                numberOfRows=num_blocks,
+                rowNames=block_names,
+            )
         },
         numberOfRows=num_blocks,
         rowNames=block_names,
