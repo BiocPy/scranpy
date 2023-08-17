@@ -67,10 +67,16 @@ For typical development workflows, run this for tests
 python setup.py build_ext --inplace && tox
 ```
 
-To rebuild the **ctypes** bindings with [the `wrap.py` helper](https://github.com/BiocPy/ctypes-wrapper)
+To rebuild the **ctypes** bindings [**cpptypes**](https://github.com/BiocPy/ctypes-wrapper):
 
 ```shell
-wrap.py src/scranpy/lib --py src/scranpy/cpphelpers.py --cpp src/scranpy/lib/bindings.cpp
+cpptypes py src/scranpy/lib --py src/scranpy/cpphelpers.py --cpp src/scranpy/lib/bindings.cpp
+```
+
+To rebuild the [dry run analysis source code](src/scranpy/analysis_dry.py):
+
+```shell
+./scripts/dryrun.py src/scranpy/analysis_live.py > src/scranpy/analysis_dry.py
 ```
 
 <!-- pyscaffold-notes -->

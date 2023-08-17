@@ -68,6 +68,8 @@ class BuildSnnGraphOptions:
                 f"provided {self.weight_scheme}"
             )
 
+    def set_threads(self, num_threads: int):
+        self.num_threads = num_threads
 
 def build_snn_graph(
     input: NeighborlyInputs,

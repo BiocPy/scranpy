@@ -8,6 +8,7 @@ from scranpy.quality_control import (
     per_cell_rna_qc_metrics,
     suggest_rna_qc_filters,
 )
+from biocframe import BiocFrame
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -68,7 +69,6 @@ def test_suggest_rna_qc_filters(mock_data):
     assert filters.column("subset_proportions").column("foo") is not None
 
     #  with blocks
-    x = mock_data.x * 20
     filters_blocked = suggest_rna_qc_filters(
         result, options=SuggestRnaQcFiltersOptions(block=mock_data.block)
     )
@@ -87,3 +87,68 @@ def test_suggest_rna_qc_filters(mock_data):
         result, filters_blocked, options=CreateRnaQcFilterOptions(block=mock_data.block)
     )
     assert len(keep_blocked) == result.shape[0]
+
+def test_suggest_rna_qc_filters_custom(mock_data):
+    x = mock_data.x
+    result = per_cell_rna_qc_metrics(
+        x, options=PerCellRnaQcMetricsOptions(subsets={"foo": [1, 10, 100]})
+    )
+
+    # First without blocks.
+    filters_custom = suggest_rna_qc_filters(
+        result, 
+        options=SuggestRnaQcFiltersOptions(
+            custom_thresholds=BiocFrame({
+                "sums": [1],
+                "detected": [2],
+                "subset_proportions": BiocFrame({
+                    "foo": [3]                    
+                })
+            })
+        )
+    )
+
+    assert filters_custom.shape[0] == 1
+    assert filters_custom.column("sums")[0] == 1
+    assert filters_custom.column("detected")[0] == 2
+    assert filters_custom.column("subset_proportions").column("foo")[0] == 3
+
+    # Now with some blocks, in order.
+    filters_custom = suggest_rna_qc_filters(
+        result, 
+        options=SuggestRnaQcFiltersOptions(
+            block=mock_data.block,
+            custom_thresholds=BiocFrame({
+                "sums": [1, 2, 3],
+                "detected": [4, 5, 6],
+                "subset_proportions": BiocFrame({
+                    "foo": [7, 8, 9]
+                }),
+            }, rowNames = [ "A", "B", "C" ])
+        )
+    )
+
+    assert filters_custom.shape[0] == 3
+    assert list(filters_custom.column("sums")) == [1,2,3]
+    assert list(filters_custom.column("detected")) == [4,5,6]
+    assert list(filters_custom.column("subset_proportions").column("foo")) == [7,8,9]
+
+    # Now with some blocks, out of order.
+    filters_custom = suggest_rna_qc_filters(
+        result, 
+        options=SuggestRnaQcFiltersOptions(
+            block=mock_data.block,
+            custom_thresholds=BiocFrame({
+                "sums": [1, 2, 3],
+                "detected": [4, 5, 6],
+                "subset_proportions": BiocFrame({
+                    "foo": [7, 8, 9]
+                }),
+            }, rowNames = [ "C", "B", "A" ])
+        )
+    )
+
+    assert filters_custom.shape[0] == 3
+    assert list(filters_custom.column("sums")) == [3,2,1]
+    assert list(filters_custom.column("detected")) == [6,5,4]
+    assert list(filters_custom.column("subset_proportions").column("foo")) == [9,8,7]

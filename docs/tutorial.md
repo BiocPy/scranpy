@@ -61,7 +61,3 @@ Specifically:
 
 We won't go over the theory here as it's explained more thoroughly in the book.
 But you can also check out each module's reference documentation for more details.
-
-# Customizing the analysis
-
-Stay tuned!

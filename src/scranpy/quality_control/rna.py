@@ -7,7 +7,7 @@ from numpy import bool_, float64, int32, ndarray, uint8, uintp, zeros
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..types import MatrixTypes
-from ..utils import factorize, to_logical, validate_and_tatamize_input
+from ..utils import factorize, to_logical, match_lists, validate_and_tatamize_input
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -149,12 +149,24 @@ class SuggestRnaQcFiltersOptions:
             Larger values will result in a less stringent threshold.
             Defaults to 3.
 
+        custom_thresholds (BiocFrame, optional):
+            Data frame containing one or more columns with the same names as those in the return value of
+            :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+            If a column is present, it should contain custom thresholds for the corresponding metric
+            and will override any suggested thresholds in the final BiocFrame.
+
+            If ``block = None``, this data frame should contain one row.
+            Otherwise, the number of rows should be equal to the number of blocks, 
+            where each row contains a block-specific threshold for the relevant metrics. 
+            The identity of each block should be stored in the row names.
+
         verbose (bool, optional): Whether to print logging information.
             Defaults to False.
     """
 
     block: Optional[Sequence] = None
     num_mads: int = 3
+    custom_thresholds: Optional[BiocFrame] = None
     verbose: bool = False
 
 
@@ -246,6 +258,26 @@ def suggest_rna_qc_filters(
         options.num_mads,
     )
 
+    custom_thresholds = options.custom_thresholds
+    if custom_thresholds is not None:
+        if num_blocks != custom_thresholds.shape[0]:
+            raise ValueError("number of rows in 'custom_thresholds' should equal the number of blocks")
+        if num_blocks > 1 and custom_thresholds.rownames != block_names:
+            m = match_lists(block_names, custom_thresholds.rownames)
+            if m is None:
+                raise ValueError("row names of 'custom_thresholds' should equal the unique values of 'block'")
+            custom_thresholds = custom_thresholds[m,:]
+
+        if custom_thresholds.hasColumn("sums"):
+            sums_out = custom_thresholds.column("sums")
+        if custom_thresholds.hasColumn("detected"):
+            detected_out = custom_thresholds.column("detected")
+        if custom_thresholds.hasColumn("subset_proportions"):
+            custom_subs = custom_thresholds.column("subset_proportions")
+            for s in subset_out.keys():
+                if custom_subs.hasColumn(s):
+                    subset_out[s] = custom_subs.column(s)
+
     return BiocFrame(
         {
             "sums": sums_out,
@@ -255,7 +287,7 @@ def suggest_rna_qc_filters(
                 columnNames=skeys,
                 numberOfRows=num_blocks,
                 rowNames=block_names,
-            ),
+            )
         },
         numberOfRows=num_blocks,
         rowNames=block_names,

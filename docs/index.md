@@ -13,6 +13,7 @@ which are based on the same underlying C++ libraries and concepts.
 :maxdepth: 2
 
 Getting started <tutorial>
+Customization <customization>
 Module Reference <api/modules>
 Contributions <contributing>
 License <license>

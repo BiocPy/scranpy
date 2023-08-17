@@ -101,6 +101,23 @@ def to_logical(selection: SelectionTypes, length: int) -> ndarray:
 
     return output
 
+def match_lists(x, y, return_on_missing = True):
+    mapping = {}
+    counter = 0
+    for y0 in y:
+        mapping[y0] = counter
+        counter += 1
+
+    reordering = []
+    for x0 in x:
+        if x0 in mapping:
+            reordering.append(mapping[x0])
+        elif return_on_missing:
+            return None
+        else:
+            reordering.append(None)
+
+    return reordering
 
 def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
     """Validate and tatamize the input matrix.

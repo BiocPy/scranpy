@@ -130,6 +130,9 @@ class InitializeTsneOptions:
     num_threads: int = 1
     verbose: bool = False
 
+    def set_threads(self, num_threads: int):
+        self.num_threads = num_threads
+
 
 def initialize_tsne(
     input: NeighborlyInputs,
@@ -221,6 +224,9 @@ class RunTsneOptions:
         default_factory=InitializeTsneOptions
     )
     verbose: bool = False
+
+    def set_threads(self, num_threads: int):
+        self.initialize_tsne.set_threads(num_threads)
 
 
 def run_tsne(
