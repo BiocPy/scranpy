@@ -1,4 +1,4 @@
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, wait
 from functools import singledispatch, singledispatchmethod
 from dataclasses import dataclass, field
 from typing import Tuple, List, Mapping, Optional, Sequence, Union, Callable
@@ -9,6 +9,8 @@ from mattress import TatamiNumericPointer, tatamize
 from numpy import array
 from copy import deepcopy
 from igraph import Graph
+
+from asyncio import Future
 
 from . import clustering as clust
 from . import dimensionality_reduction as dimred
@@ -231,6 +233,8 @@ def _unserialize_neighbors_before_run(f, serialized, opt):
     nnres = nn.NeighborResults.unserialize(serialized)
     return f(nnres, opt)
 
+
+
 def run_neighbor_suite(
     principal_components,
     build_neighbor_index_options: nn.BuildNeighborIndexOptions = nn.BuildNeighborIndexOptions(),
@@ -239,7 +243,7 @@ def run_neighbor_suite(
     run_tsne_options: dimred.RunTsneOptions = dimred.RunTsneOptions(),
     build_snn_graph_options: clust.BuildSnnGraphOptions = clust.BuildSnnGraphOptions(),
     num_threads: int = 1
-) -> Tuple[Callable[[], Tuple[List, List]], Graph, int]:
+) -> Tuple[Callable, Graph, int]:
     """Run the suite of nearest neighbor methods together.
     This builds the index once and re-uses it for all methods.
     Given enough threads, it also runs all post-neighbor-detection functions in parallel,
@@ -333,25 +337,18 @@ def run_neighbor_suite(
     )
 
     def retrieve():
-        embeddings = []
-        for task in _tasks:
-            embeddings.append(task.result())
+        wait(_tasks)
         executor.shutdown()
-        return (embeddings[0], embeddings[1])
-
-    callback = retrieve
-    if num_threads <= 2:
-        embeddings = retrieve()
-        def trivial():
-            return embeddings
-        callback = trivial
+        f = Future()
+        f.set_result((_tasks[0].result(), _tasks[1].result()))
+        return f
 
     build_snn_graph_copy = deepcopy(build_snn_graph_options)
     remaining_threads = max(1, num_threads - threads_per_task * 2)
     build_snn_graph_copy.set_threads(remaining_threads)
     graph = clust.build_snn_graph(nn_dict[snn_nn], options=build_snn_graph_copy)
 
-    return callback, graph, remaining_threads
+    return retrieve, graph, remaining_threads
 
 def __analyze(
     matrix: MatrixTypes,
@@ -441,7 +438,7 @@ def __analyze(
         options=options.dimensionality_reduction.run_pca,
     )
 
-    callback, graph, remaining_threads = run_neighbor_suite(
+    retrieve, graph, remaining_threads = run_neighbor_suite(
         results.dimensionality_reduction.pca.principal_components,
         build_neighbor_index_options=options.nearest_neighbors.build_neighbor_index,
         find_nearest_neighbors_options=options.nearest_neighbors.find_nearest_neighbors,
@@ -466,7 +463,7 @@ def __analyze(
         options=options.marker_detection.score_markers,
     )
 
-    embeddings = callback()
+    embeddings = retrieve().result()
     results.dimensionality_reduction.tsne = embeddings[0]
     results.dimensionality_reduction.umap = embeddings[1]
 
