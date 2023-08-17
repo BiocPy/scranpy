@@ -2,12 +2,12 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="scranpy" href="index.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="scranpy" href="api/modules.html" /><link rel="prev" title="scranpy" href="index.html" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>scranpy - scranpy 0.0.3 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
+        <title>Getting started - scranpy 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">scranpy 0.0.3 documentation</div></a>
+      <a href="index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.3 documentation</span>
+  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -155,16 +155,14 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributions &amp; Help</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#customizing-the-analysis">Customizing the analysis</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.normalization.html">scranpy.normalization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.quality_control.html">scranpy.quality_control package</a></li>
@@ -172,6 +170,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -206,43 +208,67 @@
           </label>
         </div>
         <article role="main">
-          <!-- These are examples of badges you might want to add to your README:
-     please update the URLs accordingly
-
-[![Built Status](https://api.cirrus-ci.com/github/<USER>/scranpy.svg?branch=main)](https://cirrus-ci.com/github/<USER>/scranpy)
-[![ReadTheDocs](https://readthedocs.org/projects/scranpy/badge/?version=latest)](https://scranpy.readthedocs.io/en/stable/)
-[![Coveralls](https://img.shields.io/coveralls/github/<USER>/scranpy/main.svg)](https://coveralls.io/r/<USER>/scranpy)
-[![PyPI-Server](https://img.shields.io/pypi/v/scranpy.svg)](https://pypi.org/project/scranpy/)
-[![Conda-Forge](https://img.shields.io/conda/vn/conda-forge/scranpy.svg)](https://anaconda.org/conda-forge/scranpy)
-[![Monthly Downloads](https://pepy.tech/badge/scranpy/month)](https://pepy.tech/project/scranpy)
-[![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Twitter)](https://twitter.com/scranpy)
--->
-<p><a class="reference external" href="https://pyscaffold.org/"><img alt="Project generated with PyScaffold" src="https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold" /></a></p>
-<section class="tex2jax_ignore mathjax_ignore" id="scranpy">
-<h1>scranpy<a class="headerlink" href="#scranpy" title="Permalink to this heading">#</a></h1>
-<p>Fast multi-modal single-cell data analysis! stay tuned…</p>
-<section id="developer-notes">
-<h2>Developer Notes<a class="headerlink" href="#developer-notes" title="Permalink to this heading">#</a></h2>
-<p>Steps to setup dependencies -</p>
-<ul class="simple">
-<li><p>initialize git submodules in <code class="docutils literal notranslate"><span class="pre">extern/libscran</span></code>.</p></li>
-<li><p>run <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">.</span></code> inside the <code class="docutils literal notranslate"><span class="pre">extern/knncolle</span></code> to download the annoy library. a future version of this will use a cmake to setup the extern directory.</p></li>
-</ul>
-<p>First one needs to build the extern library, this would generate a shared object file to <code class="docutils literal notranslate"><span class="pre">src/scranpy/core-[*].so</span></code></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>build_ext<span class="w"> </span>--inplace
+          <section class="tex2jax_ignore mathjax_ignore" id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
+<section id="setting-up">
+<h2>Setting up<a class="headerlink" href="#setting-up" title="Link to this heading">#</a></h2>
+<p>To use <strong>scranpy</strong>, you’ll need Python 3.9 or higher.
+You’ll also need to install <strong>scranpy</strong> itself (duh), which is available from <a class="reference external" href="https://pypi.org/project/scranpy">PyPi</a> via the usual commands:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scranpy
 </pre></div>
 </div>
-<p>For typical development workflows, run this for tests</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>build_ext<span class="w"> </span>--inplace<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>tox
+</section>
+<section id="loading-a-dataset">
+<h2>Loading a dataset<a class="headerlink" href="#loading-a-dataset" title="Link to this heading">#</a></h2>
+<p>The full <strong>scranpy</strong> workflow starts from a feature-by-cell count matrix.
+To illustrate, let’s load one of the famous peripheral blood mononuclear cell (PBMC) datasets from 10X Genomics.
+A copy of this dataset is available <a class="reference external" href="https://github.com/kanaverse/random-test-files/releases/download/10x-pbmc-v1.0.0/pbmc4k-tenx.h5">here</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: streamline the loader:</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;pbmc4k-tenx.h5&quot;</span>
+<span class="kn">import</span> <span class="nn">h5py</span> <span class="k">as</span> <span class="nn">h5</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="n">h5</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="n">mat</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csc_matrix</span><span class="p">(</span>
+    <span class="p">(</span>
+        <span class="n">fhandle</span><span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+        <span class="n">fhandle</span><span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">][</span><span class="s2">&quot;indices&quot;</span><span class="p">],</span>
+        <span class="n">fhandle</span><span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">][</span><span class="s2">&quot;indptr&quot;</span><span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">fhandle</span><span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fhandle</span><span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">][</span><span class="s2">&quot;features&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span>
 </pre></div>
 </div>
-<!-- pyscaffold-notes -->
+<p>Obviously, you’ll be using different code for your own dataset.
+The important thing is that you get a count matrix where features are in the rows and cells are in the columns.
+Oh, and an array of feature names.</p>
 </section>
-<section id="note">
-<h2>Note<a class="headerlink" href="#note" title="Permalink to this heading">#</a></h2>
-<p>This project has been set up using PyScaffold 4.5. For details and usage
-information on PyScaffold see <a class="reference external" href="https://pyscaffold.org/">https://pyscaffold.org/</a>.</p>
+<section id="running-the-analysis">
+<h2>Running the analysis<a class="headerlink" href="#running-the-analysis" title="Link to this heading">#</a></h2>
+<p>Now we draw the rest of the owl.</p>
+<p><img alt="Draw the rest of the owl" src="https://i.kym-cdn.com/photos/images/original/000/572/078/d6d.jpg" /></p>
+<p>It’s as simple as calling <strong>scranpy</strong>’s <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scranpy</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">scranpy</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">features</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will perform all of the usual steps for a routine single-cell analysis, as described in Bioconductor’s <a class="reference external" href="https://bioconductor.org/books/OSCA">Orchestrating single cell analysis</a> book.
+Specifically:</p>
+<ol class="arabic simple">
+<li><p>Quality control (<a class="reference internal" href="api/scranpy.quality_control.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">scranpy.quality_control</span></code></span></a>)</p></li>
+<li><p>Normalization and log-transformation (<a class="reference internal" href="api/scranpy.normalization.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">scranpy.normalization</span></code></span></a>)</p></li>
+<li><p>Feature selection (<a class="reference internal" href="api/scranpy.feature_selection.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">scranpy.feature_selection</span></code></span></a>)</p></li>
+<li><p>Dimensionality reduction with PCA, UMAP and t-SNE (<a class="reference internal" href="api/scranpy.dimensionality_reduction.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">scranpy.dimensionality_reduction</span></code></span></a>)</p></li>
+<li><p>Clustering (<a class="reference internal" href="api/scranpy.clustering.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">scranpy.clustering</span></code></span></a>)</p></li>
+<li><p>Marker detection (<a class="reference internal" href="api/scranpy.clustering.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">scranpy.marker_detection</span></code></span></a>)</p></li>
+</ol>
+<p>We won’t go over the theory here as it’s explained more thoroughly in the book.
+But you can also check out each module’s reference documentation for more details.</p>
 </section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="customizing-the-analysis">
+<h1>Customizing the analysis<a class="headerlink" href="#customizing-the-analysis" title="Link to this heading">#</a></h1>
+<p>Stay tuned!</p>
 </section>
 
         </article>
@@ -250,12 +276,12 @@ information on PyScaffold see <a class="reference external" href="https://pyscaf
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="contributing.html">
+          <a class="next-page" href="api/modules.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Contributing</div>
+                <div class="title">scranpy</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -300,11 +326,13 @@ information on PyScaffold see <a class="reference external" href="https://pyscaf
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">scranpy</a><ul>
-<li><a class="reference internal" href="#developer-notes">Developer Notes</a></li>
-<li><a class="reference internal" href="#note">Note</a></li>
+<li><a class="reference internal" href="#">Getting started</a><ul>
+<li><a class="reference internal" href="#setting-up">Setting up</a></li>
+<li><a class="reference internal" href="#loading-a-dataset">Loading a dataset</a></li>
+<li><a class="reference internal" href="#running-the-analysis">Running the analysis</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#customizing-the-analysis">Customizing the analysis</a></li>
 </ul>
 
           </div>
@@ -314,9 +342,9 @@ information on PyScaffold see <a class="reference external" href="https://pyscaf
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=65a4545c"></script>
+</div><script src="_static/documentation_options.js?v=8c5712d9"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

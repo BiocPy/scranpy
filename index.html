@@ -2,12 +2,12 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="scranpy" href="readme.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Getting started" href="tutorial.html" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>scranpy 0.0.3 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
+        <title>scranpy 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">scranpy 0.0.3 documentation</div></a>
+      <a href="#"><div class="brand">scranpy 0.0.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.3 documentation</span>
+  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -155,16 +155,14 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributions &amp; Help</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.normalization.html">scranpy.normalization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.quality_control.html">scranpy.quality_control package</a></li>
@@ -172,6 +170,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -207,29 +209,29 @@
         </div>
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="scranpy">
-<h1>scranpy<a class="headerlink" href="#scranpy" title="Permalink to this heading">#</a></h1>
-<p>Add a short description here!</p>
-<section id="note">
-<h2>Note<a class="headerlink" href="#note" title="Permalink to this heading">#</a></h2>
-<blockquote>
-<div><p>This is the main page of your project’s <a class="reference external" href="http://www.sphinx-doc.org/">Sphinx</a> documentation. It is
-formatted in <a class="reference external" href="https://daringfireball.net/projects/markdown/">Markdown</a>. Add additional pages by creating md-files in
-<code class="docutils literal notranslate"><span class="pre">docs</span></code> or rst-files (formatted in <a class="reference external" href="http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html">reStructuredText</a>) and adding links to
-them in the <code class="docutils literal notranslate"><span class="pre">Contents</span></code> section below.</p>
-<p>Please check <a class="reference external" href="http://www.sphinx-doc.org/">Sphinx</a> and <a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/">MyST</a> for more information
-about how to document your project and how to configure your preferences.</p>
-</div></blockquote>
-</section>
+<h1>scranpy<a class="headerlink" href="#scranpy" title="Link to this heading">#</a></h1>
+<p>The <strong>scranpy</strong> package provides Python bindings to the single-cell analysis methods in <a class="reference external" href="https://github.com/LTLA/libscran"><strong>libscran</strong></a> and related C++ libraries.
+It performs the standard steps in a typical single-cell analysis including quality control, normalization, feature selection, dimensionality reduction, clustering and marker detection.
+<strong>scranpy</strong> makes heavy use of the <a class="reference external" href="https://github.com/BiocPy">BiocPy</a> data structures in its user interface,
+and uses the <a class="reference external" href="https://pypi.org/project/mattress"><strong>mattress</strong></a> package to provide a C++ representation of the underlying matrix data.
+This package is effectively a mirror of its counterparts in Javascript (<a class="reference external" href="https://npmjs.com/package/scran.js"><strong>scran.js</strong></a>) and R (<a class="reference external" href="https://github.com/LTLA/scran.chan"><strong>scran.chan</strong></a>),
+which are based on the same underlying C++ libraries and concepts.</p>
 <section id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">#</a></h2>
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#developer-notes">Developer Notes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#setting-up">Setting up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#loading-a-dataset">Loading a dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#running-the-analysis">Running the analysis</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributions &amp; Help</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">Module Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/scranpy.html">scranpy package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contributing.html#issue-reports">Issue Reports</a></li>
 <li class="toctree-l2"><a class="reference internal" href="contributing.html#documentation-improvements">Documentation Improvements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="contributing.html#code-contributions">Code Contributions</a></li>
@@ -242,15 +244,11 @@ about how to document your project and how to configure your preferences.</p>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-1-development">Version 0.1 (development)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/modules.html">Module Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/scranpy.html">scranpy package</a></li>
-</ul>
-</li>
 </ul>
 </div>
 </section>
 <section id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">#</a></h2>
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
@@ -264,12 +262,12 @@ about how to document your project and how to configure your preferences.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="readme.html">
+          <a class="next-page" href="tutorial.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">scranpy</div>
+                <div class="title">Getting started</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -305,7 +303,6 @@ about how to document your project and how to configure your preferences.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">scranpy</a><ul>
-<li><a class="reference internal" href="#note">Note</a></li>
 <li><a class="reference internal" href="#contents">Contents</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
@@ -319,9 +316,9 @@ about how to document your project and how to configure your preferences.</p>
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=65a4545c"></script>
+</div><script src="_static/documentation_options.js?v=8c5712d9"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

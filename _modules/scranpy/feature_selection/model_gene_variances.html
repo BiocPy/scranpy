@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>scranpy.feature_selection.model_gene_variances - scranpy 0.0.3 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b76e3c8a" />
+    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
+        <title>scranpy.feature_selection.model_gene_variances - scranpy 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">scranpy 0.0.3 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.3 documentation</span>
+  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -154,16 +154,14 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions &amp; Help</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.normalization.html">scranpy.normalization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.quality_control.html">scranpy.quality_control package</a></li>
@@ -171,6 +169,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -205,12 +207,14 @@
         </div>
         <article role="main">
           <h1>Source code for scranpy.feature_selection.model_gene_variances</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">uintp</span>
 
-<span class="kn">from</span> <span class="nn">..cpphelpers</span> <span class="kn">import</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">.._logging</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">MatrixTypes</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">validate_and_tatamize_input</span>
 
@@ -219,51 +223,80 @@
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
 
-<div class="viewcode-block" id="model_gene_variances"><a class="viewcode-back" href="../../../api/scranpy.feature_selection.html#scranpy.feature_selection.model_gene_variances.model_gene_variances">[docs]</a><span class="k">def</span> <span class="nf">model_gene_variances</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span>
-    <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">span</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
-    <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="ModelGeneVariancesOptions">
+<a class="viewcode-back" href="../../../api/scranpy.feature_selection.html#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ModelGeneVariancesOptions</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for</span>
+<span class="sd">    :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        block (Sequence, optional): Block assignment for each cell.</span>
+<span class="sd">            Variance modelling is performed within each block to avoid interference from inter-block differences.</span>
+
+<span class="sd">            If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.</span>
+<span class="sd">            Defaults to None, indicating all cells are part of the same block.</span>
+
+<span class="sd">        span (float, optional): Span to use for the LOWESS trend fitting.</span>
+<span class="sd">            Larger values yield a smoother curve and reduces the risk of overfitting,</span>
+<span class="sd">            at the cost of being less responsive to local variations.</span>
+<span class="sd">            Defaults to 0.3.</span>
+
+<span class="sd">        num_threads (int, optional): Number of threads to use. Defaults to 1.</span>
+
+<span class="sd">        verbose (bool, optional): Whether to print logging information. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">span</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="model_gene_variances">
+<a class="viewcode-back" href="../../../api/scranpy.feature_selection.html#scranpy.feature_selection.model_gene_variances.model_gene_variances">[docs]</a>
+<span class="k">def</span> <span class="nf">model_gene_variances</span><span class="p">(</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">ModelGeneVariancesOptions</span> <span class="o">=</span> <span class="n">ModelGeneVariancesOptions</span><span class="p">()</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BiocFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute model gene variances.</span>
 
-<span class="sd">    Ideally, x would be a normalized log-expression matrix.</span>
+<span class="sd">    Ideally, ``input`` would be a normalized log-expression matrix from</span>
+<span class="sd">    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.</span>
 
-<span class="sd">    This function expects the matrix (`x`) to be features (rows) by cells (columns) and</span>
-<span class="sd">    not the other way around!</span>
+<span class="sd">    Note: rows are features, columns are cells.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (MatrixTypes): Input matrix. Ideally, x would be a normalized</span>
-<span class="sd">            log-expression matrix.</span>
-<span class="sd">        block (Optional[Sequence], optional): Array containing the block/batch</span>
-<span class="sd">            assignment for each cell. Defaults to None.</span>
-<span class="sd">        span (float, optional): Span to use for the LOWESS trend fitting.</span>
-<span class="sd">            Defaults to 0.3.</span>
-<span class="sd">        num_threads (int, optional): number of threads to use. Defaults to 1.</span>
-<span class="sd">        verbose (bool, optional): display logs?. Defaults to False.</span>
+<span class="sd">        input (MatrixTypes): Log-normalized expression matrix..</span>
+<span class="sd">        options (ModelGeneVariancesOptions): Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        BiocFrame: data frame with various metrics.</span>
+<span class="sd">        BiocFrame: Data frame with variance modelling results</span>
+<span class="sd">        (means, variance, fitted, residuals).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">validate_and_tatamize_input</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">validate_and_tatamize_input</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 
     <span class="n">NR</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">nrow</span><span class="p">()</span>
-    <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="n">variances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="n">fitted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="n">residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">variances</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">fitted</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
     <span class="n">extra</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">if</span> <span class="n">block</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">block</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">verbose</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;No block information was provided, running model_gene_variances...&quot;</span>
+            <span class="p">)</span>
+
         <span class="n">lib</span><span class="o">.</span><span class="n">model_gene_variances</span><span class="p">(</span>
             <span class="n">x</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>
-            <span class="n">means</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">variances</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">fitted</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">residuals</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">span</span><span class="p">,</span>
-            <span class="n">num_threads</span><span class="p">,</span>
+            <span class="n">means</span><span class="p">,</span>
+            <span class="n">variances</span><span class="p">,</span>
+            <span class="n">fitted</span><span class="p">,</span>
+            <span class="n">residuals</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">span</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">num_threads</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">BiocFrame</span><span class="p">(</span>
@@ -277,54 +310,60 @@
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">NC</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ncol</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">)</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Must provide block assignments (provided: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Must provide block assignments (provided: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot; for all cells (expected: </span><span class="si">{</span><span class="n">NC</span><span class="si">}</span><span class="s2">).&quot;</span>
             <span class="p">)</span>
 
-        <span class="n">fac</span> <span class="o">=</span> <span class="n">factorize</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="n">factorize</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">)</span>
         <span class="n">nlevels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fac</span><span class="o">.</span><span class="n">levels</span><span class="p">)</span>
 
         <span class="n">all_means</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">all_variances</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">all_fitted</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">all_residuals</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">all_means_ptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">)</span>
-        <span class="n">all_variances_ptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">)</span>
-        <span class="n">all_fitted_ptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">)</span>
-        <span class="n">all_residuals_ptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">)</span>
+        <span class="n">all_means_ptr</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
+        <span class="n">all_variances_ptr</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
+        <span class="n">all_fitted_ptr</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
+        <span class="n">all_residuals_ptr</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">nlevels</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nlevels</span><span class="p">):</span>
-            <span class="n">cur_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-            <span class="n">cur_variances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-            <span class="n">cur_fitted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-            <span class="n">cur_residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lvl</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nlevels</span><span class="p">):</span>
+            <span class="n">cur_means</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">cur_variances</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">cur_fitted</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">cur_residuals</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">NR</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
 
-            <span class="n">all_means_ptr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_means</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
-            <span class="n">all_variances_ptr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_variances</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
-            <span class="n">all_fitted_ptr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_fitted</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
-            <span class="n">all_residuals_ptr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_residuals</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">all_means_ptr</span><span class="p">[</span><span class="n">lvl</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_means</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">all_variances_ptr</span><span class="p">[</span><span class="n">lvl</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_variances</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">all_fitted_ptr</span><span class="p">[</span><span class="n">lvl</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_fitted</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">all_residuals_ptr</span><span class="p">[</span><span class="n">lvl</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_residuals</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
 
             <span class="n">all_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_means</span><span class="p">)</span>
             <span class="n">all_variances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_variances</span><span class="p">)</span>
             <span class="n">all_fitted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_fitted</span><span class="p">)</span>
             <span class="n">all_residuals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_residuals</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">verbose</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Block information was provided, running &quot;</span>
+                <span class="s2">&quot;`model_gene_variances_blocked`...&quot;</span>
+            <span class="p">)</span>
+
         <span class="n">lib</span><span class="o">.</span><span class="n">model_gene_variances_blocked</span><span class="p">(</span>
             <span class="n">x</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>
-            <span class="n">means</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">variances</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">fitted</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">residuals</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">means</span><span class="p">,</span>
+            <span class="n">variances</span><span class="p">,</span>
+            <span class="n">fitted</span><span class="p">,</span>
+            <span class="n">residuals</span><span class="p">,</span>
             <span class="n">nlevels</span><span class="p">,</span>
             <span class="n">fac</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
             <span class="n">all_means_ptr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
             <span class="n">all_variances_ptr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
             <span class="n">all_fitted_ptr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
             <span class="n">all_residuals_ptr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">span</span><span class="p">,</span>
-            <span class="n">num_threads</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">span</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">num_threads</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">extra</span> <span class="o">=</span> <span class="p">{}</span>
@@ -348,6 +387,7 @@
             <span class="p">},</span>
             <span class="n">numberOfRows</span><span class="o">=</span><span class="n">NR</span><span class="p">,</span>
         <span class="p">)</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -380,9 +420,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=65a4545c"></script>
+</div><script src="../../../_static/documentation_options.js?v=8c5712d9"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

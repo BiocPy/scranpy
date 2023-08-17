@@ -4,10 +4,26 @@ scranpy.quality\_control package
 Submodules
 ----------
 
+scranpy.quality\_control.filter\_cells module
+---------------------------------------------
+
+.. automodule:: scranpy.quality_control.filter_cells
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 scranpy.quality\_control.rna module
 -----------------------------------
 
 .. automodule:: scranpy.quality_control.rna
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.quality\_control.types module
+-------------------------------------
+
+.. automodule:: scranpy.quality_control.types
    :members:
    :undoc-members:
    :show-inheritance:

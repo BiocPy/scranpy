@@ -2,12 +2,12 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy package" href="scranpy.html" /><link rel="prev" title="Changelog" href="../changelog.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy package" href="scranpy.html" /><link rel="prev" title="Getting started" href="../tutorial.html" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>scranpy - scranpy 0.0.3 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
+        <title>scranpy - scranpy 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">scranpy 0.0.3 documentation</div></a>
+      <a href="../index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.3 documentation</span>
+  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -155,16 +155,14 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions &amp; Help</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.normalization.html">scranpy.normalization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.quality_control.html">scranpy.quality_control package</a></li>
@@ -172,6 +170,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -207,77 +209,193 @@
         </div>
         <article role="main">
           <section id="scranpy">
-<h1>scranpy<a class="headerlink" href="#scranpy" title="Permalink to this heading">#</a></h1>
+<h1>scranpy<a class="headerlink" href="#scranpy" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="scranpy.html">scranpy package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scranpy.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.clustering.html">scranpy.clustering package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="scranpy.clustering.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.clustering.html#module-scranpy.clustering.build_snn_graph">scranpy.clustering.build_snn_graph module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.clustering.html#module-scranpy.clustering">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.clustering.html#scranpy-clustering-build-snn-graph-module">scranpy.clustering.build_snn_graph module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.clustering.html#scranpy-clustering-types-module">scranpy.clustering.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.clustering.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction.run_pca">scranpy.dimensionality_reduction.run_pca module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction.run_tsne">scranpy.dimensionality_reduction.run_tsne module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction.run_umap">scranpy.dimensionality_reduction.run_umap module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy-dimensionality-reduction-run-pca-module">scranpy.dimensionality_reduction.run_pca module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy-dimensionality-reduction-run-tsne-module">scranpy.dimensionality_reduction.run_tsne module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy-dimensionality-reduction-run-umap-module">scranpy.dimensionality_reduction.run_umap module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy-dimensionality-reduction-types-module">scranpy.dimensionality_reduction.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.dimensionality_reduction.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.feature_selection.html">scranpy.feature_selection package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="scranpy.feature_selection.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.feature_selection.html#module-scranpy.feature_selection.model_gene_variances">scranpy.feature_selection.model_gene_variances module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.feature_selection.html#module-scranpy.feature_selection">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.feature_selection.html#scranpy-feature-selection-choose-hvgs-module">scranpy.feature_selection.choose_hvgs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.feature_selection.html#scranpy-feature-selection-model-gene-variances-module">scranpy.feature_selection.model_gene_variances module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.feature_selection.html#scranpy-feature-selection-types-module">scranpy.feature_selection.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.feature_selection.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.marker_detection.html">scranpy.marker_detection package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.marker_detection.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.marker_detection.html#scranpy-marker-detection-score-markers-module">scranpy.marker_detection.score_markers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.marker_detection.html#scranpy-marker-detection-types-module">scranpy.marker_detection.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.marker_detection.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="scranpy.nearest_neighbors.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.nearest_neighbors.html#module-scranpy.nearest_neighbors.build_neighbor_index">scranpy.nearest_neighbors.build_neighbor_index module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.nearest_neighbors.html#module-scranpy.nearest_neighbors.find_nearest_neighbors">scranpy.nearest_neighbors.find_nearest_neighbors module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.nearest_neighbors.html#module-scranpy.nearest_neighbors">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy-nearest-neighbors-build-neighbor-index-module">scranpy.nearest_neighbors.build_neighbor_index module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy-nearest-neighbors-find-nearest-neighbors-module">scranpy.nearest_neighbors.find_nearest_neighbors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy-nearest-neighbors-types-module">scranpy.nearest_neighbors.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.nearest_neighbors.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.normalization.html">scranpy.normalization package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="scranpy.normalization.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.normalization.html#module-scranpy.normalization.log_norm_counts">scranpy.normalization.log_norm_counts module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.normalization.html#module-scranpy.normalization">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.normalization.html#scranpy-normalization-log-norm-counts-module">scranpy.normalization.log_norm_counts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.normalization.html#scranpy-normalization-types-module">scranpy.normalization.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.normalization.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.quality_control.html">scranpy.quality_control package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="scranpy.quality_control.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.quality_control.html#module-scranpy.quality_control.rna">scranpy.quality_control.rna module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="scranpy.quality_control.html#module-scranpy.quality_control">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.quality_control.html#scranpy-quality-control-filter-cells-module">scranpy.quality_control.filter_cells module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.quality_control.html#scranpy-quality-control-rna-module">scranpy.quality_control.rna module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.quality_control.html#scranpy-quality-control-types-module">scranpy.quality_control.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.quality_control.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="scranpy.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scranpy.html#scranpy-core-module">scranpy.core module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scranpy.html#module-scranpy.cpphelpers">scranpy.cpphelpers module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.load_dll"><code class="docutils literal notranslate"><span class="pre">load_dll()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.html#scranpy-analyze-module">scranpy.analyze module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.block"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.block</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.clustering"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.clustering</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.dimensionality_reduction"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.dimensionality_reduction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.feature_selection"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.feature_selection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.marker_detection"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.marker_detection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.nearest_neighbors"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.nearest_neighbors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.normalization"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.normalization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.num_threads</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.quality_control"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.quality_control</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.seed"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.seed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.set_block"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.set_block()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.set_seed"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.set_seed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.set_subset"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.set_subset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.set_threads"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.set_threads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.set_verbose"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.set_verbose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeOptions.verbose"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions.verbose</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="scranpy.html#module-scranpy.types">scranpy.types module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults.clustering"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults.clustering</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults.dimensionality_reduction"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults.dimensionality_reduction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults.feature_selection"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults.feature_selection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults.marker_detection"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults.marker_detection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults.nearest_neighbors"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults.nearest_neighbors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults.normalization"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults.normalization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults.quality_control"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults.quality_control</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.analyze.AnalyzeResults.to_sce"><code class="docutils literal notranslate"><span class="pre">AnalyzeResults.to_sce()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.analyze.analyze"><code class="docutils literal notranslate"><span class="pre">analyze()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.analyze.analyze_sce"><code class="docutils literal notranslate"><span class="pre">analyze_sce()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.html#scranpy-core-module">scranpy.core module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.html#scranpy-cpphelpers-module">scranpy.cpphelpers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.build_neighbor_index"><code class="docutils literal notranslate"><span class="pre">build_neighbor_index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.build_snn_graph_from_nn_index"><code class="docutils literal notranslate"><span class="pre">build_snn_graph_from_nn_index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.build_snn_graph_from_nn_results"><code class="docutils literal notranslate"><span class="pre">build_snn_graph_from_nn_results()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.catch_errors"><code class="docutils literal notranslate"><span class="pre">catch_errors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.choose_hvgs"><code class="docutils literal notranslate"><span class="pre">choose_hvgs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.clone_tsne_status"><code class="docutils literal notranslate"><span class="pre">clone_tsne_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.clone_umap_status"><code class="docutils literal notranslate"><span class="pre">clone_umap_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.create_rna_qc_filter"><code class="docutils literal notranslate"><span class="pre">create_rna_qc_filter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_multibatch_pca_coordinates"><code class="docutils literal notranslate"><span class="pre">fetch_multibatch_pca_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_multibatch_pca_num_dims"><code class="docutils literal notranslate"><span class="pre">fetch_multibatch_pca_num_dims()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_multibatch_pca_total_variance"><code class="docutils literal notranslate"><span class="pre">fetch_multibatch_pca_total_variance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_multibatch_pca_variance_explained"><code class="docutils literal notranslate"><span class="pre">fetch_multibatch_pca_variance_explained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_neighbor_index_ndim"><code class="docutils literal notranslate"><span class="pre">fetch_neighbor_index_ndim()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_neighbor_index_nobs"><code class="docutils literal notranslate"><span class="pre">fetch_neighbor_index_nobs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_neighbor_results_k"><code class="docutils literal notranslate"><span class="pre">fetch_neighbor_results_k()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_neighbor_results_nobs"><code class="docutils literal notranslate"><span class="pre">fetch_neighbor_results_nobs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_neighbor_results_single"><code class="docutils literal notranslate"><span class="pre">fetch_neighbor_results_single()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_residual_pca_coordinates"><code class="docutils literal notranslate"><span class="pre">fetch_residual_pca_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_residual_pca_num_dims"><code class="docutils literal notranslate"><span class="pre">fetch_residual_pca_num_dims()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_residual_pca_total_variance"><code class="docutils literal notranslate"><span class="pre">fetch_residual_pca_total_variance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_residual_pca_variance_explained"><code class="docutils literal notranslate"><span class="pre">fetch_residual_pca_variance_explained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_simple_pca_coordinates"><code class="docutils literal notranslate"><span class="pre">fetch_simple_pca_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_simple_pca_num_dims"><code class="docutils literal notranslate"><span class="pre">fetch_simple_pca_num_dims()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_simple_pca_total_variance"><code class="docutils literal notranslate"><span class="pre">fetch_simple_pca_total_variance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_simple_pca_variance_explained"><code class="docutils literal notranslate"><span class="pre">fetch_simple_pca_variance_explained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_snn_graph_edges"><code class="docutils literal notranslate"><span class="pre">fetch_snn_graph_edges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_snn_graph_indices"><code class="docutils literal notranslate"><span class="pre">fetch_snn_graph_indices()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_snn_graph_weights"><code class="docutils literal notranslate"><span class="pre">fetch_snn_graph_weights()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_tsne_status_iteration"><code class="docutils literal notranslate"><span class="pre">fetch_tsne_status_iteration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_tsne_status_nobs"><code class="docutils literal notranslate"><span class="pre">fetch_tsne_status_nobs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_umap_status_epoch"><code class="docutils literal notranslate"><span class="pre">fetch_umap_status_epoch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_umap_status_nobs"><code class="docutils literal notranslate"><span class="pre">fetch_umap_status_nobs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.fetch_umap_status_num_epochs"><code class="docutils literal notranslate"><span class="pre">fetch_umap_status_num_epochs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.filter_cells"><code class="docutils literal notranslate"><span class="pre">filter_cells()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.find_nearest_neighbors"><code class="docutils literal notranslate"><span class="pre">find_nearest_neighbors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.free_multibatch_pca"><code class="docutils literal notranslate"><span class="pre">free_multibatch_pca()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.free_neighbor_index"><code class="docutils literal notranslate"><span class="pre">free_neighbor_index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.free_neighbor_results"><code class="docutils literal notranslate"><span class="pre">free_neighbor_results()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.free_residual_pca"><code class="docutils literal notranslate"><span class="pre">free_residual_pca()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.free_simple_pca"><code class="docutils literal notranslate"><span class="pre">free_simple_pca()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.free_snn_graph"><code class="docutils literal notranslate"><span class="pre">free_snn_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.free_tsne_status"><code class="docutils literal notranslate"><span class="pre">free_tsne_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.free_umap_status"><code class="docutils literal notranslate"><span class="pre">free_umap_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.initialize_tsne"><code class="docutils literal notranslate"><span class="pre">initialize_tsne()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.initialize_umap"><code class="docutils literal notranslate"><span class="pre">initialize_umap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.log_norm_counts"><code class="docutils literal notranslate"><span class="pre">log_norm_counts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.model_gene_variances"><code class="docutils literal notranslate"><span class="pre">model_gene_variances()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.model_gene_variances_blocked"><code class="docutils literal notranslate"><span class="pre">model_gene_variances_blocked()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.np2ct"><code class="docutils literal notranslate"><span class="pre">np2ct()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.per_cell_rna_qc_metrics"><code class="docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.perplexity_to_k"><code class="docutils literal notranslate"><span class="pre">perplexity_to_k()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.randomize_tsne_start"><code class="docutils literal notranslate"><span class="pre">randomize_tsne_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.run_multibatch_pca"><code class="docutils literal notranslate"><span class="pre">run_multibatch_pca()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.run_residual_pca"><code class="docutils literal notranslate"><span class="pre">run_residual_pca()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.run_simple_pca"><code class="docutils literal notranslate"><span class="pre">run_simple_pca()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.run_tsne"><code class="docutils literal notranslate"><span class="pre">run_tsne()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.run_umap"><code class="docutils literal notranslate"><span class="pre">run_umap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.score_markers"><code class="docutils literal notranslate"><span class="pre">score_markers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.serialize_neighbor_results"><code class="docutils literal notranslate"><span class="pre">serialize_neighbor_results()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.suggest_rna_qc_filters"><code class="docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.cpphelpers.unserialize_neighbor_results"><code class="docutils literal notranslate"><span class="pre">unserialize_neighbor_results()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.html#scranpy-types-module">scranpy.types module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.FactorizedArray"><code class="docutils literal notranslate"><span class="pre">FactorizedArray</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.types.FactorizedArray.indices"><code class="docutils literal notranslate"><span class="pre">FactorizedArray.indices</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.types.FactorizedArray.levels"><code class="docutils literal notranslate"><span class="pre">FactorizedArray.levels</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.is_list_of_type"><code class="docutils literal notranslate"><span class="pre">is_list_of_type()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.is_matrix_expected_type"><code class="docutils literal notranslate"><span class="pre">is_matrix_expected_type()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.is_neighbor_class"><code class="docutils literal notranslate"><span class="pre">is_neighbor_class()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.validate_matrix_types"><code class="docutils literal notranslate"><span class="pre">validate_matrix_types()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.NDOutputArrays"><code class="docutils literal notranslate"><span class="pre">NDOutputArrays</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.types.NDOutputArrays.arrays"><code class="docutils literal notranslate"><span class="pre">NDOutputArrays.arrays</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="scranpy.html#scranpy.types.NDOutputArrays.references"><code class="docutils literal notranslate"><span class="pre">NDOutputArrays.references</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="scranpy.html#module-scranpy.utils">scranpy.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.is_list_of_type"><code class="docutils literal notranslate"><span class="pre">is_list_of_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.is_matrix_expected_type"><code class="docutils literal notranslate"><span class="pre">is_matrix_expected_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.validate_matrix_types"><code class="docutils literal notranslate"><span class="pre">validate_matrix_types()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.types.validate_object_type"><code class="docutils literal notranslate"><span class="pre">validate_object_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.html#scranpy-utils-module">scranpy.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.utils.create_output_arrays"><code class="docutils literal notranslate"><span class="pre">create_output_arrays()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.utils.factorize"><code class="docutils literal notranslate"><span class="pre">factorize()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.utils.to_logical"><code class="docutils literal notranslate"><span class="pre">to_logical()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.html#scranpy.utils.validate_and_tatamize_input"><code class="docutils literal notranslate"><span class="pre">validate_and_tatamize_input()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="scranpy.html#module-scranpy">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scranpy.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -298,14 +416,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../changelog.html">
+          <a class="prev-page" href="../tutorial.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Changelog</div>
+                <div class="title">Getting started</div>
                 
               </div>
             </a>
@@ -333,9 +451,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=65a4545c"></script>
+</div><script src="../_static/documentation_options.js?v=8c5712d9"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

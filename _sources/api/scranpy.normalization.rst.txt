@@ -12,6 +12,14 @@ scranpy.normalization.log\_norm\_counts module
    :undoc-members:
    :show-inheritance:
 
+scranpy.normalization.types module
+----------------------------------
+
+.. automodule:: scranpy.normalization.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

@@ -4,10 +4,26 @@ scranpy.feature\_selection package
 Submodules
 ----------
 
+scranpy.feature\_selection.choose\_hvgs module
+----------------------------------------------
+
+.. automodule:: scranpy.feature_selection.choose_hvgs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 scranpy.feature\_selection.model\_gene\_variances module
 --------------------------------------------------------
 
 .. automodule:: scranpy.feature_selection.model_gene_variances
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.feature\_selection.types module
+---------------------------------------
+
+.. automodule:: scranpy.feature_selection.types
    :members:
    :undoc-members:
    :show-inheritance:

@@ -10,12 +10,21 @@ Subpackages
    scranpy.clustering
    scranpy.dimensionality_reduction
    scranpy.feature_selection
+   scranpy.marker_detection
    scranpy.nearest_neighbors
    scranpy.normalization
    scranpy.quality_control
 
 Submodules
 ----------
+
+scranpy.analyze module
+----------------------
+
+.. automodule:: scranpy.analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 scranpy.core module
 -------------------

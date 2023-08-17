@@ -28,6 +28,14 @@ scranpy.dimensionality\_reduction.run\_umap module
    :undoc-members:
    :show-inheritance:
 
+scranpy.dimensionality\_reduction.types module
+----------------------------------------------
+
+.. automodule:: scranpy.dimensionality_reduction.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

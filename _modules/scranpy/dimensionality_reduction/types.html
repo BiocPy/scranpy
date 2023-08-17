@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
-        <title>scranpy.nearest_neighbors.build_neighbor_index - scranpy 0.0.4 documentation</title>
+        <title>scranpy.dimensionality_reduction.types - scranpy 0.0.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -206,113 +206,117 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for scranpy.nearest_neighbors.build_neighbor_index</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">ct</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+          <h1>Source code for scranpy.dimensionality_reduction.types</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
+<span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">validate_object_type</span>
+<span class="kn">from</span> <span class="nn">.run_pca</span> <span class="kn">import</span> <span class="n">PcaResult</span><span class="p">,</span> <span class="n">RunPcaOptions</span>
+<span class="kn">from</span> <span class="nn">.run_tsne</span> <span class="kn">import</span> <span class="n">RunTsneOptions</span><span class="p">,</span> <span class="n">TsneEmbedding</span>
+<span class="kn">from</span> <span class="nn">.run_umap</span> <span class="kn">import</span> <span class="n">RunUmapOptions</span><span class="p">,</span> <span class="n">UmapEmbedding</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
-<span class="kn">from</span> <span class="nn">.._logging</span> <span class="kn">import</span> <span class="n">logger</span>
-
-<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
-<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;jkanche&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;jkanche&quot;</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
 
-<div class="viewcode-block" id="NeighborIndex">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex">[docs]</a>
-<span class="k">class</span> <span class="nc">NeighborIndex</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The nearest neighbor search index.</span>
-<span class="sd">    This should not be manually constructed but should be created</span>
-<span class="sd">    by :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.</span>
+<div class="viewcode-block" id="DimensionalityReductionOptions">
+<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.types.DimensionalityReductionOptions">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">DimensionalityReductionOptions</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Arguments to run the dimensionality reduction step.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        run_pca (RunPcaOptions): Arguments to run PCA</span>
+<span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
+<span class="sd">        run_tsne (RunTsneOptions): Arguments to run t-SNE</span>
+<span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.</span>
+<span class="sd">        run_umap (RunUmapOptions): Arguments to run UMAP</span>
+<span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span> <span class="o">=</span> <span class="n">ptr</span>
+    <span class="n">run_pca</span><span class="p">:</span> <span class="n">RunPcaOptions</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">RunPcaOptions</span><span class="p">)</span>
+    <span class="n">run_tsne</span><span class="p">:</span> <span class="n">RunTsneOptions</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">RunTsneOptions</span><span class="p">)</span>
+    <span class="n">run_umap</span><span class="p">:</span> <span class="n">RunUmapOptions</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">RunUmapOptions</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">free_neighbor_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">validate_object_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_pca</span><span class="p">,</span> <span class="n">RunPcaOptions</span><span class="p">)</span>
+        <span class="n">validate_object_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_tsne</span><span class="p">,</span> <span class="n">RunTsneOptions</span><span class="p">)</span>
+        <span class="n">validate_object_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_umap</span><span class="p">,</span> <span class="n">RunUmapOptions</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">ptr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get pointer to scran&#39;s NN search index.</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            ct.c_void_p: Pointer reference.</span>
+<div class="viewcode-block" id="DimensionalityReductionOptions.set_threads">
+<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.types.DimensionalityReductionOptions.set_threads">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set number of threads to use.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_threads (int, optional): Number of threads. Defaults to 1.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_pca</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_tsne</span><span class="o">.</span><span class="n">initialize_tsne</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_umap</span><span class="o">.</span><span class="n">initialize_umap</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span></div>
 
-<div class="viewcode-block" id="NeighborIndex.num_cells">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.num_cells">[docs]</a>
-    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get number of cells in this index.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            int: Number of cells.</span>
+<div class="viewcode-block" id="DimensionalityReductionOptions.set_verbose">
+<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.types.DimensionalityReductionOptions.set_verbose">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_verbose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set verbose to display logs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            verbose (bool, optional): Display logs? Defaults to False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_index_nobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_pca</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_tsne</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_tsne</span><span class="o">.</span><span class="n">initialize_tsne</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_umap</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_umap</span><span class="o">.</span><span class="n">initialize_umap</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span></div>
 
 
-<div class="viewcode-block" id="NeighborIndex.num_dimensions">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.num_dimensions">[docs]</a>
-    <span class="k">def</span> <span class="nf">num_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get number of dimensions in this index.</span>
+<div class="viewcode-block" id="DimensionalityReductionOptions.set_seed">
+<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.types.DimensionalityReductionOptions.set_seed">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set seed for RNG.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            int: Number of dimensions.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            seed (int, optional): seed for RNG. Defaults to 42.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_index_ndim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_tsne</span><span class="o">.</span><span class="n">initialize_tsne</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_umap</span><span class="o">.</span><span class="n">initialize_umap</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span></div>
+
+
+<div class="viewcode-block" id="DimensionalityReductionOptions.set_block">
+<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.types.DimensionalityReductionOptions.set_block">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set block.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            block (Sequence, optional): Blocks assignments</span>
+<span class="sd">                for each cell. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_pca</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">block</span></div>
 </div>
 
 
 
-<div class="viewcode-block" id="BuildNeighborIndexOptions">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions">[docs]</a>
+<div class="viewcode-block" id="DimensionalityReductionResults">
+<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.types.DimensionalityReductionResults">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">BuildNeighborIndexOptions</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for</span>
-<span class="sd">    :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.</span>
+<span class="k">class</span> <span class="nc">DimensionalityReductionResults</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Results of the dimensionality reduction step.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        approximate (bool, optional): Whether to build an index for an approximate</span>
-<span class="sd">            neighbor search. This sacrifices some accuracy for speed.</span>
-<span class="sd">            Defaults to True.</span>
-<span class="sd">        verbose (bool, optional): Whether to print logs. Defaults to False.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">approximate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
-
-
-
-<div class="viewcode-block" id="build_neighbor_index">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index">[docs]</a>
-<span class="k">def</span> <span class="nf">build_neighbor_index</span><span class="p">(</span>
-    <span class="nb">input</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">BuildNeighborIndexOptions</span> <span class="o">=</span> <span class="n">BuildNeighborIndexOptions</span><span class="p">()</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NeighborIndex</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a search index for finding nearest neighbors between cells,</span>
-<span class="sd">    for input into functions like</span>
-<span class="sd">    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        input (ndarray): A matrix where rows are cells and dimensions are columns.</span>
-<span class="sd">            This is usually the principal components matrix from </span>
+<span class="sd">        pca (PcaResult, optional): Result of</span>
 <span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
-<span class="sd">        options (BuildNeighborIndexOptions): Optional parameters.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        NeighborIndex: Nearest neighbor search index.</span>
+<span class="sd">        tsne (TsneEmbedding, optional): Result of</span>
+<span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.</span>
+<span class="sd">        umap (UmapEmbedding, optional): Result of</span>
+<span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">verbose</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Building nearest neighbor index...&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">input</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">c_contiguous</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;expected &#39;input&#39; to have row-major layout&quot;</span><span class="p">)</span>
-
-    <span class="n">ptr</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">build_neighbor_index</span><span class="p">(</span>
-        <span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">input</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">approximate</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">NeighborIndex</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span></div>
+    <span class="n">pca</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PcaResult</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">tsne</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TsneEmbedding</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">umap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UmapEmbedding</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 </pre></div>
         </article>

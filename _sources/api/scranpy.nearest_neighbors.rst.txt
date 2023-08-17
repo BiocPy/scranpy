@@ -20,6 +20,14 @@ scranpy.nearest\_neighbors.find\_nearest\_neighbors module
    :undoc-members:
    :show-inheritance:
 
+scranpy.nearest\_neighbors.types module
+---------------------------------------
+
+.. automodule:: scranpy.nearest_neighbors.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

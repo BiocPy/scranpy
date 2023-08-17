@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>scranpy.normalization.log_norm_counts - scranpy 0.0.3 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b76e3c8a" />
+    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
+        <title>scranpy.normalization.log_norm_counts - scranpy 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">scranpy 0.0.3 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.3 documentation</span>
+  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -154,16 +154,14 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions &amp; Help</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.normalization.html">scranpy.normalization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.quality_control.html">scranpy.quality_control package</a></li>
@@ -171,6 +169,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -205,13 +207,15 @@
         </div>
         <article role="main">
           <h1>Source code for scranpy.normalization.log_norm_counts</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span><span class="p">,</span> <span class="n">tatamize</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">from</span> <span class="nn">.._logging</span> <span class="kn">import</span> <span class="n">logger</span>
-<span class="kn">from</span> <span class="nn">..cpphelpers</span> <span class="kn">import</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">validate_matrix_types</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">factorize</span>
 
@@ -220,88 +224,128 @@
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
 
-<div class="viewcode-block" id="log_norm_counts"><a class="viewcode-back" href="../../../api/scranpy.normalization.html#scranpy.normalization.log_norm_counts.log_norm_counts">[docs]</a><span class="k">def</span> <span class="nf">log_norm_counts</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span>
-    <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">size_factors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">center</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">allow_zeros</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">allow_non_finite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TatamiNumericPointer</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute log normalization.</span>
+<div class="viewcode-block" id="LogNormCountsOptions">
+<a class="viewcode-back" href="../../../api/scranpy.normalization.html#scranpy.normalization.log_norm_counts.LogNormCountsOptions">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">LogNormCountsOptions</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for</span>
+<span class="sd">    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.</span>
 
-<span class="sd">    This function expects the matrix (`x`) to be features (rows) by cells (columns).</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        block (Sequence, optional):</span>
+<span class="sd">            Block assignment for each cell.</span>
+<span class="sd">            This is used to adjust the centering of size factors so that higher-coverage blocks are scaled down.</span>
+
+<span class="sd">            If provided, this should have length equal to the number of cells, where</span>
+<span class="sd">            cells have the same value if and only if they are in the same block.</span>
+<span class="sd">            Defaults to None, indicating all cells are part of the same block.</span>
+
+<span class="sd">        size_factors (ndarray, optional): Size factors for each cell.</span>
+<span class="sd">            Defaults to None.</span>
+
+<span class="sd">        center (bool, optional): Whether to center the size factors. Defaults to True.</span>
+
+<span class="sd">        allow_zeros (bool, optional): Whether to gracefully handle zero size factors.</span>
+<span class="sd">            If True, zero size factors are automatically set to the smallest non-zero size factor.</span>
+<span class="sd">            If False, an error is raised.</span>
+<span class="sd">            Defaults to False.</span>
+
+<span class="sd">        allow_non_finite (bool, optional): Whether to gracefully handle missing or infinite size factors.</span>
+<span class="sd">            If True, infinite size factors are automatically set to the largest non-zero size factor,</span>
+<span class="sd">            while missing values are automatically set to 1.</span>
+<span class="sd">            If False, an error is raised.</span>
+
+<span class="sd">        num_threads (int, optional): Number of threads to use to compute size factors,</span>
+<span class="sd">            if none are provided in ``size_factors``. Defaults to 1.</span>
+
+<span class="sd">        verbose (bool, optional): Whether to print logs. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">size_factors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">center</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">allow_zeros</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">allow_non_finite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="log_norm_counts">
+<a class="viewcode-back" href="../../../api/scranpy.normalization.html#scranpy.normalization.log_norm_counts.log_norm_counts">[docs]</a>
+<span class="k">def</span> <span class="nf">log_norm_counts</span><span class="p">(</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">LogNormCountsOptions</span> <span class="o">=</span> <span class="n">LogNormCountsOptions</span><span class="p">()</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TatamiNumericPointer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute log-transformed normalized values.</span>
+<span class="sd">    The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.</span>
+<span class="sd">    The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps;</span>
+<span class="sd">    these relative changes in expression are more relevant than absolute changes.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (MatrixTypes): Inpute matrix.</span>
-<span class="sd">        block (Optional[Sequence], optional): Array containing the block/batch</span>
-<span class="sd">            assignment for each cell. Defaults to None.</span>
-<span class="sd">        size_factors (Optional[np.ndarray], optional): size factors for each cell.</span>
-<span class="sd">            Defaults to None.</span>
-<span class="sd">        center (bool, optional): center the size factors?. Defaults to True.</span>
-<span class="sd">        allow_zeros (bool, optional): allow zeros?. Defaults to False.</span>
-<span class="sd">        allow_non_finite (bool, optional): all nan or inifnite numbers?.</span>
-<span class="sd">            Defaults to False.</span>
-<span class="sd">        num_threads (int, optional): number of threads. Defaults to 1.</span>
-<span class="sd">        verbose (bool, optional): display logs?. Defaults to False.</span>
+<span class="sd">        input (MatrixTypes):</span>
+<span class="sd">            Matrix-like object containing cells in columns and features in rows, typically with count data.</span>
+<span class="sd">            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.</span>
+<span class="sd">            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.</span>
+<span class="sd">        options (LogNormCountsOptions): Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError, ValueError: if arguments don&#39;t meet expectations.</span>
+<span class="sd">        TypeError, ValueError: If arguments don&#39;t meet expectations.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        TatamiNumericPointer: log normalized matrix.</span>
+<span class="sd">        TatamiNumericPointer: Log-normalized expression matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">validate_matrix_types</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">validate_matrix_types</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">TatamiNumericPointer</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;coming soon when DelayedArray support is implemented&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">TatamiNumericPointer</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Coming soon when DelayedArray support is implemented&quot;</span><span class="p">)</span>
 
-    <span class="n">NC</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ncol</span><span class="p">()</span>
+    <span class="n">NC</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">ncol</span><span class="p">()</span>
 
-    <span class="n">use_sf</span> <span class="o">=</span> <span class="n">size_factors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">use_sf</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">size_factors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">my_size_factors</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">sf_offset</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">use_sf</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">size_factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">size_factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Must provide &#39;size_factors&#39; (provided: </span><span class="si">{</span><span class="n">size_factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Must provide &#39;size_factors&#39; (provided: </span><span class="si">{</span><span class="n">options</span><span class="o">.</span><span class="n">size_factors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot; for all cells (expected: </span><span class="si">{</span><span class="n">NC</span><span class="si">}</span><span class="s2">)&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size_factors</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">size_factors</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;size_factors&#39; must be a numpy ndarray.&quot;</span><span class="p">)</span>
 
-        <span class="n">my_size_factors</span> <span class="o">=</span> <span class="n">size_factors</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">my_size_factors</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">size_factors</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">float64</span><span class="p">)</span>
         <span class="n">sf_offset</span> <span class="o">=</span> <span class="n">my_size_factors</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
 
-    <span class="n">use_block</span> <span class="o">=</span> <span class="n">block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">use_block</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">block_info</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">block_offset</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">use_block</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">)</span> <span class="o">!=</span> <span class="n">NC</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Must provide block assignments (provided: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Must provide block assignments (provided: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot; for all cells (expected: </span><span class="si">{</span><span class="n">NC</span><span class="si">}</span><span class="s2">).&quot;</span>
             <span class="p">)</span>
 
-        <span class="n">block_info</span> <span class="o">=</span> <span class="n">factorize</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>  <span class="c1"># assumes that factorize is available somewhere.</span>
+        <span class="n">block_info</span> <span class="o">=</span> <span class="n">factorize</span><span class="p">(</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">block</span>
+        <span class="p">)</span>  <span class="c1"># assumes that factorize is available somewhere.</span>
         <span class="n">block_offset</span> <span class="o">=</span> <span class="n">block_info</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
 
     <span class="n">normed</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">log_norm_counts</span><span class="p">(</span>
-        <span class="n">x</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>
+        <span class="nb">input</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>
         <span class="n">use_block</span><span class="p">,</span>
         <span class="n">block_offset</span><span class="p">,</span>
         <span class="n">use_sf</span><span class="p">,</span>
         <span class="n">sf_offset</span><span class="p">,</span>
-        <span class="n">center</span><span class="p">,</span>
-        <span class="n">allow_zeros</span><span class="p">,</span>
-        <span class="n">allow_non_finite</span><span class="p">,</span>
-        <span class="n">num_threads</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">allow_zeros</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">allow_non_finite</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">num_threads</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">TatamiNumericPointer</span><span class="p">(</span><span class="n">ptr</span><span class="o">=</span><span class="n">normed</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">my_size_factors</span><span class="p">])</span></div>
+    <span class="k">return</span> <span class="n">TatamiNumericPointer</span><span class="p">(</span><span class="n">ptr</span><span class="o">=</span><span class="n">normed</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="p">[</span><span class="nb">input</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">my_size_factors</span><span class="p">])</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -334,9 +378,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=65a4545c"></script>
+</div><script src="../../../_static/documentation_options.js?v=8c5712d9"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

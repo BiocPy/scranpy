@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>scranpy.types - scranpy 0.0.3 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b76e3c8a" />
+    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
+        <title>scranpy.types - scranpy 0.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">scranpy 0.0.3 documentation</div></a>
+      <a href="../../index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.3 documentation</span>
+  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -154,16 +154,14 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributions &amp; Help</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/scranpy.normalization.html">scranpy.normalization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/scranpy.quality_control.html">scranpy.quality_control package</a></li>
@@ -171,6 +169,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -206,83 +208,105 @@
         <article role="main">
           <h1>Source code for scranpy.types</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span>
-
-<span class="kn">from</span> <span class="nn">.nearest_neighbors</span> <span class="kn">import</span> <span class="n">NeighborIndex</span><span class="p">,</span> <span class="n">NeighborResults</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;jkanche&quot;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;jkanche&quot;</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
-<span class="n">MatrixTypes</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TatamiNumericPointer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">spmatrix</span><span class="p">]</span>
+<span class="n">MatrixTypes</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TatamiNumericPointer</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sparse</span><span class="o">.</span><span class="n">spmatrix</span><span class="p">]</span>
+<span class="n">SelectionTypes</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span>
+
 <span class="n">FactorizedArray</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;FactorizedArray&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">,</span> <span class="s2">&quot;indices&quot;</span><span class="p">])</span>
-<span class="n">NeighborIndexOrResults</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">NeighborIndex</span><span class="p">,</span> <span class="n">NeighborResults</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+<span class="n">FactorizedArray</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Named tuple of a Factorized Array.</span>
+
+<span class="s2">levels (numpy.ndarray): Levels in the array.</span>
+<span class="s2">indices (numpy.ndarray): Indices.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">NDOutputArrays</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;NDOutputArrays&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;arrays&quot;</span><span class="p">,</span> <span class="s2">&quot;references&quot;</span><span class="p">])</span>
+<span class="n">NDOutputArrays</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Named tuple of a list of numpy ndarrays (used for outputs).</span>
+
+<span class="s2">array (List[numpy.ndarray]): List of ndarray objects.</span>
+<span class="s2">references (numpy.ndarray): References to each inner ndarray.</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="is_matrix_expected_type"><a class="viewcode-back" href="../../api/scranpy.html#scranpy.types.is_matrix_expected_type">[docs]</a><span class="k">def</span> <span class="nf">is_matrix_expected_type</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="is_matrix_expected_type">
+<a class="viewcode-back" href="../../api/scranpy.html#scranpy.types.is_matrix_expected_type">[docs]</a>
+<span class="k">def</span> <span class="nf">is_matrix_expected_type</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if `x` is an expected matrix type.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (Any): any object.</span>
+<span class="sd">        x (Any): Any object.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        bool: True if `x` is supported.</span>
+<span class="sd">        bool: True if &#39;x&#39; is an expected matrix</span>
+<span class="sd">        (``TatamiNumericPointer``, ``numpy`` or ``scipy`` matrix).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">TatamiNumericPointer</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">spmatrix</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sparse</span><span class="o">.</span><span class="n">spmatrix</span><span class="p">)</span>
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="is_neighbor_class"><a class="viewcode-back" href="../../api/scranpy.html#scranpy.types.is_neighbor_class">[docs]</a><span class="k">def</span> <span class="nf">is_neighbor_class</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if `x` is an expected nearest neighbor input.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        x (Any): any object.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        bool: True if `x` is supported.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span>
-        <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">NeighborIndex</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">NeighborResults</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
-    <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="is_list_of_type"><a class="viewcode-back" href="../../api/scranpy.html#scranpy.types.is_list_of_type">[docs]</a><span class="k">def</span> <span class="nf">is_list_of_type</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">target_type</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="is_list_of_type">
+<a class="viewcode-back" href="../../api/scranpy.html#scranpy.types.is_list_of_type">[docs]</a>
+<span class="k">def</span> <span class="nf">is_list_of_type</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">target_type</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if `x` is a list of `target_type`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (Any): any object.</span>
-<span class="sd">        target_type (Callable): Type to check for, e.g. str, int</span>
+<span class="sd">        x (Any): Any object.</span>
+<span class="sd">        target_type (Callable): Type to check for, e.g. str, int.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        bool: True if `x` is list and all values are of the same type.</span>
+<span class="sd">        bool: True if &#39;x&#39; is list and all values are of the same type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
         <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">target_type</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">x</span>
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="validate_matrix_types"><a class="viewcode-back" href="../../api/scranpy.html#scranpy.types.validate_matrix_types">[docs]</a><span class="k">def</span> <span class="nf">validate_matrix_types</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">):</span>
+
+<div class="viewcode-block" id="validate_matrix_types">
+<a class="viewcode-back" href="../../api/scranpy.html#scranpy.types.validate_matrix_types">[docs]</a>
+<span class="k">def</span> <span class="nf">validate_matrix_types</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate if x is an expected matrix type.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (MatrixTypes): Inpute Matrix</span>
+<span class="sd">        x (MatrixTypes): Input Matrix.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError: if x is not a tatami, numpy or scipy matrix.</span>
+<span class="sd">        TypeError: If x is not a tatami, numpy or scipy matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_matrix_expected_type</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Input must be a tatami, numpy or sparse matrix, provided </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;&#39;x&#39; must be a tatami, numpy or sparse matrix, provided </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="validate_object_type">
+<a class="viewcode-back" href="../../api/scranpy.html#scranpy.types.validate_object_type">[docs]</a>
+<span class="k">def</span> <span class="nf">validate_object_type</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">target_type</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate if x is an expected object type.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (MatrixTypes): Input Matrix.</span>
+<span class="sd">        target_type (Callable): Type to check for, e.g. str, int.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: if `x` is not the target type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target_type</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;x&#39; is not an expected type.&quot;</span><span class="p">)</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -315,9 +339,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=65a4545c"></script>
+</div><script src="../../_static/documentation_options.js?v=8c5712d9"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

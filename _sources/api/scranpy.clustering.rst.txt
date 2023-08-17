@@ -12,6 +12,14 @@ scranpy.clustering.build\_snn\_graph module
    :undoc-members:
    :show-inheritance:
 
+scranpy.clustering.types module
+-------------------------------
+
+.. automodule:: scranpy.clustering.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
