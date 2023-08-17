@@ -243,7 +243,7 @@ def run_neighbor_suite(
     run_tsne_options: dimred.RunTsneOptions = dimred.RunTsneOptions(),
     build_snn_graph_options: clust.BuildSnnGraphOptions = clust.BuildSnnGraphOptions(),
     num_threads: int = 1
-) -> Tuple[Callable, Graph, int]:
+) -> Tuple[Callable, Callable, Graph, int]:
     """Run the suite of nearest neighbor methods together.
     This builds the index once and re-uses it for all methods.
     Given enough threads, it also runs all post-neighbor-detection functions in parallel,
@@ -282,7 +282,6 @@ def run_neighbor_suite(
         The idea is that the number of remaining threads can be used to perform tasks on the main thread (e.g., clustering, marker detection) while the t-SNE and UMAP are still being computed;
         once all tasks on the main thread have completed, the first function can be called to obtain the coordinates.
     """
-
 
     index = nn.build_neighbor_index(
         principal_components,
@@ -339,16 +338,22 @@ def run_neighbor_suite(
     def retrieve():
         wait(_tasks)
         executor.shutdown()
-        f = Future()
-        f.set_result((_tasks[0].result(), _tasks[1].result()))
-        return f
+
+    def get_tsne():
+        retrieve()
+        return _tasks[0].result()
+    
+    def get_umap():
+        retrieve()
+        return _tasks[1].result()
 
     build_snn_graph_copy = deepcopy(build_snn_graph_options)
     remaining_threads = max(1, num_threads - threads_per_task * 2)
     build_snn_graph_copy.set_threads(remaining_threads)
     graph = clust.build_snn_graph(nn_dict[snn_nn], options=build_snn_graph_copy)
 
-    return retrieve, graph, remaining_threads
+    return get_tsne, get_umap, graph, remaining_threads
+
 
 def __analyze(
     matrix: MatrixTypes,
@@ -438,7 +443,7 @@ def __analyze(
         options=options.dimensionality_reduction.run_pca,
     )
 
-    retrieve, graph, remaining_threads = run_neighbor_suite(
+    get_tsne, get_umap, graph, remaining_threads = run_neighbor_suite(
         results.dimensionality_reduction.pca.principal_components,
         build_neighbor_index_options=options.nearest_neighbors.build_neighbor_index,
         find_nearest_neighbors_options=options.nearest_neighbors.find_nearest_neighbors,
@@ -463,8 +468,6 @@ def __analyze(
         options=options.marker_detection.score_markers,
     )
 
-    embeddings = retrieve().result()
-    results.dimensionality_reduction.tsne = embeddings[0]
-    results.dimensionality_reduction.umap = embeddings[1]
-
+    results.dimensionality_reduction.tsne = get_tsne()
+    results.dimensionality_reduction.umap = get_umap()
     return results
