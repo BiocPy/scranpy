@@ -17,7 +17,7 @@ from ..types import MatrixTypes
 
 @dataclass
 class AnalyzeResults:
-    """Results across all analyis steps from :py:meth:`~scranpy._overlord.analyze.analyze`.
+    """Results across all analyis steps from :py:meth:`~scranpy.analyze.analyze.analyze`.
 
     Attributes:
         rna_quality_control_metrics (BiocFrame, optional): 

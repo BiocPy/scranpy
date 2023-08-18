@@ -11,7 +11,7 @@ from .. import quality_control as qc
 
 @dataclass
 class MiscellaneousOptions:
-    """Miscellaneous options for :py:meth:`~scranpy._analyze.live_analyze.analyze`.
+    """Miscellaneous options for :py:meth:`~scranpy.analyze.analyze.analyze`.
 
     Attributes:
         snn_graph_multilevel_resolution (float):
@@ -28,11 +28,11 @@ class MiscellaneousOptions:
 
 @dataclass
 class AnalyzeOptions:
-    """Optional parameters for all :py:meth:`~scranpy._analyze.live_analyze.analyze` steps.
+    """Optional parameters for all :py:meth:`~scranpy.analyze.analyze.analyze` steps.
 
     Optional parameters for each function are named after the function with the ``_options`` suffix.
     In most cases, these can be modified directly to refine the behavior of the
-    :py:meth:`~scranpy._analyze.live.analyze` function.
+    :py:meth:`~scranpy.analyze.analyze.analyze` function.
 
     However, for a few options, it makes more sense to set them across multiple parameter objects simultaneously.
     We provide the following methods in such cases:

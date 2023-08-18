@@ -233,7 +233,7 @@ def run_tsne(
     with invocations of the :py:meth:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.run` method to the specified number of iterations.
 
     Args:
-        input (NeighborResults | NeighborIndex, ndarray):
+        input (NeighborResults | NeighborIndex | ndarray):
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
