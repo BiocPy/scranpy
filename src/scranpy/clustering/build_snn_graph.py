@@ -1,20 +1,18 @@
 from copy import deepcopy
 from dataclasses import dataclass, field
-from typing import Literal
+from typing import Literal, Union
 
 from igraph import Graph
-from numpy import ctypeslib
+from numpy import ctypeslib, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
 from ..nearest_neighbors import (
     BuildNeighborIndexOptions,
     NeighborIndex,
-    NeighborlyInputs,
     NeighborResults,
     build_neighbor_index,
 )
-from ..nearest_neighbors.types import is_neighbor_class
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -72,7 +70,7 @@ class BuildSnnGraphOptions:
         self.num_threads = num_threads
 
 def build_snn_graph(
-    input: NeighborlyInputs,
+    input: Union[NeighborIndex, NeighborResults, ndarray],
     options: BuildSnnGraphOptions = BuildSnnGraphOptions(),
 ) -> Graph:
     """Build a shared nearest neighbor (SNN) graph where each cell is a node and
@@ -80,7 +78,7 @@ def build_snn_graph(
     This can be used for community detection to define clusters of similar cells.
 
     Args:
-        input  (NeighborlyInputs):
+        input (NeighborIndex | NeighborResults | ndarray):
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
@@ -107,12 +105,6 @@ def build_snn_graph(
     Returns:
         Graph: An igraph object.
     """
-    if not is_neighbor_class(input):
-        raise TypeError(
-            "`input` must be either the nearest neighbor search index, search results "
-            "or a matrix."
-        )
-
     graph = None
     scheme = options.weight_scheme.encode("UTF-8")
 

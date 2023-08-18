@@ -47,6 +47,12 @@ It's as simple as calling **scranpy**'s `analyze()` function:
 ```python
 import scranpy
 results = scranpy.analyze(mat, features)
+
+# Get the most interesting results:
+results.clusters
+results.markers
+results.tsne
+results.umap
 ```
 
 This will perform all of the usual steps for a routine single-cell analysis, as described in Bioconductor's [Orchestrating single cell analysis](https://bioconductor.org/books/OSCA) book.

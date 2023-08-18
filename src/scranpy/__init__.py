@@ -24,4 +24,4 @@ from . import (
     normalization,
     quality_control,
 )
-from .analyze import analyze
+from .analyze import analyze, AnalyzeOptions, AnalyzeResults

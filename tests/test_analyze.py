@@ -1,4 +1,4 @@
-from scranpy.analyze import AnalyzeResults, analyze
+from scranpy import AnalyzeResults, analyze
 from singlecellexperiment import SingleCellExperiment
 
 __author__ = "jkanche"
@@ -15,8 +15,7 @@ def test_analyze(mock_data):
     as_sce = out.to_sce(x)
 
     assert isinstance(as_sce, SingleCellExperiment)
-    assert as_sce.shape[1] == len(out.clustering.clusters)
+    assert as_sce.shape[1] == len(out.clusters)
 
     dry = analyze(None, None, dry_run=True)
-    print(dry)
     assert isinstance(dry, str)

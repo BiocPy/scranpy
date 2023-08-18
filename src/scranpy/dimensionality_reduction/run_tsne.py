@@ -1,5 +1,6 @@
 import copy
 import ctypes as ct
+from typing import Union
 from collections import namedtuple
 from dataclasses import dataclass, field
 
@@ -14,7 +15,6 @@ from ..nearest_neighbors import (
     build_neighbor_index,
     find_nearest_neighbors,
 )
-from ..nearest_neighbors.types import NeighborlyInputs, is_neighbor_class
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -135,7 +135,7 @@ class InitializeTsneOptions:
 
 
 def initialize_tsne(
-    input: NeighborlyInputs,
+    input: Union[NeighborIndex, NeighborResults, ndarray],
     options: InitializeTsneOptions = InitializeTsneOptions(),
 ) -> TsneStatus:
     """Initialize the t-SNE algorithm.
@@ -144,7 +144,7 @@ def initialize_tsne(
 
 
     Args:
-        input  (NeighborlyInputs):
+        input (NeighborIndex | NeighborResults | ndarray):
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
@@ -171,12 +171,6 @@ def initialize_tsne(
     Returns:
         TsneStatus: A t-SNE status object for further iterations.
     """
-    if not is_neighbor_class(input):
-        raise TypeError(
-            "`input` must be either the nearest neighbor search index, search results "
-            "or a matrix."
-        )
-
     if not isinstance(input, NeighborResults):
         k = tsne_perplexity_to_neighbors(options.perplexity)
         if not isinstance(input, NeighborIndex):
@@ -230,7 +224,8 @@ class RunTsneOptions:
 
 
 def run_tsne(
-    input: NeighborlyInputs, options: RunTsneOptions = RunTsneOptions()
+    input: Union[NeighborResults, NeighborIndex, ndarray], 
+    options: RunTsneOptions = RunTsneOptions()
 ) -> TsneEmbedding:
     """Compute a two-dimensional t-SNE embedding for the cells.
     Neighboring cells in high-dimensional space are placed next to each other on the embedding for intuitive visualization.
@@ -238,7 +233,7 @@ def run_tsne(
     with invocations of the :py:meth:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.run` method to the specified number of iterations.
 
     Args:
-        input (NeighborlyInputs):
+        input (NeighborResults | NeighborIndex | ndarray):
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell

@@ -1,9 +1,11 @@
 from typing import Sequence, Union
 from functools import singledispatch, singledispatchmethod
 
-from .analyze_live import AnalyzeOptions, AnalyzeResults, __analyze
-from .analyze_dry import __dry_analyze
-from .types import is_matrix_expected_type
+from .AnalyzeOptions import AnalyzeOptions
+from .AnalyzeResults import AnalyzeResults 
+from .live_analyze import live_analyze
+from .dry_analyze import dry_analyze
+from ..types import MatrixTypes, is_matrix_expected_type, validate_object_type
 
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
@@ -38,14 +40,14 @@ def analyze(
         NotImplementedError: If ``matrix`` is not an expected type.
 
     Returns:
-        If ``dry_run = False``, a :py:class:`~scranpy.analyze_live.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
+        If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
 
         If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis. 
     """
     if dry_run:
-        return __dry_analyze(options)
+        return dry_analyze(options)
     if is_matrix_expected_type(matrix):
-        return __analyze(matrix, features=features, options=options)
+        return live_analyze(matrix, features=features, options=options)
     else:
         raise NotImplementedError(
             f"'Analyze' is not supported for objects of class: `{type(matrix)}`"
@@ -86,7 +88,7 @@ def analyze_sce(
         ValueError: If SCE does not contain a ``assay`` matrix.
 
     Returns:
-        If ``dry_run = False``, a :py:class:`~scranpy.analyze_live.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
+        If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
 
         If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis. 
     """
@@ -99,4 +101,4 @@ def analyze_sce(
         else:
             features = matrix.rowData[features]
 
-    return __analyze(matrix.assay("counts"), features=features, options=options, dry_run=dry_run)
+    return analyze(matrix.assay("counts"), features=features, options=options, dry_run=dry_run)

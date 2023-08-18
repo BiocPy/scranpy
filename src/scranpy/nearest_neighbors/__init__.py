@@ -10,4 +10,3 @@ from .find_nearest_neighbors import (
     SingleNeighborResults,
     find_nearest_neighbors,
 )
-from .types import NearestNeighborsOptions, NearestNeighborsResults, NeighborlyInputs
