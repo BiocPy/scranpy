@@ -24,4 +24,4 @@ from . import (
     normalization,
     quality_control,
 )
-from .analyze import analyze
+from ._overlord import analyze, AnalyzeOptions, AnalyzeResults

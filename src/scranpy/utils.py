@@ -50,10 +50,15 @@ def to_logical(selection: SelectionTypes, length: int) -> ndarray:
     """Convert a selection to a logical array.
 
     Args:
-        selection (SelectionTypes): List/array of integer indices.
-            a list/array of booleans, a range or a slice object.
-        length (int): Length of the output array, i.e.,
-            the maximum possible index plus 1.
+        selection (SelectionTypes): 
+            List/array of integer indices, a range or a slice object.
+
+            Alternatively, a list/array of booleans.
+
+            An empty sequence is treated as a zero-length list of integers.
+
+        length (int): 
+            Length of the output array, i.e., the maximum possible index plus 1.
 
     Returns:
         ndarray: An array of unsigned 8-bit integers where selected
@@ -86,8 +91,12 @@ def to_logical(selection: SelectionTypes, length: int) -> ndarray:
                 f"provided {selection.dtype}"
             )
 
-    has_bool = is_list_of_type(selection, bool)
-    has_number = is_list_of_type(selection, int)
+    if len(selection) == 0:
+        has_bool = False 
+        has_number = True 
+    else:
+        has_bool = is_list_of_type(selection, bool)
+        has_number = is_list_of_type(selection, int)
 
     if (has_number and has_bool) or (not has_bool and not has_number):
         raise TypeError("'selection' should only contain booleans or numbers")

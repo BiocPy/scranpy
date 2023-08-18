@@ -1,14 +1,20 @@
+from dataclasses import dataclass, field
+from functools import singledispatch, singledispatchmethod
+
+from typing import Optional, Mapping
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
-from numpy import ndarray
+from numpy import ndarray, array
 from igraph import Graph
+from mattress import TatamiNumericPointer
 
 from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
 from .. import feature_selection as feat
 from .. import marker_detection as mark
 from .. import quality_control as qc
-_
+from ..types import MatrixTypes
+
 @dataclass
 class AnalyzeResults:
     """Results across all analyis steps from :py:meth:`~scranpy._overlord.analyze.analyze`.
@@ -77,13 +83,13 @@ class AnalyzeResults:
 
     clusters: Optional[list] = None
 
-    markers: Optional[mark.MarkerDetectionResults] = None
+    markers: Optional[Mapping] = None
 
     def __to_sce(self, x: MatrixTypes, assay: str, include_gene_data: bool = False):
         if isinstance(x, TatamiNumericPointer):
             raise ValueError("`TatamiNumericPointer` is not yet supported (for 'x')")
 
-        keep = [not y for y in self.quality_control.qc_filter.tolist()]
+        keep = [not y for y in self.rna_quality_control_filter.tolist()]
 
         # TODO: need to add logcounts
         sce = SingleCellExperiment(assays={assay: x[:, keep]})

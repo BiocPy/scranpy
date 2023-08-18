@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Union
 
 from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
@@ -60,7 +60,7 @@ class AnalyzeOptions:
     )
 
     log_norm_counts_options: norm.LogNormCountsOptions = field(
-        default_factory=qc.LogNormCountsOptions
+        default_factory=norm.LogNormCountsOptions
     )
 
     choose_hvgs_options: feat.ChooseHvgsOptions = field(
@@ -92,7 +92,7 @@ class AnalyzeOptions:
     )
 
     build_snn_graph_options: clust.BuildSnnGraphOptions = field(
-        default_factory=clust.build_snn_graph_options
+        default_factory=clust.BuildSnnGraphOptions
     )
 
     score_markers_options: mark.ScoreMarkersOptions = field(

@@ -1,5 +1,4 @@
-from typing import Tuple, List, Mapping, Optional, Sequence, Union, Callable
-
+from typing import Sequence
 from mattress import TatamiNumericPointer, tatamize
 from copy import deepcopy
 
@@ -7,10 +6,13 @@ from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
 from .. import feature_selection as feat
 from .. import marker_detection as mark
-from .. import nearest_neighbors as nn
 from .. import normalization as norm
 from .. import quality_control as qc
-from .types import MatrixTypes, is_matrix_expected_type, validate_object_type
+
+from .AnalyzeOptions import AnalyzeOptions
+from .AnalyzeResults import AnalyzeResults 
+from .run_neighbor_suite import run_neighbor_suite
+from ..types import MatrixTypes, is_matrix_expected_type, validate_object_type
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
@@ -33,12 +35,13 @@ def live_analyze(
     # Start of the capture.
     results = AnalyzeResults()
 
+    # Don't be tempted to create a shorter variable name, 
+    # otherwise the dry-run generator won't work as expected.
     subsets = {}
-    mito = options.miscellaneous_options.mito_prefix 
-    if isinstance(mito, str):
-        subsets["mito"] = qc.guess_mito_from_symbols(features, mito)
-    elif isinstance(mito, bool):
-        if mito:
+    if isinstance(options.miscellaneous_options.mito_prefix, str):
+        subsets["mito"] = qc.guess_mito_from_symbols(features, options.miscellaneous_options.mito_prefix)
+    elif isinstance(options.miscellaneous_options.mito_prefix, bool):
+        if options.miscellaneous_options.mito_prefix:
             subsets["mito"] = qc.guess_mito_from_symbols(features)
     else:
         raise ValueError(
@@ -48,7 +51,7 @@ def live_analyze(
 
     results.rna_quality_control_subsets = subsets
 
-    rna_options = deepcopy(options.quality_control.per_cell_rna_qc_metrics)
+    rna_options = deepcopy(options.per_cell_rna_qc_metrics_options)
     rna_options.subsets = subsets
     results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
         matrix,
@@ -59,7 +62,7 @@ def live_analyze(
         options=options.suggest_rna_qc_filters_options,
     )
 
-    results.quality_control.qc_filter = qc.create_rna_qc_filter(
+    results.rna_quality_control_filter = qc.create_rna_qc_filter(
         results.rna_quality_control_metrics,
         results.rna_quality_control_thresholds,
         options=options.create_rna_qc_filter_options,
@@ -115,10 +118,10 @@ def live_analyze(
     marker_options.num_threads = remaining_threads
     results.markers = mark.score_markers(
         normed,
-        grouping=results.clustering.clusters,
+        grouping=results.clusters,
         options=marker_options
     )
 
-    results.dimensionality_reduction.tsne_out = get_tsne()
-    results.dimensionality_reduction.umap_out = get_umap()
+    results.tsne_out = get_tsne()
+    results.umap_out = get_umap()
     return results

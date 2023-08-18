@@ -2,7 +2,7 @@ import copy
 import ctypes as ct
 from collections import namedtuple
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Union, Optional
 
 from numpy import float64, ndarray
 
@@ -15,7 +15,6 @@ from ..nearest_neighbors import (
     build_neighbor_index,
     find_nearest_neighbors,
 )
-from ..nearest_neighbors.types import NeighborlyInputs, is_neighbor_class
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -148,7 +147,7 @@ class InitializeUmapOptions:
 
 
 def initialize_umap(
-    input: NeighborlyInputs,
+    input: Union[NeighborResults, NeighborIndex, ndarray],
     options: InitializeUmapOptions = InitializeUmapOptions(),
 ) -> UmapStatus:
     """Initialize the UMAP algorithm.
@@ -165,7 +164,7 @@ def initialize_umap(
     (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).
 
     Args:
-        input (NeighborlyInputs):
+        input (NeighborResults | NeighborIndex | ndarray):
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
@@ -189,12 +188,6 @@ def initialize_umap(
     Returns:
         UmapStatus: A UMAP status object for iteration through the epochs.
     """
-    if not is_neighbor_class(input):
-        raise TypeError(
-            "`input` must be either the nearest neighbor search index, "
-            "search results or a matrix."
-        )
-
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
             if options.verbose is True:
@@ -242,7 +235,8 @@ class RunUmapOptions:
 
 
 def run_umap(
-    input: NeighborlyInputs, options: RunUmapOptions = RunUmapOptions()
+    input: Union[NeighborResults, NeighborIndex, ndarray], 
+    options: RunUmapOptions = RunUmapOptions()
 ) -> UmapEmbedding:
     """Compute a two-dimensional UMAP embedding for the cells.
     Neighboring cells in high-dimensional space are placed next to each other on the embedding for intuitive visualization.
@@ -250,7 +244,7 @@ def run_umap(
     with invocations of the :py:meth:`~scranpy.dimensionality_reduction.run_umap.UmapStatus.run` method to the maximum number of epochs.
 
     Args:
-        input (NeighborlyInputs):
+        input (NeighborResults | NeighborIndex | ndarray):
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
