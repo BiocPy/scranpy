@@ -1,8 +1,8 @@
 from typing import Sequence, Union
 from functools import singledispatch, singledispatchmethod
 
-from .analyze_live import AnalyzeOptions, AnalyzeResults, __analyze
-from .analyze_dry import __dry_analyze
+from .live import AnalyzeOptions, AnalyzeResults, __analyze
+from .dry import __dry_analyze
 from .types import is_matrix_expected_type
 
 from singlecellexperiment import SingleCellExperiment

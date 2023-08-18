@@ -16,7 +16,3 @@ from .run_umap import (
     initialize_umap,
     run_umap,
 )
-from .types import (
-    DimensionalityReductionOptions,
-    DimensionalityReductionResults,
-)
