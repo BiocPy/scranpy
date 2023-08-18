@@ -10,8 +10,25 @@ from .. import normalization as norm
 from .. import quality_control as qc
 
 @dataclass
+class MiscellaneousOptions:
+    """Miscellaneous options for :py:meth:`~scranpy._analyze.live_analyze.analyze`.
+
+    Attributes:
+        snn_graph_multilevel_resolution (float):
+            Resolution to use for multi-level clustering of the SNN graph.
+
+        mito_prefix (Union[bool, str]):
+            Prefix for mitochondrial genes, under the assumption that the feature names are gene symbols.
+            If True, the default prefix in :py:meth:`~scranpy.quality_control.rna.guess_mito_from_symbols` is used.
+            If False, no attempt is made to guess the identities of mitochondrial genes.
+    """
+
+    snn_graph_multilevel_resolution: int = 1
+    mito_prefix: Union[bool, str] = "mt-"
+
+@dataclass
 class AnalyzeOptions:
-    """Optional parameters for all :py:meth:`~scranpy._analyze.live.analyze` steps.
+    """Optional parameters for all :py:meth:`~scranpy._analyze.live_analyze.analyze` steps.
 
     Optional parameters for each function are named after the function with the ``_options`` suffix.
     In most cases, these can be modified directly to refine the behavior of the
@@ -26,7 +43,6 @@ class AnalyzeOptions:
     - :py:meth:`~scranpy._analyze.AnalyzeOptions.set_verbose`, to set the verbosity level.
     """
 
-    # Quality control.
     per_cell_rna_qc_metrics_options: qc.PerCellRnaQcMetricsOptions = field(
         default_factory=qc.PerCellRnaQcMetricsOptions
     )
@@ -43,12 +59,10 @@ class AnalyzeOptions:
         default_factory=qc.FilterCellsOptions
     )
 
-    # Normalization.
     log_norm_counts_options: norm.LogNormCountsOptions = field(
         default_factory=qc.LogNormCountsOptions
     )
 
-    # Feature selection.
     choose_hvgs_options: feat.ChooseHvgsOptions = field(
         default_factory=feat.ChooseHvgsOptions
     )
@@ -57,7 +71,6 @@ class AnalyzeOptions:
         default_factory=feat.ModelGeneVariancesOptions
     )
 
-    # Dimensionality reduction.
     run_pca_options: dimred.RunPcaOptions = field(
         default_factory=dimred.RunPcaOptions
     )
@@ -70,7 +83,6 @@ class AnalyzeOptions:
         default_factory=dimred.RunUmapOptions
     )
 
-    # Neighbor detection.
     build_neighbor_index_options: nn.BuildNeighborIndexOptions = field(
         default_factory=nn.BuildNeighborIndexOptions
     )
@@ -79,13 +91,16 @@ class AnalyzeOptions:
         default_factory=nn.FindNearestNeighborsOptions
     )
 
-    # Clustering.
     build_snn_graph_options: clust.BuildSnnGraphOptions = field(
         default_factory=clust.build_snn_graph_options
     )
 
     score_markers_options: mark.ScoreMarkersOptions = field(
         default_factory=mark.ScoreMarkersOptions
+    )
+
+    miscellaneous_options: MiscellaneousOptions = field(
+        default_factory=MiscellaneousOptions
     )
 
     # Multi-step setters.

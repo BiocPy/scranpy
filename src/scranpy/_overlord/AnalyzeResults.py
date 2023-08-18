@@ -1,29 +1,83 @@
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
+from numpy import ndarray
+from igraph import Graph
 
+from .. import clustering as clust
+from .. import dimensionality_reduction as dimred
+from .. import feature_selection as feat
+from .. import marker_detection as mark
+from .. import quality_control as qc
+_
 @dataclass
 class AnalyzeResults:
-    """Class to manage results across all analyis steps."""
+    """Results across all analyis steps from :py:meth:`~scranpy._overlord.analyze.analyze`.
 
-    quality_control: qc.RnaQualityControlResults = field(
-        default_factory=qc.RnaQualityControlResults
-    )
-    normalization: norm.NormalizationResults = field(
-        default_factory=norm.NormalizationResults
-    )
-    feature_selection: feat.FeatureSelectionResults = field(
-        default_factory=feat.FeatureSelectionResults
-    )
-    dimensionality_reduction: dimred.DimensionalityReductionResults = field(
-        default_factory=dimred.DimensionalityReductionResults
-    )
-    clustering: clust.ClusteringResults = field(default_factory=clust.ClusteringResults)
-    marker_detection: mark.MarkerDetectionResults = field(
-        default_factory=mark.MarkerDetectionResults
-    )
-    nearest_neighbors: nn.NearestNeighborsResults = field(
-        default_factory=nn.NearestNeighborsResults
-    )
+    Attributes:
+        rna_quality_control_metrics (BiocFrame, optional): 
+            Output of :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
+
+        rna_quality_control_thresholds (BiocFrame, optional): 
+            Output of :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+
+        rna_quality_control_filter (ndarray, optional): 
+            Output of :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+
+        size_factors (ndarray, optional):
+            Array of length equal to the number of cells in the dataset (usually after quality filtering),
+            containing the size factor for each cell.
+
+        gene_variances (BiocFrame, optional):
+            Output of :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
+
+        hvgs (ndarray, optional):
+            Output of :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
+
+        pca_output (PcaResult, optional):
+            Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+
+        tsne_output (TsneEmbedding, optional):
+            Output of :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
+
+        umap_output (UmapEmbedding, optional):
+            Output of :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
+    
+        snn_graph (Graph, optional):
+            Output of :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
+
+        clusters (List, optional):
+            List of length equal to the number of cells in the (filtered) dataset, 
+            containing the cluster assignment for each cell.
+            
+        markers (Mapping, optional):
+            Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
+    """
+
+    rna_quality_control_subsets: Optional[dict] = None
+
+    rna_quality_control_metrics: Optional[BiocFrame] = None
+
+    rna_quality_control_thresholds: Optional[BiocFrame] = None
+
+    rna_quality_control_filter: Optional[ndarray] = None
+
+    size_factors: Optional[ndarray] = None
+
+    gene_variances: Optional[BiocFrame] = None
+
+    hvgs: Optional[ndarray] = None
+
+    pca_output: Optional[dimred.PcaResult] = None
+
+    tsne_output: Optional[dimred.TsneEmbedding] = None
+
+    umap_output: Optional[dimred.UmapEmbedding] = None
+
+    snn_graph: Optional[Graph] = None
+
+    clusters: Optional[list] = None
+
+    markers: Optional[mark.MarkerDetectionResults] = None
 
     def __to_sce(self, x: MatrixTypes, assay: str, include_gene_data: bool = False):
         if isinstance(x, TatamiNumericPointer):
@@ -34,27 +88,27 @@ class AnalyzeResults:
         # TODO: need to add logcounts
         sce = SingleCellExperiment(assays={assay: x[:, keep]})
 
-        sce.colData = self.quality_control.qc_metrics[keep,:]
-        sce.colData["clusters"] = self.clustering.clusters
+        sce.colData = self.rna_quality_control_metrics[keep,:]
+        sce.colData["clusters"] = self.clusters
 
         sce.reducedDims = {
-            "pca": self.dimensionality_reduction.pca.principal_components,
+            "pca": self.pca_out.principal_components,
             "tsne": array(
                 [
-                    self.dimensionality_reduction.tsne.x,
-                    self.dimensionality_reduction.tsne.y,
+                    self.tsne_out.x,
+                    self.tsne_out.y,
                 ]
             ).T,
             "umap": array(
                 [
-                    self.dimensionality_reduction.umap.x,
-                    self.dimensionality_reduction.umap.y,
+                    self.umap_out.x,
+                    self.umap_out.y,
                 ]
             ).T,
         }
 
         if include_gene_data is True:
-            sce.rowData = self.feature_selection.gene_variances
+            sce.rowData = self.gene_variances
 
         return sce
 
