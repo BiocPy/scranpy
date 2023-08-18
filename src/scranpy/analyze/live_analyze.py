@@ -92,13 +92,13 @@ def live_analyze(
 
     pca_options = deepcopy(options.run_pca_options)
     pca_options.subset = results.hvgs
-    results.pca_out = dimred.run_pca(
+    results.pca = dimred.run_pca(
         normed,
         options=options.run_pca_options,
     )
 
     get_tsne, get_umap, graph, remaining_threads = run_neighbor_suite(
-        results.pca_out.principal_components,
+        results.pca.principal_components,
         build_neighbor_index_options=options.build_neighbor_index_options,
         find_nearest_neighbors_options=options.find_nearest_neighbors_options,
         run_umap_options=options.run_umap_options,
@@ -122,6 +122,6 @@ def live_analyze(
         options=marker_options
     )
 
-    results.tsne_out = get_tsne()
-    results.umap_out = get_umap()
+    results.tsne = get_tsne()
+    results.umap = get_umap()
     return results

@@ -39,13 +39,13 @@ class AnalyzeResults:
         hvgs (ndarray, optional):
             Output of :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
-        pca_output (PcaResult, optional):
+        pca (PcaResult, optional):
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-        tsne_output (TsneEmbedding, optional):
+        tsne (TsneEmbedding, optional):
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
 
-        umap_output (UmapEmbedding, optional):
+        umap (UmapEmbedding, optional):
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
     
         snn_graph (Graph, optional):
@@ -73,11 +73,11 @@ class AnalyzeResults:
 
     hvgs: Optional[ndarray] = None
 
-    pca_output: Optional[dimred.PcaResult] = None
+    pca: Optional[dimred.PcaResult] = None
 
-    tsne_output: Optional[dimred.TsneEmbedding] = None
+    tsne: Optional[dimred.TsneEmbedding] = None
 
-    umap_output: Optional[dimred.UmapEmbedding] = None
+    umap: Optional[dimred.UmapEmbedding] = None
 
     snn_graph: Optional[Graph] = None
 
@@ -98,17 +98,17 @@ class AnalyzeResults:
         sce.colData["clusters"] = self.clusters
 
         sce.reducedDims = {
-            "pca": self.pca_out.principal_components,
+            "pca": self.pca.principal_components,
             "tsne": array(
                 [
-                    self.tsne_out.x,
-                    self.tsne_out.y,
+                    self.tsne.x,
+                    self.tsne.y,
                 ]
             ).T,
             "umap": array(
                 [
-                    self.umap_out.x,
-                    self.umap_out.y,
+                    self.umap.x,
+                    self.umap.y,
                 ]
             ).T,
         }
