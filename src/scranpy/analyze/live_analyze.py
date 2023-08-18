@@ -40,15 +40,6 @@ def live_analyze(
     subsets = {}
     if isinstance(options.miscellaneous_options.mito_prefix, str):
         subsets["mito"] = qc.guess_mito_from_symbols(features, options.miscellaneous_options.mito_prefix)
-    elif isinstance(options.miscellaneous_options.mito_prefix, bool):
-        if options.miscellaneous_options.mito_prefix:
-            subsets["mito"] = qc.guess_mito_from_symbols(features)
-    else:
-        raise ValueError(
-            "Unsupported value provided for `qc_mito_subset`:"
-            f" {mito}"
-        )
-
     results.rna_quality_control_subsets = subsets
 
     rna_options = deepcopy(options.per_cell_rna_qc_metrics_options)

@@ -17,10 +17,9 @@ class MiscellaneousOptions:
         snn_graph_multilevel_resolution (float):
             Resolution to use for multi-level clustering of the SNN graph.
 
-        mito_prefix (Union[bool, str]):
+        mito_prefix (str, Optional):
             Prefix for mitochondrial genes, under the assumption that the feature names are gene symbols.
-            If True, the default prefix in :py:meth:`~scranpy.quality_control.rna.guess_mito_from_symbols` is used.
-            If False, no attempt is made to guess the identities of mitochondrial genes.
+            If None, no attempt is made to guess the identities of mitochondrial genes.
 
         block (Sequence, optional): 
             Block assignment for each cell.
@@ -28,7 +27,7 @@ class MiscellaneousOptions:
     """
 
     snn_graph_multilevel_resolution: int = 1
-    mito_prefix: Union[bool, str] = "mt-"
+    mito_prefix: Optional[str] = "mt-"
     block: Optional[Sequence] = None 
 
 @dataclass
