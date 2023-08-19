@@ -20,6 +20,7 @@ if __name__ == "__main__":
                     [
                         "src/scranpy/lib/per_cell_rna_qc_metrics.cpp",
                         "src/scranpy/lib/log_norm_counts.cpp",
+                        "src/scranpy/lib/center_size_factors.cpp",
                         "src/scranpy/lib/suggest_rna_qc_filters.cpp",
                         "src/scranpy/lib/filter_cells.cpp",
                         "src/scranpy/lib/model_gene_variances.cpp",
