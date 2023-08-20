@@ -69,6 +69,16 @@ lib.py_build_snn_graph_from_nn_results.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_center_size_factors.restype = None
+lib.py_center_size_factors.argtypes = [
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_void_p,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_choose_hvgs.restype = None
 lib.py_choose_hvgs.argtypes = [
     ct.c_int32,
@@ -581,6 +591,9 @@ def build_snn_graph_from_nn_index(x, num_neighbors, weight_scheme, num_threads):
 
 def build_snn_graph_from_nn_results(x, weight_scheme, num_threads):
     return catch_errors(lib.py_build_snn_graph_from_nn_results)(x, weight_scheme, num_threads)
+
+def center_size_factors(num, size_factors, use_block, block):
+    return catch_errors(lib.py_center_size_factors)(num, np2ct(size_factors, np.float64), use_block, block)
 
 def choose_hvgs(len, stat, top, output):
     return catch_errors(lib.py_choose_hvgs)(len, np2ct(stat, np.float64), top, np2ct(output, np.uint8))

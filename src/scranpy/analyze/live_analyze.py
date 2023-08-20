@@ -1,6 +1,7 @@
 from typing import Sequence
 from mattress import TatamiNumericPointer, tatamize
 from copy import deepcopy
+from numpy import logical_not
 
 from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
@@ -64,11 +65,25 @@ def live_analyze(
         filter=results.rna_quality_control_filter
     )
 
+    # Normalization.
+    if options.log_norm_counts_options.size_factors is None:
+        results.size_factors = norm.center_size_factors(
+            results.rna_quality_control_metrics.column("sums")[
+                logical_not(results.rna_quality_control_filter)
+            ],
+            options=options.center_size_factors_options
+        )
+        norm_options = deepcopy(options.log_norm_counts_options)
+        norm_options.size_factors = results.size_factors
+    else:
+        norm_options = options.log_norm_counts_options
+        results.size_factors = norm_options.size_factors
+
     # Until a delayed array is supported, we can't expose these pointers to 
     # users, so we'll just hold onto them.
     normed = norm.log_norm_counts(
         filtered,
-        options=options.log_norm_counts_options,
+        options=norm_options
     )
 
     results.gene_variances = feat.model_gene_variances(
