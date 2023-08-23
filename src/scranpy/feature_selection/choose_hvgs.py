@@ -11,8 +11,7 @@ __license__ = "MIT"
 
 @dataclass
 class ChooseHvgsOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
+    """Optional arguments for :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
     Attributes:
         number (int):
@@ -31,10 +30,9 @@ class ChooseHvgsOptions:
 def choose_hvgs(
     stat: ndarray, options: ChooseHvgsOptions = ChooseHvgsOptions()
 ) -> ndarray:
-    """Choose highly variable genes for high-dimensional downstream steps
-    such as :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
-    This ensures that those steps focus on interesting biology,
-    under the assumption that biological variation is larger than random noise.
+    """Choose highly variable genes for high-dimensional downstream steps such as
+    :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`. This ensures that those steps focus on interesting
+    biology, under the assumption that biological variation is larger than random noise.
 
     Args:
         stat (ndarray): Array of variance modelling statistics,

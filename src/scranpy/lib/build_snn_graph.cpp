@@ -11,7 +11,7 @@ scran::BuildSnnGraph::Scheme resolve_weighting_scheme(const char* weight_scheme)
         return scran::BuildSnnGraph::NUMBER;
     } else if (std::strcmp(weight_scheme, "jaccard") == 0) {
         return scran::BuildSnnGraph::JACCARD;
-    } 
+    }
 
     throw std::runtime_error("unknown weighting scheme '" + std::string(weight_scheme) + "'");
     return scran::BuildSnnGraph::RANKED; // this has no purpose but to avoid compiler warnings.

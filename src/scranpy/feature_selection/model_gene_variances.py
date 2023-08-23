@@ -16,8 +16,7 @@ __license__ = "MIT"
 
 @dataclass
 class ModelGeneVariancesOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
+    """Optional arguments for :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
     Attributes:
         block (Sequence, optional): Block assignment for each cell.

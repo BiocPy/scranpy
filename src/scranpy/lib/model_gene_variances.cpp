@@ -6,13 +6,13 @@
 
 //[[export]]
 void model_gene_variances(
-    const void* mat, 
+    const void* mat,
     double* /** numpy */ means,
-    double* /** numpy */ variances, 
+    double* /** numpy */ variances,
     double* /** numpy */ fitted,
     double* /** numpy */ residuals,
-    double span, 
-    int32_t num_threads) 
+    double span,
+    int32_t num_threads)
 {
     scran::ModelGeneVariances runner;
     runner.set_num_threads(num_threads);
@@ -22,18 +22,18 @@ void model_gene_variances(
 
 //[[export]]
 void model_gene_variances_blocked(
-    const void* mat, 
+    const void* mat,
     double* /** numpy */ ave_means,
     double* /** numpy */ ave_detected,
     double* /** numpy */ ave_fitted,
     double* /** numpy */ ave_residuals,
-    int32_t num_blocks, 
-    const int32_t* /** void_p */ block, 
+    int32_t num_blocks,
+    const int32_t* /** void_p */ block,
     uintptr_t* /** void_p */ block_means,
     uintptr_t* /** void_p */ block_variances,
     uintptr_t* /** void_p */ block_fitted,
     uintptr_t* /** void_p */ block_residuals,
-    double span, 
+    double span,
     int32_t num_threads)
 {
     scran::ModelGeneVariances runner;

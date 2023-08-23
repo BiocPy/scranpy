@@ -1,5 +1,5 @@
-from dataclasses import dataclass, field
-from functools import singledispatch, singledispatchmethod
+from dataclasses import dataclass
+from functools import singledispatchmethod
 
 from typing import Optional, Mapping
 from singlecellexperiment import SingleCellExperiment
@@ -8,25 +8,22 @@ from numpy import ndarray, array
 from igraph import Graph
 from mattress import TatamiNumericPointer
 
-from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
-from .. import feature_selection as feat
-from .. import marker_detection as mark
-from .. import quality_control as qc
 from ..types import MatrixTypes
+
 
 @dataclass
 class AnalyzeResults:
     """Results across all analyis steps from :py:meth:`~scranpy.analyze.analyze.analyze`.
 
     Attributes:
-        rna_quality_control_metrics (BiocFrame, optional): 
+        rna_quality_control_metrics (BiocFrame, optional):
             Output of :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
 
-        rna_quality_control_thresholds (BiocFrame, optional): 
+        rna_quality_control_thresholds (BiocFrame, optional):
             Output of :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
 
-        rna_quality_control_filter (ndarray, optional): 
+        rna_quality_control_filter (ndarray, optional):
             Output of :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
         size_factors (ndarray, optional):
@@ -47,14 +44,14 @@ class AnalyzeResults:
 
         umap (UmapEmbedding, optional):
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
-    
+
         snn_graph (Graph, optional):
             Output of :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
         clusters (List, optional):
-            List of length equal to the number of cells in the (filtered) dataset, 
+            List of length equal to the number of cells in the (filtered) dataset,
             containing the cluster assignment for each cell.
-            
+
         markers (Mapping, optional):
             Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
     """
@@ -94,7 +91,7 @@ class AnalyzeResults:
         # TODO: need to add logcounts
         sce = SingleCellExperiment(assays={assay: x[:, keep]})
 
-        sce.colData = self.rna_quality_control_metrics[keep,:]
+        sce.colData = self.rna_quality_control_metrics[keep, :]
         sce.colData["clusters"] = self.clusters
 
         sce.reducedDims = {
@@ -148,4 +145,3 @@ class AnalyzeResults:
 
         mat = x.assay(assay)
         return self.__to_sce(mat, assay, include_gene_data)
-

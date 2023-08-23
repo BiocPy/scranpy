@@ -1,21 +1,22 @@
 from typing import Sequence, Union
-from functools import singledispatch, singledispatchmethod
+from functools import singledispatch
 
 from .AnalyzeOptions import AnalyzeOptions
-from .AnalyzeResults import AnalyzeResults 
+from .AnalyzeResults import AnalyzeResults
 from .live_analyze import live_analyze
 from .dry_analyze import dry_analyze
-from ..types import MatrixTypes, is_matrix_expected_type, validate_object_type
+from ..types import is_matrix_expected_type
 
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
 
+
 @singledispatch
 def analyze(
-    matrix, 
-    features: Sequence[str], 
+    matrix,
+    features: Sequence[str],
     options: AnalyzeOptions = AnalyzeOptions(),
-    dry_run: bool = False
+    dry_run: bool = False,
 ) -> Union[AnalyzeResults, str]:
     """Run all steps of the scran workflow for single-cell RNA-seq datasets.
 
@@ -42,7 +43,7 @@ def analyze(
     Returns:
         If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
 
-        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis. 
+        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.
     """
     if dry_run:
         return dry_analyze(options)
@@ -60,7 +61,7 @@ def analyze_sce(
     features: Union[Sequence[str], str],
     assay: str = "counts",
     options: AnalyzeOptions = AnalyzeOptions(),
-    dry_run: bool = False
+    dry_run: bool = False,
 ) -> Union[AnalyzeResults, str]:
     """Run all steps of the scran workflow for single-cell RNA-seq datasets.
 
@@ -90,7 +91,7 @@ def analyze_sce(
     Returns:
         If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
 
-        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis. 
+        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.
     """
     if assay not in matrix.assayNames:
         raise ValueError(f"SCE does not contain a '{assay}' matrix.")
@@ -101,4 +102,6 @@ def analyze_sce(
         else:
             features = matrix.rowData[features]
 
-    return analyze(matrix.assay("counts"), features=features, options=options, dry_run=dry_run)
+    return analyze(
+        matrix.assay("counts"), features=features, options=options, dry_run=dry_run
+    )

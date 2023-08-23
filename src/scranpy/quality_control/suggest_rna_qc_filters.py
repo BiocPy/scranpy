@@ -1,19 +1,17 @@
 from dataclasses import dataclass
-from typing import Mapping, Optional, Sequence
+from typing import Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import float64, int32, ndarray, zeros
+from numpy import float64, int32, ndarray
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from ..utils import factorize, match_lists
 from .utils import create_pointer_array
 
 
 @dataclass
 class SuggestRnaQcFiltersOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+    """Optional arguments for :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
 
     Attributes:
         block (Sequence, optional):
@@ -37,8 +35,8 @@ class SuggestRnaQcFiltersOptions:
             and will override any suggested thresholds in the final BiocFrame.
 
             If ``block = None``, this data frame should contain one row.
-            Otherwise, the number of rows should be equal to the number of blocks, 
-            where each row contains a block-specific threshold for the relevant metrics. 
+            Otherwise, the number of rows should be equal to the number of blocks,
+            where each row contains a block-specific threshold for the relevant metrics.
             The identity of each block should be stored in the row names.
 
         verbose (bool, optional): Whether to print logging information.
@@ -55,9 +53,9 @@ def suggest_rna_qc_filters(
     metrics: BiocFrame,
     options: SuggestRnaQcFiltersOptions = SuggestRnaQcFiltersOptions(),
 ) -> BiocFrame:
-    """Suggest filter thresholds for RNA-based per-cell quality control (QC) metrics.
-    This identifies outliers on the relevant tail of the distribution of each QC metric.
-    Outlier cells are considered to be low-quality and should be removed before further analysis.
+    """Suggest filter thresholds for RNA-based per-cell quality control (QC) metrics. This identifies outliers on the
+    relevant tail of the distribution of each QC metric. Outlier cells are considered to be low-quality and should be
+    removed before further analysis.
 
     Args:
         metrics (BiocFrame): A data frame containing QC metrics for each cell,
@@ -143,12 +141,16 @@ def suggest_rna_qc_filters(
     custom_thresholds = options.custom_thresholds
     if custom_thresholds is not None:
         if num_blocks != custom_thresholds.shape[0]:
-            raise ValueError("number of rows in 'custom_thresholds' should equal the number of blocks")
+            raise ValueError(
+                "number of rows in 'custom_thresholds' should equal the number of blocks"
+            )
         if num_blocks > 1 and custom_thresholds.rownames != block_names:
             m = match_lists(block_names, custom_thresholds.rownames)
             if m is None:
-                raise ValueError("row names of 'custom_thresholds' should equal the unique values of 'block'")
-            custom_thresholds = custom_thresholds[m,:]
+                raise ValueError(
+                    "row names of 'custom_thresholds' should equal the unique values of 'block'"
+                )
+            custom_thresholds = custom_thresholds[m, :]
 
         if custom_thresholds.hasColumn("sums"):
             sums_out = custom_thresholds.column("sums")
@@ -169,9 +171,8 @@ def suggest_rna_qc_filters(
                 columnNames=skeys,
                 numberOfRows=num_blocks,
                 rowNames=block_names,
-            )
+            ),
         },
         numberOfRows=num_blocks,
         rowNames=block_names,
     )
-

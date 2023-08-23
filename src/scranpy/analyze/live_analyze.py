@@ -1,9 +1,8 @@
 from typing import Sequence
-from mattress import TatamiNumericPointer, tatamize
+from mattress import tatamize
 from copy import deepcopy
 from numpy import logical_not
 
-from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
 from .. import feature_selection as feat
 from .. import marker_detection as mark
@@ -11,13 +10,14 @@ from .. import normalization as norm
 from .. import quality_control as qc
 
 from .AnalyzeOptions import AnalyzeOptions
-from .AnalyzeResults import AnalyzeResults 
+from .AnalyzeResults import AnalyzeResults
 from .run_neighbor_suite import run_neighbor_suite
-from ..types import MatrixTypes, is_matrix_expected_type, validate_object_type
+from ..types import MatrixTypes, is_matrix_expected_type
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
 __license__ = "MIT"
+
 
 def live_analyze(
     matrix: MatrixTypes,
@@ -36,18 +36,19 @@ def live_analyze(
     # Start of the capture.
     results = AnalyzeResults()
 
-    # Don't be tempted to create a shorter variable name, 
+    # Don't be tempted to create a shorter variable name,
     # otherwise the dry-run generator won't work as expected.
     subsets = {}
     if isinstance(options.miscellaneous_options.mito_prefix, str):
-        subsets["mito"] = qc.guess_mito_from_symbols(features, options.miscellaneous_options.mito_prefix)
+        subsets["mito"] = qc.guess_mito_from_symbols(
+            features, options.miscellaneous_options.mito_prefix
+        )
     results.rna_quality_control_subsets = subsets
 
     rna_options = deepcopy(options.per_cell_rna_qc_metrics_options)
     rna_options.subsets = subsets
     results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
-        matrix,
-        options = rna_options
+        matrix, options=rna_options
     )
     results.rna_quality_control_thresholds = qc.suggest_rna_qc_filters(
         results.rna_quality_control_metrics,
@@ -60,10 +61,7 @@ def live_analyze(
         options=options.create_rna_qc_filter_options,
     )
 
-    filtered = qc.filter_cells(
-        ptr, 
-        filter=results.rna_quality_control_filter
-    )
+    filtered = qc.filter_cells(ptr, filter=results.rna_quality_control_filter)
 
     # Normalization.
     if options.log_norm_counts_options.size_factors is None:
@@ -71,7 +69,7 @@ def live_analyze(
             results.rna_quality_control_metrics.column("sums")[
                 logical_not(results.rna_quality_control_filter)
             ],
-            options=options.center_size_factors_options
+            options=options.center_size_factors_options,
         )
         norm_options = deepcopy(options.log_norm_counts_options)
         norm_options.size_factors = results.size_factors
@@ -79,12 +77,9 @@ def live_analyze(
         norm_options = options.log_norm_counts_options
         results.size_factors = norm_options.size_factors
 
-    # Until a delayed array is supported, we can't expose these pointers to 
+    # Until a delayed array is supported, we can't expose these pointers to
     # users, so we'll just hold onto them.
-    normed = norm.log_norm_counts(
-        filtered,
-        options=norm_options
-    )
+    normed = norm.log_norm_counts(filtered, options=norm_options)
 
     results.gene_variances = feat.model_gene_variances(
         normed,
@@ -110,22 +105,18 @@ def live_analyze(
         run_umap_options=options.run_umap_options,
         run_tsne_options=options.run_tsne_options,
         build_snn_graph_options=options.build_snn_graph_options,
-        num_threads=options.find_nearest_neighbors_options.num_threads # using this as the parallelization extent.
+        num_threads=options.find_nearest_neighbors_options.num_threads,  # using this as the parallelization extent.
     )
 
     results.snn_graph = graph
-    results.clusters = (
-        results.snn_graph.community_multilevel(
-            resolution=options.miscellaneous_options.snn_graph_multilevel_resolution
-        ).membership
-    )
+    results.clusters = results.snn_graph.community_multilevel(
+        resolution=options.miscellaneous_options.snn_graph_multilevel_resolution
+    ).membership
 
     marker_options = deepcopy(options.score_markers_options)
     marker_options.num_threads = remaining_threads
     results.markers = mark.score_markers(
-        normed,
-        grouping=results.clusters,
-        options=marker_options
+        normed, grouping=results.clusters, options=marker_options
     )
 
     results.tsne = get_tsne()

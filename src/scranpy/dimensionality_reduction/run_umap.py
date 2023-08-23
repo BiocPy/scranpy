@@ -32,6 +32,7 @@ y (ndarray): a NumPy view of length equal to the number of cells,
 
 class UmapStatus:
     """Status of a UMAP run.
+
     This should not be constructed manually but should be returned by
     :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_umap`.
     """
@@ -102,8 +103,7 @@ class UmapStatus:
 
 @dataclass
 class InitializeUmapOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap`.
+    """Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap`.
 
     Arguments:
         min_dist (float, optional):
@@ -150,9 +150,8 @@ def initialize_umap(
     input: Union[NeighborResults, NeighborIndex, ndarray],
     options: InitializeUmapOptions = InitializeUmapOptions(),
 ) -> UmapStatus:
-    """Initialize the UMAP algorithm.
-    This is useful for fine-tuned control over the progress of the algorithm,
-    e.g., to pause/resume the optimization of the coordinates.
+    """Initialize the UMAP algorithm. This is useful for fine-tuned control over the progress of the algorithm, e.g., to
+    pause/resume the optimization of the coordinates.
 
     ``input`` is either a pre-built neighbor search index for the dataset
     (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`), or a
@@ -168,7 +167,7 @@ def initialize_umap(
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
-            coordinates, where rows are cells and columns are dimensions. 
+            coordinates, where rows are cells and columns are dimensions.
             This is most typically the result of
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
@@ -214,8 +213,7 @@ def initialize_umap(
 
 @dataclass
 class RunUmapOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
+    """Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
 
     Attributes:
         initialize_umap (InitializeUmapOptions):
@@ -235,13 +233,13 @@ class RunUmapOptions:
 
 
 def run_umap(
-    input: Union[NeighborResults, NeighborIndex, ndarray], 
-    options: RunUmapOptions = RunUmapOptions()
+    input: Union[NeighborResults, NeighborIndex, ndarray],
+    options: RunUmapOptions = RunUmapOptions(),
 ) -> UmapEmbedding:
-    """Compute a two-dimensional UMAP embedding for the cells.
-    Neighboring cells in high-dimensional space are placed next to each other on the embedding for intuitive visualization.
-    This function is a wrapper around :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap`
-    with invocations of the :py:meth:`~scranpy.dimensionality_reduction.run_umap.UmapStatus.run` method to the maximum number of epochs.
+    """Compute a two-dimensional UMAP embedding for the cells. Neighboring cells in high-dimensional space are placed
+    next to each other on the embedding for intuitive visualization. This function is a wrapper around
+    :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap` with invocations of the
+    :py:meth:`~scranpy.dimensionality_reduction.run_umap.UmapStatus.run` method to the maximum number of epochs.
 
     Args:
         input (NeighborResults | NeighborIndex | ndarray):

@@ -69,13 +69,13 @@ class BuildSnnGraphOptions:
     def set_threads(self, num_threads: int):
         self.num_threads = num_threads
 
+
 def build_snn_graph(
     input: Union[NeighborIndex, NeighborResults, ndarray],
     options: BuildSnnGraphOptions = BuildSnnGraphOptions(),
 ) -> Graph:
-    """Build a shared nearest neighbor (SNN) graph where each cell is a node and
-    edges are formed between cells that share one or more nearest neighbors.
-    This can be used for community detection to define clusters of similar cells.
+    """Build a shared nearest neighbor (SNN) graph where each cell is a node and edges are formed between cells that
+    share one or more nearest neighbors. This can be used for community detection to define clusters of similar cells.
 
     Args:
         input (NeighborIndex | NeighborResults | ndarray):

@@ -38,7 +38,7 @@ import h5py as h5
 fhandle = h5.File(path)
 import scipy.sparse as sp
 mat = sp.csc_matrix(
-    (fhandle["matrix"]["data"], fhandle["matrix"]["indices"], fhandle["matrix"]["indptr"]), 
+    (fhandle["matrix"]["data"], fhandle["matrix"]["indices"], fhandle["matrix"]["indptr"]),
     fhandle["matrix"]["shape"]
 )
 features = [x.decode("ascii") for x in fhandle["matrix"]["features"]["name"]]
@@ -49,7 +49,7 @@ results = scranpy.analyze(mat, features)
 
 ## Developer Notes
 
-Steps to setup dependencies - 
+Steps to setup dependencies -
 
 - initialize git submodules in `extern/libscran`.
 

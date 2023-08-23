@@ -14,8 +14,7 @@ __license__ = "MIT"
 
 @dataclass
 class FilterCellsOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
+    """Optional arguments for :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
     Attributes:
         discard (bool): Whether to discard the cells listed in ``filter``.
@@ -33,8 +32,8 @@ def filter_cells(
     filter: ndarray,
     options: FilterCellsOptions = FilterCellsOptions(),
 ) -> TatamiNumericPointer:
-    """Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data,
-    e.g., :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+    """Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data, e.g.,
+    :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
     Args:
         input (MatrixTypes):

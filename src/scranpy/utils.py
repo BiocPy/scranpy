@@ -50,14 +50,14 @@ def to_logical(selection: SelectionTypes, length: int) -> ndarray:
     """Convert a selection to a logical array.
 
     Args:
-        selection (SelectionTypes): 
+        selection (SelectionTypes):
             List/array of integer indices, a range or a slice object.
 
             Alternatively, a list/array of booleans.
 
             An empty sequence is treated as a zero-length list of integers.
 
-        length (int): 
+        length (int):
             Length of the output array, i.e., the maximum possible index plus 1.
 
     Returns:
@@ -92,8 +92,8 @@ def to_logical(selection: SelectionTypes, length: int) -> ndarray:
             )
 
     if len(selection) == 0:
-        has_bool = False 
-        has_number = True 
+        has_bool = False
+        has_number = True
     else:
         has_bool = is_list_of_type(selection, bool)
         has_number = is_list_of_type(selection, int)
@@ -110,7 +110,8 @@ def to_logical(selection: SelectionTypes, length: int) -> ndarray:
 
     return output
 
-def match_lists(x, y, return_on_missing = True):
+
+def match_lists(x, y, return_on_missing=True):
     mapping = {}
     counter = 0
     for y0 in y:
@@ -127,6 +128,7 @@ def match_lists(x, y, return_on_missing = True):
             reordering.append(None)
 
     return reordering
+
 
 def validate_and_tatamize_input(x: MatrixTypes) -> TatamiNumericPointer:
     """Validate and tatamize the input matrix.

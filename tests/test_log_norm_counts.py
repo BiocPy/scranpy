@@ -22,9 +22,7 @@ def test_log_norm_counts(mock_data):
     result_uncentered = log_norm_counts(y, LogNormCountsOptions(center=False))
     assert np.allclose(result_uncentered.row(0), np.log2(x[0, :] / sf + 1))
 
-    result_blocked = log_norm_counts(
-        y, LogNormCountsOptions(block=mock_data.block)
-    )
+    result_blocked = log_norm_counts(y, LogNormCountsOptions(block=mock_data.block))
     first_blocked = result_blocked.row(0)
     assert np.allclose(first_blocked, ref) is False
 

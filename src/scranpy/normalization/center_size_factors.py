@@ -15,8 +15,7 @@ __license__ = "MIT"
 
 @dataclass
 class CenterSizeFactorsOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.normalization.center_size_factors.center_size_factors`.
+    """Optional arguments for :py:meth:`~scranpy.normalization.center_size_factors.center_size_factors`.
 
     Attributes:
         block (Sequence, optional):
@@ -42,16 +41,16 @@ class CenterSizeFactorsOptions:
 
 
 def center_size_factors(
-    size_factors: ndarray, 
-    options: CenterSizeFactorsOptions = CenterSizeFactorsOptions()
+    size_factors: ndarray,
+    options: CenterSizeFactorsOptions = CenterSizeFactorsOptions(),
 ) -> ndarray:
-    """Center size factors before computing normalized values from the count matrix.
-    This ensures that the normalized values are on the same scale as the original counts for easier interpretation.
+    """Center size factors before computing normalized values from the count matrix. This ensures that the normalized
+    values are on the same scale as the original counts for easier interpretation.
 
     Args:
         size_factors (ndarray):
             Floating-point array containing size factors for all cells.
-            
+
         options (CenterSizeFactorsOptions): Optional parameters.
 
     Raises:
@@ -79,11 +78,6 @@ def center_size_factors(
         )  # assumes that factorize is available somewhere.
         block_offset = block_info.indices.ctypes.data
 
-    lib.center_size_factors(
-        NC,
-        local_sf,
-        use_block,
-        block_offset
-    )
+    lib.center_size_factors(NC, local_sf, use_block, block_offset)
 
     return local_sf

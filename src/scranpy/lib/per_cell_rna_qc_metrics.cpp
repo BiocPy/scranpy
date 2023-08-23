@@ -6,13 +6,13 @@
 
 //[[export]]
 void per_cell_rna_qc_metrics(
-    const void* mat, 
-    int32_t num_subsets, 
-    const uintptr_t* /** void_p */ subset_ptrs, 
-    double* /** numpy */ sum_output, 
-    int32_t* /** numpy */ detected_output, 
-    uintptr_t* /** void_p */ subset_output, 
-    int32_t num_threads) 
+    const void* mat,
+    int32_t num_subsets,
+    const uintptr_t* /** void_p */ subset_ptrs,
+    double* /** numpy */ sum_output,
+    int32_t* /** numpy */ detected_output,
+    uintptr_t* /** void_p */ subset_output,
+    int32_t num_threads)
 {
     scran::PerCellRnaQcMetrics runner;
     runner.set_num_threads(num_threads);

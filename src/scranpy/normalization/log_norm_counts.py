@@ -17,8 +17,7 @@ __license__ = "MIT"
 
 @dataclass
 class LogNormCountsOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
+    """Optional arguments for :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
     Attributes:
         block (Sequence, optional):
@@ -62,10 +61,10 @@ class LogNormCountsOptions:
 def log_norm_counts(
     input: MatrixTypes, options: LogNormCountsOptions = LogNormCountsOptions()
 ) -> TatamiNumericPointer:
-    """Compute log-transformed normalized values.
-    The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.
-    The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps;
-    these relative changes in expression are more relevant than absolute changes.
+    """Compute log-transformed normalized values. The normalization removes uninteresting per-cell differences due to
+    sequencing efficiency and library size. The subsequent log-transformation ensures that any differences in the log-
+    values represent log-fold changes in downstream analysis steps; these relative changes in expression are more
+    relevant than absolute changes.
 
     Args:
         input (MatrixTypes):

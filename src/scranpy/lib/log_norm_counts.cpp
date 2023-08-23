@@ -8,15 +8,15 @@
 
 //[[export]]
 void* log_norm_counts(
-    const void* mat0, 
-    uint8_t use_block, 
-    const int32_t* block /** void_p */, 
-    uint8_t use_size_factors, 
-    const double* size_factors /** void_p */, 
-    uint8_t center, 
-    uint8_t allow_zeros, 
-    uint8_t allow_non_finite, 
-    int num_threads) 
+    const void* mat0,
+    uint8_t use_block,
+    const int32_t* block /** void_p */,
+    uint8_t use_size_factors,
+    const double* size_factors /** void_p */,
+    uint8_t center,
+    uint8_t allow_zeros,
+    uint8_t allow_non_finite,
+    int num_threads)
 {
     scran::LogNormCounts runner;
     runner.set_center(center);

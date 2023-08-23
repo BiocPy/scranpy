@@ -7,9 +7,11 @@ from .. import nearest_neighbors as nn
 from .. import dimensionality_reduction as dimred
 from .. import clustering as clust
 
+
 def _unserialize_neighbors_before_run(f, serialized, opt):
     nnres = nn.NeighborResults.unserialize(serialized)
     return f(nnres, opt)
+
 
 def run_neighbor_suite(
     principal_components,
@@ -18,12 +20,11 @@ def run_neighbor_suite(
     run_umap_options: dimred.RunUmapOptions = dimred.RunUmapOptions(),
     run_tsne_options: dimred.RunTsneOptions = dimred.RunTsneOptions(),
     build_snn_graph_options: clust.BuildSnnGraphOptions = clust.BuildSnnGraphOptions(),
-    num_threads: int = 1
+    num_threads: int = 1,
 ) -> Tuple[Callable, Callable, Graph, int]:
-    """Run the suite of nearest neighbor methods together.
-    This builds the index once and re-uses it for all methods.
-    Given enough threads, it also runs all post-neighbor-detection functions in parallel,
-    as none of them depend on each other.
+    """Run the suite of nearest neighbor methods together. This builds the index once and re-uses it for all methods.
+    Given enough threads, it also runs all post-neighbor-detection functions in parallel, as none of them depend on each
+    other.
 
     Args:
         principal_components (ndarray):
@@ -105,8 +106,8 @@ def run_neighbor_suite(
     _tasks.append(
         executor.submit(
             _unserialize_neighbors_before_run,
-            dimred.run_umap, 
-            serialized_dict[umap_nn], 
+            dimred.run_umap,
+            serialized_dict[umap_nn],
             run_umap_copy,
         )
     )
@@ -118,7 +119,7 @@ def run_neighbor_suite(
     def get_tsne():
         retrieve()
         return _tasks[0].result()
-    
+
     def get_umap():
         retrieve()
         return _tasks[1].result()
@@ -129,5 +130,3 @@ def run_neighbor_suite(
     graph = clust.build_snn_graph(nn_dict[snn_nn], options=build_snn_graph_copy)
 
     return get_tsne, get_umap, graph, remaining_threads
-
-
