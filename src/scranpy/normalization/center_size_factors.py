@@ -33,11 +33,18 @@ class CenterSizeFactorsOptions:
             This argument is ignored if the input ``size_factors`` are not double-precision,
             in which case a new array is always returned.
 
+        sanitize (bool, optional):
+            Whether to sanitize invalid size factors.
+            Negative and zero size factors are replaced with the smallest valid size factor;
+            infinite size factors are replaced with the largest valid size factor;
+            and NaNs are replaced with 1.
+
         verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
     in_place: bool = False
+    sanitize: bool = False
     verbose: bool = False
 
 
@@ -82,6 +89,7 @@ def center_size_factors(
     lib.center_size_factors(
         NC,
         local_sf,
+        sanitize,
         use_block,
         block_offset
     )
