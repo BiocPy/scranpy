@@ -5,7 +5,6 @@ from numpy import ndarray, logical_not
 from delayedarray import DelayedArray
 
 from .. import cpphelpers as lib
-from ..types import MatrixTypes
 from ..utils import to_logical
 
 __author__ = "ltla, jkanche"
