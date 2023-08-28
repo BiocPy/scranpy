@@ -1,5 +1,6 @@
 from scranpy import AnalyzeResults, analyze
 from singlecellexperiment import SingleCellExperiment
+import delayedarray as da
 
 __author__ = "jkanche"
 __copyright__ = "jkanche"
@@ -16,6 +17,9 @@ def test_analyze(mock_data):
 
     assert isinstance(as_sce, SingleCellExperiment)
     assert as_sce.shape[1] == len(out.clusters)
+
+    assert isinstance(as_sce.assay("counts"), da.DelayedArray)
+    assert isinstance(as_sce.assay("logcounts"), da.DelayedArray)
 
     dry = analyze(None, None, dry_run=True)
     assert isinstance(dry, str)
