@@ -4,9 +4,10 @@ from functools import singledispatch, singledispatchmethod
 from typing import Optional, Mapping
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
-from numpy import ndarray, array
+from numpy import ndarray, array, log1p, log
 from igraph import Graph
 from mattress import TatamiNumericPointer
+from delayedarray import DelayedArray
 
 from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
@@ -91,10 +92,13 @@ class AnalyzeResults:
 
         keep = [not y for y in self.rna_quality_control_filter.tolist()]
 
-        # TODO: need to add logcounts
-        sce = SingleCellExperiment(assays={assay: x[:, keep]})
+        y = DelayedArray(x)
+        filtered = y[:, keep]
+        normalized = log1p(filtered / self.size_factors) / log(2)
+        sce = SingleCellExperiment(assays={ "counts": filtered, "logcounts": normalized })
 
         sce.colData = self.rna_quality_control_metrics[keep,:]
+        sce.colData["size_factors"] = self.size_factors
         sce.colData["clusters"] = self.clusters
 
         sce.reducedDims = {
