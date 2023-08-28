@@ -9,5 +9,6 @@
 void* log_norm_counts(const void* mat0, const double* size_factors /** void_p */) {
     auto mat = reinterpret_cast<const Mattress*>(mat0);
     scran::LogNormCounts runner;
-    return new Mattress(runner.run_blocked(mat->ptr, tatami::ArrayView<double>(size_factors, mat->ptr->ncol()), block));
+    runner.set_center(false);
+    return new Mattress(runner.run(mat->ptr, std::vector<double>(size_factors, size_factors + mat->ptr->ncol())));
 }

@@ -86,8 +86,7 @@ def log_norm_counts(
         ptr = input
         if not is_ptr:
             ptr = tatamize(input)
-        my_size_factors = np.zeros(ptr.ncol(), dtype=float64)
-        lib.compute_column_sums(ptr.ptr, my_size_factors)
+        my_size_factors = ptr.column_sums(num_threads = options.num_threads)
     else:
         my_size_factors = my_size_factors.astype(float64, copy=True) # just make a copy and avoid problems.
 
