@@ -11,7 +11,8 @@
 void center_size_factors(
     int32_t num,
     double* size_factors /** numpy */, 
-    uint8_t sanitize,
+    uint8_t allow_zeros,
+    uint8_t allow_non_finite,
     uint8_t use_block, 
     const int32_t* block /** void_p */)
 {
@@ -22,9 +23,10 @@ void center_size_factors(
     scran::CenterSizeFactors runner;
     auto res = runner.run_blocked(num, size_factors, block);
 
-    if (sanitize) {
-        scran::SanitizeSizeFactors san;
-        san.run(num, size_factors, res);
-    }
+    scran::SanitizeSizeFactors san;
+    san.set_handle_zero(allow_zeros ? scran::SanitizeSizeFactors::HandlerAction::SANITIZE : scran::SanitizeSizeFactors::HandlerAction::ERROR);
+    san.set_handle_non_finite(allow_non_finite ? scran::SanitizeSizeFactors::HandlerAction::SANITIZE : scran::SanitizeSizeFactors::HandlerAction::ERROR);
+    san.run(num, size_factors, res);
+
     return; 
 }
