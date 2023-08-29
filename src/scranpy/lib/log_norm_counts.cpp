@@ -6,7 +6,7 @@
 #include <memory>
 
 //[[export]]
-void* log_norm_counts(const void* mat0, const double* size_factors /** void_p */) {
+void* log_norm_counts(const void* mat0, const double* size_factors /** numpy */) {
     auto mat = reinterpret_cast<const Mattress*>(mat0);
     scran::LogNormCounts runner;
     runner.set_center(false);

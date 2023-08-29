@@ -107,7 +107,7 @@ void* initialize_tsne(const void*, double, int32_t);
 
 void* initialize_umap(const void*, int32_t, double, double*, int32_t);
 
-void* log_norm_counts(const void*, uint8_t, const int32_t*, uint8_t, const double*, uint8_t, uint8_t, uint8_t, int);
+void* log_norm_counts(const void*, const double*);
 
 void model_gene_variances(const void*, double*, double*, double*, double*, double, int32_t);
 
@@ -749,10 +749,10 @@ PYAPI void* py_initialize_umap(const void* neighbors, int32_t num_epochs, double
     return output;
 }
 
-PYAPI void* py_log_norm_counts(const void* mat0, uint8_t use_block, const int32_t* block, uint8_t use_size_factors, const double* size_factors, uint8_t center, uint8_t allow_zeros, uint8_t allow_non_finite, int num_threads, int32_t* errcode, char** errmsg) {
+PYAPI void* py_log_norm_counts(const void* mat0, const double* size_factors, int32_t* errcode, char** errmsg) {
     void* output = NULL;
     try {
-        output = log_norm_counts(mat0, use_block, block, use_size_factors, size_factors, center, allow_zeros, allow_non_finite, num_threads);
+        output = log_norm_counts(mat0, size_factors);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());
