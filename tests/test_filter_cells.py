@@ -35,10 +35,15 @@ def test_filter_cells(mock_data):
 
 def test_filter_cells_by_matrix(mock_data):
     x = mock_data.x
-    out = filter_cells(x, filter=np.asarray([2, 4, 6, 8]), options=FilterCellsOptions(discard=True))
+    out = filter_cells(
+        x, filter=np.asarray([2, 4, 6, 8]), options=FilterCellsOptions(discard=True)
+    )
     assert isinstance(out, da.DelayedArray)
     assert out.shape == (x.shape[0], x.shape[1] - 4)
 
-    out = filter_cells(x, filter=np.asarray([2, 4, 6, 8]), options=FilterCellsOptions(discard=True, delayed=False))
+    out = filter_cells(
+        x,
+        filter=np.asarray([2, 4, 6, 8]),
+        options=FilterCellsOptions(discard=True, delayed=False),
+    )
     assert isinstance(out, np.ndarray)
-

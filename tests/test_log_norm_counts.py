@@ -33,6 +33,7 @@ def test_log_norm_counts(mock_data):
     last = result.nrow() - 1
     assert (result.row(last) == result_parallel.row(last)).all()
 
+
 def test_log_norm_counts_matrix(mock_data):
     x = mock_data.x
     sf = x.sum(axis=0)

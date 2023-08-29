@@ -8,7 +8,6 @@ from numpy import float64, ndarray, log1p, log
 from delayedarray import DelayedArray
 
 from .. import cpphelpers as lib
-from ..types import validate_matrix_types
 from ..utils import factorize
 
 __author__ = "ltla, jkanche"
@@ -64,16 +63,14 @@ class LogNormCountsOptions:
     verbose: bool = False
 
 
-def log_norm_counts(
-    input, options: LogNormCountsOptions = LogNormCountsOptions()
-): 
-    """Compute log-transformed normalized values.
-    The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.
-    The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps;
-    these relative changes in expression are more relevant than absolute changes.
+def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions()):
+    """Compute log-transformed normalized values. The normalization removes uninteresting per-cell differences due to
+    sequencing efficiency and library size. The subsequent log-transformation ensures that any differences in the log-
+    values represent log-fold changes in downstream analysis steps; these relative changes in expression are more
+    relevant than absolute changes.
 
     Args:
-        input: 
+        input:
             Matrix-like object containing cells in columns and features in rows, typically with count data.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
@@ -97,7 +94,7 @@ def log_norm_counts(
         if not use_sf:
             raise ValueError("oops, this mode currently needs size_factors")
 
-        return log1p(input / options.size_factors) / log(2) 
+        return log1p(input / options.size_factors) / log(2)
 
     NC = input.ncol()
 

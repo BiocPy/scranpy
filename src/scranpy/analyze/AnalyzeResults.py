@@ -92,9 +92,9 @@ class AnalyzeResults:
         y = DelayedArray(x)
         filtered = y[:, keep]
         normalized = log1p(filtered / self.size_factors) / log(2)
-        sce = SingleCellExperiment(assays={ "counts": filtered, "logcounts": normalized })
+        sce = SingleCellExperiment(assays={"counts": filtered, "logcounts": normalized})
 
-        sce.colData = self.rna_quality_control_metrics[keep,:]
+        sce.colData = self.rna_quality_control_metrics[keep, :]
         sce.colData["size_factors"] = self.size_factors
         sce.colData["clusters"] = self.clusters
 

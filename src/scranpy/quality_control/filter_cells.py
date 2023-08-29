@@ -38,8 +38,8 @@ def filter_cells(
     filter: ndarray,
     options: FilterCellsOptions = FilterCellsOptions(),
 ):
-    """Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data,
-    e.g., :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+    """Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data, e.g.,
+    :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
     Args:
         input:
@@ -79,4 +79,4 @@ def filter_cells(
             input = DelayedArray(input)
         if options.discard:
             filter = logical_not(filter)
-        return input[:,filter]
+        return input[:, filter]
