@@ -94,8 +94,8 @@ class RunPcaOptions:
             Defaults to "project".
 
         block_weights (bool, optional):
-            Whether to weight each block so that it contributes the same number of effective observations to the covariance matrix.
-            Defaults to True.
+            Whether to weight each block so that it contributes the same number of effective observations to the
+            covariance matrix. Defaults to True.
 
         num_threads (int, optional):  Number of threads to use. Defaults to 1.
 
@@ -129,9 +129,11 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
 
     Args:
         input (MatrixTypes):
-            Matrix-like object where rows are features and columns are cells, typically containing log-normalized values.
-            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
-            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+            Matrix-like object where rows are features and columns are cells, typically containing log-normalized
+            values. This should be a matrix class that can be converted into a
+            :py:class:`~mattress.TatamiNumericPointer`. Developers may also provide the
+            :py:class:`~mattress.TatamiNumericPointer` itself.
+
         options (RunPcaOptions): Optional parameters.
 
     Raises:

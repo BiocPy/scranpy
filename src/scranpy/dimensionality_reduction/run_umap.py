@@ -114,7 +114,8 @@ class InitializeUmapOptions:
         num_neighbors (int, optional):
             Number of neighbors to use in the UMAP algorithm.
             Larger values focus more on global structure than local structure.
-            Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` object.
+            Ignored if ``input`` is a
+            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` object.
             Defaults to 15.
 
         num_epochs (int, optional):

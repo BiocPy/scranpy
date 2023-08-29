@@ -41,9 +41,10 @@ def analyze(
         NotImplementedError: If ``matrix`` is not an expected type.
 
     Returns:
-        If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
-
-        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.
+        - If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned
+        containing... well, the analysis results, obviously.
+        - If ``dry_run = True``, a string is returned containing
+        all the steps required to perform the analysis.
     """
     if dry_run:
         return dry_analyze(options)
@@ -89,9 +90,9 @@ def analyze_sce(
         ValueError: If SCE does not contain a ``assay`` matrix.
 
     Returns:
-        If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned containing... well, the analysis results, obviously.
-
-        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.
+        - If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned
+        containing... well, the analysis results, obviously.
+        - If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.
     """
     if assay not in matrix.assayNames:
         raise ValueError(f"SCE does not contain a '{assay}' matrix.")
