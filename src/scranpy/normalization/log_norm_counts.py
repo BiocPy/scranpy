@@ -4,10 +4,11 @@ from dataclasses import dataclass
 from typing import Optional, Sequence
 
 from mattress import TatamiNumericPointer
-from numpy import float64, ndarray
+from numpy import float64, ndarray, log1p, log
+from delayedarray import DelayedArray
 
 from .. import cpphelpers as lib
-from ..types import MatrixTypes, validate_matrix_types
+from ..types import validate_matrix_types
 from ..utils import factorize
 
 __author__ = "ltla, jkanche"
@@ -31,6 +32,10 @@ class LogNormCountsOptions:
         size_factors (ndarray, optional): Size factors for each cell.
             Defaults to None.
 
+        delayed (bool): Whether to force the log-normalization to be
+            delayed. This reduces memory usage by avoiding unnecessary
+            copies of the count matrix.
+
         center (bool, optional): Whether to center the size factors. Defaults to True.
 
         allow_zeros (bool, optional): Whether to gracefully handle zero size factors.
@@ -51,6 +56,7 @@ class LogNormCountsOptions:
 
     block: Optional[Sequence] = None
     size_factors: Optional[ndarray] = None
+    delayed: bool = True
     center: bool = True
     allow_zeros: bool = False
     allow_non_finite: bool = False
@@ -59,34 +65,42 @@ class LogNormCountsOptions:
 
 
 def log_norm_counts(
-    input: MatrixTypes, options: LogNormCountsOptions = LogNormCountsOptions()
-) -> TatamiNumericPointer:
-    """Compute log-transformed normalized values. The normalization removes uninteresting per-cell differences due to
-    sequencing efficiency and library size. The subsequent log-transformation ensures that any differences in the log-
-    values represent log-fold changes in downstream analysis steps; these relative changes in expression are more
-    relevant than absolute changes.
+    input, options: LogNormCountsOptions = LogNormCountsOptions()
+): 
+    """Compute log-transformed normalized values.
+    The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.
+    The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps;
+    these relative changes in expression are more relevant than absolute changes.
 
     Args:
-        input (MatrixTypes):
+        input: 
             Matrix-like object containing cells in columns and features in rows, typically with count data.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+
         options (LogNormCountsOptions): Optional parameters.
 
     Raises:
         TypeError, ValueError: If arguments don't meet expectations.
 
     Returns:
-        TatamiNumericPointer: Log-normalized expression matrix.
+        The log-normalized matrix, either as a :py:class:`~mattress.TatamiNumericPointer`
+        if ``input`` is also a :py:class:`~mattress.TatamiNumericPointer`; as a
+        :py:class:`~delayedarray.DelayedArray`, if ``input`` is array-like and
+        ``delayed = True``; or an object of the same type as ``input`` otherwise.
     """
-    validate_matrix_types(input)
-
+    use_sf = options.size_factors is not None
     if not isinstance(input, TatamiNumericPointer):
-        raise ValueError("Coming soon when DelayedArray support is implemented")
+        if not isinstance(input, DelayedArray) and options.delayed:
+            input = DelayedArray(input)
+
+        if not use_sf:
+            raise ValueError("oops, this mode currently needs size_factors")
+
+        return log1p(input / options.size_factors) / log(2) 
 
     NC = input.ncol()
 
-    use_sf = options.size_factors is not None
     my_size_factors = None
     sf_offset = 0
     if use_sf:

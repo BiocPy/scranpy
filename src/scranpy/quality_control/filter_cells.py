@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
 from mattress import TatamiNumericPointer
-from numpy import ndarray
+from numpy import ndarray, logical_not
+from delayedarray import DelayedArray
 
 from .. import cpphelpers as lib
-from ..types import MatrixTypes
 from ..utils import to_logical
 
 __author__ = "ltla, jkanche"
@@ -20,23 +20,29 @@ class FilterCellsOptions:
         discard (bool): Whether to discard the cells listed in ``filter``.
             If False, the specified cells are retained instead, and all
             other cells are discarded. Defaults to True.
+
+        delayed (bool): Whether to force the filtering operation to be
+            delayed. This reduces memory usage by avoiding unnecessary
+            copies of the count matrix.
+
         verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     discard: bool = True
+    delayed: bool = True
     verbose: bool = False
 
 
 def filter_cells(
-    input: MatrixTypes,
+    input,
     filter: ndarray,
     options: FilterCellsOptions = FilterCellsOptions(),
-) -> TatamiNumericPointer:
-    """Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data, e.g.,
-    :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+):
+    """Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data,
+    e.g., :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
     Args:
-        input (MatrixTypes):
+        input:
             Matrix-like object containing cells in columns and features in rows.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
@@ -50,18 +56,27 @@ def filter_cells(
         options (FilterCellsOptions): Optional parameters.
 
     Returns:
-        TatamiNumericPointer: If ``input`` is a
-        :py:class:`~mattress.TatamiNumericPointer`,
-        a :py:class:`~mattress.TatamiNumericPointer` is returned
-        containing the filtered matrix.
+        The filtered matrix, either as a :py:class:`~mattress.TatamiNumericPointer`
+        if ``input`` is also a :py:class:`~mattress.TatamiNumericPointer`; as a
+        :py:class:`~delayedarray.DelayedArray`, if ``input`` is array-like and
+        ``delayed = True``; or an object of the same type as ``input`` otherwise.
     """
-    filter = to_logical(filter, input.ncol())
+    is_ptr = isinstance(input, TatamiNumericPointer)
 
-    if len(filter) != input.ncol():
-        raise ValueError("length of 'filter' should equal number of columns in 'x'")
+    ncols = None
+    if is_ptr:
+        ncols = input.ncol()
+    else:
+        ncols = input.shape[1]
 
-    if not isinstance(input, TatamiNumericPointer):
-        raise ValueError("Coming soon when `DelayedArray` support is implemented")
+    filter = to_logical(filter, ncols)
 
-    outptr = lib.filter_cells(input.ptr, filter, options.discard)
-    return TatamiNumericPointer(ptr=outptr, obj=input.obj)
+    if is_ptr:
+        outptr = lib.filter_cells(input.ptr, filter, options.discard)
+        return TatamiNumericPointer(ptr=outptr, obj=input.obj)
+    else:
+        if options.delayed and not isinstance(input, DelayedArray):
+            input = DelayedArray(input)
+        if options.discard:
+            filter = logical_not(filter)
+        return input[:,filter]

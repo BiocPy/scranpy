@@ -1,4 +1,5 @@
 import numpy as np
+import delayedarray as da
 from mattress import tatamize
 from scranpy.normalization import LogNormCountsOptions, log_norm_counts
 
@@ -31,3 +32,13 @@ def test_log_norm_counts(mock_data):
     assert (result.row(0) == result_parallel.row(0)).all()
     last = result.nrow() - 1
     assert (result.row(last) == result_parallel.row(last)).all()
+
+def test_log_norm_counts_matrix(mock_data):
+    x = mock_data.x
+    sf = x.sum(axis=0)
+
+    out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf))
+    assert isinstance(out, da.DelayedArray)
+
+    out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf, delayed=False))
+    assert isinstance(out, np.ndarray)
