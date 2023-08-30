@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# This script generates a dry-run version of the live_analyze function in 
+# This script generates a dry-run version of the live_analyze function in
 # src/scranpy/analyze.py. The idea is to allow users to create a dry-run
 # of all the individual commands that they can copy-paste into their
 # scripts, if they want to customize the analysis but they don't want
@@ -12,7 +12,7 @@
 #   under the assumption that they only use 'options'.
 # - Everything else is stringified.
 
-import ast 
+import ast
 import sys
 stuff = open(sys.argv[1], "r").read()
 out = ast.parse(stuff)
@@ -89,7 +89,7 @@ def trawl(expr):
                 new_body.append(x)
         return True
 
-    elif isinstance(expr, ast.For): 
+    elif isinstance(expr, ast.For):
         new_body = []
         for i in range(len(expr.body)):
             if not trawl(expr.body[i]):
@@ -135,7 +135,7 @@ for expr in fun.body:
 
 new_body.append(
     ast.Return(
-        value = ast.Call( 
+        value = ast.Call(
             func = ast.Attribute(
                 attr = "join",
                 value = ast.Constant('\n')

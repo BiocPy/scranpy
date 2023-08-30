@@ -4,6 +4,7 @@ __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
 __license__ = "MIT"
 
+
 def update(options, **kwargs):
     """Convenience function to update the settings on an ``*Options`` object.
 
