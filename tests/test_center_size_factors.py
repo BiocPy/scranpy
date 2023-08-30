@@ -33,3 +33,8 @@ def test_center_size_factors():
     Bmean = bout[[b == "B" for b in block]].mean() 
     Cmean = bout[[b == "C" for b in block]].mean()
     assert np.allclose(min(Amean, Bmean, Cmean), 1)
+
+    # Works with sanitization; all-zero size factors are replaced with 1's.
+    sf = np.zeros(10)
+    out = center_size_factors(sf, CenterSizeFactorsOptions(allow_zeros=True))
+    assert np.allclose(out, np.ones(10))
