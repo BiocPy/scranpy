@@ -39,3 +39,6 @@ def test_analyze_blocked(mock_data):
     assert isinstance(out, AnalyzeResults)
     assert out.gene_variances.has_column("per_block")
     assert out.mnn is not None
+
+    as_sce = out.to_sce(x)
+    assert "mnn" in as_sce.reducedDims
