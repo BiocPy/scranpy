@@ -8,6 +8,7 @@ from .. import marker_detection as mark
 from .. import nearest_neighbors as nn
 from .. import normalization as norm
 from .. import quality_control as qc
+from .. import batch_correction as correct
 
 
 @dataclass
@@ -71,6 +72,9 @@ class AnalyzeOptions:
         run_pca_options (RunPcaOptions):
             Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
+        mnn_correct_options (MnnCorrectOptions):
+            Options to pass to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
+
         build_neighbor_index_options (BuildNeighborIndexOptions):
             Options to pass to :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
@@ -127,16 +131,20 @@ class AnalyzeOptions:
 
     run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
 
+    mnn_correct_options: correct.MnnCorrectOptions = field(
+        default_factory=correct.MnnCorrectOptions
+    )
+
+    build_neighbor_index_options: nn.BuildNeighborIndexOptions = field(
+        default_factory=nn.BuildNeighborIndexOptions
+    )
+
     run_tsne_options: dimred.RunTsneOptions = field(
         default_factory=dimred.RunTsneOptions
     )
 
     run_umap_options: dimred.RunUmapOptions = field(
         default_factory=dimred.RunUmapOptions
-    )
-
-    build_neighbor_index_options: nn.BuildNeighborIndexOptions = field(
-        default_factory=nn.BuildNeighborIndexOptions
     )
 
     find_nearest_neighbors_options: nn.FindNearestNeighborsOptions = field(

@@ -7,6 +7,7 @@ from .. import feature_selection as feat
 from .. import marker_detection as mark
 from .. import normalization as norm
 from .. import quality_control as qc
+from .. import batch_correction as correct
 
 from .AnalyzeOptions import AnalyzeOptions
 from .AnalyzeResults import AnalyzeResults
@@ -107,8 +108,18 @@ def live_analyze(
         ),
     )
 
+    if options.miscellaneous_options.block is not None:
+        results.mnn = correct.mnn_correct(
+            results.pca.principal_components,
+            filtered_block,
+            options = options.mnn_correct_options,
+        )
+        lowdim = results.mnn.corrected
+    else:
+        lowdim = results.pca.principal_components
+
     get_tsne, get_umap, graph, remaining_threads = run_neighbor_suite(
-        results.pca.principal_components,
+        lowdim,
         build_neighbor_index_options=options.build_neighbor_index_options,
         find_nearest_neighbors_options=options.find_nearest_neighbors_options,
         run_umap_options=options.run_umap_options,

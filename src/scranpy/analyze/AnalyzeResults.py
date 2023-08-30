@@ -10,6 +10,7 @@ from mattress import TatamiNumericPointer
 from delayedarray import DelayedArray
 
 from .. import dimensionality_reduction as dimred
+from .. import batch_correction as correct
 from ..types import MatrixTypes
 
 
@@ -39,6 +40,9 @@ class AnalyzeResults:
 
         pca (PcaResult, optional):
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+
+        mnn (MnnCorrectResult, optional):
+            Output of :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
 
         tsne (TsneEmbedding, optional):
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
@@ -72,6 +76,8 @@ class AnalyzeResults:
     hvgs: Optional[ndarray] = None
 
     pca: Optional[dimred.PcaResult] = None
+
+    mnn: Optional[correct.MnnCorrectResult] = None
 
     tsne: Optional[dimred.TsneEmbedding] = None
 
@@ -113,6 +119,9 @@ class AnalyzeResults:
                 ]
             ).T,
         }
+
+        if self.mnn is not None:
+            sce.reducedDims["mnn"] = self.mnn.corrected
 
         if include_gene_data is True:
             sce.rowData = self.gene_variances
