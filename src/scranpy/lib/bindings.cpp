@@ -109,6 +109,8 @@ void* initialize_umap(const void*, int32_t, double, double*, int32_t);
 
 void* log_norm_counts(const void*, const double*);
 
+void mnn_correct(int32_t, int32_t, const double*, const int32_t*, int32_t, double, int32_t, int32_t, uint8_t, const int32_t*, const char*, uint8_t, double*, int32_t*, int32_t*);
+
 void model_gene_variances(const void*, double*, double*, double*, double*, double, int32_t);
 
 void model_gene_variances_blocked(const void*, double*, double*, double*, double*, int32_t, const int32_t*, uintptr_t*, uintptr_t*, uintptr_t*, uintptr_t*, double, int32_t);
@@ -761,6 +763,18 @@ PYAPI void* py_log_norm_counts(const void* mat0, const double* size_factors, int
         *errmsg = copy_error_message("unknown C++ exception");
     }
     return output;
+}
+
+PYAPI void py_mnn_correct(int32_t ndim, int32_t ncells, const double* x, const int32_t* batch, int32_t k, double nmads, int32_t nthreads, int32_t mass_cap, uint8_t use_order, const int32_t* order, const char* ref_policy, uint8_t approximate, double* corrected_output, int32_t* merge_order_output, int32_t* num_pairs_output, int32_t* errcode, char** errmsg) {
+    try {
+        mnn_correct(ndim, ncells, x, batch, k, nmads, nthreads, mass_cap, use_order, order, ref_policy, approximate, corrected_output, merge_order_output, num_pairs_output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
 }
 
 PYAPI void py_model_gene_variances(const void* mat, double* means, double* variances, double* fitted, double* residuals, double span, int32_t num_threads, int32_t* errcode, char** errmsg) {

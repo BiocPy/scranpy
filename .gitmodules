@@ -31,3 +31,6 @@
 [submodule "extern/umappp"]
 	path = extern/umappp
 	url = https://github.com/LTLA/umappp
+[submodule "extern/mnncorrect"]
+	path = extern/mnncorrect
+	url = https://github.com/LTLA/CppMnnCorrect
