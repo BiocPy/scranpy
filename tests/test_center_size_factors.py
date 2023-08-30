@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 from mattress import tatamize
-from scranpy.normalization import CenterSizeFactorsOptions, center_size_factors 
+from scranpy.normalization import CenterSizeFactorsOptions, center_size_factors
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -30,7 +30,7 @@ def test_center_size_factors():
     assert not np.allclose(bout, out)
 
     Amean = bout[[b == "A" for b in block]].mean()
-    Bmean = bout[[b == "B" for b in block]].mean() 
+    Bmean = bout[[b == "B" for b in block]].mean()
     Cmean = bout[[b == "C" for b in block]].mean()
     assert np.allclose(min(Amean, Bmean, Cmean), 1)
 

@@ -1,15 +1,17 @@
 from typing import Tuple, Callable
 from igraph import Graph
 from concurrent.futures import ProcessPoolExecutor, wait
-from copy import copy 
+from copy import copy
 
 from .. import nearest_neighbors as nn
 from .. import dimensionality_reduction as dimred
 from .. import clustering as clust
 
+
 def _unserialize_neighbors_before_run(f, serialized, opt):
     nnres = nn.NeighborResults.unserialize(serialized)
     return f(nnres, opt)
+
 
 def run_neighbor_suite(
     principal_components,
@@ -18,23 +20,22 @@ def run_neighbor_suite(
     run_umap_options: dimred.RunUmapOptions = dimred.RunUmapOptions(),
     run_tsne_options: dimred.RunTsneOptions = dimred.RunTsneOptions(),
     build_snn_graph_options: clust.BuildSnnGraphOptions = clust.BuildSnnGraphOptions(),
-    num_threads: int = 1
+    num_threads: int = 1,
 ) -> Tuple[Callable, Callable, Graph, int]:
-    """Run the suite of nearest neighbor methods together.
-    This builds the index once and re-uses it for all methods.
-    Given enough threads, it also runs all post-neighbor-detection functions in parallel,
-    as none of them depend on each other.
+    """Run the suite of nearest neighbor methods together. This builds the index once and re-uses it for all methods.
+    Given enough threads, it also runs all post-neighbor-detection functions in parallel, as none of them depend on each
+    other.
 
     Args:
         principal_components (ndarray):
             Matrix of principal components where rows are cells and columns are PCs.
             Thi is usually produced by :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-        build_neighbor_index_options (BuildNeighborIndexOptions, optional):
-            Optional arguments to pass to :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
+        build_neighbor_index_options (BuildNeighborIndexOptions, optional): Optional arguments to pass to
+            :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
-        find_nearest_neighbors_options (FindNearestNeighborsOptions, optional):
-            Optional arguments to pass to :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
+        find_nearest_neighbors_options (FindNearestNeighborsOptions, optional): Optional arguments to pass to
+            :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
         run_umap_options (RunUmapOptions, optional):
             Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
@@ -55,7 +56,8 @@ def run_neighbor_suite(
         - The shared nearest neighbor graph from :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
         - The number of remaining threads.
 
-        The idea is that the number of remaining threads can be used to perform tasks on the main thread (e.g., clustering, marker detection) while the t-SNE and UMAP are still being computed;
+        The idea is that the number of remaining threads can be used to perform tasks on the main thread
+        (e.g., clustering, marker detection) while the t-SNE and UMAP are still being computed;
         once all tasks on the main thread have completed, the first function can be called to obtain the coordinates.
     """
 
@@ -105,8 +107,8 @@ def run_neighbor_suite(
     _tasks.append(
         executor.submit(
             _unserialize_neighbors_before_run,
-            dimred.run_umap, 
-            serialized_dict[umap_nn], 
+            dimred.run_umap,
+            serialized_dict[umap_nn],
             run_umap_copy,
         )
     )
@@ -118,7 +120,7 @@ def run_neighbor_suite(
     def get_tsne():
         retrieve()
         return _tasks[0].result()
-    
+
     def get_umap():
         retrieve()
         return _tasks[1].result()
@@ -129,5 +131,3 @@ def run_neighbor_suite(
     graph = clust.build_snn_graph(nn_dict[snn_nn], options=build_snn_graph_copy)
 
     return get_tsne, get_umap, graph, remaining_threads
-
-

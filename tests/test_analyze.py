@@ -28,13 +28,11 @@ def test_analyze(mock_data):
 def test_analyze_blocked(mock_data):
     x = mock_data.x
     out = analyze(
-        x, 
-        features=[f"{i}" for i in range(1000)],   
-        options = AnalyzeOptions(
-            miscellaneous_options = MiscellaneousOptions(
-                block = mock_data.block
-            )
-        )
+        x,
+        features=[f"{i}" for i in range(1000)],
+        options=AnalyzeOptions(
+            miscellaneous_options=MiscellaneousOptions(block=mock_data.block)
+        ),
     )
 
     assert isinstance(out, AnalyzeResults)

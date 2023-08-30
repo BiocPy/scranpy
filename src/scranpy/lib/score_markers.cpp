@@ -6,9 +6,9 @@
 
 //[[export]]
 void score_markers(
-    const void* mat, 
-    int32_t num_clusters, 
-    const int32_t* /** numpy */ clusters, 
+    const void* mat,
+    int32_t num_clusters,
+    const int32_t* /** numpy */ clusters,
     int32_t num_blocks,
     const int32_t* /** void_p */ block,
     uint8_t do_auc,
@@ -73,13 +73,13 @@ void score_markers(
 
     runner.run_blocked(
         reinterpret_cast<const Mattress*>(mat)->ptr.get(),
-        clusters, 
+        clusters,
         (num_blocks > 1 ? block : NULL),
-        std::move(means), 
-        std::move(detected), 
-        std::move(cohen), 
-        std::move(auc), 
-        std::move(lfc), 
+        std::move(means),
+        std::move(detected),
+        std::move(cohen),
+        std::move(auc),
+        std::move(lfc),
         std::move(delta_detected)
     );
 

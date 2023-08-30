@@ -25,8 +25,8 @@ class BuildSnnGraphOptions:
     Attributes:
         num_neighbors (int, optional): Number of neighbors to use.
             Larger values result in a more interconnected graph and generally broader clusters from community detection.
-            Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` object.
-            Defaults to 15.
+            Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
+            object. Defaults to 15.
 
         weight_scheme (Literal["ranked", "jaccard", "number"], optional):
             Weighting scheme for the edges between cells. This can be based on the top ranks
@@ -68,13 +68,13 @@ class BuildSnnGraphOptions:
     def set_threads(self, num_threads: int):
         self.num_threads = num_threads
 
+
 def build_snn_graph(
     input: Union[NeighborIndex, NeighborResults, ndarray],
     options: BuildSnnGraphOptions = BuildSnnGraphOptions(),
 ) -> Graph:
-    """Build a shared nearest neighbor (SNN) graph where each cell is a node and
-    edges are formed between cells that share one or more nearest neighbors.
-    This can be used for community detection to define clusters of similar cells.
+    """Build a shared nearest neighbor (SNN) graph where each cell is a node and edges are formed between cells that
+    share one or more nearest neighbors. This can be used for community detection to define clusters of similar cells.
 
     Args:
         input (NeighborIndex | NeighborResults | ndarray):

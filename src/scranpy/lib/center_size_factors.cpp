@@ -10,10 +10,10 @@
 //[[export]]
 void center_size_factors(
     int32_t num,
-    double* size_factors /** numpy */, 
+    double* size_factors /** numpy */,
     uint8_t allow_zeros,
     uint8_t allow_non_finite,
-    uint8_t use_block, 
+    uint8_t use_block,
     const int32_t* block /** void_p */)
 {
     if (!use_block) {
@@ -28,5 +28,5 @@ void center_size_factors(
     san.set_handle_non_finite(allow_non_finite ? scran::SanitizeSizeFactors::HandlerAction::SANITIZE : scran::SanitizeSizeFactors::HandlerAction::ERROR);
     san.run(num, size_factors, res);
 
-    return; 
+    return;
 }

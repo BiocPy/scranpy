@@ -16,15 +16,14 @@ __license__ = "MIT"
 
 @dataclass
 class ModelGeneVariancesOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
+    """Optional arguments for :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
     Attributes:
         block (Sequence, optional): Block assignment for each cell.
             Variance modelling is performed within each block to avoid interference from inter-block differences.
 
-            If provided, this should have length equal to the number of cells, where cells have the same value if and only if they are in the same block.
-            Defaults to None, indicating all cells are part of the same block.
+            If provided, this should have length equal to the number of cells, where cells have the same value if and
+            only if they are in the same block. Defaults to None, indicating all cells are part of the same block.
 
         span (float, optional): Span to use for the LOWESS trend fitting.
             Larger values yield a smoother curve and reduces the risk of overfitting,

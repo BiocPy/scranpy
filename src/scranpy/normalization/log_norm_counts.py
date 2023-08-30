@@ -9,8 +9,6 @@ from delayedarray import DelayedArray
 from copy import copy
 
 from .. import cpphelpers as lib
-from ..types import validate_matrix_types
-from ..utils import factorize
 from .center_size_factors import center_size_factors, CenterSizeFactorsOptions
 
 __author__ = "ltla, jkanche"
@@ -20,8 +18,7 @@ __license__ = "MIT"
 
 @dataclass
 class LogNormCountsOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
+    """Optional arguments for :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
     Attributes:
         size_factors (ndarray, optional): Size factors for each cell.
@@ -54,16 +51,14 @@ class LogNormCountsOptions:
     verbose: bool = False
 
 
-def log_norm_counts(
-    input, options: LogNormCountsOptions = LogNormCountsOptions()
-): 
-    """Compute log-transformed normalized values.
-    The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.
-    The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps;
-    these relative changes in expression are more relevant than absolute changes.
+def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions()):
+    """Compute log-transformed normalized values. The normalization removes uninteresting per-cell differences due to
+    sequencing efficiency and library size. The subsequent log-transformation ensures that any differences in the log-
+    values represent log-fold changes in downstream analysis steps; these relative changes in expression are more
+    relevant than absolute changes.
 
     Args:
-        input: 
+        input:
             Matrix-like object containing cells in columns and features in rows, typically with count data.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
@@ -87,10 +82,12 @@ def log_norm_counts(
         ptr = input
         if not is_ptr:
             ptr = tatamize(input)
-        my_size_factors = ptr.column_sums(num_threads = options.num_threads)
+        my_size_factors = ptr.column_sums(num_threads=options.num_threads)
     elif isinstance(my_size_factors, ndarray):
-        my_size_factors = my_size_factors.astype(float64, copy=True) # just make a copy and avoid problems.
-    else: 
+        my_size_factors = my_size_factors.astype(
+            float64, copy=True
+        )  # just make a copy and avoid problems.
+    else:
         my_size_factors = array(my_size_factors, dtype=float64)
 
     if options.center:
@@ -104,4 +101,4 @@ def log_norm_counts(
     else:
         if not isinstance(input, DelayedArray) and options.delayed:
             input = DelayedArray(input)
-        return log1p(input / my_size_factors) / log(2) 
+        return log1p(input / my_size_factors) / log(2)

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Mapping, Optional
 
 from biocframe import BiocFrame
-from numpy import bool_, float64, int32, ndarray
+from numpy import float64, int32, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -10,10 +10,10 @@ from ..types import MatrixTypes
 from ..utils import to_logical, validate_and_tatamize_input
 from .utils import create_pointer_array
 
+
 @dataclass
 class PerCellRnaQcMetricsOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
+    """Optional arguments for :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
 
     Attributes:
         subsets (Mapping, optional): Dictionary of feature subsets.
@@ -38,12 +38,10 @@ def per_cell_rna_qc_metrics(
     input: MatrixTypes,
     options: PerCellRnaQcMetricsOptions = PerCellRnaQcMetricsOptions(),
 ) -> BiocFrame:
-    """Compute per-cell quality control metrics for RNA data.
-    This includes the total count for each cell, where low values are indicative of
-    problems with library preparation or sequencing; the number of detected features
-    per cell, where low values are indicative of problems with transcript capture;
-    and the proportion of counts in particular feature subsets,
-    typically mitochondrial genes where high values are indicative of cell damage.
+    """Compute per-cell quality control metrics for RNA data. This includes the total count for each cell, where low
+    values are indicative of problems with library preparation or sequencing; the number of detected features per cell,
+    where low values are indicative of problems with transcript capture; and the proportion of counts in particular
+    feature subsets, typically mitochondrial genes where high values are indicative of cell damage.
 
     Args:
         input (MatrixTypes):
@@ -108,5 +106,3 @@ def per_cell_rna_qc_metrics(
             "subset_proportions": BiocFrame(collected_out, numberOfRows=nc),
         }
     )
-
-

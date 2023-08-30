@@ -18,7 +18,7 @@ PcaResult = namedtuple("PcaResult", ["principal_components", "variance_explained
 PcaResult.__doc__ = """Named tuple of results from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
 principal_components (ndarray): Matrix of principal component (PC) coordinates,
-    where the rows are cells and columns are PCs. 
+    where the rows are cells and columns are PCs.
 variance_explained (ndarray): Array of length equal to the number of PCs,
     containing the percentage of variance explained by each PC.
 """
@@ -45,8 +45,7 @@ def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PcaResult:
 
 @dataclass
 class RunPcaOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+    """Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
     Attributes:
         rank (int): Number of top PCs to compute.
@@ -94,8 +93,8 @@ class RunPcaOptions:
             Defaults to "project".
 
         block_weights (bool, optional):
-            Whether to weight each block so that it contributes the same number of effective observations to the covariance matrix.
-            Defaults to True.
+            Whether to weight each block so that it contributes the same number of effective observations to the
+            covariance matrix. Defaults to True.
 
         num_threads (int, optional):  Number of threads to use. Defaults to 1.
 
@@ -123,16 +122,16 @@ class RunPcaOptions:
 
 
 def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> PcaResult:
-    """Perform a principal component analysis (PCA) to retain the top PCs.
-    This is used to denoise and compact a dataset by removing later PCs
-    associated with random noise, under the assumption that interesting
-    biological heterogeneity is the major source of variation in the dataset.
+    """Perform a principal component analysis (PCA) to retain the top PCs. This is used to denoise and compact a dataset
+    by removing later PCs associated with random noise, under the assumption that interesting biological heterogeneity
+    is the major source of variation in the dataset.
 
     Args:
-        input (MatrixTypes):
-            Matrix-like object where rows are features and columns are cells, typically containing log-normalized values.
-            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
-            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
+            log-normalized values. This should be a matrix class that can be converted into a
+            :py:class:`~mattress.TatamiNumericPointer`. Developers may also provide the
+            :py:class:`~mattress.TatamiNumericPointer` itself.
+
         options (RunPcaOptions): Optional parameters.
 
     Raises:
