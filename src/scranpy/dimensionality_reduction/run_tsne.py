@@ -1,10 +1,9 @@
-import copy
 import ctypes as ct
 from typing import Union
 from collections import namedtuple
 from dataclasses import dataclass, field
 
-from numpy import float64, ndarray
+from numpy import float64, ndarray, copy
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -65,7 +64,7 @@ class TsneStatus:
         Returns:
             TsneStatus: Copy of the current state.
         """
-        cloned = copy.deepcopy(self.coordinates)
+        cloned = copy(self.coordinates)
         return TsneStatus(lib.clone_tsne_status(self.__ptr), cloned)
 
     def __deepcopy__(self, memo):
@@ -272,7 +271,7 @@ def run_tsne(
         logger.info("Done computing t-SNE embeddings...")
 
     output = status.extract()
-    x = copy.deepcopy(output.x)  # is this really necessary?
-    y = copy.deepcopy(output.y)
+    x = copy(output.x) # realize NumPy slice views into concrete arrays.
+    y = copy(output.y)
 
     return TsneEmbedding(x, y)
