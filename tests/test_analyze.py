@@ -1,4 +1,4 @@
-from scranpy import AnalyzeResults, analyze
+from scranpy import AnalyzeResults, analyze, AnalyzeOptions, MiscellaneousOptions
 from singlecellexperiment import SingleCellExperiment
 import delayedarray as da
 
@@ -23,3 +23,19 @@ def test_analyze(mock_data):
 
     dry = analyze(None, None, dry_run=True)
     assert isinstance(dry, str)
+
+
+def test_analyze_blocked(mock_data):
+    x = mock_data.x
+    out = analyze(
+        x, 
+        features=[f"{i}" for i in range(1000)],   
+        options = AnalyzeOptions(
+            miscellaneous_options = MiscellaneousOptions(
+                block = mock_data.block
+            )
+        )
+    )
+
+    assert isinstance(out, AnalyzeResults)
+    assert out.gene_variances.hasColumn("per_block")

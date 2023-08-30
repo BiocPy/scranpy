@@ -1,3 +1,4 @@
 from .analyze import analyze
-from .AnalyzeOptions import AnalyzeOptions
+from .update import update
+from .AnalyzeOptions import AnalyzeOptions, MiscellaneousOptions
 from .AnalyzeResults import AnalyzeResults
