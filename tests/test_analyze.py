@@ -36,4 +36,4 @@ def test_analyze_blocked(mock_data):
     )
 
     assert isinstance(out, AnalyzeResults)
-    assert out.gene_variances.hasColumn("per_block")
+    assert out.gene_variances.has_column("per_block")
