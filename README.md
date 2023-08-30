@@ -70,13 +70,13 @@ python setup.py build_ext --inplace && tox
 To rebuild the **ctypes** bindings [**cpptypes**](https://github.com/BiocPy/ctypes-wrapper):
 
 ```shell
-cpptypes py src/scranpy/lib --py src/scranpy/cpphelpers.py --cpp src/scranpy/lib/bindings.cpp
+cpptypes src/scranpy/lib --py src/scranpy/cpphelpers.py --cpp src/scranpy/lib/bindings.cpp
 ```
 
 To rebuild the [dry run analysis source code](src/scranpy/analysis_dry.py):
 
 ```shell
-./scripts/dryrun.py src/scranpy/analysis_live.py > src/scranpy/analysis_dry.py
+./scripts/dryrun.py src/scranpy/analyze/live_analyze.py > src/scranpy/analyze/dry_analyze.py
 ```
 
 <!-- pyscaffold-notes -->
