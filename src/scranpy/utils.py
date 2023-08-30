@@ -27,20 +27,14 @@ def factorize(x: Sequence) -> FactorizedArray:
         FactorizedArray: A factorized tuple.
     """
 
-    if not isinstance(x, list):
-        raise TypeError("x is not a list")
-
     levels = []
     mapping = {}
     output = zeros((len(x),), dtype=int32)
 
-    for i in range(len(x)):
-        lev = x[i]
-
+    for i, lev in enumerate(x):
         if lev not in mapping:
             mapping[lev] = len(levels)
             levels.append(lev)
-
         output[i] = mapping[lev]
 
     return FactorizedArray(levels=levels, indices=output)

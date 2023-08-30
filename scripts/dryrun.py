@@ -43,9 +43,7 @@ def trawl(expr):
 
     elif isinstance(expr, ast.Call):
         if isinstance(expr.func, ast.Name):
-            if expr.func.id == "copy":
-                expr.func = ast.Attribute(value = ast.Name("copy"), attr = expr.func.id)
-            elif expr.func.id == "run_neighbor_suite":
+            if expr.func.id == "run_neighbor_suite" or expr.func.id == "update":
                 expr.func = ast.Attribute(value = ast.Name("scranpy"), attr = expr.func.id)
         else:
             trawl(expr.func)
