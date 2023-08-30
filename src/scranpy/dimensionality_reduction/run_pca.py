@@ -1,10 +1,9 @@
 import ctypes as ct
 from collections import namedtuple
-from copy import deepcopy
 from dataclasses import dataclass
 from typing import Literal, Optional, Sequence
 
-from numpy import ctypeslib, ndarray
+from numpy import ctypeslib, ndarray, copy
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -30,14 +29,14 @@ def _extract_pca_results(pptr: ct.c_void_p, nc: int) -> PcaResult:
 
     pc_pointer = lib.fetch_simple_pca_coordinates(pptr)
 
-    # In C++, the PCs are stored as s a column-major dim*cell matrix. As NumPy
+    # In C++, the PCs are stored as a column-major dim*cell matrix. As NumPy
     # typically stores things in row-major format, we switch the dimensions so
     # that it's in a more conventional format when we copy it to Python.
-    pc_array = deepcopy(ctypeslib.as_array(pc_pointer, shape=(nc, actual_rank)))
+    pc_array = copy(ctypeslib.as_array(pc_pointer, shape=(nc, actual_rank)), order="C")
     principal_components = pc_array
 
     var_pointer = lib.fetch_simple_pca_variance_explained(pptr)
-    var_array = deepcopy(ctypeslib.as_array(var_pointer, shape=(actual_rank,)))
+    var_array = copy(ctypeslib.as_array(var_pointer, shape=(actual_rank,)))
     total = lib.fetch_simple_pca_total_variance(pptr)
     variance_explained = var_array / total
 

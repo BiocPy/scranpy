@@ -1,7 +1,7 @@
 from typing import Tuple, Callable
 from igraph import Graph
 from concurrent.futures import ProcessPoolExecutor, wait
-from copy import deepcopy
+from copy import copy 
 
 from .. import nearest_neighbors as nn
 from .. import dimensionality_reduction as dimred
@@ -91,7 +91,7 @@ def run_neighbor_suite(
     executor = ProcessPoolExecutor(max_workers=min(2, num_threads))
     _tasks = []
 
-    run_tsne_copy = deepcopy(run_tsne_options)
+    run_tsne_copy = copy(run_tsne_options)
     run_tsne_copy.set_threads(threads_per_task)
     _tasks.append(
         executor.submit(
@@ -102,7 +102,7 @@ def run_neighbor_suite(
         )
     )
 
-    run_umap_copy = deepcopy(run_umap_options)
+    run_umap_copy = copy(run_umap_options)
     run_umap_copy.set_threads(threads_per_task)
     _tasks.append(
         executor.submit(
@@ -125,7 +125,7 @@ def run_neighbor_suite(
         retrieve()
         return _tasks[1].result()
 
-    build_snn_graph_copy = deepcopy(build_snn_graph_options)
+    build_snn_graph_copy = copy(build_snn_graph_options)
     remaining_threads = max(1, num_threads - threads_per_task * 2)
     build_snn_graph_copy.set_threads(remaining_threads)
     graph = clust.build_snn_graph(nn_dict[snn_nn], options=build_snn_graph_copy)

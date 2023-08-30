@@ -1,14 +1,16 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Sequence
 
-from mattress import TatamiNumericPointer
+from mattress import TatamiNumericPointer, tatamize
 from numpy import float64, ndarray, log1p, log
 from delayedarray import DelayedArray
+from copy import copy
 
 from .. import cpphelpers as lib
 from ..utils import factorize
+from .center_size_factors import center_size_factors, CenterSizeFactorsOptions
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -20,16 +22,8 @@ class LogNormCountsOptions:
     """Optional arguments for :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
     Attributes:
-        block (Sequence, optional):
-            Block assignment for each cell.
-            This is used to adjust the centering of size factors so that higher-coverage blocks are scaled down.
-
-            If provided, this should have length equal to the number of cells, where
-            cells have the same value if and only if they are in the same block.
-            Defaults to None, indicating all cells are part of the same block.
-
         size_factors (ndarray, optional): Size factors for each cell.
-            Defaults to None.
+            Defaults to None, in which case the library sizes are used.
 
         delayed (bool): Whether to force the log-normalization to be
             delayed. This reduces memory usage by avoiding unnecessary
@@ -37,15 +31,9 @@ class LogNormCountsOptions:
 
         center (bool, optional): Whether to center the size factors. Defaults to True.
 
-        allow_zeros (bool, optional): Whether to gracefully handle zero size factors.
-            If True, zero size factors are automatically set to the smallest non-zero size factor.
-            If False, an error is raised.
-            Defaults to False.
-
-        allow_non_finite (bool, optional): Whether to gracefully handle missing or infinite size factors.
-            If True, infinite size factors are automatically set to the largest non-zero size factor,
-            while missing values are automatically set to 1.
-            If False, an error is raised.
+        center_size_factors_options (CenterSizeFactorsOptions, optional):
+            Optional arguments to pass to :py:meth:`~scranpy.normalization.center_size_factors.center_size_factors`
+            if ``center = True``.
 
         num_threads (int, optional): Number of threads to use to compute size factors,
             if none are provided in ``size_factors``. Defaults to 1.
@@ -55,10 +43,11 @@ class LogNormCountsOptions:
 
     block: Optional[Sequence] = None
     size_factors: Optional[ndarray] = None
-    delayed: bool = True
     center: bool = True
-    allow_zeros: bool = False
-    allow_non_finite: bool = False
+    center_size_factors_options: CenterSizeFactorsOptions = field(
+        default_factory=CenterSizeFactorsOptions
+    )
+    delayed: bool = True
     num_threads: int = 1
     verbose: bool = False
 
@@ -86,58 +75,29 @@ def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions(
         :py:class:`~delayedarray.DelayedArray`, if ``input`` is array-like and
         ``delayed = True``; or an object of the same type as ``input`` otherwise.
     """
-    use_sf = options.size_factors is not None
-    if not isinstance(input, TatamiNumericPointer):
+
+    is_ptr = isinstance(input, TatamiNumericPointer)
+
+    my_size_factors = options.size_factors
+    if my_size_factors is None:
+        ptr = input
+        if not is_ptr:
+            ptr = tatamize(input)
+        my_size_factors = ptr.column_sums(num_threads = options.num_threads)
+    elif isinstance(my_size_factors, ndarray):
+        my_size_factors = my_size_factors.astype(float64, copy=True) # just make a copy and avoid problems.
+    else: 
+        my_size_factors = array(my_size_factors, dtype=float64)
+
+    if options.center:
+        optcopy = copy(options.center_size_factors_options)
+        optcopy.in_place = True
+        center_size_factors(my_size_factors, optcopy)
+
+    if is_ptr:
+        normed = lib.log_norm_counts(input.ptr, my_size_factors)
+        return TatamiNumericPointer(ptr=normed, obj=[input.obj, my_size_factors])
+    else:
         if not isinstance(input, DelayedArray) and options.delayed:
             input = DelayedArray(input)
-
-        if not use_sf:
-            raise ValueError("oops, this mode currently needs size_factors")
-
-        return log1p(input / options.size_factors) / log(2)
-
-    NC = input.ncol()
-
-    my_size_factors = None
-    sf_offset = 0
-    if use_sf:
-        if options.size_factors.shape[0] != NC:
-            raise ValueError(
-                f"Must provide 'size_factors' (provided: {options.size_factors.shape[0]})"
-                f" for all cells (expected: {NC})"
-            )
-
-        if not isinstance(options.size_factors, ndarray):
-            raise TypeError("'size_factors' must be a numpy ndarray.")
-
-        my_size_factors = options.size_factors.astype(float64)
-        sf_offset = my_size_factors.ctypes.data
-
-    use_block = options.block is not None
-    block_info = None
-    block_offset = 0
-    if use_block:
-        if len(options.block) != NC:
-            raise ValueError(
-                f"Must provide block assignments (provided: {len(options.block)})"
-                f" for all cells (expected: {NC})."
-            )
-
-        block_info = factorize(
-            options.block
-        )  # assumes that factorize is available somewhere.
-        block_offset = block_info.indices.ctypes.data
-
-    normed = lib.log_norm_counts(
-        input.ptr,
-        use_block,
-        block_offset,
-        use_sf,
-        sf_offset,
-        options.center,
-        options.allow_zeros,
-        options.allow_non_finite,
-        options.num_threads,
-    )
-
-    return TatamiNumericPointer(ptr=normed, obj=[input.obj, my_size_factors])
+        return log1p(input / my_size_factors) / log(2) 

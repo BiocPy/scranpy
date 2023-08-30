@@ -1,6 +1,6 @@
 from typing import Sequence
 from mattress import tatamize
-from copy import deepcopy
+from copy import copy
 from numpy import logical_not
 
 from .. import dimensionality_reduction as dimred
@@ -45,7 +45,7 @@ def live_analyze(
         )
     results.rna_quality_control_subsets = subsets
 
-    rna_options = deepcopy(options.per_cell_rna_qc_metrics_options)
+    rna_options = copy(options.per_cell_rna_qc_metrics_options)
     rna_options.subsets = subsets
     results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
         matrix, options=rna_options
@@ -71,7 +71,7 @@ def live_analyze(
             ],
             options=options.center_size_factors_options,
         )
-        norm_options = deepcopy(options.log_norm_counts_options)
+        norm_options = copy(options.log_norm_counts_options)
         norm_options.size_factors = results.size_factors
     else:
         norm_options = options.log_norm_counts_options
@@ -91,7 +91,7 @@ def live_analyze(
         options=options.choose_hvgs_options,
     )
 
-    pca_options = deepcopy(options.run_pca_options)
+    pca_options = copy(options.run_pca_options)
     pca_options.subset = results.hvgs
     results.pca = dimred.run_pca(
         normed,
@@ -113,7 +113,7 @@ def live_analyze(
         resolution=options.miscellaneous_options.snn_graph_multilevel_resolution
     ).membership
 
-    marker_options = deepcopy(options.score_markers_options)
+    marker_options = copy(options.score_markers_options)
     marker_options.num_threads = remaining_threads
     results.markers = mark.score_markers(
         normed, grouping=results.clusters, options=marker_options

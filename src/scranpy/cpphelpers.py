@@ -82,6 +82,8 @@ lib.py_center_size_factors.argtypes = [
     ct.c_int32,
     ct.c_void_p,
     ct.c_uint8,
+    ct.c_uint8,
+    ct.c_uint8,
     ct.c_void_p,
     ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p),
@@ -404,14 +406,7 @@ lib.py_initialize_umap.argtypes = [
 lib.py_log_norm_counts.restype = ct.c_void_p
 lib.py_log_norm_counts.argtypes = [
     ct.c_void_p,
-    ct.c_uint8,
     ct.c_void_p,
-    ct.c_uint8,
-    ct.c_void_p,
-    ct.c_uint8,
-    ct.c_uint8,
-    ct.c_uint8,
-    ct.c_int,
     ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p),
 ]
@@ -610,11 +605,8 @@ def build_snn_graph_from_nn_results(x, weight_scheme, num_threads):
     )
 
 
-def center_size_factors(num, size_factors, use_block, block):
-    return catch_errors(lib.py_center_size_factors)(
-        num, np2ct(size_factors, np.float64), use_block, block
-    )
-
+def center_size_factors(num, size_factors, allow_zeros, allow_non_finite, use_block, block):
+    return catch_errors(lib.py_center_size_factors)(num, np2ct(size_factors, np.float64), allow_zeros, allow_non_finite, use_block, block)
 
 def choose_hvgs(len, stat, top, output):
     return catch_errors(lib.py_choose_hvgs)(
@@ -804,35 +796,8 @@ def initialize_tsne(neighbors, perplexity, nthreads):
     return catch_errors(lib.py_initialize_tsne)(neighbors, perplexity, nthreads)
 
 
-def initialize_umap(neighbors, num_epochs, min_dist, Y, nthreads):
-    return catch_errors(lib.py_initialize_umap)(
-        neighbors, num_epochs, min_dist, np2ct(Y, np.float64), nthreads
-    )
-
-
-def log_norm_counts(
-    mat0,
-    use_block,
-    block,
-    use_size_factors,
-    size_factors,
-    center,
-    allow_zeros,
-    allow_non_finite,
-    num_threads,
-):
-    return catch_errors(lib.py_log_norm_counts)(
-        mat0,
-        use_block,
-        block,
-        use_size_factors,
-        size_factors,
-        center,
-        allow_zeros,
-        allow_non_finite,
-        num_threads,
-    )
-
+def log_norm_counts(mat0, size_factors):
+    return catch_errors(lib.py_log_norm_counts)(mat0, np2ct(size_factors, np.float64))
 
 def model_gene_variances(mat, means, variances, fitted, residuals, span, num_threads):
     return catch_errors(lib.py_model_gene_variances)(
