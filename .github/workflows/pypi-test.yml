@@ -6,7 +6,7 @@ name: Test the library
 on:
   push:
     branches:
-      - master 
+      - master
     tags:
       - "*"
   pull_request:

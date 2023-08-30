@@ -5,18 +5,17 @@ from biocframe import BiocFrame
 from numpy import bool_, float64, int32, ndarray, zeros, uint8
 
 from .. import cpphelpers as lib
-from .._logging import logger
-from ..utils import factorize, match_lists
+from ..utils import factorize
 from .utils import create_pointer_array
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
+
 @dataclass
 class CreateRnaQcFilterOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+    """Optional arguments for :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
 
     Attributes:
         block (Sequence, optional):

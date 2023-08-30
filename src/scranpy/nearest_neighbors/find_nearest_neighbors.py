@@ -16,10 +16,10 @@ SingleNeighborResults = namedtuple("SingleNeighborResults", ["index", "distance"
 SingleNeighborResults.__doc__ = """\
 Named tuple of nearest neighbors for a single cell.
 
-index (ndarray): 
+index (ndarray):
     Array containing 0-based indices of a cell's neighbor neighbors,
     ordered by increasing distance.
-distance (ndarray): 
+distance (ndarray):
     Array containing distances to a cell's nearest neighbors,
     ordered by increasing distance.
 """
@@ -30,10 +30,10 @@ SerializedNeighborResults = namedtuple(
 SerializedNeighborResults.__doc__ = """\
 Named tuple of serialized results from the nearest neighbor search.
 
-index (ndarray): 
+index (ndarray):
     Row-major matrix containing 0-based indices of the neighbor neighbors for each cell.
     Each row is a cell and each column is a neighbor, ordered by increasing distance.
-distance (ndarray): 
+distance (ndarray):
     Row-major matrix containing distances to the nearest neighbors for each cell.
     Each row is a cell and each column is a neighbor, ordered by increasing distance.
 """
@@ -41,6 +41,7 @@ distance (ndarray):
 
 class NeighborResults:
     """Nearest neighbor search results.
+
     This should not be constructed manually but instead should be created by
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
     """
@@ -54,6 +55,7 @@ class NeighborResults:
     @property
     def ptr(self) -> ct.c_void_p:
         """Get pointer to scran's NN search index.
+
         Returns:
             ct.c_void_p: Pointer reference.
         """
@@ -91,12 +93,9 @@ class NeighborResults:
         return SingleNeighborResults(out_i, out_d)
 
     def serialize(self) -> SerializedNeighborResults:
-        """Serialize nearest neighbors for all cells, typically to
-        save or transfer to a new process.
-        This can be used to construct a new
-        :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
-        object by calling
-        :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize`.
+        """Serialize nearest neighbors for all cells, typically to save or transfer to a new process. This can be used
+        to construct a new :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` object by
+        calling :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize`.
 
         Returns:
             SerializedNeighborResults: A tuple with indices and distances.
@@ -104,7 +103,7 @@ class NeighborResults:
         nobs = lib.fetch_neighbor_results_nobs(self.__ptr)
         k = lib.fetch_neighbor_results_k(self.__ptr)
 
-        # C++ stores this data as column-major k*nobs, but NumPy defaults to 
+        # C++ stores this data as column-major k*nobs, but NumPy defaults to
         # row-major, so we just flip the dimensions to keep everyone happy.
         out_i = ndarray((nobs, k), dtype=int32)
         out_d = ndarray((nobs, k), dtype=float64)
@@ -128,8 +127,10 @@ class NeighborResults:
             raise ValueError("expected 'content.index' to have a row-major layout")
 
         dist = content.distance
-        if dist.shape != idx.shape: 
-            raise ValueError("expected 'content.distance' and 'content.index' to have the same shape")
+        if dist.shape != idx.shape:
+            raise ValueError(
+                "expected 'content.distance' and 'content.index' to have the same shape"
+            )
         if not dist.flags.c_contiguous:
             raise ValueError("expected 'content.index' to have a row-major layout")
 
@@ -139,8 +140,7 @@ class NeighborResults:
 
 @dataclass
 class FindNearestNeighborsOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
+    """Optional arguments for :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Attributes:
         num_threads (int, optional): Number of threads to use. Defaults to 1.

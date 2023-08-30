@@ -5,9 +5,9 @@
 
 static auto create_rna_buffers(
     int num_cells,
-    int num_subsets, 
-    const double* /** numpy */ sums, 
-    const int32_t* /** numpy */ detected, 
+    int num_subsets,
+    const double* /** numpy */ sums,
+    const int32_t* /** numpy */ detected,
     const uintptr_t* /** void_p */ subset_proportions)
 {
     scran::PerCellRnaQcMetrics::Buffers<double, int32_t> buffer;
@@ -23,10 +23,10 @@ static auto create_rna_buffers(
 //[[export]]
 void suggest_rna_qc_filters(
     int32_t num_cells,
-    int32_t num_subsets, 
-    double* /** numpy */ sums, 
-    int32_t* /** numpy */ detected, 
-    uintptr_t* /** void_p */ subset_proportions, 
+    int32_t num_subsets,
+    double* /** numpy */ sums,
+    int32_t* /** numpy */ detected,
+    uintptr_t* /** void_p */ subset_proportions,
     int32_t num_blocks,
     const int32_t* /** void_p */ block,
     double* /** numpy */ sums_out,
@@ -64,10 +64,10 @@ void suggest_rna_qc_filters(
 //[[export]]
 void create_rna_qc_filter(
     int num_cells,
-    int num_subsets, 
-    const double* /** numpy */ sums, 
-    const int32_t* /** numpy */ detected, 
-    const uintptr_t* /** void_p */ subset_proportions, 
+    int num_subsets,
+    const double* /** numpy */ sums,
+    const int32_t* /** numpy */ detected,
+    const uintptr_t* /** void_p */ subset_proportions,
     int num_blocks,
     const int32_t* /** void_p */ block,
     const double* /** numpy */ sums_thresholds,

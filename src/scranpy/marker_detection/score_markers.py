@@ -40,8 +40,7 @@ def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
 
 @dataclass
 class ScoreMarkersOptions:
-    """Optional arguments for
-    :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
+    """Optional arguments for :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
 
     Attributes:
         block (Sequence, optional):
@@ -79,10 +78,9 @@ def score_markers(
     grouping: Sequence,
     options: ScoreMarkersOptions = ScoreMarkersOptions(),
 ) -> Mapping:
-    """Score genes as potential markers for groups of cells.
-    Markers are genes that are strongly up-regulated within each group,
-    allowing users to associate each group with some known (or novel) cell type or state.
-    The groups themselves are typically constructed from the data, e.g., with
+    """Score genes as potential markers for groups of cells. Markers are genes that are strongly up-regulated within
+    each group, allowing users to associate each group with some known (or novel) cell type or state. The groups
+    themselves are typically constructed from the data, e.g., with
     :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Args:

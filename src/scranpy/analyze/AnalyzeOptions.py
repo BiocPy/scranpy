@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional, Sequence, Union
+from typing import Optional, Sequence
 
 from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
@@ -8,6 +8,7 @@ from .. import marker_detection as mark
 from .. import nearest_neighbors as nn
 from .. import normalization as norm
 from .. import quality_control as qc
+
 
 @dataclass
 class MiscellaneousOptions:
@@ -21,14 +22,15 @@ class MiscellaneousOptions:
             Prefix for mitochondrial genes, under the assumption that the feature names are gene symbols.
             If None, no attempt is made to guess the identities of mitochondrial genes.
 
-        block (Sequence, optional): 
+        block (Sequence, optional):
             Block assignment for each cell.
             This should have length equal to the total number of cells in the dataset, before any quality control is applied.
     """
 
     snn_graph_multilevel_resolution: int = 1
     mito_prefix: Optional[str] = "mt-"
-    block: Optional[Sequence] = None 
+    block: Optional[Sequence] = None
+
 
 @dataclass
 class AnalyzeOptions:
@@ -122,9 +124,7 @@ class AnalyzeOptions:
         default_factory=feat.ModelGeneVariancesOptions
     )
 
-    run_pca_options: dimred.RunPcaOptions = field(
-        default_factory=dimred.RunPcaOptions
-    )
+    run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
 
     run_tsne_options: dimred.RunTsneOptions = field(
         default_factory=dimred.RunTsneOptions
@@ -156,24 +156,21 @@ class AnalyzeOptions:
 
     # Multi-step setters.
     def set_seed(self, seed: int = 42):
-        """Set seed for RNG.
-        This calls the method of the same name for
+        """Set seed for RNG. This calls the method of the same name for
         :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`,
         :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`,
         :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
 
         Args:
-            seed (int, optional): 
+            seed (int, optional):
                 Seed for random number generation.
         """
         self.run_pca_options.set_seed(seed)
         self.run_tsne_options.set_seed(seed)
         self.run_umap_options.set_seed(seed)
 
-
     def set_verbose(self, verbose: bool = False):
-        """Set verbose to display logs.
-        This calls the method of the same name for all ``*_options`` objects.
+        """Set verbose to display logs. This calls the method of the same name for all ``*_options`` objects.
 
         Args:
             verbose (bool, optional): Whether to print logs.
@@ -194,20 +191,19 @@ class AnalyzeOptions:
         self.score_markers_options.set_verbose(verbose)
 
     def set_threads(self, num_threads: int = 1):
-        """Set number of threads to use.
-        This calls the method of the same name for 
+        """Set number of threads to use. This calls the method of the same name for
         :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`,
         :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts.`,
         :py:meth:`~scranpy.feature_selection.model_gene_variances`,
         :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`,
         :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
-        The number of threads provided to 
+        The number of threads provided to
         :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`
         is also used in :py:meth:`~scranpy.analyze.run_neighbor_suite`,
         which determines the thread allocation to subsequent steps like
         :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`
-        and 
+        and
         :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
         In all cases, thread utilization will not exceed the limit specified here in ``num_threads``.
 

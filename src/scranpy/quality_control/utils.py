@@ -1,4 +1,5 @@
-from numpy import bool_, float64, int32, ndarray, uint8, uintp, zeros
+from numpy import ndarray, uintp
+
 
 def create_pointer_array(arrs):
     num = len(arrs)
@@ -14,4 +15,3 @@ def create_pointer_array(arrs):
             i += 1
 
     return output
-

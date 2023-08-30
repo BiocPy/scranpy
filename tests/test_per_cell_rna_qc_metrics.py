@@ -1,6 +1,7 @@
 import numpy as np
 from scranpy.quality_control import PerCellRnaQcMetricsOptions, per_cell_rna_qc_metrics
 
+
 def test_per_cell_rna_qc_metrics(mock_data):
     x = mock_data.x
     result = per_cell_rna_qc_metrics(
@@ -33,4 +34,3 @@ def test_per_cell_rna_qc_metrics(mock_data):
         result.column("subset_proportions").column(0),
         resultp.column("subset_proportions").column(0),
     )
-

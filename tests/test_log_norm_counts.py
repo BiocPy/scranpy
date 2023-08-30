@@ -2,9 +2,9 @@ import numpy as np
 import delayedarray as da
 from mattress import tatamize
 from scranpy.normalization import (
-    LogNormCountsOptions, 
-    log_norm_counts, 
-    CenterSizeFactorsOptions
+    LogNormCountsOptions,
+    log_norm_counts,
+    CenterSizeFactorsOptions,
 )
 
 __author__ = "ltla, jkanche"
@@ -29,12 +29,10 @@ def test_log_norm_counts(mock_data):
 
     # Works with blocking.
     result_blocked = log_norm_counts(
-        y, 
+        y,
         LogNormCountsOptions(
-            center_size_factors_options=CenterSizeFactorsOptions(
-                block=mock_data.block
-            )
-        )
+            center_size_factors_options=CenterSizeFactorsOptions(block=mock_data.block)
+        ),
     )
     first_blocked = result_blocked.row(0)
     assert np.allclose(first_blocked, ref) is False
@@ -45,6 +43,7 @@ def test_log_norm_counts(mock_data):
     last = result.nrow() - 1
     assert (result.row(last) == result_parallel.row(last)).all()
 
+
 def test_log_norm_counts_matrix(mock_data):
     x = mock_data.x
 
@@ -54,14 +53,13 @@ def test_log_norm_counts_matrix(mock_data):
     sf = x.sum(axis=0)
     out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf))
     assert isinstance(out, da.DelayedArray)
-    assert np.allclose(out[:,0], ref[:,0])
+    assert np.allclose(out[:, 0], ref[:, 0])
 
     sf = x.sum(axis=0)
     out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf, center=False))
     assert isinstance(out, da.DelayedArray)
-    assert np.allclose(out[:,0], np.log(x[:,0]/sf[0] + 1)/np.log(2))
+    assert np.allclose(out[:, 0], np.log(x[:, 0] / sf[0] + 1) / np.log(2))
 
     out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf, delayed=False))
     assert isinstance(out, np.ndarray)
-    assert np.allclose(out[:,0], ref[:,0])
-
+    assert np.allclose(out[:, 0], ref[:, 0])

@@ -1,5 +1,6 @@
 from typing import Sequence
 
+
 def guess_mito_from_symbols(symbols: Sequence[str], prefix: str) -> Sequence[int]:
     """Guess mitochondrial genes from their gene symbols.
 

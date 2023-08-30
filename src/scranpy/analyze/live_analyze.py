@@ -1,8 +1,7 @@
 from typing import Sequence
-from mattress import TatamiNumericPointer, tatamize
+from mattress import tatamize
 import numpy
 
-from .. import clustering as clust
 from .. import dimensionality_reduction as dimred
 from .. import feature_selection as feat
 from .. import marker_detection as mark
@@ -10,10 +9,10 @@ from .. import normalization as norm
 from .. import quality_control as qc
 
 from .AnalyzeOptions import AnalyzeOptions
-from .AnalyzeResults import AnalyzeResults 
+from .AnalyzeResults import AnalyzeResults
 from .run_neighbor_suite import run_neighbor_suite
 from .update import update
-from ..types import MatrixTypes, is_matrix_expected_type, validate_object_type
+from ..types import MatrixTypes, is_matrix_expected_type
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
@@ -39,35 +38,33 @@ def live_analyze(
 
     subsets = {}
     if isinstance(options.miscellaneous_options.mito_prefix, str):
-        subsets["mito"] = qc.guess_mito_from_symbols(features, options.miscellaneous_options.mito_prefix)
+        subsets["mito"] = qc.guess_mito_from_symbols(
+            features, options.miscellaneous_options.mito_prefix
+        )
     results.rna_quality_control_subsets = subsets
 
     results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
-        matrix,
-        options = update(options.per_cell_rna_qc_metrics_options, subsets=subsets)
+        matrix, options=update(options.per_cell_rna_qc_metrics_options, subsets=subsets)
     )
 
     results.rna_quality_control_thresholds = qc.suggest_rna_qc_filters(
         results.rna_quality_control_metrics,
-        options = update(
-            options.suggest_rna_qc_filters_options, 
-            block = options.miscellaneous_options.block
-        )
+        options=update(
+            options.suggest_rna_qc_filters_options,
+            block=options.miscellaneous_options.block,
+        ),
     )
 
     results.rna_quality_control_filter = qc.create_rna_qc_filter(
         results.rna_quality_control_metrics,
         results.rna_quality_control_thresholds,
-        options = update(
+        options=update(
             options.create_rna_qc_filter_options,
-            block = options.miscellaneous_options.block
-        )
+            block=options.miscellaneous_options.block,
+        ),
     )
 
-    filtered = qc.filter_cells(
-        ptr, 
-        filter = results.rna_quality_control_filter
-    )
+    filtered = qc.filter_cells(ptr, filter=results.rna_quality_control_filter)
 
     keep = numpy.logical_not(results.rna_quality_control_filter)
     if options.miscellaneous_options.block is not None:
@@ -76,47 +73,38 @@ def live_analyze(
         else:
             filtered_block = numpy.array(options.miscellaneous_options.block)[keep]
     else:
-        filtered_block = None 
+        filtered_block = None
 
     if options.log_norm_counts_options.size_factors is None:
         results.size_factors = norm.center_size_factors(
             results.rna_quality_control_metrics.column("sums")[keep],
-            options = update(
-                options.center_size_factors_options,
-                block = filtered_block
-            )
+            options=update(options.center_size_factors_options, block=filtered_block),
         )
     else:
         results.size_factors = options.log_norm_counts_options.size_factors[keep]
 
     normed = norm.log_norm_counts(
         filtered,
-        options = update(
-            options.log_norm_counts_options, 
-            size_factors = results.size_factors
-        )
+        options=update(
+            options.log_norm_counts_options, size_factors=results.size_factors
+        ),
     )
 
     results.gene_variances = feat.model_gene_variances(
         normed,
-        options = update(
-            options.model_gene_variances_options,
-            block = filtered_block
-        )
+        options=update(options.model_gene_variances_options, block=filtered_block),
     )
 
     results.hvgs = feat.choose_hvgs(
         results.gene_variances.column("residuals"),
-        options = options.choose_hvgs_options,
+        options=options.choose_hvgs_options,
     )
 
     results.pca = dimred.run_pca(
         normed,
-        options = update(
-            options.run_pca_options,
-            subset = results.hvgs,
-            block = filtered_block
-        )
+        options=update(
+            options.run_pca_options, subset=results.hvgs, block=filtered_block
+        ),
     )
 
     get_tsne, get_umap, graph, remaining_threads = run_neighbor_suite(
@@ -126,24 +114,22 @@ def live_analyze(
         run_umap_options=options.run_umap_options,
         run_tsne_options=options.run_tsne_options,
         build_snn_graph_options=options.build_snn_graph_options,
-        num_threads=options.find_nearest_neighbors_options.num_threads # using this as the parallelization extent.
+        num_threads=options.find_nearest_neighbors_options.num_threads,  # using this as the parallelization extent.
     )
 
     results.snn_graph = graph
-    results.clusters = (
-        results.snn_graph.community_multilevel(
-            resolution=options.miscellaneous_options.snn_graph_multilevel_resolution
-        ).membership
-    )
+    results.clusters = results.snn_graph.community_multilevel(
+        resolution=options.miscellaneous_options.snn_graph_multilevel_resolution
+    ).membership
 
     results.markers = mark.score_markers(
         normed,
-        grouping = results.clusters,
-        options = update(
+        grouping=results.clusters,
+        options=update(
             options.score_markers_options,
-            block = filtered_block,
-            num_threads = remaining_threads
-        )
+            block=filtered_block,
+            num_threads=remaining_threads,
+        ),
     )
 
     results.tsne = get_tsne()
