@@ -33,8 +33,10 @@ class MnnCorrectOptions:
             each cell involved in a MNN pair. Larger values reduce kissing but
             may incorporate inappropriately distant subpopulations in a cell's center of mass.
 
-        mass_cap (int): Cap on the number of observations used to compute the center of mass for each MNN-involved observation.
-            The dataset is effectively downsampled to `c` observations for this calculation, which improves speed at the cost of some precision.
+        mass_cap (int): Cap on the number of observations used to compute the
+            center of mass for each MNN-involved observation.  The dataset is
+            effectively downsampled to `c` observations for this calculation, which
+            improves speed at the cost of some precision.
 
         num_threads (int): Number of threads to use for the various MNN calculations.
     """
@@ -54,7 +56,8 @@ class MnnCorrectResult:
     Attributes:
         corrected (ndarray, optional):
             Matrix of corrected coordinates for each cell (row) and dimension (column).
-            Rows and columns correspond to the input ``x`` in :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
+            Rows and columns should be in the same order as the input ``x`` in 
+            :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
 
         merge_order (list, optional):
             Order of batches used for merging.
@@ -83,7 +86,8 @@ def mnn_correct(
         x (ndarray): Numeric matrix where rows are cells and columns are dimensions,
             typically generated from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-        batch (Sequence): Sequence of length equal to the number of cells (i.e., rows of ``x``), specifying the batch for each cell.
+        batch (Sequence): Sequence of length equal to the number of cells (i.e., rows of ``x``), 
+            specifying the batch for each cell.
 
         options (MnnCorrectOptions): Optional parameters.
 
@@ -103,8 +107,8 @@ def mnn_correct(
     order_offset = 0
     if options.order is not None:
         mapping = {}
-        for i, l in enumerate(batchfac.levels):
-            mapping[l] = i
+        for i, lev in enumerate(batchfac.levels):
+            mapping[lev] = i
 
         if len(options.order) != len(batchfac.levels):
             raise ValueError("length of 'options.order' should be equal to the number of batches")
