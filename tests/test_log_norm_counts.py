@@ -27,6 +27,7 @@ def test_log_norm_counts(mock_data):
     result_uncentered = log_norm_counts(y, LogNormCountsOptions(center=False))
     assert np.allclose(result_uncentered.row(0), np.log2(x[0, :] / sf + 1))
 
+    # Works with blocking.
     result_blocked = log_norm_counts(
         y, 
         LogNormCountsOptions(
@@ -46,14 +47,21 @@ def test_log_norm_counts(mock_data):
 
 def test_log_norm_counts_matrix(mock_data):
     x = mock_data.x
+
+    ref = log_norm_counts(x, LogNormCountsOptions())
+    assert isinstance(ref, da.DelayedArray)
+
     sf = x.sum(axis=0)
-
-    out = log_norm_counts(x, LogNormCountsOptions())
-    assert isinstance(out, da.DelayedArray)
-
     out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf))
     assert isinstance(out, da.DelayedArray)
+    assert np.allclose(out[:,0], ref[:,0])
+
+    sf = x.sum(axis=0)
+    out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf, center=False))
+    assert isinstance(out, da.DelayedArray)
+    assert np.allclose(out[:,0], np.log(x[:,0]/sf[0] + 1)/np.log(2))
 
     out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf, delayed=False))
     assert isinstance(out, np.ndarray)
+    assert np.allclose(out[:,0], ref[:,0])
 
