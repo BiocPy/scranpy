@@ -1,7 +1,6 @@
 from typing import Sequence
-from mattress import tatamize
-from copy import copy
-from numpy import logical_not
+from mattress import TatamiNumericPointer, tatamize
+import numpy
 
 from .. import dimensionality_reduction as dimred
 from .. import feature_selection as feat
@@ -12,7 +11,8 @@ from .. import quality_control as qc
 from .AnalyzeOptions import AnalyzeOptions
 from .AnalyzeResults import AnalyzeResults
 from .run_neighbor_suite import run_neighbor_suite
-from ..types import MatrixTypes, is_matrix_expected_type
+from .update import update
+from ..types import MatrixTypes, is_matrix_expected_type, validate_object_type
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
@@ -36,8 +36,6 @@ def live_analyze(
     # Start of the capture.
     results = AnalyzeResults()
 
-    # Don't be tempted to create a shorter variable name,
-    # otherwise the dry-run generator won't work as expected.
     subsets = {}
     if isinstance(options.miscellaneous_options.mito_prefix, str):
         subsets["mito"] = qc.guess_mito_from_symbols(
@@ -45,57 +43,81 @@ def live_analyze(
         )
     results.rna_quality_control_subsets = subsets
 
-    rna_options = copy(options.per_cell_rna_qc_metrics_options)
-    rna_options.subsets = subsets
     results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
-        matrix, options=rna_options
+        matrix,
+        options = update(options.per_cell_rna_qc_metrics_options, subsets=subsets)
     )
+
     results.rna_quality_control_thresholds = qc.suggest_rna_qc_filters(
         results.rna_quality_control_metrics,
-        options=options.suggest_rna_qc_filters_options,
+        options = update(
+            options.suggest_rna_qc_filters_options, 
+            block = options.miscellaneous_options.block
+        )
     )
 
     results.rna_quality_control_filter = qc.create_rna_qc_filter(
         results.rna_quality_control_metrics,
         results.rna_quality_control_thresholds,
-        options=options.create_rna_qc_filter_options,
+        options = update(
+            options.create_rna_qc_filter_options,
+            block = options.miscellaneous_options.block
+        )
     )
 
-    filtered = qc.filter_cells(ptr, filter=results.rna_quality_control_filter)
+    filtered = qc.filter_cells(
+        ptr, 
+        filter = results.rna_quality_control_filter
+    )
 
-    # Normalization.
+    keep = numpy.logical_not(results.rna_quality_control_filter)
+    if options.miscellaneous_options.block is not None:
+        if isinstance(options.miscellaneous_options.block, numpy.ndarray):
+            filtered_block = options.miscellaneous_options.block[keep]
+        else:
+            filtered_block = numpy.array(options.miscellaneous_options.block)[keep]
+    else:
+        filtered_block = None 
+
     if options.log_norm_counts_options.size_factors is None:
         results.size_factors = norm.center_size_factors(
-            results.rna_quality_control_metrics.column("sums")[
-                logical_not(results.rna_quality_control_filter)
-            ],
-            options=options.center_size_factors_options,
+            results.rna_quality_control_metrics.column("sums")[keep],
+            options = update(
+                options.center_size_factors_options,
+                block = filtered_block
+            )
         )
-        norm_options = copy(options.log_norm_counts_options)
-        norm_options.size_factors = results.size_factors
     else:
-        norm_options = options.log_norm_counts_options
-        results.size_factors = norm_options.size_factors
+        results.size_factors = options.log_norm_counts_options.size_factors[keep]
 
-    # Until a delayed array is supported, we can't expose these pointers to
-    # users, so we'll just hold onto them.
-    normed = norm.log_norm_counts(filtered, options=norm_options)
+    normed = norm.log_norm_counts(
+        filtered,
+        options = update(
+            options.log_norm_counts_options, 
+            size_factors = results.size_factors
+        )
+    )
 
     results.gene_variances = feat.model_gene_variances(
         normed,
-        options=options.model_gene_variances_options,
+        options = update(
+            options.model_gene_variances_options,
+            block = filtered_block
+        )
     )
 
     results.hvgs = feat.choose_hvgs(
         results.gene_variances.column("residuals"),
-        options=options.choose_hvgs_options,
+        options = options.choose_hvgs_options,
     )
 
-    pca_options = copy(options.run_pca_options)
-    pca_options.subset = results.hvgs
     results.pca = dimred.run_pca(
         normed,
-        options=options.run_pca_options,
+        options = update(
+            options.run_pca_options,
+            subset = results.hvgs,
+            block = filtered_block
+        )
     )
 
     get_tsne, get_umap, graph, remaining_threads = run_neighbor_suite(
@@ -113,10 +135,14 @@ def live_analyze(
         resolution=options.miscellaneous_options.snn_graph_multilevel_resolution
     ).membership
 
-    marker_options = copy(options.score_markers_options)
-    marker_options.num_threads = remaining_threads
     results.markers = mark.score_markers(
-        normed, grouping=results.clusters, options=marker_options
+        normed,
+        grouping = results.clusters,
+        options = update(
+            options.score_markers_options,
+            block = filtered_block,
+            num_threads = remaining_threads
+        )
     )
 
     results.tsne = get_tsne()
