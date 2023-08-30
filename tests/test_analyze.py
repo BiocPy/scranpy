@@ -12,6 +12,7 @@ def test_analyze(mock_data):
     out = analyze(x, features=[f"{i}" for i in range(1000)])
 
     assert isinstance(out, AnalyzeResults)
+    assert out.mnn is None
 
     as_sce = out.to_sce(x)
 
@@ -37,3 +38,7 @@ def test_analyze_blocked(mock_data):
 
     assert isinstance(out, AnalyzeResults)
     assert out.gene_variances.has_column("per_block")
+    assert out.mnn is not None
+
+    as_sce = out.to_sce(x)
+    assert "mnn" in as_sce.reducedDims
