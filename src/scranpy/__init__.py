@@ -16,6 +16,7 @@ finally:
     del version, PackageNotFoundError
 
 from . import (
+    batch_correction,
     clustering,
     dimensionality_reduction,
     feature_selection,

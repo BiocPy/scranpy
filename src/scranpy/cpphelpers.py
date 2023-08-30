@@ -408,6 +408,7 @@ lib.py_mnn_correct.argtypes = [
     ct.c_int32,
     ct.c_int32,
     ct.c_void_p,
+    ct.c_int32,
     ct.c_void_p,
     ct.c_int32,
     ct.c_double,
@@ -417,7 +418,7 @@ lib.py_mnn_correct.argtypes = [
     ct.c_void_p,
     ct.c_char_p,
     ct.c_uint8,
-    ct.POINTER(ct.c_double),
+    ct.c_void_p,
     ct.c_void_p,
     ct.c_void_p,
     ct.POINTER(ct.c_int32),
@@ -737,8 +738,8 @@ def initialize_umap(neighbors, num_epochs, min_dist, Y, nthreads):
 def log_norm_counts(mat0, size_factors):
     return catch_errors(lib.py_log_norm_counts)(mat0, np2ct(size_factors, np.float64))
 
-def mnn_correct(ndim, ncells, x, batch, k, nmads, nthreads, mass_cap, use_order, order, ref_policy, approximate, corrected_output, merge_order_output, num_pairs_output):
-    return catch_errors(lib.py_mnn_correct)(ndim, ncells, np2ct(x, np.float64), np2ct(batch, np.int32), k, nmads, nthreads, mass_cap, use_order, order, ref_policy, approximate, corrected_output, np2ct(merge_order_output, np.int32), np2ct(num_pairs_output, np.int32))
+def mnn_correct(ndim, ncells, x, nbatches, batch, k, nmads, nthreads, mass_cap, use_order, order, ref_policy, approximate, corrected_output, merge_order_output, num_pairs_output):
+    return catch_errors(lib.py_mnn_correct)(ndim, ncells, np2ct(x, np.float64), nbatches, np2ct(batch, np.int32), k, nmads, nthreads, mass_cap, use_order, order, ref_policy, approximate, np2ct(corrected_output, np.float64), np2ct(merge_order_output, np.int32), np2ct(num_pairs_output, np.int32))
 
 def model_gene_variances(mat, means, variances, fitted, residuals, span, num_threads):
     return catch_errors(lib.py_model_gene_variances)(mat, np2ct(means, np.float64), np2ct(variances, np.float64), np2ct(fitted, np.float64), np2ct(residuals, np.float64), span, num_threads)
