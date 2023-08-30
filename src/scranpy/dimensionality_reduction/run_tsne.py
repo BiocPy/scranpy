@@ -267,7 +267,7 @@ def run_tsne(
         logger.info("Done computing t-SNE embeddings...")
 
     output = status.extract()
-    x = copy(output.x) # realize NumPy slice views into concrete arrays.
+    x = copy(output.x)  # realize NumPy slice views into concrete arrays.
     y = copy(output.y)
 
     return TsneEmbedding(x, y)

@@ -96,7 +96,7 @@ def center_size_factors(
         options.allow_zeros,
         options.allow_non_finite,
         use_block,
-        block_offset
+        block_offset,
     )
 
     return local_sf

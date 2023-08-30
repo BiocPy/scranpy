@@ -1,7 +1,7 @@
 from typing import Tuple, Callable
 from igraph import Graph
 from concurrent.futures import ProcessPoolExecutor, wait
-from copy import copy 
+from copy import copy
 
 from .. import nearest_neighbors as nn
 from .. import dimensionality_reduction as dimred

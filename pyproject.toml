@@ -21,4 +21,4 @@ convention = "google"
 "__init__.py" = ["E402", "F401"]
 
 [tool.black]
-force-exclude = "__init__.py|dry|cpphelpers"
+force-exclude = "__init__.py|dry|cpphelpers|cpp"

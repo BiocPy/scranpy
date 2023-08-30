@@ -277,7 +277,7 @@ def run_umap(
         logger.info("Done computing UMAP embeddings...")
 
     output = status.extract()
-    x = copy(output.x) # realize NumPy slicing views into standalone arrays.
+    x = copy(output.x)  # realize NumPy slicing views into standalone arrays.
     y = copy(output.y)
 
     return UmapEmbedding(x, y)
