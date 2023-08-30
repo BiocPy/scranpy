@@ -31,10 +31,10 @@ def run_neighbor_suite(
             Matrix of principal components where rows are cells and columns are PCs.
             Thi is usually produced by :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-        build_neighbor_index_options (BuildNeighborIndexOptions, optional): Optional arguments to pass to 
+        build_neighbor_index_options (BuildNeighborIndexOptions, optional): Optional arguments to pass to
             :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
-        find_nearest_neighbors_options (FindNearestNeighborsOptions, optional): Optional arguments to pass to 
+        find_nearest_neighbors_options (FindNearestNeighborsOptions, optional): Optional arguments to pass to
             :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
         run_umap_options (RunUmapOptions, optional):
@@ -56,7 +56,7 @@ def run_neighbor_suite(
         - The shared nearest neighbor graph from :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
         - The number of remaining threads.
 
-        The idea is that the number of remaining threads can be used to perform tasks on the main thread 
+        The idea is that the number of remaining threads can be used to perform tasks on the main thread
         (e.g., clustering, marker detection) while the t-SNE and UMAP are still being computed;
         once all tasks on the main thread have completed, the first function can be called to obtain the coordinates.
     """

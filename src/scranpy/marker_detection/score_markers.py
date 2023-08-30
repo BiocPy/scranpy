@@ -85,9 +85,9 @@ def score_markers(
 
     Args:
         input (MatrixTypes):
-            Matrix-like object where rows are features and columns are cells, typically containing log-normalized 
-            values. This should be a matrix class that can be converted into a 
-            :py:class:`~mattress.TatamiNumericPointer`. Developers may also provide the 
+            Matrix-like object where rows are features and columns are cells, typically containing log-normalized
+            values. This should be a matrix class that can be converted into a
+            :py:class:`~mattress.TatamiNumericPointer`. Developers may also provide the
             :py:class:`~mattress.TatamiNumericPointer` itself.
 
         grouping (Sequence, optional):
