@@ -112,7 +112,7 @@ def live_analyze(
         results.mnn = correct.mnn_correct(
             results.pca.principal_components,
             filtered_block,
-            options = options.mnn_correct_options,
+            options=options.mnn_correct_options,
         )
         lowdim = results.mnn.corrected
     else:
