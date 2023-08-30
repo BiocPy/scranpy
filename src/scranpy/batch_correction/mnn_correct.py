@@ -1,9 +1,10 @@
-from numpy import ndarray, float64, int32, array
+from numpy import ndarray, float64, int32
 from typing import Sequence, Optional
 from dataclasses import dataclass
 
 from ..utils import factorize
 from .. import cpphelpers as lib
+
 
 @dataclass
 class MnnCorrectOptions:
@@ -23,7 +24,7 @@ class MnnCorrectOptions:
 
         reference_policy (str): Policy to use for choosing the initial reference
             batch. This can be one of "max-rss" (maximum residual sum of squares
-            within the batch, which is the default), "max-variance" (maximum 
+            within the batch, which is the default), "max-variance" (maximum
             variance within the batch), "max-size" (maximum number of cells),
             or "input" (using the supplied order of levels in ``batch``).
             Only used if ``order`` is not supplied.
@@ -40,6 +41,7 @@ class MnnCorrectOptions:
 
         num_threads (int): Number of threads to use for the various MNN calculations.
     """
+
     k: int = 15
     approximate: bool = True
     order: Optional[Sequence] = None
@@ -56,7 +58,7 @@ class MnnCorrectResult:
     Attributes:
         corrected (ndarray, optional):
             Matrix of corrected coordinates for each cell (row) and dimension (column).
-            Rows and columns should be in the same order as the input ``x`` in 
+            Rows and columns should be in the same order as the input ``x`` in
             :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
 
         merge_order (list, optional):
@@ -68,6 +70,7 @@ class MnnCorrectResult:
             Number of MNN pairs detected at each merge step.
             This has length one less than the number of batches.
     """
+
     corrected: Optional[ndarray] = None
 
     merge_order: Optional[list] = None
@@ -76,9 +79,7 @@ class MnnCorrectResult:
 
 
 def mnn_correct(
-    x: ndarray,
-    batch: Sequence,
-    options: MnnCorrectOptions = MnnCorrectOptions()
+    x: ndarray, batch: Sequence, options: MnnCorrectOptions = MnnCorrectOptions()
 ) -> MnnCorrectResult:
     """Identify mutual nearest neighbors (MNNs) to correct batch effects in a low-dimensional embedding.
 
@@ -86,7 +87,7 @@ def mnn_correct(
         x (ndarray): Numeric matrix where rows are cells and columns are dimensions,
             typically generated from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-        batch (Sequence): Sequence of length equal to the number of cells (i.e., rows of ``x``), 
+        batch (Sequence): Sequence of length equal to the number of cells (i.e., rows of ``x``),
             specifying the batch for each cell.
 
         options (MnnCorrectOptions): Optional parameters.
@@ -111,12 +112,16 @@ def mnn_correct(
             mapping[lev] = i
 
         if len(options.order) != len(batchfac.levels):
-            raise ValueError("length of 'options.order' should be equal to the number of batches")
+            raise ValueError(
+                "length of 'options.order' should be equal to the number of batches"
+            )
 
         order_info = ndarray((nbatch,), dtype=int32)
         for i, o in enumerate(options.order):
             if o not in mapping:
-                raise ValueError("'options.order' should contain the same values as 'batch'")
+                raise ValueError(
+                    "'options.order' should contain the same values as 'batch'"
+                )
             curo = mapping[o]
             if curo < 0:
                 raise ValueError("'options.order' should not contain duplicate values")
@@ -130,26 +135,26 @@ def mnn_correct(
     num_pairs_output = ndarray((nbatch - 1,), dtype=int32)
 
     lib.mnn_correct(
-        ndim = ndim,
-        ncells = ncells,
-        x = x,
-        nbatches = nbatch,
-        batch = batchfac.indices,
-        k = options.k,
-        nmads = options.num_mads,
-        nthreads = options.num_threads,
-        mass_cap = options.mass_cap,
-        use_order = order_info is not None,
-        order = order_offset,
-        ref_policy = options.reference_policy.encode("UTF-8"),
-        approximate = options.approximate,
-        corrected_output = corrected_output,
-        merge_order_output = merge_order_output,
-        num_pairs_output = num_pairs_output
+        ndim=ndim,
+        ncells=ncells,
+        x=x,
+        nbatches=nbatch,
+        batch=batchfac.indices,
+        k=options.k,
+        nmads=options.num_mads,
+        nthreads=options.num_threads,
+        mass_cap=options.mass_cap,
+        use_order=order_info is not None,
+        order=order_offset,
+        ref_policy=options.reference_policy.encode("UTF-8"),
+        approximate=options.approximate,
+        corrected_output=corrected_output,
+        merge_order_output=merge_order_output,
+        num_pairs_output=num_pairs_output,
     )
 
     return MnnCorrectResult(
-        corrected = corrected_output,
-        merge_order = [batchfac.levels[i] for i in merge_order_output],
-        num_pairs = num_pairs_output
+        corrected=corrected_output,
+        merge_order=[batchfac.levels[i] for i in merge_order_output],
+        num_pairs=num_pairs_output,
     )
