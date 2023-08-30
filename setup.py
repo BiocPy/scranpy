@@ -29,6 +29,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/run_tsne.cpp",
                         "src/scranpy/lib/run_umap.cpp",
                         "src/scranpy/lib/score_markers.cpp",
+                        "src/scranpy/lib/mnn_correct.cpp",
                         "src/scranpy/lib/bindings.cpp",
                     ],
                     include_dirs=[
@@ -46,6 +47,7 @@ if __name__ == "__main__":
                         "extern/qdtsne/include",
                         "extern/umappp/include",
                         "extern/libscran/include",
+                        "extern/mnncorrect/include",
                     ]
                     + mattress.includes(),
                     language="c++",
