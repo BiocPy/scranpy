@@ -1,10 +1,9 @@
-import copy
 import ctypes as ct
 from collections import namedtuple
 from dataclasses import dataclass, field
 from typing import Union, Optional
 
-from numpy import float64, ndarray
+from numpy import float64, ndarray, copy
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -73,7 +72,7 @@ class UmapStatus:
         Returns:
             UmapStatus: Copy of the current state.
         """
-        cloned = copy.deepcopy(self.coordinates)
+        cloned = copy(self.coordinates)
         return UmapStatus(lib.clone_umap_status(self.__ptr, cloned), cloned)
 
     def __deepcopy__(self, memo):
@@ -279,7 +278,7 @@ def run_umap(
         logger.info("Done computing UMAP embeddings...")
 
     output = status.extract()
-    x = copy.deepcopy(output.x)  # is this really necessary?
-    y = copy.deepcopy(output.y)
+    x = copy(output.x) # realize NumPy slicing views into standalone arrays.
+    y = copy(output.y)
 
     return UmapEmbedding(x, y)

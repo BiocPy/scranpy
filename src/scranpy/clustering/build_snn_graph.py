@@ -1,9 +1,8 @@
-from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Literal, Union
 
 from igraph import Graph
-from numpy import ctypeslib, ndarray
+from numpy import ctypeslib, ndarray, copy
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -146,7 +145,7 @@ def build_snn_graph(
             logger.info("Generating the iGraph object...")
 
         graph = Graph(n=nc, edges=edge_list)
-        graph.es["weight"] = deepcopy(w_array)
+        graph.es["weight"] = copy(w_array)
 
     finally:
         lib.free_snn_graph(built)
