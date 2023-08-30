@@ -25,8 +25,8 @@ class BuildSnnGraphOptions:
     Attributes:
         num_neighbors (int, optional): Number of neighbors to use.
             Larger values result in a more interconnected graph and generally broader clusters from community detection.
-            Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` object.
-            Defaults to 15.
+            Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` 
+            object. Defaults to 15.
 
         weight_scheme (Literal["ranked", "jaccard", "number"], optional):
             Weighting scheme for the edges between cells. This can be based on the top ranks

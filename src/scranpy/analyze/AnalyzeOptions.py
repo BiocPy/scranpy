@@ -22,9 +22,9 @@ class MiscellaneousOptions:
             Prefix for mitochondrial genes, under the assumption that the feature names are gene symbols.
             If None, no attempt is made to guess the identities of mitochondrial genes.
 
-        block (Sequence, optional):
-            Block assignment for each cell.
-            This should have length equal to the total number of cells in the dataset, before any quality control is applied.
+        block (Sequence, optional): Block assignment for each cell.
+            This should have length equal to the total number of cells in the dataset, before any quality control 
+            is applied.
     """
 
     snn_graph_multilevel_resolution: int = 1
@@ -37,8 +37,9 @@ class AnalyzeOptions:
     """Optional parameters for all :py:meth:`~scranpy.analyze.analyze.analyze` steps.
 
     Optional parameters for each function are named after the function with the ``_options`` suffix.
-    In most cases, these can be modified directly to refine the behavior of the :py:meth:`~scranpy.analyze.analyze.analyze` function.
-    However, for a few options, it usually makes more sense to set them across multiple parameter objects simultaneously;
+    In most cases, these can be modified directly to refine the behavior of the 
+    :py:meth:`~scranpy.analyze.analyze.analyze` function. However, for a few options, it usually makes more sense 
+    to set them across multiple parameter objects simultaneously;
     check out the setter methods of this class for more details.
 
     Attributes:
