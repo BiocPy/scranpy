@@ -103,6 +103,6 @@ def per_cell_rna_qc_metrics(
         {
             "sums": sums,
             "detected": detected,
-            "subset_proportions": BiocFrame(collected_out, numberOfRows=nc),
+            "subset_proportions": BiocFrame(collected_out, number_of_rows=nc),
         }
     )

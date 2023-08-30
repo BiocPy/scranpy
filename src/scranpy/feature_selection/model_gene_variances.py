@@ -91,7 +91,7 @@ def model_gene_variances(
                 "fitted": fitted,
                 "residuals": residuals,
             },
-            numberOfRows=NR,
+            number_of_rows=NR,
         )
     else:
         NC = x.ncol()
@@ -170,5 +170,5 @@ def model_gene_variances(
                 "residuals": residuals,
                 "per_block": BiocFrame(extra),
             },
-            numberOfRows=NR,
+            number_of_rows=NR,
         )

@@ -110,7 +110,7 @@ def suggest_rna_qc_filters(
     detected_out = ndarray((num_blocks,), dtype=float64)
 
     subsets = metrics.column("subset_proportions")
-    skeys = subsets.columnNames
+    skeys = subsets.column_names
     num_subsets = len(skeys)
     subset_in = []
     subset_out = {}
@@ -152,14 +152,14 @@ def suggest_rna_qc_filters(
                 )
             custom_thresholds = custom_thresholds[m, :]
 
-        if custom_thresholds.hasColumn("sums"):
+        if custom_thresholds.has_column("sums"):
             sums_out = custom_thresholds.column("sums")
-        if custom_thresholds.hasColumn("detected"):
+        if custom_thresholds.has_column("detected"):
             detected_out = custom_thresholds.column("detected")
-        if custom_thresholds.hasColumn("subset_proportions"):
+        if custom_thresholds.has_column("subset_proportions"):
             custom_subs = custom_thresholds.column("subset_proportions")
             for s in subset_out.keys():
-                if custom_subs.hasColumn(s):
+                if custom_subs.has_column(s):
                     subset_out[s] = custom_subs.column(s)
 
     return BiocFrame(
@@ -168,11 +168,11 @@ def suggest_rna_qc_filters(
             "detected": detected_out,
             "subset_proportions": BiocFrame(
                 subset_out,
-                columnNames=skeys,
-                numberOfRows=num_blocks,
-                rowNames=block_names,
+                column_names=skeys,
+                number_of_rows=num_blocks,
+                row_names=block_names,
             ),
         },
-        numberOfRows=num_blocks,
-        rowNames=block_names,
+        number_of_rows=num_blocks,
+        row_names=block_names,
     )

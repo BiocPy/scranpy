@@ -31,10 +31,10 @@ def test_suggest_rna_qc_filters(mock_data):
     )
 
     assert filters_blocked.shape[0] == 3
-    assert len(list(set(filters_blocked.rowNames).difference(["A", "B", "C"]))) == 0
+    assert len(list(set(filters_blocked.row_names).difference(["A", "B", "C"]))) == 0
 
     subfilters = filters_blocked.column("subset_proportions")
-    assert len(list(set(subfilters.rowNames).difference(["A", "B", "C"]))) == 0
+    assert len(list(set(subfilters.row_names).difference(["A", "B", "C"]))) == 0
 
 
 def test_suggest_rna_qc_filters_custom(mock_data):
@@ -73,7 +73,7 @@ def test_suggest_rna_qc_filters_custom(mock_data):
                     "detected": [4, 5, 6],
                     "subset_proportions": BiocFrame({"foo": [7, 8, 9]}),
                 },
-                rowNames=["A", "B", "C"],
+                row_names=["A", "B", "C"],
             ),
         ),
     )
@@ -94,7 +94,7 @@ def test_suggest_rna_qc_filters_custom(mock_data):
                     "detected": [4, 5, 6],
                     "subset_proportions": BiocFrame({"foo": [7, 8, 9]}),
                 },
-                rowNames=["C", "B", "A"],
+                row_names=["C", "B", "A"],
             ),
         ),
     )
