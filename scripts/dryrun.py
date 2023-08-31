@@ -82,11 +82,13 @@ def trawl(expr):
                 new_body.append(expr.body[i])
         expr.body = new_body
 
-        for i, x in enumerate(expr.orelse):
+        else_body = []
+        for x in expr.orelse:
             if not trawl(x):
-                new_body.append(capture(x))
+                else_body.append(capture(x))
             else:
-                new_body.append(x)
+                else_body.append(x)
+        expr.orelse = else_body
         return True
 
     elif isinstance(expr, ast.For):
