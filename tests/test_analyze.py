@@ -31,13 +31,13 @@ def test_analyze(mock_data):
 def test_analyze_size_factors(mock_data):
     x = mock_data.x
     out = analyze(
-        x, 
+        x,
         features=[f"{i}" for i in range(1000)],
         options=AnalyzeOptions(
             log_norm_counts_options=LogNormCountsOptions(
                 size_factors=np.ones(x.shape[1])
             )
-        )
+        ),
     )
 
     assert (out.size_factors == np.ones(x.shape[1])).all()

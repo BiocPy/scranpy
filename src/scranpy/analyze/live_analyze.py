@@ -81,16 +81,17 @@ def live_analyze(
     else:
         raw_size_factors = options.log_norm_counts_options.size_factors
 
-    normed, final_size_factors = norm.log_norm_counts(filtered, 
+    normed, final_size_factors = norm.log_norm_counts(
+        filtered,
         options=update(
             options.log_norm_counts_options,
             size_factors=raw_size_factors,
             center_size_factors_options=update(
                 options.log_norm_counts_options.center_size_factors_options,
-                block=filtered_block
+                block=filtered_block,
             ),
-            with_size_factors=True
-        )
+            with_size_factors=True,
+        ),
     )
 
     results.size_factors = final_size_factors

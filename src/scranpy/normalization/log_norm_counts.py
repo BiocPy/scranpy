@@ -76,7 +76,7 @@ def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions(
         directly returned. This is either a :py:class:`~mattress.TatamiNumericPointer`,
         if ``input`` is also a :py:class:`~mattress.TatamiNumericPointer`; as a
         :py:class:`~delayedarray.DelayedArray`, if ``input`` is array-like and
-        ``delayed = True``; or otherwise, an object of the same type as ``input``. 
+        ``delayed = True``; or otherwise, an object of the same type as ``input``.
 
         If `options.with_size_factors = True`, a 2-tuple is returned containing
         the log-normalized matrix and an array of (possibly centered) size factors.
