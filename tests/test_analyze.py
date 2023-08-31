@@ -58,4 +58,4 @@ def test_analyze_blocked(mock_data):
     assert out.mnn is not None
 
     as_sce = out.to_sce(x)
-    assert "mnn" in as_sce.reducedDims
+    assert "mnn" in as_sce.reduced_dims

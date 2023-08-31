@@ -100,11 +100,11 @@ class AnalyzeResults:
         normalized = log1p(filtered / self.size_factors) / log(2)
         sce = SingleCellExperiment(assays={"counts": filtered, "logcounts": normalized})
 
-        sce.colData = self.rna_quality_control_metrics[keep, :]
-        sce.colData["size_factors"] = self.size_factors
-        sce.colData["clusters"] = self.clusters
+        sce.col_data = self.rna_quality_control_metrics[keep, :]
+        sce.col_data["size_factors"] = self.size_factors
+        sce.col_data["clusters"] = self.clusters
 
-        sce.reducedDims = {
+        sce.reduced_dims = {
             "pca": self.pca.principal_components,
             "tsne": array(
                 [
@@ -121,10 +121,10 @@ class AnalyzeResults:
         }
 
         if self.mnn is not None:
-            sce.reducedDims["mnn"] = self.mnn.corrected
+            sce.reduced_dims["mnn"] = self.mnn.corrected
 
         if include_gene_data is True:
-            sce.rowData = self.gene_variances
+            sce.row_data = self.gene_variances
 
         return sce
 
