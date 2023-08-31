@@ -99,10 +99,10 @@ def analyze_sce(
         raise ValueError(f"SCE does not contain a '{assay}' matrix.")
 
     if isinstance(features, str):
-        if isinstance(matrix.rowData, BiocFrame):
-            features = matrix.rowData.column(features)
+        if isinstance(matrix.row_data, BiocFrame):
+            features = matrix.row_data.column(features)
         else:
-            features = matrix.rowData[features]
+            features = matrix.row_data[features]
 
     return analyze(
         matrix.assay("counts"), features=features, options=options, dry_run=dry_run
