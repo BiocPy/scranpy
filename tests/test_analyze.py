@@ -1,6 +1,8 @@
 from scranpy import AnalyzeResults, analyze, AnalyzeOptions, MiscellaneousOptions
+from scranpy.normalization import LogNormCountsOptions
 from singlecellexperiment import SingleCellExperiment
 import delayedarray as da
+import numpy as np
 
 __author__ = "jkanche"
 __copyright__ = "jkanche"
@@ -24,6 +26,21 @@ def test_analyze(mock_data):
 
     dry = analyze(None, None, dry_run=True)
     assert isinstance(dry, str)
+
+
+def test_analyze_size_factors(mock_data):
+    x = mock_data.x
+    out = analyze(
+        x, 
+        features=[f"{i}" for i in range(1000)],
+        options=AnalyzeOptions(
+            log_norm_counts_options=LogNormCountsOptions(
+                size_factors=np.ones(x.shape[1])
+            )
+        )
+    )
+
+    assert (out.size_factors == np.ones(x.shape[1])).all()
 
 
 def test_analyze_blocked(mock_data):

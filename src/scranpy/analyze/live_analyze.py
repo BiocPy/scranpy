@@ -77,19 +77,23 @@ def live_analyze(
         filtered_block = None
 
     if options.log_norm_counts_options.size_factors is None:
-        results.size_factors = norm.center_size_factors(
-            results.rna_quality_control_metrics.column("sums")[keep],
-            options=update(options.center_size_factors_options, block=filtered_block),
-        )
+        raw_size_factors = results.rna_quality_control_metrics.column("sums")[keep]
     else:
-        results.size_factors = options.log_norm_counts_options.size_factors[keep]
+        raw_size_factors = options.log_norm_counts_options.size_factors
 
-    normed = norm.log_norm_counts(
-        filtered,
+    normed, final_size_factors = norm.log_norm_counts(filtered, 
         options=update(
-            options.log_norm_counts_options, size_factors=results.size_factors
-        ),
+            options.log_norm_counts_options,
+            size_factors=raw_size_factors,
+            center_size_factors_options=update(
+                options.log_norm_counts_options.center_size_factors_options,
+                block=filtered_block
+            ),
+            with_size_factors=True
+        )
     )
+
+    results.size_factors = final_size_factors
 
     results.gene_variances = feat.model_gene_variances(
         normed,

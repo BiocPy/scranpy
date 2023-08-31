@@ -63,3 +63,12 @@ def test_log_norm_counts_matrix(mock_data):
     out = log_norm_counts(x, LogNormCountsOptions(size_factors=sf, delayed=False))
     assert isinstance(out, np.ndarray)
     assert np.allclose(out[:, 0], ref[:, 0])
+
+
+def test_log_norm_counts_size_factors(mock_data):
+    x = mock_data.x
+
+    ref, sf = log_norm_counts(x, LogNormCountsOptions(with_size_factors = True))
+    assert isinstance(ref, da.DelayedArray)
+    assert isinstance(sf, np.ndarray)
+    assert sf.shape[0] == x.shape[1]

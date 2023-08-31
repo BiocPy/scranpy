@@ -56,10 +56,6 @@ class AnalyzeOptions:
         filter_cells_options (FilterCellsOptions):
             Options to pass to :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
-        center_size_factors_options (CenterSizeFactorsOptions):
-            Options to pass to :py:meth:`~scranpy.normalization.center_size_factors.center_size_factors`.
-            Ignored if ``log_norm_counts_options.size_factors`` is set.
-
         log_norm_counts_options (LogNormCountsOptions):
             Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
@@ -111,10 +107,6 @@ class AnalyzeOptions:
 
     filter_cells_options: qc.FilterCellsOptions = field(
         default_factory=qc.FilterCellsOptions
-    )
-
-    center_size_factors_options: norm.CenterSizeFactorsOptions = field(
-        default_factory=norm.CenterSizeFactorsOptions
     )
 
     log_norm_counts_options: norm.LogNormCountsOptions = field(
@@ -189,7 +181,6 @@ class AnalyzeOptions:
         self.suggest_rna_qc_filters_options.set_verbose(verbose)
         self.create_rna_qc_filter_options.set_verbose(verbose)
         self.filter_cells_options.set_verbose(verbose)
-        self.center_size_factors_options.set_verbose(verbose)
         self.log_norm_counts_options.set_verbose(verbose)
         self.choose_hvgs_options.set_verbose(verbose)
         self.model_gene_variances_options.set_verbose(verbose)

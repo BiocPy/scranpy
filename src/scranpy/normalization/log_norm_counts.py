@@ -28,11 +28,13 @@ class LogNormCountsOptions:
             delayed. This reduces memory usage by avoiding unnecessary
             copies of the count matrix.
 
-        center (bool, optional): Whether to center the size factors. Defaults to True.
+        center (bool): Whether to center the size factors. Defaults to True.
 
         center_size_factors_options (CenterSizeFactorsOptions, optional):
             Optional arguments to pass to :py:meth:`~scranpy.normalization.center_size_factors.center_size_factors`
             if ``center = True``.
+
+        with_size_factors (bool): Whether to return the (possibly centered) size factors in the output.
 
         num_threads (int, optional): Number of threads to use to compute size factors,
             if none are provided in ``size_factors``. Defaults to 1.
@@ -47,6 +49,7 @@ class LogNormCountsOptions:
         default_factory=CenterSizeFactorsOptions
     )
     delayed: bool = True
+    with_size_factors: bool = False
     num_threads: int = 1
     verbose: bool = False
 
@@ -69,10 +72,14 @@ def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions(
         TypeError, ValueError: If arguments don't meet expectations.
 
     Returns:
-        The log-normalized matrix, either as a :py:class:`~mattress.TatamiNumericPointer`
+        If `options.with_size_factors = False`, the log-normalized matrix is
+        directly returned. This is either a :py:class:`~mattress.TatamiNumericPointer`,
         if ``input`` is also a :py:class:`~mattress.TatamiNumericPointer`; as a
         :py:class:`~delayedarray.DelayedArray`, if ``input`` is array-like and
-        ``delayed = True``; or an object of the same type as ``input`` otherwise.
+        ``delayed = True``; or otherwise, an object of the same type as ``input``. 
+
+        If `options.with_size_factors = True`, a 2-tuple is returned containing
+        the log-normalized matrix and an array of (possibly centered) size factors.
     """
 
     is_ptr = isinstance(input, TatamiNumericPointer)
@@ -95,10 +102,16 @@ def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions(
         optcopy.in_place = True
         center_size_factors(my_size_factors, optcopy)
 
+    mat = None
     if is_ptr:
         normed = lib.log_norm_counts(input.ptr, my_size_factors)
-        return TatamiNumericPointer(ptr=normed, obj=[input.obj, my_size_factors])
+        mat = TatamiNumericPointer(ptr=normed, obj=[input.obj, my_size_factors])
     else:
         if not isinstance(input, DelayedArray) and options.delayed:
             input = DelayedArray(input)
-        return log1p(input / my_size_factors) / log(2)
+        mat = log1p(input / my_size_factors) / log(2)
+
+    if options.with_size_factors:
+        return mat, my_size_factors
+    else:
+        return mat
