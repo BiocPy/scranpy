@@ -56,6 +56,7 @@ def create_rna_qc_filter(
         raise TypeError("'thresholds' is not a `BiocFrame` object.")
 
     subprop = metrics.column("subset_proportions")
+    subpropthresh = thresholds.column("subset_proportions")
     num_subsets = subprop.shape[1]
     subset_in = []
     filter_in = []
@@ -63,7 +64,7 @@ def create_rna_qc_filter(
     for i in range(num_subsets):
         cursub = subprop.column(i)
         subset_in.append(cursub.astype(float64, copy=False))
-        curfilt = thresholds.column(i)
+        curfilt = subpropthresh.column(i)
         filter_in.append(curfilt.astype(float64, copy=False))
 
     subset_in_ptr = create_pointer_array(subset_in)
