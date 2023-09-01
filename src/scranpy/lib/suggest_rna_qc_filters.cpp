@@ -37,13 +37,7 @@ void suggest_rna_qc_filters(
     scran::SuggestRnaQcFilters runner;
     runner.set_num_mads(nmads);
 
-    scran::PerCellRnaQcMetrics::Buffers<double, int32_t> buffer;
-    buffer.sums = sums;
-    buffer.detected = detected;
-    buffer.subset_proportions.resize(num_subsets);
-    for (int32_t i = 0; i < num_subsets; ++i) {
-        buffer.subset_proportions[i] = reinterpret_cast<double*>(subset_proportions[i]);
-    }
+    auto buffer = create_rna_buffers(num_cells, num_subsets, sums, detected, subset_proportions);
 
     scran::SuggestRnaQcFilters::Thresholds res;
     if (num_blocks == 1) {
