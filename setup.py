@@ -7,6 +7,7 @@ Learn more under: https://pyscaffold.org/
 import mattress
 from setuptools import setup
 from setuptools.extension import Extension
+import assorthead
 
 if __name__ == "__main__":
     try:
@@ -32,24 +33,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/mnn_correct.cpp",
                         "src/scranpy/lib/bindings.cpp",
                     ],
-                    include_dirs=[
-                        "extern/libscran/include",
-                        "extern/eigen",
-                        "extern/irlba/include",
-                        "extern/aarand/include",
-                        "extern/weightedlowess/include",
-                        "extern/annoy/include",
-                        "extern/knncolle/include",
-                        "extern/knncolle/_deps/annoy-build/include/",
-                        "extern/hnswlib",
-                        "extern/kmeans/include",
-                        "extern/aarand/include",
-                        "extern/qdtsne/include",
-                        "extern/umappp/include",
-                        "extern/libscran/include",
-                        "extern/mnncorrect/include",
-                    ]
-                    + mattress.includes(),
+                    include_dirs=[assorthead.includes()] + mattress.includes(),
                     language="c++",
                     extra_compile_args=[
                         "-std=c++17",
