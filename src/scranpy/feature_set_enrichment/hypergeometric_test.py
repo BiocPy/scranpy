@@ -26,7 +26,7 @@ class HypergeometricTestOptions:
 def _recycle_vector(x):
     if isinstance(x, ndarray):
         return x.astype(int32, copy=False)
-    elif isinstance(x, Sequence):
+    elif not isinstance(x, Sequence):
         x = [x]
     return array(x, dtype=int32)
 
@@ -70,13 +70,13 @@ def hypergeometric_test(
     all arrays. However, any of the arguments may be integers, in which case
     they are recycled to the length of the arrays for testing.
     """
-    de_in_set = _recycle_vector(de_in_set)
+    markers_in_set = _recycle_vector(markers_in_set)
     set_size = _recycle_vector(set_size)
     total_markers = _recycle_vector(total_markers)
     total_genes = _recycle_vector(total_genes)
 
     num_genes = set([
-        len(de_in_set),
+        len(markers_in_set),
         len(set_size),
         len(total_markers),
         len(total_genes)
@@ -93,8 +93,8 @@ def hypergeometric_test(
     output = ndarray(num_genes, dtype=float64)
     lib.hypergeometric_test(
         num_genes,
-        len(de_in_set),
-        de_in_set.ctypes.data,
+        len(markers_in_set),
+        markers_in_set.ctypes.data,
         len(set_size),
         set_size.ctypes.data,
         len(total_markers),
