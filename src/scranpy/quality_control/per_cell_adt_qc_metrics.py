@@ -40,8 +40,8 @@ def per_cell_adt_qc_metrics(
 ) -> BiocFrame:
     """Compute per-cell quality control metrics for ADT data. This includes the total count for each cell, where low
     values are indicative of problems with library preparation or sequencing; the number of detected features per cell,
-    where low values are indicative of problems with transcript capture; and the total count in particular
-    feature subsets, typically isotype controls where high values are indicative of protein aggregates.
+    where low values are indicative of problems with transcript capture; and the total count in particular feature
+    subsets, typically isotype controls where high values are indicative of protein aggregates.
 
     Args:
         input (MatrixTypes):
