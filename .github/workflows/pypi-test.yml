@@ -37,11 +37,10 @@ jobs:
           pip install pytest tox numpy mattress
 
       - name: Test with tox
-        run: |
-          python setup.py build_ext --inplace
-          tox
+        run: tox
 
       - name: Build docs
+        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags')
         run: |
           tox -e docs
           touch ./docs/_build/html/.nojekyll
