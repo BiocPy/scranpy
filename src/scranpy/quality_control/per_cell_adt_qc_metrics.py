@@ -38,10 +38,10 @@ def per_cell_adt_qc_metrics(
     input: MatrixTypes,
     options: PerCellAdtQcMetricsOptions = PerCellAdtQcMetricsOptions(),
 ) -> BiocFrame:
-    """Compute per-cell quality control metrics for ADT data. This includes the number of detected tags per cell,
-    where low values are indicative of problems with transcript capture; and the total count for particular tag 
-    subsets, typically isotype controls where high values are indicative of protein aggregates. We also report
-    the total count for each cell for diagnostic purposes.
+    """Compute per-cell quality control metrics for ADT data. This includes the number of detected tags per cell, where
+    low values are indicative of problems with transcript capture; and the total count for particular tag subsets,
+    typically isotype controls where high values are indicative of protein aggregates. We also report the total count
+    for each cell for diagnostic purposes.
 
     Args:
         input (MatrixTypes):
