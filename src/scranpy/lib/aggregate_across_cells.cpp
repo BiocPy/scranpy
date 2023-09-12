@@ -37,7 +37,7 @@ void get_combined_factors_count(void* ptr, int32_t* output /** numpy */) {
 }
 
 //[[export]]
-void* free_combined_factors(void* ptr) {
+void free_combined_factors(void* ptr) {
     delete reinterpret_cast<scran::AggregateAcrossCells::Combinations<int32_t>*>(ptr);
 }
 

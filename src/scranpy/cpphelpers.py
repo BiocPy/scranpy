@@ -343,7 +343,7 @@ lib.py_find_nearest_neighbors.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
-lib.py_free_combined_factors.restype = ct.c_void_p
+lib.py_free_combined_factors.restype = None
 lib.py_free_combined_factors.argtypes = [
     ct.c_void_p,
     ct.POINTER(ct.c_int32),

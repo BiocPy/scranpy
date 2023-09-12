@@ -91,7 +91,7 @@ void* filter_cells(const void*, const uint8_t*, uint8_t);
 
 void* find_nearest_neighbors(const void*, int32_t, int32_t);
 
-void* free_combined_factors(void*);
+void free_combined_factors(void*);
 
 void free_multibatch_pca(void*);
 
@@ -665,10 +665,9 @@ PYAPI void* py_find_nearest_neighbors(const void* index, int32_t k, int32_t nthr
     return output;
 }
 
-PYAPI void* py_free_combined_factors(void* ptr, int32_t* errcode, char** errmsg) {
-    void* output = NULL;
+PYAPI void py_free_combined_factors(void* ptr, int32_t* errcode, char** errmsg) {
     try {
-        output = free_combined_factors(ptr);
+        free_combined_factors(ptr);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());
@@ -676,7 +675,6 @@ PYAPI void* py_free_combined_factors(void* ptr, int32_t* errcode, char** errmsg)
         *errcode = 1;
         *errmsg = copy_error_message("unknown C++ exception");
     }
-    return output;
 }
 
 PYAPI void py_free_multibatch_pca(void* x, int32_t* errcode, char** errmsg) {
