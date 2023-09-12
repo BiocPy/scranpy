@@ -2,11 +2,10 @@ from dataclasses import dataclass
 from typing import Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import float64, int32, ndarray
+from numpy import float64, ndarray
 
 from .. import cpphelpers as lib
 from ..utils import factorize, match_lists
-from .utils import create_pointer_array
 
 
 @dataclass
@@ -54,8 +53,8 @@ def suggest_crispr_qc_filters(
     options: SuggestCrisprQcFiltersOptions = SuggestCrisprQcFiltersOptions(),
 ) -> BiocFrame:
     """Suggest filter thresholds for CRISPR-based per-cell quality control (QC) metrics. This identifies outliers on the
-    low tail of the distribution of the count for the most abundant guide across cells, aiming to remove cells that 
-    have low counts due to failed transfection. (Multiple transfections are not considered undesirable at this point.)
+    low tail of the distribution of the count for the most abundant guide across cells, aiming to remove cells that have
+    low counts due to failed transfection. (Multiple transfections are not considered undesirable at this point.)
 
     Args:
         metrics (BiocFrame): A data frame containing QC metrics for each cell,
