@@ -2,11 +2,10 @@ from dataclasses import dataclass
 from typing import Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import bool_, float64, int32, ndarray, zeros, uint8
+from numpy import bool_, float64, ndarray, zeros, uint8
 
 from .. import cpphelpers as lib
 from ..utils import factorize
-from .utils import create_pointer_array
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -15,8 +14,7 @@ __license__ = "MIT"
 
 @dataclass
 class CreateCrisprQcFilterOptions:
-    """Optional arguments for 
-    :py:meth:`~scranpy.quality_control.create_crispr_qc_filter.create_crispr_qc_filter`.
+    """Optional arguments for :py:meth:`~scranpy.quality_control.create_crispr_qc_filter.create_crispr_qc_filter`.
 
     Attributes:
         block (Sequence, optional):
@@ -43,7 +41,7 @@ def create_crispr_qc_filter(
             for the expected format.
 
         thresholds (BiocFrame): Data frame of filter thresholds,
-            see :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters` 
+            see :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters`
             for the expected format.
 
         options (CreateCrisprQcFilterOptions): Optional parameters.
