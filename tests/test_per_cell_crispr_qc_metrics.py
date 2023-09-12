@@ -1,5 +1,8 @@
 import numpy as np
-from scranpy.quality_control import PerCellCrisprQcMetricsOptions, per_cell_crispr_qc_metrics
+from scranpy.quality_control import (
+    PerCellCrisprQcMetricsOptions,
+    per_cell_crispr_qc_metrics,
+)
 
 
 def test_per_cell_crispr_qc_metrics(mock_data):
@@ -21,4 +24,6 @@ def test_per_cell_crispr_qc_metrics(mock_data):
     assert np.array_equal(result.column("sums"), resultp.column("sums"))
     assert np.array_equal(result.column("detected"), resultp.column("detected"))
     assert np.array_equal(result.column("max_index"), resultp.column("max_index"))
-    assert np.array_equal(result.column("max_proportion"), resultp.column("max_proportion"))
+    assert np.array_equal(
+        result.column("max_proportion"), resultp.column("max_proportion")
+    )
