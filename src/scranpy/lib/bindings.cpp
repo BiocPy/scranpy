@@ -33,6 +33,8 @@ void* clone_tsne_status(const void*);
 
 void* clone_umap_status(const void*, double*);
 
+void combine_embeddings(int32_t, const int32_t*, int32_t, const uintptr_t*, const double*, double*);
+
 void* combine_factors(int32_t, int32_t, const uintptr_t*, int32_t*);
 
 void create_adt_qc_filter(int, int, const int32_t*, const uintptr_t*, int, const int32_t*, const double*, const uintptr_t*, uint8_t*);
@@ -152,6 +154,8 @@ void* run_simple_pca(const void*, int32_t, uint8_t, const uint8_t*, uint8_t, int
 void run_tsne(void*, int32_t, double*);
 
 void run_umap(void*, int32_t);
+
+void scale_by_neighbors(int32_t, const uintptr_t*, int32_t, double*, int32_t);
 
 void score_markers(const void*, int32_t, const int32_t*, int32_t, const int32_t*, uint8_t, double, uintptr_t*, uintptr_t*, uintptr_t*, uintptr_t*, uintptr_t*, uintptr_t*, int32_t);
 
@@ -275,6 +279,18 @@ PYAPI void* py_clone_umap_status(const void* ptr, double* cloned, int32_t* errco
         *errmsg = copy_error_message("unknown C++ exception");
     }
     return output;
+}
+
+PYAPI void py_combine_embeddings(int32_t nembeddings, const int32_t* ndims, int32_t ncells, const uintptr_t* embeddings, const double* scaling, double* output, int32_t* errcode, char** errmsg) {
+    try {
+        combine_embeddings(nembeddings, ndims, ncells, embeddings, scaling, output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
 }
 
 PYAPI void* py_combine_factors(int32_t length, int32_t number, const uintptr_t* inputs, int32_t* output_combined, int32_t* errcode, char** errmsg) {
@@ -1058,6 +1074,18 @@ PYAPI void py_run_tsne(void* status, int32_t maxiter, double* Y, int32_t* errcod
 PYAPI void py_run_umap(void* status, int32_t max_epoch, int32_t* errcode, char** errmsg) {
     try {
         run_umap(status, max_epoch);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
+PYAPI void py_scale_by_neighbors(int32_t nembeddings, const uintptr_t* indices, int32_t nneighbors, double* output, int32_t nthreads, int32_t* errcode, char** errmsg) {
+    try {
+        scale_by_neighbors(nembeddings, indices, nneighbors, output, nthreads);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());

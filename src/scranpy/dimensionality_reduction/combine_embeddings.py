@@ -1,4 +1,5 @@
 from numpy import ctypeslib, ndarray, copy, float64, int32, uintp
+from dataclasses import dataclass
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -12,6 +13,16 @@ from ..nearest_neighbors import (
 
 @dataclass
 class CombineEmbeddingsOptions:
+    """Options for 
+    :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`.
+
+    Attributes:
+        neighbors (int): Number of neighbors to use for approximating the relative variance.
+
+        approximate (bool): Whether to perform an approximate neighbor search.
+
+        num_threads (int): Number of threads to use for the neighbor search.
+    """
     neighbors: int = 20
     approximate: bool = True
     num_threads: int = True
@@ -20,21 +31,46 @@ class CombineEmbeddingsOptions:
 def combine_embeddings(
     embeddings: list[ndarray],
     options: CombineEmbeddingsOptions = CombineEmbeddingsOptions(),
-):
+) -> ndarray:
+    """Combine multiple embeddings for the same set of cells (e.g., from multi-modal datasets)
+    for integrated downstream analyses like clustering and visualization.
+    This is done after adjusting for differences in local variance between embeddings.
+
+    Args:
+        embeddings (list[ndarray]):
+            List of embeddings to be combined. Each embedding should be a
+            row-major matrix where rows are cells and columns are dimensions.
+            All embeddings should have the same number of rows.
+
+        options (CombineEmbeddingsOptions):
+            Further options.
+            
+    Returns:
+        ndarray: Array containing the combined embedding, where rows are cells
+        and columns are the dimensions from all embeddings.
+    """
     indices = []
-    first_dim = 0
+    ncells = None 
     nembed = len(embeddings)
     ind_ptr = ndarray(nembed, dtype=uintp)
+    
+    embeddings2 = []
+    all_dims = ndarray(nembed, dtype=int32)
+    emb_ptr = ndarray(nembed, dtype=uintp)
 
     for i, x in enumerate(embeddings):
         if len(x.shape) != 2:
             raise ValueError("all embeddings should be two-dimensional matrices")
-        if first_dim is None:
-            first_dim = x.shape[0]
-        elif first_dim != x.shape[0]:
+        if ncells is None:
+            ncells = x.shape[0]
+        elif ncells != x.shape[0]:
             raise ValueError("all embeddings should have the same number of rows")
 
         x = x.astype(float64, copy=False)
+        embeddings2.append(x)
+        emb_ptr[i] = x.ctypes.data
+        all_dims[i] = x.shape[1]
+
         cur_ind = build_neighbor_index(
             x,
             options = BuildNeighborIndexOptions(
@@ -42,7 +78,7 @@ def combine_embeddings(
             )
         )
         indices.append(cur_ind)
-        ind_ptr[i] = cur_ind.ctypes.data
+        ind_ptr[i] = cur_ind.ptr
 
     scaling = ndarray(nembed, dtype=float64)
     lib.scale_by_neighbors(
@@ -53,5 +89,14 @@ def combine_embeddings(
         options.num_threads,
     )
 
-    # Assembling the output embeddings.
-    return scaling
+    output = ndarray((ncells, all_dims.sum()), dtype=float64)
+    lib.combine_embeddings(
+        nembed,
+        all_dims,
+        ncells,
+        emb_ptr.ctypes.data,
+        scaling,
+        output
+    )
+
+    return output
