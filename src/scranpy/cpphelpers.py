@@ -409,7 +409,7 @@ lib.py_free_umap_status.argtypes = [
 lib.py_get_combined_factors_count.restype = None
 lib.py_get_combined_factors_count.argtypes = [
     ct.c_void_p,
-    ct.POINTER(ct.c_int32),
+    ct.c_void_p,
     ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
@@ -418,7 +418,7 @@ lib.py_get_combined_factors_level.restype = None
 lib.py_get_combined_factors_level.argtypes = [
     ct.c_void_p,
     ct.c_int32,
-    ct.POINTER(ct.c_int32),
+    ct.c_void_p,
     ct.POINTER(ct.c_int32),
     ct.POINTER(ct.c_char_p)
 ]
@@ -794,10 +794,10 @@ def free_umap_status(ptr):
     return _catch_errors(lib.py_free_umap_status)(ptr)
 
 def get_combined_factors_count(ptr, output):
-    return _catch_errors(lib.py_get_combined_factors_count)(ptr, output)
+    return _catch_errors(lib.py_get_combined_factors_count)(ptr, _np2ct(output, np.int32))
 
 def get_combined_factors_level(ptr, i, output):
-    return _catch_errors(lib.py_get_combined_factors_level)(ptr, i, output)
+    return _catch_errors(lib.py_get_combined_factors_level)(ptr, i, _np2ct(output, np.int32))
 
 def get_combined_factors_size(ptr):
     return _catch_errors(lib.py_get_combined_factors_size)(ptr)

@@ -1,4 +1,4 @@
-from numpy import ndarray, zeros, float64, int32
+from numpy import ndarray, zeros, float64, int32, uintp
 from typing import Sequence, Optional, Tuple, Union
 from dataclasses import dataclass
 from biocframe import BiocFrame
@@ -11,7 +11,7 @@ from .. import cpphelpers as lib
 class _CombinedFactors:
     def __init__(self, ptr):
         self._ptr = ptr
-        self._n = lib.combined_factors_size(ptr)
+        self._n = lib.get_combined_factors_size(ptr)
     
     def __del__(self):
         lib.free_combined_factors(self._ptr)
@@ -21,12 +21,12 @@ class _CombinedFactors:
 
     def levels(self, i):
         output = ndarray((self._n,), dtype=int32)
-        lib.get_combined_factors_level(self._ptr, i)
+        lib.get_combined_factors_level(self._ptr, i, output)
         return output
 
     def counts(self):
         output = ndarray((self._n,), dtype=int32)
-        lib.get_combined_factors_count(self._ptr, i)
+        lib.get_combined_factors_count(self._ptr, output)
         return output
 
 
@@ -127,7 +127,7 @@ def aggregate_across_cells(
         combined = ndarray((NC,), dtype=int32)
         ptr = _CombinedFactors(lib.combine_factors(NC, nstored, indptrs.ctypes.data, combined))
         for i, sl in enumerate(stored_levels):
-            outlev = ptr.level(i)
+            outlev = ptr.levels(i)
             levels.append([sl[j] for j in outlev])
         counts = ptr.counts()
 
@@ -169,7 +169,7 @@ def aggregate_across_cells(
         output.column_names = levels[0]
 
     if factor_names is None:
-        factor_names = ["factor_" + str(i) for i in range(nstored)]
+        factor_names = ["factor_" + str(i+1) for i in range(nstored)]
 
     reported_factors = {}
     for i, x in enumerate(levels):

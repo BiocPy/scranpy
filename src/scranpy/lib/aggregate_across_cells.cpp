@@ -24,14 +24,14 @@ int32_t get_combined_factors_size(void* ptr) {
 }
 
 //[[export]]
-void get_combined_factors_level(void* ptr, int32_t i, int32_t* output) {
+void get_combined_factors_level(void* ptr, int32_t i, int32_t* output /** numpy */) {
     auto combined = reinterpret_cast<const scran::AggregateAcrossCells::Combinations<int32_t>*>(ptr);
     const auto& lev = combined->factors[i];
     std::copy(lev.begin(), lev.end(), output);
 }
 
 //[[export]]
-void get_combined_factors_count(void* ptr, int32_t* output) {
+void get_combined_factors_count(void* ptr, int32_t* output /** numpy */) {
     auto combined = reinterpret_cast<const scran::AggregateAcrossCells::Combinations<int32_t>*>(ptr);
     std::copy(combined->counts.begin(), combined->counts.end(), output);
 }
