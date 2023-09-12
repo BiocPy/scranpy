@@ -17,7 +17,7 @@ void hypergeometric_test(
     uint8_t log,
     uint8_t upper_tail,
     int32_t num_threads,
-    double* output /** numpy */) 
+    double* output /** numpy */)
 {
     tatami::parallelize([&](int, int32_t start, int32_t len) -> void {
         scran::HypergeometricTail runner;

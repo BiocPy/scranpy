@@ -7,8 +7,7 @@ from .. import cpphelpers as lib
 
 @dataclass
 class HypergeometricTestOptions:
-    """Options for
-    :py:meth:`~scranpy.feature_set_enrichment.hypergeometric_tail.hypergeometric_tail`.
+    """Options for :py:meth:`~scranpy.feature_set_enrichment.hypergeometric_tail.hypergeometric_tail`.
 
     Attributes:
         log (bool): Whether to report log-transformed p-values.
@@ -18,6 +17,7 @@ class HypergeometricTestOptions:
 
         num_threads (int): Number of threads to use.
     """
+
     log: bool = False
     upper_tail: bool = True
     num_threads: int = 1
@@ -32,14 +32,14 @@ def _recycle_vector(x):
 
 
 def hypergeometric_test(
-    markers_in_set: Union[int, Sequence[int]], 
+    markers_in_set: Union[int, Sequence[int]],
     set_size: Union[int, Sequence[int]],
     total_markers: Union[int, Sequence[int]],
-    total_genes: Union[int, Sequence[int]], 
-    options = HypergeometricTestOptions(),
+    total_genes: Union[int, Sequence[int]],
+    options=HypergeometricTestOptions(),
 ):
-    """Run the hypergeometric test to identify enrichment of interesting
-    (usually marker) genes in a feature set or pathway.
+    """Run the hypergeometric test to identify enrichment of interesting (usually marker) genes in a feature set or
+    pathway.
 
     Args:
         markers_in_set (Union[int, Sequence[int]]):
@@ -47,11 +47,11 @@ def hypergeometric_test(
             Alternatively, a single integer containing this number.
 
         set_size (Union[int, Sequence[int]]):
-            Array containing the sizes of the feature sets. 
+            Array containing the sizes of the feature sets.
             Alternatively, a single integer containing this number.
 
         total_markers (Union[int, Sequence[int]]):
-            Array containing the total number of markers. 
+            Array containing the total number of markers.
             Alternatively, a single integer containing this number.
 
         total_genes (Union[int, Sequence[int]]):
@@ -62,7 +62,7 @@ def hypergeometric_test(
             Further options.
 
     Returns:
-        ndarray: Array of p-values of length equal to the length 
+        ndarray: Array of p-values of length equal to the length
         of the input arrays (or 1, if all inputs were scalars).
 
     Each array input is expected to be 1-dimensional and of the same length,
@@ -75,12 +75,9 @@ def hypergeometric_test(
     total_markers = _recycle_vector(total_markers)
     total_genes = _recycle_vector(total_genes)
 
-    num_genes = set([
-        len(markers_in_set),
-        len(set_size),
-        len(total_markers),
-        len(total_genes)
-    ])
+    num_genes = set(
+        [len(markers_in_set), len(set_size), len(total_markers), len(total_genes)]
+    )
     if len(num_genes) > 1:
         num_genes.remove(1)
     if len(num_genes) == 0:

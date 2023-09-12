@@ -1,4 +1,7 @@
-from scranpy.feature_set_enrichment import hypergeometric_test, HypergeometricTestOptions
+from scranpy.feature_set_enrichment import (
+    hypergeometric_test,
+    HypergeometricTestOptions,
+)
 import numpy
 
 
@@ -30,21 +33,17 @@ def test_hypergeometric_test_options():
     set_size = de_in_set + (numpy.random.rand(100) * 20).astype(numpy.int32)
 
     lp = hypergeometric_test(
-        de_in_set, 
-        set_size, 
-        30, 
-        1000, 
-        options = HypergeometricTestOptions(log=True)
+        de_in_set, set_size, 30, 1000, options=HypergeometricTestOptions(log=True)
     )
     assert len(lp) == 100
     assert (lp <= 0).all()
 
     up = hypergeometric_test(
-        de_in_set, 
-        set_size, 
-        30, 
-        1000, 
-        options = HypergeometricTestOptions(upper_tail=True)
+        de_in_set,
+        set_size,
+        30,
+        1000,
+        options=HypergeometricTestOptions(upper_tail=True),
     )
     assert len(up) == 100
     assert (up >= 0).all()
@@ -52,10 +51,6 @@ def test_hypergeometric_test_options():
 
     ref = hypergeometric_test(de_in_set, set_size, 40, 500)
     par = hypergeometric_test(
-        de_in_set, 
-        set_size, 
-        40, 
-        500, 
-        options = HypergeometricTestOptions(num_threads = 3)
+        de_in_set, set_size, 40, 500, options=HypergeometricTestOptions(num_threads=3)
     )
     assert (ref == par).all()
