@@ -16,3 +16,4 @@ from .run_umap import (
     initialize_umap,
     run_umap,
 )
+from .combine_embeddings import CombineEmbeddingsOptions, combine_embeddings

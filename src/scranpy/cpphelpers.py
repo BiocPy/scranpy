@@ -120,6 +120,18 @@ lib.py_clone_umap_status.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_combine_embeddings.restype = None
+lib.py_combine_embeddings.argtypes = [
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_combine_factors.restype = ct.c_void_p
 lib.py_combine_factors.argtypes = [
     ct.c_int32,
@@ -661,6 +673,17 @@ lib.py_run_umap.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_scale_by_neighbors.restype = None
+lib.py_scale_by_neighbors.argtypes = [
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_score_markers.restype = None
 lib.py_score_markers.argtypes = [
     ct.c_void_p,
@@ -768,6 +791,9 @@ def clone_tsne_status(ptr):
 
 def clone_umap_status(ptr, cloned):
     return _catch_errors(lib.py_clone_umap_status)(ptr, _np2ct(cloned, np.float64))
+
+def combine_embeddings(nembeddings, ndims, ncells, embeddings, scaling, output):
+    return _catch_errors(lib.py_combine_embeddings)(nembeddings, _np2ct(ndims, np.int32), ncells, embeddings, _np2ct(scaling, np.float64), _np2ct(output, np.float64))
 
 def combine_factors(length, number, inputs, output_combined):
     return _catch_errors(lib.py_combine_factors)(length, number, inputs, _np2ct(output_combined, np.int32))
@@ -948,6 +974,9 @@ def run_tsne(status, maxiter, Y):
 
 def run_umap(status, max_epoch):
     return _catch_errors(lib.py_run_umap)(status, max_epoch)
+
+def scale_by_neighbors(nembeddings, indices, nneighbors, output, nthreads):
+    return _catch_errors(lib.py_scale_by_neighbors)(nembeddings, indices, nneighbors, _np2ct(output, np.float64), nthreads)
 
 def score_markers(mat, num_clusters, clusters, num_blocks, block, do_auc, threshold, raw_means, raw_detected, raw_cohen, raw_auc, raw_lfc, raw_delta_detected, num_threads):
     return _catch_errors(lib.py_score_markers)(mat, num_clusters, _np2ct(clusters, np.int32), num_blocks, block, do_auc, threshold, raw_means, raw_detected, raw_cohen, raw_auc, raw_lfc, raw_delta_detected, num_threads)
