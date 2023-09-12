@@ -147,6 +147,15 @@ lib.py_create_rna_qc_filter.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_downsample_by_neighbors.restype = None
+lib.py_downsample_by_neighbors.argtypes = [
+    ct.c_void_p,
+    ct.POINTER(ct.c_int32),
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_fetch_multibatch_pca_coordinates.restype = ct.POINTER(ct.c_double)
 lib.py_fetch_multibatch_pca_coordinates.argtypes = [
     ct.c_void_p,
@@ -684,6 +693,9 @@ def combine_factors(length, number, inputs, output_combined):
 
 def create_rna_qc_filter(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output):
     return _catch_errors(lib.py_create_rna_qc_filter)(num_cells, num_subsets, _np2ct(sums, np.float64), _np2ct(detected, np.int32), subset_proportions, num_blocks, block, _np2ct(sums_thresholds, np.float64), _np2ct(detected_thresholds, np.float64), subset_proportions_thresholds, _np2ct(output, np.uint8))
+
+def downsample_by_neighbors(ptr, output, num_threads):
+    return _catch_errors(lib.py_downsample_by_neighbors)(ptr, output, num_threads)
 
 def fetch_multibatch_pca_coordinates(x):
     return _catch_errors(lib.py_fetch_multibatch_pca_coordinates)(x)

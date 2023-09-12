@@ -37,6 +37,8 @@ void* combine_factors(int32_t, int32_t, const uintptr_t*, int32_t*);
 
 void create_rna_qc_filter(int, int, const double*, const int32_t*, const uintptr_t*, int, const int32_t*, const double*, const double*, const uintptr_t*, uint8_t*);
 
+void downsample_by_neighbors(void*, int32_t*, int32_t);
+
 const double* fetch_multibatch_pca_coordinates(const void*);
 
 int32_t fetch_multibatch_pca_num_dims(const void*);
@@ -280,6 +282,18 @@ PYAPI void* py_combine_factors(int32_t length, int32_t number, const uintptr_t* 
 PYAPI void py_create_rna_qc_filter(int num_cells, int num_subsets, const double* sums, const int32_t* detected, const uintptr_t* subset_proportions, int num_blocks, const int32_t* block, const double* sums_thresholds, const double* detected_thresholds, const uintptr_t* subset_proportions_thresholds, uint8_t* output, int32_t* errcode, char** errmsg) {
     try {
         create_rna_qc_filter(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
+PYAPI void py_downsample_by_neighbors(void* ptr, int32_t* output, int32_t num_threads, int32_t* errcode, char** errmsg) {
+    try {
+        downsample_by_neighbors(ptr, output, num_threads);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());
