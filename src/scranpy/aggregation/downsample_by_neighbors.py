@@ -1,8 +1,5 @@
 from numpy import ndarray, array, int32
 from typing import Union, Tuple
-from dataclasses import dataclass
-from biocframe import BiocFrame
-from summarizedexperiment import SummarizedExperiment
 
 from .. import cpphelpers as lib
 from .._logging import logger
@@ -33,14 +30,11 @@ def downsample_by_neighbors(
     k: int,
     options: DownsampleByNeighborsOptions = DownsampleByNeighborsOptions(),
 ) -> Tuple[ndarray, ndarray]:
-    """
-    Downsample a dataset by its neighbors. We do by considering a cell to be a
-    "representative" of its nearest neighbors, allowing us to downsample by
-    removing all of its neighbors; this is repeated until all cells are
-    assigned to a representative, starting from the cells in the densest part
-    of the dataset and working our way down. This approach aims to preserve the
-    relative density of points for a faithful downsampling while guaranteeing
-    the representation of rare subpopulations. 
+    """Downsample a dataset by its neighbors. We do by considering a cell to be a "representative" of its nearest
+    neighbors, allowing us to downsample by removing all of its neighbors; this is repeated until all cells are assigned
+    to a representative, starting from the cells in the densest part of the dataset and working our way down. This
+    approach aims to preserve the relative density of points for a faithful downsampling while guaranteeing the
+    representation of rare subpopulations.
 
     Args:
         input (NeighborResults | NeighborIndex | ndarray):
@@ -71,8 +65,8 @@ def downsample_by_neighbors(
 
     Returns:
         Tuple[ndarray, ndarray]: The first value is of length less than the number
-        of observations, and contains the indices of the observations that were retained 
-        after downsampling. The second value is of length equal to the number of 
+        of observations, and contains the indices of the observations that were retained
+        after downsampling. The second value is of length equal to the number of
         observations, and contains the index of the representative observation for
         each observation in the dataset.
     """
