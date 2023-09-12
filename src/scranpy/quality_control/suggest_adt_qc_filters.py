@@ -70,7 +70,6 @@ def suggest_adt_qc_filters(
     Returns:
         BiocFrame:
             A data frame containing one row per block and the following fields -
-            ``"sums"``, the suggested (lower) threshold on the total count for each cell;
             ``"detected"``, the suggested (lower) threshold on the number of detected features for each cell;
             and ``"subset_totals"``, a nested BiocFrame where each column is named
             after an entry in ``subsets`` and contains the suggested (upper) threshold
@@ -99,11 +98,6 @@ def suggest_adt_qc_filters(
         block_names = block_info.levels
         num_blocks = len(block_names)
 
-    sums = metrics.column("sums")
-    if sums.dtype != float64:
-        raise TypeError("expected the 'sums' column to be a float64 array.")
-    sums_out = ndarray((num_blocks,), dtype=float64)
-
     detected = metrics.column("detected")
     if detected.dtype != int32:
         raise TypeError("expected the 'detected' column to be an int32 array.")
@@ -127,12 +121,10 @@ def suggest_adt_qc_filters(
     lib.suggest_adt_qc_filters(
         metrics.shape[0],
         num_subsets,
-        sums,
         detected,
         subset_in_ptrs.ctypes.data,
         num_blocks,
         block_offset,
-        sums_out,
         detected_out,
         subset_out_ptrs.ctypes.data,
         options.num_mads,
