@@ -60,7 +60,7 @@ def suggest_adt_qc_filters(
 
     Args:
         metrics (BiocFrame): A data frame containing QC metrics for each cell,
-            see the output of :py:meth:`~scranpy.quality_control.per_cell_adt_qc_metrics.per_cell_adt_qc_metrics` 
+            see the output of :py:meth:`~scranpy.quality_control.per_cell_adt_qc_metrics.per_cell_adt_qc_metrics`
             for the expected format.
 
         options (SuggestAdtQcFiltersOptions): Optional parameters.
