@@ -19,8 +19,12 @@ class DownsampleByNeighborsOptions:
     """Options to pass to `~scranpy.aggregation.downsample_by_neighbors.downsample_by_neighbors`.
 
     Attributes:
+        verbose (bool, optional): Whether to print logs. Defaults to False.
+
         num_threads (int): Number of threads to use.
     """
+
+    verbose: bool = False
     num_threads: int = 1
 
 
@@ -88,7 +92,7 @@ def downsample_by_neighbors(
             options=FindNearestNeighborsOptions(num_threads=options.num_threads),
         )
 
-    output = ndarray(input.num_obs(), dtype=int32)
+    output = ndarray(input.num_cells(), dtype=int32)
     lib.downsample_by_neighbors(
         input.ptr,
         output,
@@ -98,6 +102,6 @@ def downsample_by_neighbors(
     keep = []
     for i, x in enumerate(output):
         if i == x:
-            output.append(i)
+            keep.append(i)
 
-    return array(output, dtype=int32), output
+    return array(keep, dtype=int32), output
