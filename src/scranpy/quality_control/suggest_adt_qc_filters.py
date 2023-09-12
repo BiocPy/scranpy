@@ -54,8 +54,9 @@ def suggest_adt_qc_filters(
     options: SuggestAdtQcFiltersOptions = SuggestAdtQcFiltersOptions(),
 ) -> BiocFrame:
     """Suggest filter thresholds for ADT-based per-cell quality control (QC) metrics. This identifies outliers on the
-    relevant tail of the distribution of each QC metric. Outlier cells are considered to be low-quality and should be
-    removed before further analysis.
+    relevant tail of the distribution of each relevant QC metric (namely the number of detected tags and the 
+    isotype subset totals; total counts per cell are diagnostic and are not used here). Outlier cells are considered 
+    to be low-quality and should be removed before further analysis.
 
     Args:
         metrics (BiocFrame): A data frame containing QC metrics for each cell,
