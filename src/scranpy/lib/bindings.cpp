@@ -133,6 +133,8 @@ void model_gene_variances_blocked(const void*, double*, double*, double*, double
 
 void per_cell_adt_qc_metrics(const void*, int32_t, const uintptr_t*, double*, int32_t*, uintptr_t*, int32_t);
 
+void per_cell_crispr_qc_metrics(const void*, double*, int32_t*, double*, int32_t*, int32_t);
+
 void per_cell_rna_qc_metrics(const void*, int32_t, const uintptr_t*, double*, int32_t*, uintptr_t*, int32_t);
 
 int32_t perplexity_to_k(double);
@@ -285,9 +287,9 @@ PYAPI void* py_combine_factors(int32_t length, int32_t number, const uintptr_t* 
     return output;
 }
 
-PYAPI void py_create_adt_qc_filter(int num_cells, int num_subsets, const int32_t* detected, const uintptr_t* subset_proportions, int num_blocks, const int32_t* block, const double* detected_thresholds, const uintptr_t* subset_proportions_thresholds, uint8_t* output, int32_t* errcode, char** errmsg) {
+PYAPI void py_create_adt_qc_filter(int num_cells, int num_subsets, const int32_t* detected, const uintptr_t* subset_totals, int num_blocks, const int32_t* block, const double* detected_thresholds, const uintptr_t* subset_totals_thresholds, uint8_t* output, int32_t* errcode, char** errmsg) {
     try {
-        create_adt_qc_filter(num_cells, num_subsets, detected, subset_proportions, num_blocks, block, detected_thresholds, subset_proportions_thresholds, output);
+        create_adt_qc_filter(num_cells, num_subsets, detected, subset_totals, num_blocks, block, detected_thresholds, subset_totals_thresholds, output);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());
@@ -933,6 +935,18 @@ PYAPI void py_per_cell_adt_qc_metrics(const void* mat, int32_t num_subsets, cons
     }
 }
 
+PYAPI void py_per_cell_crispr_qc_metrics(const void* mat, double* sum_output, int32_t* detected_output, double* max_prop_output, int32_t* max_index_output, int32_t num_threads, int32_t* errcode, char** errmsg) {
+    try {
+        per_cell_crispr_qc_metrics(mat, sum_output, detected_output, max_prop_output, max_index_output, num_threads);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
 PYAPI void py_per_cell_rna_qc_metrics(const void* mat, int32_t num_subsets, const uintptr_t* subset_ptrs, double* sum_output, int32_t* detected_output, uintptr_t* subset_output, int32_t num_threads, int32_t* errcode, char** errmsg) {
     try {
         per_cell_rna_qc_metrics(mat, num_subsets, subset_ptrs, sum_output, detected_output, subset_output, num_threads);
@@ -1061,9 +1075,9 @@ PYAPI void py_serialize_neighbor_results(const void* ptr0, int32_t* outdex, doub
     }
 }
 
-PYAPI void py_suggest_adt_qc_filters(int32_t num_cells, int32_t num_subsets, int32_t* detected, uintptr_t* subset_proportions, int32_t num_blocks, const int32_t* block, double* detected_out, uintptr_t* subset_proportions_out, double nmads, int32_t* errcode, char** errmsg) {
+PYAPI void py_suggest_adt_qc_filters(int32_t num_cells, int32_t num_subsets, int32_t* detected, uintptr_t* subset_totals, int32_t num_blocks, const int32_t* block, double* detected_out, uintptr_t* subset_totals_out, double nmads, int32_t* errcode, char** errmsg) {
     try {
-        suggest_adt_qc_filters(num_cells, num_subsets, detected, subset_proportions, num_blocks, block, detected_out, subset_proportions_out, nmads);
+        suggest_adt_qc_filters(num_cells, num_subsets, detected, subset_totals, num_blocks, block, detected_out, subset_totals_out, nmads);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());

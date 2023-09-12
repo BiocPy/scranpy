@@ -549,6 +549,18 @@ lib.py_per_cell_adt_qc_metrics.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_per_cell_crispr_qc_metrics.restype = None
+lib.py_per_cell_crispr_qc_metrics.argtypes = [
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_void_p,
+    ct.c_int32,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_per_cell_rna_qc_metrics.restype = None
 lib.py_per_cell_rna_qc_metrics.argtypes = [
     ct.c_void_p,
@@ -734,8 +746,8 @@ def clone_umap_status(ptr, cloned):
 def combine_factors(length, number, inputs, output_combined):
     return _catch_errors(lib.py_combine_factors)(length, number, inputs, _np2ct(output_combined, np.int32))
 
-def create_adt_qc_filter(num_cells, num_subsets, detected, subset_proportions, num_blocks, block, detected_thresholds, subset_proportions_thresholds, output):
-    return _catch_errors(lib.py_create_adt_qc_filter)(num_cells, num_subsets, _np2ct(detected, np.int32), subset_proportions, num_blocks, block, _np2ct(detected_thresholds, np.float64), subset_proportions_thresholds, _np2ct(output, np.uint8))
+def create_adt_qc_filter(num_cells, num_subsets, detected, subset_totals, num_blocks, block, detected_thresholds, subset_totals_thresholds, output):
+    return _catch_errors(lib.py_create_adt_qc_filter)(num_cells, num_subsets, _np2ct(detected, np.int32), subset_totals, num_blocks, block, _np2ct(detected_thresholds, np.float64), subset_totals_thresholds, _np2ct(output, np.uint8))
 
 def create_rna_qc_filter(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output):
     return _catch_errors(lib.py_create_rna_qc_filter)(num_cells, num_subsets, _np2ct(sums, np.float64), _np2ct(detected, np.int32), subset_proportions, num_blocks, block, _np2ct(sums_thresholds, np.float64), _np2ct(detected_thresholds, np.float64), subset_proportions_thresholds, _np2ct(output, np.uint8))
@@ -881,6 +893,9 @@ def model_gene_variances_blocked(mat, ave_means, ave_detected, ave_fitted, ave_r
 def per_cell_adt_qc_metrics(mat, num_subsets, subset_ptrs, sum_output, detected_output, subset_output, num_threads):
     return _catch_errors(lib.py_per_cell_adt_qc_metrics)(mat, num_subsets, subset_ptrs, _np2ct(sum_output, np.float64), _np2ct(detected_output, np.int32), subset_output, num_threads)
 
+def per_cell_crispr_qc_metrics(mat, sum_output, detected_output, max_prop_output, max_index_output, num_threads):
+    return _catch_errors(lib.py_per_cell_crispr_qc_metrics)(mat, _np2ct(sum_output, np.float64), _np2ct(detected_output, np.int32), _np2ct(max_prop_output, np.float64), _np2ct(max_index_output, np.int32), num_threads)
+
 def per_cell_rna_qc_metrics(mat, num_subsets, subset_ptrs, sum_output, detected_output, subset_output, num_threads):
     return _catch_errors(lib.py_per_cell_rna_qc_metrics)(mat, num_subsets, subset_ptrs, _np2ct(sum_output, np.float64), _np2ct(detected_output, np.int32), subset_output, num_threads)
 
@@ -911,8 +926,8 @@ def score_markers(mat, num_clusters, clusters, num_blocks, block, do_auc, thresh
 def serialize_neighbor_results(ptr0, outdex, outdist):
     return _catch_errors(lib.py_serialize_neighbor_results)(ptr0, _np2ct(outdex, np.int32), _np2ct(outdist, np.float64))
 
-def suggest_adt_qc_filters(num_cells, num_subsets, detected, subset_proportions, num_blocks, block, detected_out, subset_proportions_out, nmads):
-    return _catch_errors(lib.py_suggest_adt_qc_filters)(num_cells, num_subsets, _np2ct(detected, np.int32), subset_proportions, num_blocks, block, _np2ct(detected_out, np.float64), subset_proportions_out, nmads)
+def suggest_adt_qc_filters(num_cells, num_subsets, detected, subset_totals, num_blocks, block, detected_out, subset_totals_out, nmads):
+    return _catch_errors(lib.py_suggest_adt_qc_filters)(num_cells, num_subsets, _np2ct(detected, np.int32), subset_totals, num_blocks, block, _np2ct(detected_out, np.float64), subset_totals_out, nmads)
 
 def suggest_rna_qc_filters(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_out, detected_out, subset_proportions_out, nmads):
     return _catch_errors(lib.py_suggest_rna_qc_filters)(num_cells, num_subsets, _np2ct(sums, np.float64), _np2ct(detected, np.int32), subset_proportions, num_blocks, block, _np2ct(sums_out, np.float64), _np2ct(detected_out, np.float64), subset_proportions_out, nmads)
