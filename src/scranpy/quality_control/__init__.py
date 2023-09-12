@@ -11,4 +11,4 @@ from .create_adt_qc_filter import CreateAdtQcFilterOptions, create_adt_qc_filter
 
 from .per_cell_crispr_qc_metrics import PerCellCrisprQcMetricsOptions, per_cell_crispr_qc_metrics
 from .suggest_crispr_qc_filters import SuggestCrisprQcFiltersOptions, suggest_crispr_qc_filters
-#from .create_crispr_qc_filter import CreateCrisprQcFilterOptions, create_crispr_qc_filter
+from .create_crispr_qc_filter import CreateCrisprQcFilterOptions, create_crispr_qc_filter

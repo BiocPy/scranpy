@@ -48,7 +48,7 @@ void create_crispr_qc_filter(
     const double* /** numpy */ max_proportion,
     int num_blocks,
     const int32_t* /** void_p */ block,
-    const int32_t* /** numpy */ max_count_thresholds,
+    const double* /** numpy */ max_count_thresholds,
     uint8_t* output /** numpy */)
 {
     scran::SuggestCrisprQcFilters::Thresholds res;

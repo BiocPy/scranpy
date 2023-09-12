@@ -776,7 +776,7 @@ def create_adt_qc_filter(num_cells, num_subsets, detected, subset_totals, num_bl
     return _catch_errors(lib.py_create_adt_qc_filter)(num_cells, num_subsets, _np2ct(detected, np.int32), subset_totals, num_blocks, block, _np2ct(detected_thresholds, np.float64), subset_totals_thresholds, _np2ct(output, np.uint8))
 
 def create_crispr_qc_filter(num_cells, sums, max_proportion, num_blocks, block, max_count_thresholds, output):
-    return _catch_errors(lib.py_create_crispr_qc_filter)(num_cells, _np2ct(sums, np.float64), _np2ct(max_proportion, np.float64), num_blocks, block, _np2ct(max_count_thresholds, np.int32), _np2ct(output, np.uint8))
+    return _catch_errors(lib.py_create_crispr_qc_filter)(num_cells, _np2ct(sums, np.float64), _np2ct(max_proportion, np.float64), num_blocks, block, _np2ct(max_count_thresholds, np.float64), _np2ct(output, np.uint8))
 
 def create_rna_qc_filter(num_cells, num_subsets, sums, detected, subset_proportions, num_blocks, block, sums_thresholds, detected_thresholds, subset_proportions_thresholds, output):
     return _catch_errors(lib.py_create_rna_qc_filter)(num_cells, num_subsets, _np2ct(sums, np.float64), _np2ct(detected, np.int32), subset_proportions, num_blocks, block, _np2ct(sums_thresholds, np.float64), _np2ct(detected_thresholds, np.float64), subset_proportions_thresholds, _np2ct(output, np.uint8))

@@ -37,7 +37,7 @@ void* combine_factors(int32_t, int32_t, const uintptr_t*, int32_t*);
 
 void create_adt_qc_filter(int, int, const int32_t*, const uintptr_t*, int, const int32_t*, const double*, const uintptr_t*, uint8_t*);
 
-void create_crispr_qc_filter(int, const double*, const double*, int, const int32_t*, const int32_t*, uint8_t*);
+void create_crispr_qc_filter(int, const double*, const double*, int, const int32_t*, const double*, uint8_t*);
 
 void create_rna_qc_filter(int, int, const double*, const int32_t*, const uintptr_t*, int, const int32_t*, const double*, const double*, const uintptr_t*, uint8_t*);
 
@@ -303,7 +303,7 @@ PYAPI void py_create_adt_qc_filter(int num_cells, int num_subsets, const int32_t
     }
 }
 
-PYAPI void py_create_crispr_qc_filter(int num_cells, const double* sums, const double* max_proportion, int num_blocks, const int32_t* block, const int32_t* max_count_thresholds, uint8_t* output, int32_t* errcode, char** errmsg) {
+PYAPI void py_create_crispr_qc_filter(int num_cells, const double* sums, const double* max_proportion, int num_blocks, const int32_t* block, const double* max_count_thresholds, uint8_t* output, int32_t* errcode, char** errmsg) {
     try {
         create_crispr_qc_filter(num_cells, sums, max_proportion, num_blocks, block, max_count_thresholds, output);
     } catch(std::exception& e) {
