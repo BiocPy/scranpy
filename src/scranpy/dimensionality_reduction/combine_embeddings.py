@@ -1,10 +1,7 @@
-from numpy import ctypeslib, ndarray, copy, float64, int32, uintp
+from numpy import ndarray, float64, int32, uintp
 from dataclasses import dataclass
 
 from .. import cpphelpers as lib
-from .._logging import logger
-from ..types import MatrixTypes
-from ..utils import factorize, to_logical, validate_and_tatamize_input
 from ..nearest_neighbors import (
     build_neighbor_index,
     BuildNeighborIndexOptions,
@@ -13,8 +10,7 @@ from ..nearest_neighbors import (
 
 @dataclass
 class CombineEmbeddingsOptions:
-    """Options for 
-    :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`.
+    """Options for :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`.
 
     Attributes:
         neighbors (int): Number of neighbors to use for approximating the relative variance.
@@ -23,6 +19,7 @@ class CombineEmbeddingsOptions:
 
         num_threads (int): Number of threads to use for the neighbor search.
     """
+
     neighbors: int = 20
     approximate: bool = True
     num_threads: int = True
@@ -32,9 +29,9 @@ def combine_embeddings(
     embeddings: list[ndarray],
     options: CombineEmbeddingsOptions = CombineEmbeddingsOptions(),
 ) -> ndarray:
-    """Combine multiple embeddings for the same set of cells (e.g., from multi-modal datasets)
-    for integrated downstream analyses like clustering and visualization.
-    This is done after adjusting for differences in local variance between embeddings.
+    """Combine multiple embeddings for the same set of cells (e.g., from multi-modal datasets) for integrated downstream
+    analyses like clustering and visualization. This is done after adjusting for differences in local variance between
+    embeddings.
 
     Args:
         embeddings (list[ndarray]):
@@ -44,16 +41,16 @@ def combine_embeddings(
 
         options (CombineEmbeddingsOptions):
             Further options.
-            
+
     Returns:
         ndarray: Array containing the combined embedding, where rows are cells
         and columns are the dimensions from all embeddings.
     """
     indices = []
-    ncells = None 
+    ncells = None
     nembed = len(embeddings)
     ind_ptr = ndarray(nembed, dtype=uintp)
-    
+
     embeddings2 = []
     all_dims = ndarray(nembed, dtype=int32)
     emb_ptr = ndarray(nembed, dtype=uintp)
@@ -72,10 +69,7 @@ def combine_embeddings(
         all_dims[i] = x.shape[1]
 
         cur_ind = build_neighbor_index(
-            x,
-            options = BuildNeighborIndexOptions(
-                approximate = options.approximate
-            )
+            x, options=BuildNeighborIndexOptions(approximate=options.approximate)
         )
         indices.append(cur_ind)
         ind_ptr[i] = cur_ind.ptr
@@ -91,12 +85,7 @@ def combine_embeddings(
 
     output = ndarray((ncells, all_dims.sum()), dtype=float64)
     lib.combine_embeddings(
-        nembed,
-        all_dims,
-        ncells,
-        emb_ptr.ctypes.data,
-        scaling,
-        output
+        nembed, all_dims, ncells, emb_ptr.ctypes.data, scaling, output
     )
 
     return output

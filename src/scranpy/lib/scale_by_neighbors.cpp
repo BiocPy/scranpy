@@ -21,12 +21,12 @@ void scale_by_neighbors(int32_t nembeddings, const uintptr_t* indices /** void_p
 
 //[[export]]
 void combine_embeddings(
-    int32_t nembeddings, 
-    const int32_t* ndims /** numpy */, 
-    int32_t ncells, 
-    const uintptr_t* embeddings /** void_p */, 
-    const double* scaling /** numpy */, 
-    double* output /** numpy */) 
+    int32_t nembeddings,
+    const int32_t* ndims /** numpy */,
+    int32_t ncells,
+    const uintptr_t* embeddings /** void_p */,
+    const double* scaling /** numpy */,
+    double* output /** numpy */)
 {
     std::vector<double> scaling_vec(scaling, scaling + nembeddings);
     std::vector<int> dim_vec(ndims, ndims + nembeddings);
