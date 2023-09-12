@@ -38,6 +38,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/aggregate_across_cells.cpp",
                         "src/scranpy/lib/downsample_by_neighbors.cpp",
                         "src/scranpy/lib/scale_by_neighbors.cpp",
+                        "src/scranpy/lib/hypergeometric_test.cpp",
                         "src/scranpy/lib/bindings.cpp",
                     ],
                     include_dirs=[assorthead.includes()] + mattress.includes(),
