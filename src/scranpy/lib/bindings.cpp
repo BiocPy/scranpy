@@ -37,6 +37,8 @@ void* combine_factors(int32_t, int32_t, const uintptr_t*, int32_t*);
 
 void create_adt_qc_filter(int, int, const int32_t*, const uintptr_t*, int, const int32_t*, const double*, const uintptr_t*, uint8_t*);
 
+void create_crispr_qc_filter(int, const double*, const double*, int, const int32_t*, const int32_t*, uint8_t*);
+
 void create_rna_qc_filter(int, int, const double*, const int32_t*, const uintptr_t*, int, const int32_t*, const double*, const double*, const uintptr_t*, uint8_t*);
 
 void downsample_by_neighbors(void*, int32_t*, int32_t);
@@ -156,6 +158,8 @@ void score_markers(const void*, int32_t, const int32_t*, int32_t, const int32_t*
 void serialize_neighbor_results(const void*, int32_t*, double*);
 
 void suggest_adt_qc_filters(int32_t, int32_t, int32_t*, uintptr_t*, int32_t, const int32_t*, double*, uintptr_t*, double);
+
+void suggest_crispr_qc_filters(int32_t, double*, double*, int32_t, const int32_t*, double*, double);
 
 void suggest_rna_qc_filters(int32_t, int32_t, double*, int32_t*, uintptr_t*, int32_t, const int32_t*, double*, double*, uintptr_t*, double);
 
@@ -290,6 +294,18 @@ PYAPI void* py_combine_factors(int32_t length, int32_t number, const uintptr_t* 
 PYAPI void py_create_adt_qc_filter(int num_cells, int num_subsets, const int32_t* detected, const uintptr_t* subset_totals, int num_blocks, const int32_t* block, const double* detected_thresholds, const uintptr_t* subset_totals_thresholds, uint8_t* output, int32_t* errcode, char** errmsg) {
     try {
         create_adt_qc_filter(num_cells, num_subsets, detected, subset_totals, num_blocks, block, detected_thresholds, subset_totals_thresholds, output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
+PYAPI void py_create_crispr_qc_filter(int num_cells, const double* sums, const double* max_proportion, int num_blocks, const int32_t* block, const int32_t* max_count_thresholds, uint8_t* output, int32_t* errcode, char** errmsg) {
+    try {
+        create_crispr_qc_filter(num_cells, sums, max_proportion, num_blocks, block, max_count_thresholds, output);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());
@@ -1078,6 +1094,18 @@ PYAPI void py_serialize_neighbor_results(const void* ptr0, int32_t* outdex, doub
 PYAPI void py_suggest_adt_qc_filters(int32_t num_cells, int32_t num_subsets, int32_t* detected, uintptr_t* subset_totals, int32_t num_blocks, const int32_t* block, double* detected_out, uintptr_t* subset_totals_out, double nmads, int32_t* errcode, char** errmsg) {
     try {
         suggest_adt_qc_filters(num_cells, num_subsets, detected, subset_totals, num_blocks, block, detected_out, subset_totals_out, nmads);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
+PYAPI void py_suggest_crispr_qc_filters(int32_t num_cells, double* sums, double* max_proportion, int32_t num_blocks, const int32_t* block, double* max_count_out, double nmads, int32_t* errcode, char** errmsg) {
+    try {
+        suggest_crispr_qc_filters(num_cells, sums, max_proportion, num_blocks, block, max_count_out, nmads);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());

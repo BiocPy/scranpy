@@ -24,6 +24,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/center_size_factors.cpp",
                         "src/scranpy/lib/suggest_rna_qc_filters.cpp",
                         "src/scranpy/lib/suggest_adt_qc_filters.cpp",
+                        "src/scranpy/lib/suggest_crispr_qc_filters.cpp",
                         "src/scranpy/lib/filter_cells.cpp",
                         "src/scranpy/lib/model_gene_variances.cpp",
                         "src/scranpy/lib/choose_hvgs.cpp",
