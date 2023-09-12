@@ -43,14 +43,14 @@ void* free_combined_factors(void* ptr) {
 
 //[[export]]
 void aggregate_across_cells(
-    void* mat, 
-    const int32_t* groups /** numpy */, 
-    int32_t ngroups, 
+    void* mat,
+    const int32_t* groups /** numpy */,
+    int32_t ngroups,
     uint8_t do_sums,
     double* output_sums /** void_p */,
     uint8_t do_detected,
-    int32_t* output_detected /** void_p */, 
-    int32_t nthreads) 
+    int32_t* output_detected /** void_p */,
+    int32_t nthreads)
 {
     const auto& ptr = reinterpret_cast<const Mattress*>(mat)->ptr;
     auto NR = ptr->nrow();

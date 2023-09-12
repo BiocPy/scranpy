@@ -1,5 +1,5 @@
 from numpy import ndarray, zeros, float64, int32, uintp
-from typing import Sequence, Optional, Tuple, Union
+from typing import Sequence, Tuple, Union
 from dataclasses import dataclass
 from biocframe import BiocFrame
 from summarizedexperiment import SummarizedExperiment
@@ -12,7 +12,7 @@ class _CombinedFactors:
     def __init__(self, ptr):
         self._ptr = ptr
         self._n = lib.get_combined_factors_size(ptr)
-    
+
     def __del__(self):
         lib.free_combined_factors(self._ptr)
 
@@ -44,13 +44,14 @@ class AggregateAcrossCellsOptions:
         num_threads (int):
             Number of threads.
     """
+
     compute_sums: bool = True
     compute_detected: bool = True
     num_threads: int = 1
 
 
 def aggregate_across_cells(
-    input, 
+    input,
     groups: Union[Sequence, Tuple[Sequence], dict, BiocFrame],
     options: AggregateAcrossCellsOptions = AggregateAcrossCellsOptions(),
 ) -> SummarizedExperiment:
@@ -64,8 +65,8 @@ def aggregate_across_cells(
 
         groups (Union[Sequence, Tuple[Sequence], dict, BiocFrame]):
             A sequence of length equal to the number of columns of ``input``, specifying the group
-            to which each column is assigned. Alternatively, a tuple, dictionary, or 
-            :py:class:`~biocframe.BiocFrame` of one or more such sequences, in which case 
+            to which each column is assigned. Alternatively, a tuple, dictionary, or
+            :py:class:`~biocframe.BiocFrame` of one or more such sequences, in which case
             each unique combination of levels across all sequences is defined as a "group".
 
         options (AggregateAcrossCellsOptions):
@@ -73,12 +74,12 @@ def aggregate_across_cells(
 
     Returns:
         SummarizedExperiment: Object where each row corresponds to a row in ``input`` and each
-        column corresponds to a group. Assays contain the sum of expression values (if 
-        ``options.compute_sums = True``) and the number of cells with detected expression (if 
+        column corresponds to a group. Assays contain the sum of expression values (if
+        ``options.compute_sums = True``) and the number of cells with detected expression (if
         ``options.compute_detected = True``) for each group. Column data contains the identity
         of each group; for ``groups`` containing multiple sequences, the identity of each
         group is defined as a unique combination of levels from each sequence.
-    """ 
+    """
     x = validate_and_tatamize_input(input)
     NR = x.nrow()
     NC = x.ncol()
@@ -95,14 +96,16 @@ def aggregate_across_cells(
         factor_names = list(groups.keys())
         for gr in factor_names:
             factors.append(groups[gr])
-    else: 
+    else:
         factors.append(groups)
 
     stored_levels = []
     stored_indices = []
     for i, si in enumerate(factors):
         if len(si) != NC:
-            raise ValueError("length of grouping vectors should be equal to the number of columns of 'input'")
+            raise ValueError(
+                "length of grouping vectors should be equal to the number of columns of 'input'"
+            )
         fout = factorize(si)
         stored_levels.append(fout.levels)
         stored_indices.append(fout.indices)
@@ -125,7 +128,9 @@ def aggregate_across_cells(
             indptrs[i] = si.ctypes.data
 
         combined = ndarray((NC,), dtype=int32)
-        ptr = _CombinedFactors(lib.combine_factors(NC, nstored, indptrs.ctypes.data, combined))
+        ptr = _CombinedFactors(
+            lib.combine_factors(NC, nstored, indptrs.ctypes.data, combined)
+        )
         for i, sl in enumerate(stored_levels):
             outlev = ptr.levels(i)
             levels.append([sl[j] for j in outlev])
@@ -147,14 +152,14 @@ def aggregate_across_cells(
         detected_out_ptr = detected_out.ctypes.data
 
     lib.aggregate_across_cells(
-        x.ptr, 
-        groups = combined, 
-        ngroups = ngroups,
-        do_sums = options.compute_sums,
-        output_sums = sums_out_ptr,
-        do_detected = options.compute_detected,
-        output_detected = detected_out_ptr,
-        nthreads = options.num_threads,
+        x.ptr,
+        groups=combined,
+        ngroups=ngroups,
+        do_sums=options.compute_sums,
+        output_sums=sums_out_ptr,
+        do_detected=options.compute_detected,
+        output_detected=detected_out_ptr,
+        nthreads=options.num_threads,
     )
 
     # Formatting the output.
@@ -169,7 +174,7 @@ def aggregate_across_cells(
         output.column_names = levels[0]
 
     if factor_names is None:
-        factor_names = ["factor_" + str(i+1) for i in range(nstored)]
+        factor_names = ["factor_" + str(i + 1) for i in range(nstored)]
 
     reported_factors = {}
     for i, x in enumerate(levels):
