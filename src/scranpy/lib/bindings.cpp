@@ -17,6 +17,8 @@ static char* copy_error_message(const char* original) {
     return copy;
 }
 
+void aggregate_across_cells(void*, const int32_t*, int32_t, uint8_t, double*, uint8_t, int32_t*, int32_t);
+
 void* build_neighbor_index(int32_t, int32_t, const double*, uint8_t);
 
 void* build_snn_graph_from_nn_index(const void*, int32_t, const char*, int32_t);
@@ -30,6 +32,8 @@ void choose_hvgs(int32_t, const double*, int32_t, uint8_t*);
 void* clone_tsne_status(const void*);
 
 void* clone_umap_status(const void*, double*);
+
+void* combine_factors(int32_t, int32_t, const uintptr_t*, int32_t*);
 
 void create_rna_qc_filter(int, int, const double*, const int32_t*, const uintptr_t*, int, const int32_t*, const double*, const double*, const uintptr_t*, uint8_t*);
 
@@ -87,6 +91,8 @@ void* filter_cells(const void*, const uint8_t*, uint8_t);
 
 void* find_nearest_neighbors(const void*, int32_t, int32_t);
 
+void free_combined_factors(void*);
+
 void free_multibatch_pca(void*);
 
 void free_neighbor_index(void*);
@@ -102,6 +108,12 @@ void free_snn_graph(void*);
 void free_tsne_status(void*);
 
 void free_umap_status(void*);
+
+void get_combined_factors_count(void*, int32_t*);
+
+void get_combined_factors_level(void*, int32_t, int32_t*);
+
+int32_t get_combined_factors_size(void*);
 
 void* initialize_tsne(const void*, double, int32_t);
 
@@ -143,6 +155,18 @@ extern "C" {
 
 PYAPI void free_error_message(char** msg) {
     delete [] *msg;
+}
+
+PYAPI void py_aggregate_across_cells(void* mat, const int32_t* groups, int32_t ngroups, uint8_t do_sums, double* output_sums, uint8_t do_detected, int32_t* output_detected, int32_t nthreads, int32_t* errcode, char** errmsg) {
+    try {
+        aggregate_across_cells(mat, groups, ngroups, do_sums, output_sums, do_detected, output_detected, nthreads);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
 }
 
 PYAPI void* py_build_neighbor_index(int32_t ndim, int32_t nobs, const double* ptr, uint8_t approximate, int32_t* errcode, char** errmsg) {
@@ -229,6 +253,20 @@ PYAPI void* py_clone_umap_status(const void* ptr, double* cloned, int32_t* errco
     void* output = NULL;
     try {
         output = clone_umap_status(ptr, cloned);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+    return output;
+}
+
+PYAPI void* py_combine_factors(int32_t length, int32_t number, const uintptr_t* inputs, int32_t* output_combined, int32_t* errcode, char** errmsg) {
+    void* output = NULL;
+    try {
+        output = combine_factors(length, number, inputs, output_combined);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());
@@ -627,6 +665,18 @@ PYAPI void* py_find_nearest_neighbors(const void* index, int32_t k, int32_t nthr
     return output;
 }
 
+PYAPI void py_free_combined_factors(void* ptr, int32_t* errcode, char** errmsg) {
+    try {
+        free_combined_factors(ptr);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
 PYAPI void py_free_multibatch_pca(void* x, int32_t* errcode, char** errmsg) {
     try {
         free_multibatch_pca(x);
@@ -721,6 +771,44 @@ PYAPI void py_free_umap_status(void* ptr, int32_t* errcode, char** errmsg) {
         *errcode = 1;
         *errmsg = copy_error_message("unknown C++ exception");
     }
+}
+
+PYAPI void py_get_combined_factors_count(void* ptr, int32_t* output, int32_t* errcode, char** errmsg) {
+    try {
+        get_combined_factors_count(ptr, output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
+PYAPI void py_get_combined_factors_level(void* ptr, int32_t i, int32_t* output, int32_t* errcode, char** errmsg) {
+    try {
+        get_combined_factors_level(ptr, i, output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
+PYAPI int32_t py_get_combined_factors_size(void* ptr, int32_t* errcode, char** errmsg) {
+    int32_t output = 0;
+    try {
+        output = get_combined_factors_size(ptr);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+    return output;
 }
 
 PYAPI void* py_initialize_tsne(const void* neighbors, double perplexity, int32_t nthreads, int32_t* errcode, char** errmsg) {
