@@ -123,6 +123,8 @@ void get_combined_factors_level(void*, int32_t, int32_t*);
 
 int32_t get_combined_factors_size(void*);
 
+void hypergeometric_test(int32_t, int32_t, const int32_t*, int32_t, const int32_t*, int32_t, const int32_t*, int32_t, const int32_t*, uint8_t, uint8_t, int32_t, double*);
+
 void* initialize_tsne(const void*, double, int32_t);
 
 void* initialize_umap(const void*, int32_t, double, double*, int32_t);
@@ -875,6 +877,18 @@ PYAPI int32_t py_get_combined_factors_size(void* ptr, int32_t* errcode, char** e
         *errmsg = copy_error_message("unknown C++ exception");
     }
     return output;
+}
+
+PYAPI void py_hypergeometric_test(int32_t num_genes, int32_t de_in_set_size, const int32_t* de_in_set, int32_t set_size_size, const int32_t* set_size, int32_t num_de_size, const int32_t* num_de, int32_t total_genes_size, const int32_t* total_genes, uint8_t log, uint8_t upper_tail, int32_t num_threads, double* output, int32_t* errcode, char** errmsg) {
+    try {
+        hypergeometric_test(num_genes, de_in_set_size, de_in_set, set_size_size, set_size, num_de_size, num_de, total_genes_size, total_genes, log, upper_tail, num_threads, output);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
 }
 
 PYAPI void* py_initialize_tsne(const void* neighbors, double perplexity, int32_t nthreads, int32_t* errcode, char** errmsg) {

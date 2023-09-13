@@ -21,6 +21,7 @@ from . import (
     clustering,
     dimensionality_reduction,
     feature_selection,
+    feature_set_enrichment,
     marker_detection,
     nearest_neighbors,
     normalization,

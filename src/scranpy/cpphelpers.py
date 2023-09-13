@@ -479,6 +479,25 @@ lib.py_get_combined_factors_size.argtypes = [
     ct.POINTER(ct.c_char_p)
 ]
 
+lib.py_hypergeometric_test.restype = None
+lib.py_hypergeometric_test.argtypes = [
+    ct.c_int32,
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_int32,
+    ct.c_void_p,
+    ct.c_uint8,
+    ct.c_uint8,
+    ct.c_int32,
+    ct.c_void_p,
+    ct.POINTER(ct.c_int32),
+    ct.POINTER(ct.c_char_p)
+]
+
 lib.py_initialize_tsne.restype = ct.c_void_p
 lib.py_initialize_tsne.argtypes = [
     ct.c_void_p,
@@ -926,6 +945,9 @@ def get_combined_factors_level(ptr, i, output):
 
 def get_combined_factors_size(ptr):
     return _catch_errors(lib.py_get_combined_factors_size)(ptr)
+
+def hypergeometric_test(num_genes, de_in_set_size, de_in_set, set_size_size, set_size, num_de_size, num_de, total_genes_size, total_genes, log, upper_tail, num_threads, output):
+    return _catch_errors(lib.py_hypergeometric_test)(num_genes, de_in_set_size, de_in_set, set_size_size, set_size, num_de_size, num_de, total_genes_size, total_genes, log, upper_tail, num_threads, _np2ct(output, np.float64))
 
 def initialize_tsne(neighbors, perplexity, nthreads):
     return _catch_errors(lib.py_initialize_tsne)(neighbors, perplexity, nthreads)
