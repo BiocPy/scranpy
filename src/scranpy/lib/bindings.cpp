@@ -159,6 +159,8 @@ void run_umap(void*, int32_t);
 
 void scale_by_neighbors(int32_t, const uintptr_t*, int32_t, double*, int32_t);
 
+void score_feature_set(void*, const int32_t*, uint8_t, const int32_t*, double*, double*, uint8_t, int32_t);
+
 void score_markers(const void*, int32_t, const int32_t*, int32_t, const int32_t*, uint8_t, double, uintptr_t*, uintptr_t*, uintptr_t*, uintptr_t*, uintptr_t*, uintptr_t*, int32_t);
 
 void serialize_neighbor_results(const void*, int32_t*, double*);
@@ -1100,6 +1102,18 @@ PYAPI void py_run_umap(void* status, int32_t max_epoch, int32_t* errcode, char**
 PYAPI void py_scale_by_neighbors(int32_t nembeddings, const uintptr_t* indices, int32_t nneighbors, double* output, int32_t nthreads, int32_t* errcode, char** errmsg) {
     try {
         scale_by_neighbors(nembeddings, indices, nneighbors, output, nthreads);
+    } catch(std::exception& e) {
+        *errcode = 1;
+        *errmsg = copy_error_message(e.what());
+    } catch(...) {
+        *errcode = 1;
+        *errmsg = copy_error_message("unknown C++ exception");
+    }
+}
+
+PYAPI void py_score_feature_set(void* mat, const int32_t* features, uint8_t use_block, const int32_t* block, double* output_scores, double* output_weights, uint8_t scale, int32_t nthreads, int32_t* errcode, char** errmsg) {
+    try {
+        score_feature_set(mat, features, use_block, block, output_scores, output_weights, scale, nthreads);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());
