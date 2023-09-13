@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Sequence, Optional, Tuple
-from numpy import array, ndarray, int32, float64
+from numpy import ndarray, float64
 
 from .. import cpphelpers as lib
 from ..types import MatrixTypes
@@ -9,8 +9,7 @@ from ..utils import factorize, to_logical, validate_and_tatamize_input
 
 @dataclass
 class ScoreFeatureSetOptions:
-    """Options to pass to
-    :py:meth:`~scranpy.feature_set_enrichment.score_feature_set.score_feature_set`.
+    """Options to pass to :py:meth:`~scranpy.feature_set_enrichment.score_feature_set.score_feature_set`.
 
     Attributes:
         block (Sequence, optional):
@@ -22,11 +21,12 @@ class ScoreFeatureSetOptions:
             cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
-        scale (bool): Whether to scale the features to unit variance before 
+        scale (bool): Whether to scale the features to unit variance before
             computing the scores.
 
         num_threads (int): Number of threads to use.
     """
+
     block: Optional[Sequence] = None
     scale: bool = False
     num_threads: int = 1
@@ -35,18 +35,15 @@ class ScoreFeatureSetOptions:
 def score_feature_set(
     input: MatrixTypes,
     subset: Sequence,
-    options = ScoreFeatureSetOptions(),
+    options=ScoreFeatureSetOptions(),
 ) -> Tuple[ndarray, ndarray]:
-    """
-    Compute a score for the activity of a feature set in each cell.
-    This is done using a slightly modified version of the GSDecon algorithm,
-    where we perform a PCA to obtain the rank-1 reconstruction of the
-    feature set's expression values across all cells; the mean of the 
-    reconstructed values serves as the score per cell, while the rotation
+    """Compute a score for the activity of a feature set in each cell. This is done using a slightly modified version of
+    the GSDecon algorithm, where we perform a PCA to obtain the rank-1 reconstruction of the feature set's expression
+    values across all cells; the mean of the reconstructed values serves as the score per cell, while the rotation
     vector is reported as the weights on the features involved.
 
     Args:
-        input: 
+        input:
             Matrix-like object containing cells in columns and features in
             rows, typically with log-normalized expression data.  This should
             be a matrix class that can be converted into a

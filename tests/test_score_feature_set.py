@@ -1,7 +1,4 @@
-from scranpy.feature_set_enrichment import (
-    score_feature_set,
-    ScoreFeatureSetOptions
-)
+from scranpy.feature_set_enrichment import score_feature_set, ScoreFeatureSetOptions
 import numpy as np
 
 
@@ -14,17 +11,13 @@ def test_score_feature_set_simple():
 
     # Trying with scaling.
     scores2, weights2 = score_feature_set(
-        y, 
-        subset,
-        options = ScoreFeatureSetOptions(scale = True)
+        y, subset, options=ScoreFeatureSetOptions(scale=True)
     )
     assert (scores2 != scores).any()
 
     # Trying with parallelization.
     scores2, weights2 = score_feature_set(
-        y,
-        subset, 
-        options = ScoreFeatureSetOptions(num_threads = 3)
+        y, subset, options=ScoreFeatureSetOptions(num_threads=3)
     )
     assert (scores2 == scores).all()
 
@@ -35,8 +28,8 @@ def test_score_feature_set_block():
     block = ["A"] * 50 + ["B"] * 30 + ["C"] * 20
 
     # With blocking.
-    scores, weights = score_feature_set(y, subset,
-        options = ScoreFeatureSetOptions(block = block)
+    scores, weights = score_feature_set(
+        y, subset, options=ScoreFeatureSetOptions(block=block)
     )
     assert len(scores) == 100
     assert len(weights) == 5
