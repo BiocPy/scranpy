@@ -4,7 +4,7 @@ from numpy import array, ndarray, int32, float64
 
 from .. import cpphelpers as lib
 from ..types import MatrixTypes
-from ..utils import to_logical, validate_and_tatamize_input
+from ..utils import factorize, to_logical, validate_and_tatamize_input
 
 
 @dataclass

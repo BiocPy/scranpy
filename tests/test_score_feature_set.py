@@ -27,3 +27,20 @@ def test_score_feature_set_simple():
         options = ScoreFeatureSetOptions(num_threads = 3)
     )
     assert (scores2 == scores).all()
+
+
+def test_score_feature_set_block():
+    y = np.random.rand(1000, 100)
+    subset = [20, 30, 40, 50, 60]
+    block = ["A"] * 50 + ["B"] * 30 + ["C"] * 20
+
+    # With blocking.
+    scores, weights = score_feature_set(y, subset,
+        options = ScoreFeatureSetOptions(block = block)
+    )
+    assert len(scores) == 100
+    assert len(weights) == 5
+
+    # Without blocking.
+    scores2, weights2 = score_feature_set(y, subset)
+    assert (scores != scores2).any()
