@@ -8,7 +8,7 @@
 //[[export]]
 void score_feature_set(
     void* mat, 
-    const int32_t* features /** numpy */, 
+    const uint8_t* features /** numpy */, 
     uint8_t use_block, 
     const int32_t* block /** void_p */,
     double* output_scores /** numpy */,

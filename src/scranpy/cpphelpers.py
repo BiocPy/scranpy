@@ -1015,7 +1015,7 @@ def scale_by_neighbors(nembeddings, indices, nneighbors, output, nthreads):
     return _catch_errors(lib.py_scale_by_neighbors)(nembeddings, indices, nneighbors, _np2ct(output, np.float64), nthreads)
 
 def score_feature_set(mat, features, use_block, block, output_scores, output_weights, scale, nthreads):
-    return _catch_errors(lib.py_score_feature_set)(mat, _np2ct(features, np.int32), use_block, block, _np2ct(output_scores, np.float64), _np2ct(output_weights, np.float64), scale, nthreads)
+    return _catch_errors(lib.py_score_feature_set)(mat, _np2ct(features, np.uint8), use_block, block, _np2ct(output_scores, np.float64), _np2ct(output_weights, np.float64), scale, nthreads)
 
 def score_markers(mat, num_clusters, clusters, num_blocks, block, do_auc, threshold, raw_means, raw_detected, raw_cohen, raw_auc, raw_lfc, raw_delta_detected, num_threads):
     return _catch_errors(lib.py_score_markers)(mat, num_clusters, _np2ct(clusters, np.int32), num_blocks, block, do_auc, threshold, raw_means, raw_detected, raw_cohen, raw_auc, raw_lfc, raw_delta_detected, num_threads)

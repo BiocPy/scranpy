@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Sequence, Union
+from typing import Sequence, Optional, Tuple
 from numpy import array, ndarray, int32, float64
 
 from .. import cpphelpers as lib
