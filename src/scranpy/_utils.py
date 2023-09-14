@@ -107,4 +107,6 @@ def process_block(block: Union[Sequence, None], number: int) -> Tuple:
         block_offset = block_ind.ctypes.data
         num_blocks = len(block_lev)
 
+    # num_blocks needs to be computed and returned separately from block_lev,
+    # as the latter is None when block = None (i.e., all cells in one block).
     return use_block, num_blocks, block_lev, block_ind, block_offset
