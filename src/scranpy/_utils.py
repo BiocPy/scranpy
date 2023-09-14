@@ -2,13 +2,14 @@ from typing import Sequence, Callable, Any, Tuple, Union
 from biocutils import factor, match
 from mattress import TatamiNumericPointer, tatamize
 from numpy import bool_, int32, int_, ndarray, uint8, uintp, zeros, array
+from summarizedexperiment import SummarizedExperiment
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 
-MatrixTypes = Union[TatamiNumericPointer]
+MatrixTypes = Union[TatamiNumericPointer, SummarizedExperiment]
 
 
 def factorize(x: Sequence) -> Tuple[list, ndarray]:
@@ -72,7 +73,9 @@ def match_lists(x, y):
     return reordering
 
 
-def tatamize_input(x) -> TatamiNumericPointer:
+def tatamize_input(x: MatrixTypes, assay_type: Union[str, int]) -> TatamiNumericPointer:
+    if isinstance(x, SummarizedExperiment):
+        x = x.assay(assay_type)
     return tatamize(x)
 
 

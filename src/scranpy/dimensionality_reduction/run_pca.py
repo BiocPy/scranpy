@@ -97,6 +97,10 @@ class RunPcaOptions:
 
         num_threads (int, optional):  Number of threads to use. Defaults to 1.
 
+        assay_type (Union[int, str]):
+            Assay to use from ``input`` if it is a 
+            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
+
         verbose (bool): Whether to print logs. Defaults to False.
 
     Raises:
@@ -110,6 +114,7 @@ class RunPcaOptions:
     block_method: Literal["none", "project", "regress"] = "project"
     block_weights: bool = True
     num_threads: int = 1
+    assay_type: Union[int, str] = "logcounts"
     verbose: bool = False
 
     def __post_init__(self):
@@ -128,8 +133,12 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
     Args:
         input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
             log-normalized values. This should be a matrix class that can be converted into a
-            :py:class:`~mattress.TatamiNumericPointer`. Developers may also provide the
-            :py:class:`~mattress.TatamiNumericPointer` itself.
+            :py:class:`~mattress.TatamiNumericPointer`. 
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
+            containing such a matrix in its assays.
+
+            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
 
         options (RunPcaOptions): Optional parameters.
 
@@ -141,7 +150,7 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
         PcaResult: Object containing the PC coordinates and the variance
             explained by each PC.
     """
-    x = tatamize_input(input)
+    x = tatamize_input(input, options.assay_type)
 
     nr = x.nrow()
     nc = x.ncol()

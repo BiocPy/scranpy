@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from biocframe import BiocFrame
 from summarizedexperiment import SummarizedExperiment
 
-from .._utils import factorize, tatamize_input
+from .._utils import factorize, tatamize_input, MatrixTypes
 from .. import cpphelpers as lib
 
 
@@ -41,17 +41,22 @@ class AggregateAcrossCellsOptions:
         compute_detected (bool):
             Whether to compute the number of detected cells in each group.
 
+        assay_type (Union[int, str]):
+            Assay to use from ``input`` if it is a 
+            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
+
         num_threads (int):
             Number of threads.
     """
 
     compute_sums: bool = True
     compute_detected: bool = True
+    assay_type: Union[int, str] = 0
     num_threads: int = 1
 
 
 def aggregate_across_cells(
-    input,
+    input: MatrixTypes,
     groups: Union[Sequence, Tuple[Sequence], dict, BiocFrame],
     options: AggregateAcrossCellsOptions = AggregateAcrossCellsOptions(),
 ) -> SummarizedExperiment:
@@ -59,9 +64,13 @@ def aggregate_across_cells(
 
     Args:
         input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
-            log-normalized values. This should be a matrix class that can be converted into a
-            :py:class:`~mattress.TatamiNumericPointer`. Developers may also provide the
-            :py:class:`~mattress.TatamiNumericPointer` itself.
+            expression values of some kind. This should be a matrix class that can be converted into a
+            :py:class:`~mattress.TatamiNumericPointer`. 
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
+            containing such a matrix in its assays.
+
+            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer` directly.
 
         groups (Union[Sequence, Tuple[Sequence], dict, BiocFrame]):
             A sequence of length equal to the number of columns of ``input``, specifying the group
@@ -80,7 +89,7 @@ def aggregate_across_cells(
         of each group; for ``groups`` containing multiple sequences, the identity of each
         group is defined as a unique combination of levels from each sequence.
     """
-    x = tatamize_input(input)
+    x = tatamize_input(input, options.assay_type)
     NR = x.nrow()
     NC = x.ncol()
 
