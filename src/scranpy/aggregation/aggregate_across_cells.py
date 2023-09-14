@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from biocframe import BiocFrame
 from summarizedexperiment import SummarizedExperiment
 
-from ..utils import factorize, validate_and_tatamize_input
+from .._utils import factorize, tatamize_input 
 from .. import cpphelpers as lib
 
 
@@ -80,7 +80,7 @@ def aggregate_across_cells(
         of each group; for ``groups`` containing multiple sequences, the identity of each
         group is defined as a unique combination of levels from each sequence.
     """
-    x = validate_and_tatamize_input(input)
+    x = tatamize_input(input)
     NR = x.nrow()
     NC = x.ncol()
 
@@ -106,9 +106,9 @@ def aggregate_across_cells(
             raise ValueError(
                 "length of grouping vectors should be equal to the number of columns of 'input'"
             )
-        fout = factorize(si)
-        stored_levels.append(fout.levels)
-        stored_indices.append(fout.indices)
+        lev, ind = factorize(si)
+        stored_levels.append(lev)
+        stored_indices.append(ind)
 
     # Possibly combining factors here.
     nstored = len(stored_indices)

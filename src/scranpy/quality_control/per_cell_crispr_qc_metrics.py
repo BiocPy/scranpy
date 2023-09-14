@@ -4,8 +4,7 @@ from biocframe import BiocFrame
 from numpy import float64, int32, ndarray
 
 from .. import cpphelpers as lib
-from ..types import MatrixTypes
-from ..utils import validate_and_tatamize_input
+from .._utils import tatamize_input, MatrixTypes
 
 
 @dataclass
@@ -16,7 +15,6 @@ class PerCellCrisprQcMetricsOptions:
         num_threads (int, optional): Number of threads to use. Defaults to 1.
         verbose (bool, optional): Display logs?. Defaults to False.
     """
-
     num_threads: int = 1
     verbose: bool = False
 
@@ -50,7 +48,7 @@ def per_cell_crispr_qc_metrics(
             ``"max_proportion"``, the proportion of counts in the most abundant guide;
             and ``"max_index"``, the row index of the most abundant guide.
     """
-    x = validate_and_tatamize_input(input)
+    x = tatamize_input(input)
 
     x.nrow()
     nc = x.ncol()

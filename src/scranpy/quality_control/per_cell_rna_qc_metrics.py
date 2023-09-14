@@ -6,9 +6,8 @@ from numpy import float64, int32, ndarray
 
 from .. import cpphelpers as lib
 from .._logging import logger
-from ..types import MatrixTypes
-from ..utils import to_logical, validate_and_tatamize_input
-from .utils import create_pointer_array
+from .._utils import to_logical, tatamize_input, MatrixTypes, create_pointer_array
+from ._utils import create_subset_buffers, create_subset_frame
 
 
 @dataclass
@@ -62,7 +61,7 @@ def per_cell_rna_qc_metrics(
             and ``"subset_proportions"``, a nested BiocFrame where each column is named
             after an entry in ``subsets`` and contains the proportion of counts in that subset.
     """
-    x = validate_and_tatamize_input(input)
+    x = tatamize_input(input)
 
     if options.subsets is None:
         options.subsets = {}
@@ -72,19 +71,15 @@ def per_cell_rna_qc_metrics(
     sums = ndarray((nc,), dtype=float64)
     detected = ndarray((nc,), dtype=int32)
 
-    keys = list(options.subsets.keys())
-    num_subsets = len(keys)
+    sub_keys = list(options.subsets.keys())
+    num_subsets = len(sub_keys)
     collected_in = []
-    collected_out = {}
-
-    for i in range(num_subsets):
-        in_arr = to_logical(options.subsets[keys[i]], nr)
+    for i, s in enumerate(sub_keys):
+        in_arr = to_logical(options.subsets[s], nr)
         collected_in.append(in_arr)
-        out_arr = ndarray((nc,), dtype=float64)
-        collected_out[keys[i]] = out_arr
-
     subset_in = create_pointer_array(collected_in)
-    subset_out = create_pointer_array(collected_out)
+
+    collected_out, subset_out = create_subset_buffers(nc, num_subsets)
     if options.verbose is True:
         logger.info(subset_in)
         logger.info(subset_out)
@@ -103,6 +98,10 @@ def per_cell_rna_qc_metrics(
         {
             "sums": sums,
             "detected": detected,
-            "subset_proportions": BiocFrame(collected_out, number_of_rows=nc),
+            "subset_proportions": create_subset_frame(
+                column_names = sub_keys, 
+                columns = collected_out, 
+                num_rows = nc,
+            ),
         }
     )

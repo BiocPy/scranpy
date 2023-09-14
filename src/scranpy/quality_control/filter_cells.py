@@ -5,7 +5,7 @@ from numpy import ndarray, logical_not
 from delayedarray import DelayedArray
 
 from .. import cpphelpers as lib
-from ..utils import to_logical
+from .._utils import to_logical
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"

@@ -1,20 +1,33 @@
 from dataclasses import dataclass
+from collections import namedtuple
 from typing import Mapping, Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import ndarray, uintp
+from numpy import ndarray, uintp, float64
 
 from .. import cpphelpers as lib
 from .._logging import logger
-from ..types import MatrixTypes, NDOutputArrays
-from ..utils import create_output_arrays, factorize, validate_and_tatamize_input
+from .._utils import process_block, factorize, tatamize_input, MatrixTypes
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
 __license__ = "MIT"
 
 
-def create_output_summary_arrays(rows: int, groups: int) -> NDOutputArrays:
+_NDOutputArrays = namedtuple("_NDOutputArrays", ["arrays", "references"])
+
+
+def create_output_arrays(length: int, number: int) -> _NDOutputArrays:
+    outptrs = ndarray((number,), dtype=uintp)
+    outarrs = []
+    for g in range(number):
+        curarr = ndarray((length,), dtype=float64)
+        outptrs[g] = curarr.ctypes.data
+        outarrs.append(curarr)
+    return _NDOutputArrays(outarrs, outptrs)
+
+
+def create_output_summary_arrays(rows: int, groups: int) -> _NDOutputArrays:
     output = {
         "min": create_output_arrays(rows, groups),
         "mean": create_output_arrays(rows, groups),
@@ -25,10 +38,10 @@ def create_output_summary_arrays(rows: int, groups: int) -> NDOutputArrays:
     outptrs[0] = output["min"].references.ctypes.data
     outptrs[1] = output["mean"].references.ctypes.data
     outptrs[2] = output["min_rank"].references.ctypes.data
-    return NDOutputArrays(output, outptrs)
+    return _NDOutputArrays(output, outptrs)
 
 
-def create_summary_biocframe(summary: NDOutputArrays, group: int) -> BiocFrame:
+def create_summary_biocframe(summary: _NDOutputArrays, group: int) -> BiocFrame:
     return BiocFrame(
         {
             "min": summary.arrays["min"].arrays[group],
@@ -103,7 +116,7 @@ def score_markers(
     Returns:
         Mapping: Dictionary with computed metrics for each group.
     """
-    x = validate_and_tatamize_input(input)
+    x = tatamize_input(input)
 
     nr = x.nrow()
     nc = x.ncol()
@@ -113,19 +126,10 @@ def score_markers(
             "Length of 'grouping' should be equal to the number of columns in 'x'"
         )
 
-    grouping = factorize(grouping)
-    num_groups = len(grouping.levels)
+    group_levels, group_indices = factorize(grouping)
+    num_groups = len(group_levels)
 
-    block_offset = 0
-    num_blocks = 1
-    if options.block is not None:
-        if len(options.block) != nc:
-            raise ValueError(
-                "Length of 'block' should be equal to the number of columns in 'x'"
-            )
-        block = factorize(options.block)
-        num_blocks = len(block.levels)
-        block_offset = block.indices.ctypes.data
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, nc)
 
     means = create_output_arrays(nr, num_groups)
     detected = create_output_arrays(nr, num_groups)
@@ -145,7 +149,7 @@ def score_markers(
     lib.score_markers(
         x.ptr,
         num_groups,
-        grouping.indices,
+        group_indices,
         num_blocks,
         block_offset,
         options.compute_auc,
@@ -172,6 +176,6 @@ def score_markers(
         if options.compute_auc is True:
             current["auc"] = create_summary_biocframe(auc, g)
 
-        output[grouping.levels[g]] = BiocFrame(current)
+        output[group_levels[g]] = BiocFrame(current)
 
     return output
