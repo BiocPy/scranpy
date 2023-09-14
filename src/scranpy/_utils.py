@@ -1,7 +1,7 @@
 from typing import Sequence, Callable, Any, Tuple, Union
 from biocutils import factor, match
 from mattress import TatamiNumericPointer, tatamize
-from numpy import bool_, float64, int32, int_, ndarray, uint8, uintp, zeros, array
+from numpy import bool_, int32, int_, ndarray, uint8, uintp, zeros, array
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"

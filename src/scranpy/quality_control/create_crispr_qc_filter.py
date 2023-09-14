@@ -57,7 +57,9 @@ def create_crispr_qc_filter(
         raise TypeError("'thresholds' is not a `BiocFrame` object.")
 
     num_cells = metrics.shape[0]
-    use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, num_cells)
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(
+        options.block, num_cells
+    )
 
     tmp_sums_in = metrics.column("sums").astype(float64, copy=False)
     tmp_max_proportions_in = metrics.column("detected").astype(float64, copy=False)

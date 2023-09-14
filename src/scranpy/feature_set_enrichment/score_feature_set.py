@@ -71,7 +71,6 @@ def score_feature_set(
     NC = x.ncol()
 
     use_block = options.block is not None
-    block_info = None
     block_offset = 0
 
     if use_block:
@@ -80,7 +79,6 @@ def score_feature_set(
                 "number of columns in 'x' should equal the length of 'block'"
             )
         block_levels, block_indices = factorize(options.block)
-        block_info = block_indices
         block_offset = block_indices.ctypes.data
 
     output_scores = ndarray(NC, dtype=float64)

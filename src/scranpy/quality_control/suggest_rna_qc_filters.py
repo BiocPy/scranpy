@@ -6,7 +6,12 @@ from numpy import float64, int32, ndarray, array
 
 from .. import cpphelpers as lib
 from .._utils import process_block
-from ._utils import process_subset_columns, check_custom_thresholds, create_subset_buffers, create_subset_frame
+from ._utils import (
+    process_subset_columns,
+    check_custom_thresholds,
+    create_subset_buffers,
+    create_subset_frame,
+)
 
 
 @dataclass
@@ -83,7 +88,9 @@ def suggest_rna_qc_filters(
         raise TypeError("'metrics' is not a `BiocFrame` object.")
 
     num_cells = metrics.shape[0]
-    use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, num_cells)
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(
+        options.block, num_cells
+    )
 
     sums = array(metrics.column("sums"), dtype=float64, copy=False)
     sums_out = ndarray((num_blocks,), dtype=float64)
@@ -111,13 +118,15 @@ def suggest_rna_qc_filters(
     )
 
     subset_out = create_subset_frame(
-        column_names = subsets.column_names, 
-        columns = raw_subset_out, 
-        num_rows = num_blocks, 
-        row_names = block_names,
+        column_names=subsets.column_names,
+        columns=raw_subset_out,
+        num_rows=num_blocks,
+        row_names=block_names,
     )
 
-    custom_thresholds = check_custom_thresholds(num_blocks, block_names, options.custom_thresholds)
+    custom_thresholds = check_custom_thresholds(
+        num_blocks, block_names, options.custom_thresholds
+    )
     if custom_thresholds is not None:
         if custom_thresholds.has_column("sums"):
             sums_out = custom_thresholds.column("sums")

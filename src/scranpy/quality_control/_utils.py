@@ -12,21 +12,30 @@ def process_subset_columns(subsets: BiocFrame) -> Tuple[list[ndarray], ndarray]:
     return subset_in, create_pointer_array(subset_in)
 
 
-def create_subset_buffers(length: int, num_subsets: int) -> Tuple[list[ndarray], ndarray]:
+def create_subset_buffers(
+    length: int, num_subsets: int
+) -> Tuple[list[ndarray], ndarray]:
     subset_out = []
     for i in range(num_subsets):
         subset_out.append(ndarray((length,), dtype=float64))
     return subset_out, create_pointer_array(subset_out)
 
 
-def create_subset_frame(column_names: list, columns: list[ndarray], num_rows: int, row_names: Optional[list] = None) -> BiocFrame:
-    output = BiocFrame({}, number_of_rows = num_rows, row_names = row_names)
+def create_subset_frame(
+    column_names: list,
+    columns: list[ndarray],
+    num_rows: int,
+    row_names: Optional[list] = None,
+) -> BiocFrame:
+    output = BiocFrame({}, number_of_rows=num_rows, row_names=row_names)
     for i, n in enumerate(column_names):
         output[n] = columns[i]
     return output
 
 
-def check_custom_thresholds(num_blocks: int, block_names: list, custom_thresholds: BiocFrame) -> Union[None, BiocFrame]:
+def check_custom_thresholds(
+    num_blocks: int, block_names: list, custom_thresholds: BiocFrame
+) -> Union[None, BiocFrame]:
     if custom_thresholds is None:
         return None
 

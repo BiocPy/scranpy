@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from biocframe import BiocFrame
 from summarizedexperiment import SummarizedExperiment
 
-from .._utils import factorize, tatamize_input 
+from .._utils import factorize, tatamize_input
 from .. import cpphelpers as lib
 
 

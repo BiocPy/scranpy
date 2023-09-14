@@ -75,7 +75,9 @@ def center_size_factors(
     local_sf = size_factors.astype(float64, copy=not options.in_place)
     NC = local_sf.shape[0]
 
-    use_block, num_blocks, block_names, block_indices, block_offset = process_block(options.block, NC)
+    use_block, num_blocks, block_names, block_indices, block_offset = process_block(
+        options.block, NC
+    )
 
     lib.center_size_factors(
         NC,

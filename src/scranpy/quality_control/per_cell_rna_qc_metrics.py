@@ -99,9 +99,9 @@ def per_cell_rna_qc_metrics(
             "sums": sums,
             "detected": detected,
             "subset_proportions": create_subset_frame(
-                column_names = sub_keys, 
-                columns = collected_out, 
-                num_rows = nc,
+                column_names=sub_keys,
+                columns=collected_out,
+                num_rows=nc,
             ),
         }
     )

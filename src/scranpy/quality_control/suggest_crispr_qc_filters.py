@@ -80,7 +80,9 @@ def suggest_crispr_qc_filters(
         raise TypeError("'metrics' is not a `BiocFrame` object.")
 
     num_cells = metrics.shape[0]
-    use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, num_cells)
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(
+        options.block, num_cells
+    )
 
     sums = array(metrics.column("sums"), dtype=float64, copy=False)
     max_prop = array(metrics.column("max_proportion"), dtype=float64, copy=False)
@@ -96,7 +98,9 @@ def suggest_crispr_qc_filters(
         options.num_mads,
     )
 
-    custom_thresholds = check_custom_thresholds(num_blocks, block_names, options.custom_thresholds)
+    custom_thresholds = check_custom_thresholds(
+        num_blocks, block_names, options.custom_thresholds
+    )
     if custom_thresholds is not None:
         if custom_thresholds.has_column("max_count"):
             max_count_out = custom_thresholds.column("max_count")

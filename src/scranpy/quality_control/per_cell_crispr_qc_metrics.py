@@ -15,6 +15,7 @@ class PerCellCrisprQcMetricsOptions:
         num_threads (int, optional): Number of threads to use. Defaults to 1.
         verbose (bool, optional): Display logs?. Defaults to False.
     """
+
     num_threads: int = 1
     verbose: bool = False
 

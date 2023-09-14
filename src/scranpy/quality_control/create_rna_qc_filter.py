@@ -63,12 +63,16 @@ def create_rna_qc_filter(
     subset_in, subset_in_ptr = process_subset_columns(subprop)
     filter_in, filter_in_ptr = process_subset_columns(subpropthresh)
 
-    use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, num_cells)
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(
+        options.block, num_cells
+    )
 
     tmp_sums_in = array(metrics.column("sums"), dtype=float64, copy=False)
     tmp_detected_in = array(metrics.column("detected"), dtype=int32, copy=False)
     tmp_sums_thresh = array(thresholds.column("sums"), dtype=float64, copy=False)
-    tmp_detected_thresh = array(thresholds.column("detected"), dtype=float64, copy=False)
+    tmp_detected_thresh = array(
+        thresholds.column("detected"), dtype=float64, copy=False
+    )
     output = zeros(num_cells, dtype=uint8)
 
     lib.create_rna_qc_filter(

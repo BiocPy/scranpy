@@ -129,7 +129,9 @@ def score_markers(
     group_levels, group_indices = factorize(grouping)
     num_groups = len(group_levels)
 
-    use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, nc)
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(
+        options.block, nc
+    )
 
     means = create_output_arrays(nr, num_groups)
     detected = create_output_arrays(nr, num_groups)

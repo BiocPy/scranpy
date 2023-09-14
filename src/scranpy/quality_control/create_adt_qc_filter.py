@@ -63,7 +63,9 @@ def create_adt_qc_filter(
     subset_in, subset_in_ptr = process_subset_columns(subtot)
     filter_in, filter_in_ptr = process_subset_columns(subtotthresh)
 
-    use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, num_cells)
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(
+        options.block, num_cells
+    )
 
     tmp_detected_in = metrics.column("detected").astype(int32, copy=False)
     tmp_detected_thresh = thresholds.column("detected").astype(float64, copy=False)
