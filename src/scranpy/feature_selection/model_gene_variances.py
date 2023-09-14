@@ -29,6 +29,10 @@ class ModelGeneVariancesOptions:
             at the cost of being less responsive to local variations.
             Defaults to 0.3.
 
+        assay_type (Union[int, str]):
+            Assay to use from ``input`` if it is a 
+            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
 
         verbose (bool, optional): Whether to print logging information. Defaults to False.
@@ -36,6 +40,7 @@ class ModelGeneVariancesOptions:
 
     block: Optional[Sequence] = None
     span: float = 0.3
+    assay_type: Union[int, str] = "logcounts"
     num_threads: int = 1
     verbose: bool = False
 
@@ -51,7 +56,15 @@ def model_gene_variances(
     Note: rows are features, columns are cells.
 
     Args:
-        input (MatrixTypes): Log-normalized expression matrix..
+        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
+            expression values of some kind. This should be a matrix class that can be converted into a
+            :py:class:`~mattress.TatamiNumericPointer`. 
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
+            containing such a matrix in its assays.
+
+            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer` directly.
+
         options (ModelGeneVariancesOptions): Optional parameters.
 
     Returns:
