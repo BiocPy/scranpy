@@ -13,7 +13,7 @@ from .AnalyzeOptions import AnalyzeOptions
 from .AnalyzeResults import AnalyzeResults
 from .run_neighbor_suite import run_neighbor_suite
 from .update import update
-from ..types import MatrixTypes, is_matrix_expected_type
+from .._utils import MatrixTypes
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
@@ -25,9 +25,6 @@ def live_analyze(
     features: Sequence[str],
     options: AnalyzeOptions = AnalyzeOptions(),
 ) -> AnalyzeResults:
-    if not is_matrix_expected_type(matrix):
-        raise TypeError("matrix is not an expected type.")
-
     ptr = tatamize(matrix)
     if len(features) != ptr.nrow():
         raise ValueError(

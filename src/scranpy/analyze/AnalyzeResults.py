@@ -11,7 +11,7 @@ from delayedarray import DelayedArray
 
 from .. import dimensionality_reduction as dimred
 from .. import batch_correction as correct
-from ..types import MatrixTypes
+from .._utils import MatrixTypes
 
 
 @dataclass

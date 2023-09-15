@@ -2,7 +2,7 @@ from numpy import ndarray, float64, int32
 from typing import Sequence, Optional
 from dataclasses import dataclass
 
-from ..utils import factorize
+from .._utils import factorize
 from .. import cpphelpers as lib
 
 
