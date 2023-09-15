@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Sequence, Optional, Tuple
+from typing import Sequence, Optional, Tuple, Union
 from numpy import ndarray, float64
 
 from .. import cpphelpers as lib
@@ -23,11 +23,16 @@ class ScoreFeatureSetOptions:
         scale (bool): Whether to scale the features to unit variance before
             computing the scores.
 
+        assay_type (Union[int, str]):
+            Assay to use from ``input`` if it is a
+            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
+
         num_threads (int): Number of threads to use.
     """
 
     block: Optional[Sequence] = None
     scale: bool = False
+    assay_type: Union[int, str] = "logcounts"
     num_threads: int = 1
 
 
@@ -65,7 +70,7 @@ def score_feature_set(
         features in ``subset`` and contains the weight for each feature.
     """
 
-    x = tatamize_input(input)
+    x = tatamize_input(input, options.assay_type)
     subset = to_logical(subset, x.nrow())
     NC = x.ncol()
 

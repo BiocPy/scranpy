@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Union
 
 from mattress import TatamiNumericPointer, tatamize
 from numpy import float64, ndarray, log1p, log
@@ -36,6 +36,10 @@ class LogNormCountsOptions:
 
         with_size_factors (bool): Whether to return the (possibly centered) size factors in the output.
 
+        assay_type (Union[int, str]):
+            Assay to use from ``input`` if it is a
+            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
+
         num_threads (int, optional): Number of threads to use to compute size factors,
             if none are provided in ``size_factors``. Defaults to 1.
 
@@ -50,6 +54,7 @@ class LogNormCountsOptions:
     )
     delayed: bool = True
     with_size_factors: bool = False
+    assay_type: Union[str, int] = 0
     num_threads: int = 1
     verbose: bool = False
 
@@ -65,6 +70,11 @@ def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions(
             Matrix-like object containing cells in columns and features in rows, typically with count data.
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
+            containing such a matrix in its assays.
+
+            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
         options (LogNormCountsOptions): Optional parameters.
 

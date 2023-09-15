@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from biocframe import BiocFrame
 from numpy import float64, int32, ndarray
+from typing import Union
 
 from .. import cpphelpers as lib
 from .._utils import tatamize_input, MatrixTypes
@@ -12,10 +13,16 @@ class PerCellCrisprQcMetricsOptions:
     """Optional arguments for :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`.
 
     Attributes:
+        assay_type (Union[int, str]):
+            Assay to use from ``input`` if it is a
+            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
+
         verbose (bool, optional): Display logs?. Defaults to False.
     """
 
+    assay_type: Union[int, str] = 0
     num_threads: int = 1
     verbose: bool = False
 
@@ -31,10 +38,14 @@ def per_cell_crispr_qc_metrics(
     identity of the most abundant guide is also reported.
 
     Args:
-        input (MatrixTypes):
-            Matrix-like object containing cells in columns and features in rows, typically with "count" data.
-            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
-            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
+            expression values of some kind. This should be a matrix class that can be converted into a
+            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
+            containing such a matrix in its assays.
+
+            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
         options (PerCellCrisprQcMetricsOptions): Optional parameters.
 
@@ -49,7 +60,7 @@ def per_cell_crispr_qc_metrics(
             ``"max_proportion"``, the proportion of counts in the most abundant guide;
             and ``"max_index"``, the row index of the most abundant guide.
     """
-    x = tatamize_input(input)
+    x = tatamize_input(input, options.assay_type)
 
     x.nrow()
     nc = x.ncol()

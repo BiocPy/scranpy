@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Mapping, Optional
+from typing import Mapping, Optional, Union
 
 from biocframe import BiocFrame
 from numpy import float64, int32, ndarray
@@ -24,12 +24,18 @@ class PerCellRnaQcMetricsOptions:
 
             Defaults to {}.
 
+        assay_type (Union[int, str]):
+            Assay to use from ``input`` if it is a
+            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
+
         verbose (bool, optional): Display logs?. Defaults to False.
     """
 
     subsets: Optional[Mapping] = None
     num_threads: int = 1
+    assay_type: Union[str, int] = 0
     verbose: bool = False
 
 
@@ -43,10 +49,14 @@ def per_cell_rna_qc_metrics(
     feature subsets, typically mitochondrial genes where high values are indicative of cell damage.
 
     Args:
-        input (MatrixTypes):
-            Matrix-like object containing cells in columns and features in rows, typically with "count" data.
-            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
-            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
+        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
+            expression values of some kind. This should be a matrix class that can be converted into a
+            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
+            containing such a matrix in its assays.
+
+            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
         options (PerCellRnaQcMetricsOptions): Optional parameters.
 
@@ -61,7 +71,7 @@ def per_cell_rna_qc_metrics(
             and ``"subset_proportions"``, a nested BiocFrame where each column is named
             after an entry in ``subsets`` and contains the proportion of counts in that subset.
     """
-    x = tatamize_input(input)
+    x = tatamize_input(input, options.assay_type)
 
     if options.subsets is None:
         options.subsets = {}
