@@ -3,8 +3,7 @@ from typing import Sequence, Optional, Tuple
 from numpy import ndarray, float64
 
 from .. import cpphelpers as lib
-from ..types import MatrixTypes
-from .._utils import factorize, to_logical, tatamize_input
+from .._utils import factorize, to_logical, tatamize_input, MatrixTypes
 
 
 @dataclass
