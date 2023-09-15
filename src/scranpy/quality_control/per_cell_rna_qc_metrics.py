@@ -25,7 +25,7 @@ class PerCellRnaQcMetricsOptions:
             Defaults to {}.
 
         assay_type (Union[int, str]):
-            Assay to use from ``input`` if it is a 
+            Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
         num_threads (int, optional): Number of threads to use. Defaults to 1.
@@ -51,7 +51,7 @@ def per_cell_rna_qc_metrics(
     Args:
         input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
             expression values of some kind. This should be a matrix class that can be converted into a
-            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`. 
+            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.
 
             Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
             containing such a matrix in its assays.

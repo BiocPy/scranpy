@@ -24,7 +24,7 @@ class ScoreFeatureSetOptions:
             computing the scores.
 
         assay_type (Union[int, str]):
-            Assay to use from ``input`` if it is a 
+            Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
         num_threads (int): Number of threads to use.

@@ -37,7 +37,7 @@ class LogNormCountsOptions:
         with_size_factors (bool): Whether to return the (possibly centered) size factors in the output.
 
         assay_type (Union[int, str]):
-            Assay to use from ``input`` if it is a 
+            Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
         num_threads (int, optional): Number of threads to use to compute size factors,
