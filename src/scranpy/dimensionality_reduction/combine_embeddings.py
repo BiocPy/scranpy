@@ -51,7 +51,6 @@ def combine_embeddings(
     Returns:
         ndarray: Array containing the combined embedding, where rows are cells
         and columns are the dimensions from all embeddings with non-zero weight.
-
     """
     ncells = embeddings[0].shape[0]
     for x in embeddings:
@@ -64,7 +63,9 @@ def combine_embeddings(
         weights = ones(len(embeddings), dtype=float64)
     else:
         if len(embeddings) != len(options.weights):
-            raise ValueError("'options.weights' should have the same length as 'embeddings'")
+            raise ValueError(
+                "'options.weights' should have the same length as 'embeddings'"
+            )
 
         new_weights = []
         new_embeddings = []
@@ -73,7 +74,7 @@ def combine_embeddings(
                 new_embeddings.append(embeddings[i])
                 new_weights.append(w)
 
-        embeddings = new_embeddings 
+        embeddings = new_embeddings
         weights = array(new_weights, dtype=float64)
 
     indices = []
