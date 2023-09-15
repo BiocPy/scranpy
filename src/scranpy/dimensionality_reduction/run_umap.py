@@ -6,7 +6,6 @@ from typing import Union, Optional
 from numpy import float64, ndarray, copy
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from ..nearest_neighbors import (
     FindNearestNeighborsOptions,
     NeighborIndex,
@@ -128,10 +127,6 @@ class InitializeUmapOptions:
         seed (int, optional):
             Seed to use for random number generation.
             Defaults to 42.
-
-        verbose (bool):
-            Whether to print logging information.
-            Defaults to False.
     """
 
     min_dist: float = 0.1
@@ -139,7 +134,6 @@ class InitializeUmapOptions:
     num_epochs: int = 500
     seed: int = 42
     num_threads: int = 1
-    verbose: bool = False
 
     def set_threads(self, num_threads: int):
         self.num_threads = num_threads
@@ -188,14 +182,7 @@ def initialize_umap(
     """
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
-            if options.verbose is True:
-                logger.info("`input` is a matrix, building nearest neighbor index...")
-
             input = build_neighbor_index(input)
-
-        if options.verbose is True:
-            logger.info("Finding the nearest neighbors...")
-
         input = find_nearest_neighbors(
             input,
             k=options.num_neighbors,
@@ -218,14 +205,11 @@ class RunUmapOptions:
         initialize_umap (InitializeUmapOptions):
             Optional arguments for
             :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap`.
-
-        verbose (bool): Whether to print logs. Defaults to False.
     """
 
     initialize_umap: InitializeUmapOptions = field(
         default_factory=InitializeUmapOptions
     )
-    verbose: bool = False
 
     def set_threads(self, num_threads: int):
         self.initialize_umap.set_threads(num_threads)
@@ -262,21 +246,9 @@ def run_umap(
     Returns:
         UmapEmbedding: Result containing the first two dimensions.
     """
-    if options.verbose is True:
-        logger.info("Initializing UMAP...")
-
     status = initialize_umap(input, options=options.initialize_umap)
-
-    if options.verbose is True:
-        logger.info("Running the UMAP...")
-
     status.run()
-
-    if options.verbose is True:
-        logger.info("Done computing UMAP embeddings...")
-
     output = status.extract()
     x = copy(output.x)  # realize NumPy slicing views into standalone arrays.
     y = copy(output.y)
-
     return UmapEmbedding(x, y)

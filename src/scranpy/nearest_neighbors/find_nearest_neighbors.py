@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from numpy import float64, int32, ndarray
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from .build_neighbor_index import NeighborIndex
 
 __author__ = "ltla, jkanche"
@@ -144,11 +143,9 @@ class FindNearestNeighborsOptions:
 
     Attributes:
         num_threads (int, optional): Number of threads to use. Defaults to 1.
-        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     num_threads: int = 1
-    verbose: bool = False
 
 
 def find_nearest_neighbors(
@@ -170,9 +167,6 @@ def find_nearest_neighbors(
     Returns:
         NeighborResults: 'k' nearest neighbors for each cell.
     """
-    if options.verbose is True:
-        logger.info("Finding nearest neighbors...")
-
     if not isinstance(idx, NeighborIndex):
         raise TypeError(
             "'idx' is not a nearest neighbor index, "

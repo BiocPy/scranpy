@@ -42,8 +42,6 @@ class LogNormCountsOptions:
 
         num_threads (int, optional): Number of threads to use to compute size factors,
             if none are provided in ``size_factors``. Defaults to 1.
-
-        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
@@ -56,7 +54,6 @@ class LogNormCountsOptions:
     with_size_factors: bool = False
     assay_type: Union[str, int] = 0
     num_threads: int = 1
-    verbose: bool = False
 
 
 def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions()):

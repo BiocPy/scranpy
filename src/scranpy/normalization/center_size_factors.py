@@ -41,15 +41,12 @@ class CenterSizeFactorsOptions:
             If True, infinite size factors are automatically set to the largest non-zero size factor,
             while missing values are automatically set to 1.
             If False, an error is raised.
-
-        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
     in_place: bool = False
     allow_zeros: bool = False
     allow_non_finite: bool = False
-    verbose: bool = False
 
 
 def center_size_factors(

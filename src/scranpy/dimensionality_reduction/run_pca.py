@@ -6,7 +6,6 @@ from typing import Literal, Optional, Sequence, Union
 from numpy import ctypeslib, ndarray, copy
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from .._utils import to_logical, tatamize_input, factorize, MatrixTypes
 
 __author__ = "ltla, jkanche"
@@ -101,8 +100,6 @@ class RunPcaOptions:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
-        verbose (bool): Whether to print logs. Defaults to False.
-
     Raises:
         ValueError: If ``block_method`` is not an expected value.
     """
@@ -115,7 +112,6 @@ class RunPcaOptions:
     block_weights: bool = True
     num_threads: int = 1
     assay_type: Union[int, str] = "logcounts"
-    verbose: bool = False
 
     def __post_init__(self):
         if self.block_method not in ["none", "project", "regress"]:
@@ -166,9 +162,6 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
     if options.block is None or (
         options.block_method == "none" and not options.block_weights
     ):
-        if options.verbose is True:
-            logger.info("No block information is provided, running simple_pca...")
-
         pptr = lib.run_simple_pca(
             x.ptr,
             options.rank,
@@ -193,9 +186,6 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
         block_levels, block_indices = factorize(options.block)
 
         if options.block_method == "regress":
-            if options.verbose is True:
-                logger.info("Block information is provided, running residual_pca...")
-
             pptr = lib.run_residual_pca(
                 x.ptr,
                 block_indices,
@@ -213,9 +203,6 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
                 lib.free_residual_pca(pptr)
 
         elif options.block_method == "project" or options.block_method == "none":
-            if options.verbose is True:
-                logger.info("Block information is provided, running multibatch_pca...")
-
             pptr = lib.run_multibatch_pca(
                 x.ptr,
                 block_indices,
