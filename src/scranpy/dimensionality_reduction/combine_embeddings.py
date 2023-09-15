@@ -1,5 +1,6 @@
-from numpy import ndarray, float64, int32, uintp
+from numpy import ndarray, float64, int32, uintp, ones, array
 from dataclasses import dataclass
+from typing import Optional
 
 from .. import cpphelpers as lib
 from ..nearest_neighbors import (
@@ -17,11 +18,16 @@ class CombineEmbeddingsOptions:
 
         approximate (bool): Whether to perform an approximate neighbor search.
 
+        weights (list[float], Optional): Weights to apply to each entry of ``embeddings``. If None,
+            all embeddings recieve equal weight. If any weight is zero, the corresponding embedding
+            is omitted from the return value.
+
         num_threads (int): Number of threads to use for the neighbor search.
     """
 
     neighbors: int = 20
     approximate: bool = True
+    weights: Optional[list[float]] = None
     num_threads: int = True
 
 
@@ -44,10 +50,33 @@ def combine_embeddings(
 
     Returns:
         ndarray: Array containing the combined embedding, where rows are cells
-        and columns are the dimensions from all embeddings.
+        and columns are the dimensions from all embeddings with non-zero weight.
+
     """
+    ncells = embeddings[0].shape[0]
+    for x in embeddings:
+        if len(x.shape) != 2:
+            raise ValueError("all embeddings should be two-dimensional matrices")
+        elif ncells != x.shape[0]:
+            raise ValueError("all embeddings should have the same number of rows")
+
+    if options.weights is None:
+        weights = ones(len(embeddings), dtype=float64)
+    else:
+        if len(embeddings) != len(options.weights):
+            raise ValueError("'options.weights' should have the same length as 'embeddings'")
+
+        new_weights = []
+        new_embeddings = []
+        for i, w in enumerate(options.weights):
+            if w > 0:
+                new_embeddings.append(embeddings[i])
+                new_weights.append(w)
+
+        embeddings = new_embeddings 
+        weights = array(new_weights, dtype=float64)
+
     indices = []
-    ncells = None
     nembed = len(embeddings)
     ind_ptr = ndarray(nembed, dtype=uintp)
 
@@ -56,13 +85,6 @@ def combine_embeddings(
     emb_ptr = ndarray(nembed, dtype=uintp)
 
     for i, x in enumerate(embeddings):
-        if len(x.shape) != 2:
-            raise ValueError("all embeddings should be two-dimensional matrices")
-        if ncells is None:
-            ncells = x.shape[0]
-        elif ncells != x.shape[0]:
-            raise ValueError("all embeddings should have the same number of rows")
-
         x = x.astype(float64, copy=False)
         embeddings2.append(x)
         emb_ptr[i] = x.ctypes.data
@@ -82,6 +104,7 @@ def combine_embeddings(
         scaling,
         options.num_threads,
     )
+    scaling *= weights
 
     output = ndarray((ncells, all_dims.sum()), dtype=float64)
     lib.combine_embeddings(
