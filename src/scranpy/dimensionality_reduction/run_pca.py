@@ -152,9 +152,11 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
     nc = x.ncol()
 
     use_subset = options.subset is not None
+    temp_subset = None
     subset_offset = 0
     if use_subset:
-        to_logical(options.subset, nr)
+        temp_subset = to_logical(options.subset, nr)
+        subset_offset = temp_subset.ctypes.data
 
     result = None
     if options.block is None or (
