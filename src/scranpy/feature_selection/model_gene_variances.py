@@ -6,8 +6,7 @@ from numpy import float64, ndarray, uintp
 
 from .. import cpphelpers as lib
 from .._logging import logger
-from ..types import MatrixTypes
-from ..utils import factorize, validate_and_tatamize_input
+from .._utils import factorize, tatamize_input, MatrixTypes
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -59,7 +58,7 @@ def model_gene_variances(
         BiocFrame: Data frame with variance modelling results
         (means, variance, fitted, residuals).
     """
-    x = validate_and_tatamize_input(input)
+    x = tatamize_input(input)
 
     NR = x.nrow()
     means = ndarray((NR,), dtype=float64)
@@ -101,8 +100,8 @@ def model_gene_variances(
                 f" for all cells (expected: {NC})."
             )
 
-        fac = factorize(options.block)
-        nlevels = len(fac.levels)
+        block_levels, block_indices = factorize(options.block)
+        nlevels = len(block_levels)
 
         all_means = []
         all_variances = []
@@ -142,7 +141,7 @@ def model_gene_variances(
             fitted,
             residuals,
             nlevels,
-            fac.indices.ctypes.data,
+            block_indices.ctypes.data,
             all_means_ptr.ctypes.data,
             all_variances_ptr.ctypes.data,
             all_fitted_ptr.ctypes.data,
@@ -153,7 +152,7 @@ def model_gene_variances(
 
         extra = {}
         for i in range(nlevels):
-            extra[fac.levels[i]] = BiocFrame(
+            extra[block_levels[i]] = BiocFrame(
                 {
                     "means": all_means[i],
                     "variances": all_variances[i],

@@ -2,11 +2,16 @@ from dataclasses import dataclass
 from typing import Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import float64, int32, ndarray
+from numpy import float64, int32, ndarray, array
 
 from .. import cpphelpers as lib
-from ..utils import factorize, match_lists
-from .utils import create_pointer_array
+from .._utils import process_block
+from ._utils import (
+    process_subset_columns,
+    check_custom_thresholds,
+    create_subset_buffers,
+    create_subset_frame,
+)
 
 
 @dataclass
@@ -79,53 +84,27 @@ def suggest_rna_qc_filters(
             If ``options.block`` is None, all cells are assumed to belong to a single
             block, and the output BiocFrame contains a single row.
     """
-    use_block = options.block is not None
-    block_info = None
-    block_offset = 0
-    num_blocks = 1
-    block_names = None
-
     if not isinstance(metrics, BiocFrame):
         raise TypeError("'metrics' is not a `BiocFrame` object.")
 
-    if use_block:
-        if len(options.block) != metrics.shape[0]:
-            raise ValueError(
-                "number of rows in 'metrics' should equal the length of 'block'"
-            )
+    num_cells = metrics.shape[0]
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(
+        options.block, num_cells
+    )
 
-        block_info = factorize(options.block)
-        block_offset = block_info.indices.ctypes.data
-        block_names = block_info.levels
-        num_blocks = len(block_names)
-
-    sums = metrics.column("sums")
-    if sums.dtype != float64:
-        raise TypeError("expected the 'sums' column to be a float64 array.")
+    sums = array(metrics.column("sums"), dtype=float64, copy=False)
     sums_out = ndarray((num_blocks,), dtype=float64)
 
-    detected = metrics.column("detected")
-    if detected.dtype != int32:
-        raise TypeError("expected the 'detected' column to be an int32 array.")
+    detected = array(metrics.column("detected"), dtype=int32, copy=False)
     detected_out = ndarray((num_blocks,), dtype=float64)
 
     subsets = metrics.column("subset_proportions")
-    skeys = subsets.column_names
-    num_subsets = len(skeys)
-    subset_in = []
-    subset_out = {}
-
-    for i in range(num_subsets):
-        cursub = subsets.column(i)
-        subset_in.append(cursub.astype(float64, copy=False))
-        curout = ndarray((num_blocks,), dtype=float64)
-        subset_out[skeys[i]] = curout
-
-    subset_in_ptrs = create_pointer_array(subset_in)
-    subset_out_ptrs = create_pointer_array(subset_out)
+    num_subsets = subsets.shape[1]
+    subset_in, subset_in_ptrs = process_subset_columns(subsets)
+    raw_subset_out, subset_out_ptrs = create_subset_buffers(num_blocks, num_subsets)
 
     lib.suggest_rna_qc_filters(
-        metrics.shape[0],
+        num_cells,
         num_subsets,
         sums,
         detected,
@@ -138,27 +117,24 @@ def suggest_rna_qc_filters(
         options.num_mads,
     )
 
-    custom_thresholds = options.custom_thresholds
-    if custom_thresholds is not None:
-        if num_blocks != custom_thresholds.shape[0]:
-            raise ValueError(
-                "number of rows in 'custom_thresholds' should equal the number of blocks"
-            )
-        if num_blocks > 1 and custom_thresholds.rownames != block_names:
-            m = match_lists(block_names, custom_thresholds.rownames)
-            if m is None:
-                raise ValueError(
-                    "row names of 'custom_thresholds' should equal the unique values of 'block'"
-                )
-            custom_thresholds = custom_thresholds[m, :]
+    subset_out = create_subset_frame(
+        column_names=subsets.column_names,
+        columns=raw_subset_out,
+        num_rows=num_blocks,
+        row_names=block_names,
+    )
 
+    custom_thresholds = check_custom_thresholds(
+        num_blocks, block_names, options.custom_thresholds
+    )
+    if custom_thresholds is not None:
         if custom_thresholds.has_column("sums"):
             sums_out = custom_thresholds.column("sums")
         if custom_thresholds.has_column("detected"):
             detected_out = custom_thresholds.column("detected")
         if custom_thresholds.has_column("subset_proportions"):
             custom_subs = custom_thresholds.column("subset_proportions")
-            for s in subset_out.keys():
+            for s in subset_out.column_names:
                 if custom_subs.has_column(s):
                     subset_out[s] = custom_subs.column(s)
 
@@ -166,12 +142,7 @@ def suggest_rna_qc_filters(
         {
             "sums": sums_out,
             "detected": detected_out,
-            "subset_proportions": BiocFrame(
-                subset_out,
-                column_names=skeys,
-                number_of_rows=num_blocks,
-                row_names=block_names,
-            ),
+            "subset_proportions": subset_out,
         },
         number_of_rows=num_blocks,
         row_names=block_names,

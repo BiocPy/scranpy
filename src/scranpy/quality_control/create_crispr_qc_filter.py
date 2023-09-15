@@ -5,7 +5,7 @@ from biocframe import BiocFrame
 from numpy import bool_, float64, ndarray, zeros, uint8
 
 from .. import cpphelpers as lib
-from ..utils import factorize
+from .._utils import process_block
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -56,22 +56,18 @@ def create_crispr_qc_filter(
     if not isinstance(thresholds, BiocFrame):
         raise TypeError("'thresholds' is not a `BiocFrame` object.")
 
-    num_blocks = 1
-    block_offset = 0
-    block_info = None
-
-    if options.block is not None:
-        block_info = factorize(options.block)
-        block_offset = block_info.indices.ctypes.data
-        num_blocks = len(block_info.levels)
+    num_cells = metrics.shape[0]
+    use_block, num_blocks, block_names, block_info, block_offset = process_block(
+        options.block, num_cells
+    )
 
     tmp_sums_in = metrics.column("sums").astype(float64, copy=False)
     tmp_max_proportions_in = metrics.column("detected").astype(float64, copy=False)
     tmp_max_count_thresh = thresholds.column("max_count").astype(float64, copy=False)
-    output = zeros(metrics.shape[0], dtype=uint8)
+    output = zeros(num_cells, dtype=uint8)
 
     lib.create_crispr_qc_filter(
-        metrics.shape[0],
+        num_cells,
         tmp_sums_in,
         tmp_max_proportions_in,
         num_blocks,

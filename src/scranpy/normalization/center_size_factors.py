@@ -6,7 +6,7 @@ from typing import Optional, Sequence
 from numpy import float64, ndarray
 
 from .. import cpphelpers as lib
-from ..utils import factorize
+from .._utils import process_block
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -75,20 +75,9 @@ def center_size_factors(
     local_sf = size_factors.astype(float64, copy=not options.in_place)
     NC = local_sf.shape[0]
 
-    use_block = options.block is not None
-    block_info = None
-    block_offset = 0
-    if use_block:
-        if len(options.block) != NC:
-            raise ValueError(
-                f"Must provide block assignments (provided: {len(options.block)})"
-                f" for all cells (expected: {NC})."
-            )
-
-        block_info = factorize(
-            options.block
-        )  # assumes that factorize is available somewhere.
-        block_offset = block_info.indices.ctypes.data
+    use_block, num_blocks, block_names, block_indices, block_offset = process_block(
+        options.block, NC
+    )
 
     lib.center_size_factors(
         NC,

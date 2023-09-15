@@ -7,8 +7,7 @@ from numpy import ctypeslib, ndarray, copy
 
 from .. import cpphelpers as lib
 from .._logging import logger
-from ..types import MatrixTypes
-from ..utils import factorize, to_logical, validate_and_tatamize_input
+from .._utils import to_logical, tatamize_input, factorize, MatrixTypes
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -142,7 +141,7 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
         PcaResult: Object containing the PC coordinates and the variance
             explained by each PC.
     """
-    x = validate_and_tatamize_input(input)
+    x = tatamize_input(input)
 
     nr = x.nrow()
     nc = x.ncol()
@@ -182,7 +181,7 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
                 f" for all cells (expected: {nc})."
             )
 
-        block_info = factorize(options.block)
+        block_levels, block_indices = factorize(options.block)
 
         if options.block_method == "regress":
             if options.verbose is True:
@@ -190,7 +189,7 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
 
             pptr = lib.run_residual_pca(
                 x.ptr,
-                block_info.indices,
+                block_indices,
                 options.block_weights,
                 options.rank,
                 use_subset,
@@ -210,7 +209,7 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
 
             pptr = lib.run_multibatch_pca(
                 x.ptr,
-                block_info.indices,
+                block_indices,
                 (options.block_method == "project"),
                 options.block_weights,
                 options.rank,

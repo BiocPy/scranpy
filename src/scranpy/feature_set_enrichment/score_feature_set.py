@@ -3,8 +3,7 @@ from typing import Sequence, Optional, Tuple
 from numpy import ndarray, float64
 
 from .. import cpphelpers as lib
-from ..types import MatrixTypes
-from ..utils import factorize, to_logical, validate_and_tatamize_input
+from .._utils import factorize, to_logical, tatamize_input, MatrixTypes
 
 
 @dataclass
@@ -66,12 +65,11 @@ def score_feature_set(
         features in ``subset`` and contains the weight for each feature.
     """
 
-    x = validate_and_tatamize_input(input)
+    x = tatamize_input(input)
     subset = to_logical(subset, x.nrow())
     NC = x.ncol()
 
     use_block = options.block is not None
-    block_info = None
     block_offset = 0
 
     if use_block:
@@ -79,8 +77,8 @@ def score_feature_set(
             raise ValueError(
                 "number of columns in 'x' should equal the length of 'block'"
             )
-        block_info = factorize(options.block)
-        block_offset = block_info.indices.ctypes.data
+        block_levels, block_indices = factorize(options.block)
+        block_offset = block_indices.ctypes.data
 
     output_scores = ndarray(NC, dtype=float64)
     nfeatures = subset.sum()

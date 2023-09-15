@@ -5,7 +5,6 @@ from .AnalyzeOptions import AnalyzeOptions
 from .AnalyzeResults import AnalyzeResults
 from .live_analyze import live_analyze
 from .dry_analyze import dry_analyze
-from ..types import is_matrix_expected_type
 
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
@@ -48,12 +47,8 @@ def analyze(
     """
     if dry_run:
         return dry_analyze(options)
-    if is_matrix_expected_type(matrix):
-        return live_analyze(matrix, features=features, options=options)
     else:
-        raise NotImplementedError(
-            f"'Analyze' is not supported for objects of class: `{type(matrix)}`"
-        )
+        return live_analyze(matrix, features=features, options=options)
 
 
 @analyze.register

@@ -2,7 +2,7 @@ from numpy import ndarray, float64, int32
 from typing import Sequence, Optional
 from dataclasses import dataclass
 
-from ..utils import factorize
+from .._utils import factorize
 from .. import cpphelpers as lib
 
 
@@ -99,19 +99,19 @@ def mnn_correct(
     ndim = x.shape[1]
     ncells = x.shape[0]
 
-    batchfac = factorize(batch)
-    if len(batchfac.indices) != ncells:
+    batch_levels, batch_indices = factorize(batch)
+    if len(batch_indices) != ncells:
         raise ValueError("length of 'batch' should be equal to number of rows of 'x'")
-    nbatch = len(batchfac.levels)
+    nbatch = len(batch_levels)
 
     order_info = None
     order_offset = 0
     if options.order is not None:
         mapping = {}
-        for i, lev in enumerate(batchfac.levels):
+        for i, lev in enumerate(batch_levels):
             mapping[lev] = i
 
-        if len(options.order) != len(batchfac.levels):
+        if len(options.order) != len(batch_levels):
             raise ValueError(
                 "length of 'options.order' should be equal to the number of batches"
             )
@@ -139,7 +139,7 @@ def mnn_correct(
         ncells=ncells,
         x=x,
         nbatches=nbatch,
-        batch=batchfac.indices,
+        batch=batch_indices,
         k=options.k,
         nmads=options.num_mads,
         nthreads=options.num_threads,
@@ -155,6 +155,6 @@ def mnn_correct(
 
     return MnnCorrectResult(
         corrected=corrected_output,
-        merge_order=[batchfac.levels[i] for i in merge_order_output],
+        merge_order=[batch_levels[i] for i in merge_order_output],
         num_pairs=num_pairs_output,
     )
