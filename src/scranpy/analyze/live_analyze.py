@@ -25,7 +25,6 @@ def live_analyze(
     features: Sequence[str],
     options: AnalyzeOptions = AnalyzeOptions(),
 ) -> AnalyzeResults:
-
     ptr = tatamize(matrix)
     if len(features) != ptr.nrow():
         raise ValueError(
