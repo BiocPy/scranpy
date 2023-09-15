@@ -65,12 +65,12 @@ def aggregate_across_cells(
     Args:
         input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
             expression values of some kind. This should be a matrix class that can be converted into a
-            :py:class:`~mattress.TatamiNumericPointer`. 
+            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`. 
 
             Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
             containing such a matrix in its assays.
 
-            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer` directly.
+            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
         groups (Union[Sequence, Tuple[Sequence], dict, BiocFrame]):
             A sequence of length equal to the number of columns of ``input``, specifying the group

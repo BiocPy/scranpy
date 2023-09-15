@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from collections import namedtuple
-from typing import Mapping, Optional, Sequence
+from typing import Mapping, Optional, Sequence, Union
 
 from biocframe import BiocFrame
 from numpy import ndarray, uintp, float64
@@ -75,13 +75,19 @@ class ScoreMarkersOptions:
             This can be set to ``False`` for greater speed and memory efficiency.
             Defaults to True.
 
+        assay_type (Union[int, str]):
+            Assay to use from ``input`` if it is a 
+            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
+
         verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
     threshold: float = 0
     compute_auc: bool = True
+    assay_type: Union[str, int] = "logcounts"
     num_threads: int = 1
     verbose: bool = False
 
@@ -97,11 +103,14 @@ def score_markers(
     :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Args:
-        input (MatrixTypes):
-            Matrix-like object where rows are features and columns are cells, typically containing log-normalized
-            values. This should be a matrix class that can be converted into a
-            :py:class:`~mattress.TatamiNumericPointer`. Developers may also provide the
-            :py:class:`~mattress.TatamiNumericPointer` itself.
+        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
+            expression values of some kind. This should be a matrix class that can be converted into a
+            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`. 
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
+            containing such a matrix in its assays.
+
+            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
         grouping (Sequence, optional):
             Group assignment for each cell.
@@ -116,7 +125,7 @@ def score_markers(
     Returns:
         Mapping: Dictionary with computed metrics for each group.
     """
-    x = tatamize_input(input)
+    x = tatamize_input(input, options.assay_type)
 
     nr = x.nrow()
     nc = x.ncol()

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Union
 
 from biocframe import BiocFrame
 from numpy import float64, ndarray, uintp
@@ -71,7 +71,7 @@ def model_gene_variances(
         BiocFrame: Data frame with variance modelling results
         (means, variance, fitted, residuals).
     """
-    x = tatamize_input(input)
+    x = tatamize_input(input, options.assay_type)
 
     NR = x.nrow()
     means = ndarray((NR,), dtype=float64)

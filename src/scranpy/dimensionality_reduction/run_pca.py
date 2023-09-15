@@ -1,7 +1,7 @@
 import ctypes as ct
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import Literal, Optional, Sequence
+from typing import Literal, Optional, Sequence, Union
 
 from numpy import ctypeslib, ndarray, copy
 
