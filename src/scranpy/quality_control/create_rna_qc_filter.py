@@ -22,11 +22,9 @@ class CreateRnaQcFilterOptions:
             Block assignment for each cell.
             This should be the same as that used in
             in :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
-        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
-    verbose: bool = False
 
 
 def create_rna_qc_filter(

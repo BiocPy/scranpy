@@ -24,13 +24,10 @@ class FilterCellsOptions:
         delayed (bool): Whether to force the filtering operation to be
             delayed. This reduces memory usage by avoiding unnecessary
             copies of the count matrix.
-
-        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     discard: bool = True
     delayed: bool = True
-    verbose: bool = False
 
 
 def filter_cells(

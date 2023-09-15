@@ -19,12 +19,9 @@ class ChooseHvgsOptions:
             Larger values preserve more biological structure at the cost of increasing
             computational work and random noise from less-variable genes.
             Defaults to 2500.
-
-        verbose (bool): Whether to display logs. Defaults to False.
     """
 
     number: int = 2500
-    verbose: bool = False
 
 
 def choose_hvgs(

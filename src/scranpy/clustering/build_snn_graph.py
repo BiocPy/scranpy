@@ -5,7 +5,6 @@ from igraph import Graph
 from numpy import ctypeslib, ndarray, copy
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from ..nearest_neighbors import (
     BuildNeighborIndexOptions,
     NeighborIndex,
@@ -44,8 +43,6 @@ class BuildSnnGraphOptions:
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`.
             Defaults to 1.
 
-        verbose (bool): Whether to print logging information. Defaults to False.
-
     Raises:
         ValueError: If ``weight_scheme`` is not an expected value.
     """
@@ -56,7 +53,6 @@ class BuildSnnGraphOptions:
         default_factory=BuildNeighborIndexOptions
     )
     num_threads: int = 1
-    verbose: bool = False
 
     def __post_init__(self):
         if self.weight_scheme not in ["ranked", "jaccard", "number"]:
@@ -109,21 +105,11 @@ def build_snn_graph(
 
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
-            if options.verbose is True:
-                logger.info("`input` is a matrix, building nearest neighbor index...")
-
             input = build_neighbor_index(input, options.build_neighbor_index_options)
-
-        if options.verbose is True:
-            logger.info("Building shared nearest neighbor graph...")
-
         built = lib.build_snn_graph_from_nn_index(
             input.ptr, options.num_neighbors, scheme, options.num_threads
         )
     else:
-        if options.verbose is True:
-            logger.info("Building the shared nearest neighbor graph from `input`")
-
         built = lib.build_snn_graph_from_nn_results(
             input.ptr, scheme, options.num_threads
         )
@@ -140,9 +126,6 @@ def build_snn_graph(
             edge_list.append((idx_array[2 * i], idx_array[2 * i + 1]))
 
         nc = input.num_cells()
-
-        if options.verbose is True:
-            logger.info("Generating the iGraph object...")
 
         graph = Graph(n=nc, edges=edge_list)
         graph.es["weight"] = copy(w_array)

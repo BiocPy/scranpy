@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from numpy import ndarray
 
 from .. import cpphelpers as lib
-from .._logging import logger
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -58,11 +57,9 @@ class BuildNeighborIndexOptions:
         approximate (bool, optional): Whether to build an index for an approximate
             neighbor search. This sacrifices some accuracy for speed.
             Defaults to True.
-        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     approximate: bool = True
-    verbose: bool = False
 
 
 def build_neighbor_index(
@@ -80,9 +77,6 @@ def build_neighbor_index(
     Returns:
         NeighborIndex: Nearest neighbor search index.
     """
-    if options.verbose is True:
-        logger.info("Building nearest neighbor index...")
-
     if not input.flags.c_contiguous:
         raise ValueError("expected 'input' to have row-major layout")
 
