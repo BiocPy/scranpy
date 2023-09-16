@@ -14,11 +14,8 @@ from .._utils import MatrixTypes
 @singledispatch
 def analyze(
     rna_matrix: Optional[MatrixTypes],
-    rna_features: Optional[Sequence[str]],
     adt_matrix: Optional[MatrixTypes] = None,
-    adt_features: Optional[Sequence[str]] = None,
     crispr_matrix: Optional[MatrixTypes] = None,
-    crispr_features: Optional[Sequence[str]] = None,
     options: AnalyzeOptions = AnalyzeOptions(),
     dry_run: bool = False,
 ) -> Union[AnalyzeResults, str]:
@@ -35,15 +32,9 @@ def analyze(
     Arguments:
         rna_matrix (MatrixTypes, optional): Count matrix for RNA data.
 
-        rna_features (Sequence[str], optional): Feature names for the RNA data.
-
         adt_matrix (MatrixTypes, optional): Count matrix for the ADT data.
 
-        adt_features (Sequence[str], optional): Feature names for the ADT data.
-
         crispr_matrix (MatrixTypes, optional): Count matrix for the CRISPR data.
-
-        crispr_features (Sequence[str], optional): Feature names for the CRISPR data.
 
         options (AnalyzeOptions, optional): Optional analysis parameters.
 
@@ -63,11 +54,8 @@ def analyze(
     else:
         return live_analyze(
             rna_matrix=rna_matrix, 
-            rna_features=rna_features, 
             adt_matrix=adt_matrix, 
-            adt_features=adt_features, 
             crispr_matrix=crispr_matrix, 
-            crispr_features=crispr_features, 
             options=options,
         )
 

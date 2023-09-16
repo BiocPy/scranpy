@@ -1,4 +1,4 @@
-from typing import Sequence, Optional
+from typing import Sequence, Optional, Any
 from mattress import tatamize
 import numpy
 
@@ -21,12 +21,9 @@ __license__ = "MIT"
 
 
 def live_analyze(
-    rna_matrix: Optional[MatrixTypes],
-    rna_features: Optional[Sequence[str]],
-    adt_matrix: Optional[MatrixTypes],
-    adt_features: Optional[Sequence[str]],
-    crispr_matrix: Optional[MatrixTypes],
-    crispr_features: Optional[Sequence[str]],
+    rna_matrix: Optional[Any],
+    adt_matrix: Optional[Any],
+    crispr_matrix: Optional[Any],
     options: AnalyzeOptions = AnalyzeOptions(),
 ) -> AnalyzeResults:
 
@@ -35,40 +32,27 @@ def live_analyze(
     do_crispr = crispr_matrix is not None
     do_multiple = (do_rna + do_adt + do_crispr) > 1
 
+    NC = None
     if do_rna:
         rna_ptr = tatamize(rna_matrix)
-        if len(rna_features) != rna_ptr.nrow():
-            raise ValueError(
-                "length of 'rna_features' should equal the number of rows in 'rna_matrix'"
-            )
+        NC = rna_ptr.ncol()
 
     if do_adt:
         adt_ptr = tatamize(adt_matrix)
-        if len(adt_features) != adt_ptr.nrow():
-            raise ValueError(
-                "length of 'adt_features' should equal the number of rows in 'adt_matrix'"
-            )
+        if NC is None and NC != adt_ptr.ncol():
+            raise ValueError("all '*_matrix' inputs should have the same number of columns")
 
     if do_crispr:
         crispr_ptr = tatamize(crispr_matrix)
-        if len(crispr_features) != crispr_ptr.nrow():
-            raise ValueError(
-                "length of 'crispr_features' should equal the number of rows in 'crispr_matrix'"
-            )
+        if NC is None and NC != crispr_ptr.ncol():
+            raise ValueError("all '*_matrix' inputs should have the same number of columns")
 
     # Start of the capture.
     results = AnalyzeResults()
 
     if do_rna:
-        subsets = {}
-        if isinstance(options.miscellaneous_options.mito_prefix, str):
-            subsets["mito"] = qc.guess_mito_from_symbols(
-                rna_features, options.miscellaneous_options.mito_prefix
-            )
-        results.rna_quality_control_subsets = subsets
-
         results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
-            rna_ptr, options=update(options.per_cell_rna_qc_metrics_options, subsets=subsets)
+            rna_ptr, options=update(options.per_cell_rna_qc_metrics_options)
         )
 
         results.rna_quality_control_thresholds = qc.suggest_rna_qc_filters(
@@ -89,12 +73,8 @@ def live_analyze(
         )
 
     if do_adt:
-        subsets = {}
-        # TODO: store the ADT stuff in here.
-        results.adt_quality_control_subsets = subsets
-
         results.adt_quality_control_metrics = qc.per_cell_adt_qc_metrics(
-            adt_ptr, options=update(options.per_cell_adt_qc_metrics_options, subsets=subsets)
+            adt_ptr, options=update(options.per_cell_adt_qc_metrics_options)
         )
 
         results.adt_quality_control_thresholds = qc.suggest_adt_qc_filters(
@@ -136,22 +116,32 @@ def live_analyze(
             ),
         )
 
-    all_filters = []
-    if do_rna:
-        all_filters.append(results.rna_quality_control_filter)
-    if do_adt:
-        all_filters.append(results.adt_quality_control_filter)
-    if do_crispr:
-        all_filters.append(results.crispr_quality_control_filter)
+    # TODO: add option to turn off QC for each modality.
+    if do_multiple:
+        discard = False
+        if do_rna:
+            discard = numpy.logical_or(discard, results.rna_quality_control_filter)
+        if do_adt:
+            discard = numpy.logical_or(discard, results.adt_quality_control_filter)
+        if do_crispr:
+            discard = numpy.logical_or(discard, results.crispr_quality_control_filter)
+    else:
+        if do_rna:
+            discard = results.rna_quality_control_filter
+        elif do_adt:
+            discard = results.adt_quality_control_filter
+        elif do_crispr:
+            discard = results.crispr_quality_control_filter
 
     if do_rna:
-        rna_filtered = qc.filter_cells(rna_ptr, filter=(*all_filters,))
+        rna_filtered = qc.filter_cells(rna_ptr, filter=discard)
     if do_adt:
-        adt_filtered = qc.filter_cells(adt_ptr, filter=(*all_filters,))
+        adt_filtered = qc.filter_cells(adt_ptr, filter=discard)
     if do_crispr:
-        crispr_filtered = qc.filter_cells(crispr_ptr, filter=(*all_filters,))
+        crispr_filtered = qc.filter_cells(crispr_ptr, filter=discard)
 
-    keep = numpy.logical_not(results.rna_quality_control_filter)
+    keep = numpy.logical_not(discard)
+    results.quality_control_retained = keep
     if options.miscellaneous_options.block is not None:
         if isinstance(options.miscellaneous_options.block, numpy.ndarray):
             filtered_block = options.miscellaneous_options.block[keep]

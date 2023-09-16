@@ -29,7 +29,6 @@ class MiscellaneousOptions:
     """
 
     snn_graph_multilevel_resolution: int = 1
-    mito_prefix: Optional[str] = "mt-"
     block: Optional[Sequence] = None
 
 
