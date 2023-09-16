@@ -48,6 +48,14 @@ def test_filter_cells_by_matrix(mock_data):
     )
     assert isinstance(out, np.ndarray)
 
+    # Check that it works correctly in retain mode.
+    out = filter_cells(
+        x,
+        filter=np.asarray([2, 4, 6, 8]),
+        options=FilterCellsOptions(discard=False),
+    )
+    assert out.shape == (x.shape[0], 4)
+
 
 def test_filter_cells_multiple_arrays(mock_data):
     x = mock_data.x
@@ -56,6 +64,13 @@ def test_filter_cells_multiple_arrays(mock_data):
     assert filtered.shape[1] == x.shape[1] - 8
     assert (x[:, 0] == filtered[:, 0]).all()
     assert (x[:, 9] == filtered[:, 1]).all()
+
+    # Check that we can supply a tatami pointer.
+    filtered = filter_cells(tatamize(x), filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]))
+    assert filtered.nrow() == x.shape[0]
+    assert filtered.ncol() == x.shape[1] - 8
+    assert (x[:, 0] == filtered.column(0)).all()
+    assert (x[:, 9] == filtered.column(1)).all()
 
     filtered = filter_cells(
         x,
