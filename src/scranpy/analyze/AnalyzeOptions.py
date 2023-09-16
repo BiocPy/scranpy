@@ -74,7 +74,7 @@ class AnalyzeOptions:
             Options to pass to :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
         rna_log_norm_counts_options (LogNormCountsOptions):
-            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts` 
+            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`
             for the RNA count matrix.
 
         adt_log_norm_counts_options (LogNormCountsOptions):
@@ -197,14 +197,20 @@ class AnalyzeOptions:
         default_factory=feat.ModelGeneVariancesOptions
     )
 
-    rna_run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
+    rna_run_pca_options: dimred.RunPcaOptions = field(
+        default_factory=dimred.RunPcaOptions
+    )
 
-    adt_run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
+    adt_run_pca_options: dimred.RunPcaOptions = field(
+        default_factory=dimred.RunPcaOptions
+    )
 
-    crispr_run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
+    crispr_run_pca_options: dimred.RunPcaOptions = field(
+        default_factory=dimred.RunPcaOptions
+    )
 
     combine_embeddings_options: dimred.CombineEmbeddingsOptions = field(
-        default_factory = dimred.CombineEmbeddingsOptions
+        default_factory=dimred.CombineEmbeddingsOptions
     )
 
     mnn_correct_options: correct.MnnCorrectOptions = field(

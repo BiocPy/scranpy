@@ -1,4 +1,3 @@
-from typing import Sequence, Optional, Any
 from mattress import tatamize
 import numpy
 
@@ -12,7 +11,6 @@ from .. import batch_correction as correct
 from .AnalyzeResults import AnalyzeResults
 from .run_neighbor_suite import run_neighbor_suite
 from .update import update
-from .._utils import MatrixTypes
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla"
@@ -33,12 +31,16 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
     if do_adt:
         adt_ptr = tatamize(adt_matrix)
         if NC is None and NC != adt_ptr.ncol():
-            raise ValueError("all '*_matrix' inputs should have the same number of columns")
+            raise ValueError(
+                "all '*_matrix' inputs should have the same number of columns"
+            )
 
     if do_crispr:
         crispr_ptr = tatamize(crispr_matrix)
         if NC is None and NC != crispr_ptr.ncol():
-            raise ValueError("all '*_matrix' inputs should have the same number of columns")
+            raise ValueError(
+                "all '*_matrix' inputs should have the same number of columns"
+            )
 
     # Start of the capture.
     results = AnalyzeResults()
@@ -89,7 +91,8 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
 
     if do_crispr:
         results.crispr_quality_control_metrics = qc.per_cell_crispr_qc_metrics(
-            crispr_ptr, options=update(options.per_cell_crispr_qc_metrics_options, subsets=subsets)
+            crispr_ptr,
+            options=update(options.per_cell_crispr_qc_metrics_options, subsets=subsets),
         )
 
         results.crispr_quality_control_thresholds = qc.suggest_crispr_qc_filters(
@@ -204,14 +207,14 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
 
         results.adt_pca = dimred.run_pca(
             adt_normed,
-            options=update(
-                options.adt_run_pca_options, block=filtered_block
-            ),
+            options=update(options.adt_run_pca_options, block=filtered_block),
         )
 
     if do_crispr:
         if options.crispr_log_norm_counts_options.size_factors is None:
-            raw_size_factors = results.crispr_quality_control_metrics.column("sums")[keep]
+            raw_size_factors = results.crispr_quality_control_metrics.column("sums")[
+                keep
+            ]
         else:
             raw_size_factors = options.crispr_log_norm_counts_options.size_factors
 
@@ -232,9 +235,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
 
         results.crispr_pca = dimred.run_pca(
             crispr_normed,
-            options=update(
-                options.crispr_run_pca_options, block=filtered_block
-            ),
+            options=update(options.crispr_run_pca_options, block=filtered_block),
         )
 
     if do_multiple:
@@ -247,8 +248,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             all_embeddings.append(results.crispr_pca.principal_components)
 
         results.combined_pcs = dimred.combine_embeddings(
-            all_embeddings,
-            options=options.combine_embeddings_options
+            all_embeddings, options=options.combine_embeddings_options
         )
         lowdim = results.combined.pcs
     else:

@@ -51,16 +51,16 @@ def analyze(
     """
     if dry_run:
         return dry_analyze(
-            rna_matrix=rna_matrix, 
-            adt_matrix=adt_matrix, 
-            crispr_matrix=crispr_matrix, 
+            rna_matrix=rna_matrix,
+            adt_matrix=adt_matrix,
+            crispr_matrix=crispr_matrix,
             options=options,
         )
     else:
         return live_analyze(
-            rna_matrix=rna_matrix, 
-            adt_matrix=adt_matrix, 
-            crispr_matrix=crispr_matrix, 
+            rna_matrix=rna_matrix,
+            adt_matrix=adt_matrix,
+            crispr_matrix=crispr_matrix,
             options=options,
         )
 

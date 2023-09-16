@@ -4,14 +4,12 @@ from functools import singledispatchmethod
 from typing import Optional, Mapping, Any, Sequence
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
-from numpy import ndarray, array, log1p, log, logical_not
+from numpy import ndarray, array, log1p, log
 from igraph import Graph
-from mattress import TatamiNumericPointer
 from delayedarray import DelayedArray
 
 from .. import dimensionality_reduction as dimred
 from .. import batch_correction as correct
-from .._utils import MatrixTypes
 
 
 @dataclass
@@ -52,7 +50,7 @@ class AnalyzeResults:
 
         rna_size_factors (ndarray, optional):
             Array of length equal to the number of cells in the dataset after quality filtering,
-            containing the size factor from the RNA data for each cell. 
+            containing the size factor from the RNA data for each cell.
 
         adt_size_factors (ndarray, optional):
             Array of length equal to the number of cells in the dataset after quality filtering,
@@ -108,7 +106,6 @@ class AnalyzeResults:
         crispr_markers (Mapping, optional):
             Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
             on the CRISPR data.
-
     """
 
     rna_quality_control_metrics: Optional[BiocFrame] = None
@@ -165,7 +162,8 @@ class AnalyzeResults:
 
     crispr_markers: Optional[Mapping] = None
 
-    def __to_sce(self, 
+    def __to_sce(
+        self,
         rna_matrix: Optional[Any],
         rna_features: Optional[Sequence[str]],
         adt_matrix: Optional[Any],
@@ -173,7 +171,6 @@ class AnalyzeResults:
         crispr_matrix: Optional[Any],
         crispr_features: Optional[Sequence[str]],
     ) -> SingleCellExperiment:
-
         keep = self.quality_control_retained.tolist()
         main_sce = None
 
@@ -181,12 +178,14 @@ class AnalyzeResults:
             y = DelayedArray(rna_matrix)
             filtered = y[:, keep]
             normalized = log1p(filtered / self.rna_size_factors) / log(2)
-            rna_sce = SingleCellExperiment(assays={"counts": filtered, "logcounts": normalized})
+            rna_sce = SingleCellExperiment(
+                assays={"counts": filtered, "logcounts": normalized}
+            )
             rna_sce.row_names = rna_features
             rna_sce.col_data = self.rna_quality_control_metrics[keep, :]
             rna_sce.col_data["size_factors"] = self.rna_size_factors
             rna_sce.row_data = self.gene_variances
-            rna_sce.reduced_dims = { "pca": self.rna_pca.principal_components }
+            rna_sce.reduced_dims = {"pca": self.rna_pca.principal_components}
             main_sce = rna_sce
             main_sce.main_experiment_name = "rna"
 
@@ -194,11 +193,13 @@ class AnalyzeResults:
             y = DelayedArray(adt_matrix)
             filtered = y[:, keep]
             normalized = log1p(filtered / self.adt_size_factors) / log(2)
-            adt_sce = SingleCellExperiment(assays={"counts": filtered, "logcounts": normalized})
+            adt_sce = SingleCellExperiment(
+                assays={"counts": filtered, "logcounts": normalized}
+            )
             adt_sce.row_names = adt_features
             adt_sce.col_data = self.rna_quality_control_metrics[keep, :]
             adt_sce.col_data["size_factors"] = self.adt_size_factors
-            adt_sce.reduced_dims = { "pca": self.adt_pca.principal_components }
+            adt_sce.reduced_dims = {"pca": self.adt_pca.principal_components}
             if main_sce is None:
                 main_sce = adt_sce
                 main_sce.main_experiment_name = "adt"
@@ -209,11 +210,13 @@ class AnalyzeResults:
             y = DelayedArray(crispr_matrix)
             filtered = y[:, keep]
             normalized = log1p(filtered / self.crispr_size_factors) / log(2)
-            crispr_sce = SingleCellExperiment(assays={"counts": filtered, "logcounts": normalized})
+            crispr_sce = SingleCellExperiment(
+                assays={"counts": filtered, "logcounts": normalized}
+            )
             crispr_sce.row_names = crispr_features
             crispr_sce.col_data = self.rna_quality_control_metrics[keep, :]
             crispr_sce.col_data["size_factors"] = self.crispr_size_factors
-            crispr_sce.reduced_dims = { "pca": self.crispr_pca.principal_components }
+            crispr_sce.reduced_dims = {"pca": self.crispr_pca.principal_components}
             if main_sce is None:
                 main_sce = crispr_sce
                 main_sce.main_experiment_name = "crispr"
@@ -227,14 +230,14 @@ class AnalyzeResults:
         if self.mnn is not None:
             main_sce.reduced_dims["mnn"] = self.mnn.corrected
 
-        main_sce.reduced_dims["tsne"] = array([ self.tsne.x, self.tsne.y ]).T
-        main_sce.reduced_dims["umap"] = array([ self.umap.x, self.umap.y ]).T,
+        main_sce.reduced_dims["tsne"] = array([self.tsne.x, self.tsne.y]).T
+        main_sce.reduced_dims["umap"] = (array([self.umap.x, self.umap.y]).T,)
 
         return main_sce
 
     @singledispatchmethod
     def to_sce(
-        self, 
+        self,
         rna_matrix: Optional[Any],
         rna_features: Optional[Sequence[str]],
         adt_matrix: Optional[Any] = None,
@@ -253,12 +256,12 @@ class AnalyzeResults:
             SingleCellExperiment: An SCE with the results.
         """
         return self.__to_sce(
-            rna_matrix=rna_matrix, 
-            rna_features=rna_features, 
-            adt_matrix=adt_matrix, 
-            adt_features=adt_features, 
-            crispr_matrix=crispr_matrix, 
-            crispr_features=crispr_features
+            rna_matrix=rna_matrix,
+            rna_features=rna_features,
+            adt_matrix=adt_matrix,
+            adt_features=adt_features,
+            crispr_matrix=crispr_matrix,
+            crispr_features=crispr_features,
         )
 
     @to_sce.register
