@@ -3,8 +3,12 @@
 
 from .AnalyzeOptions import AnalyzeOptions
 
-def dry_analyze(options: AnalyzeOptions=AnalyzeOptions()) -> str:
-    __commands = ['import scranpy', 'import copy', '']
+def dry_analyze(rna_matrix, adt_matrix, crispr_matrix, options) -> str:
+    do_rna = rna_matrix is not None
+    do_adt = adt_matrix is not None
+    do_crispr = crispr_matrix is not None
+    do_multiple = do_rna + do_adt + do_crispr > 1
+    __commands = ['import scranpy', 'import numpy', '']
     __commands.append('results = AnalyzeResults()')
     if do_rna:
         __commands.append('results.rna_quality_control_metrics = scranpy.quality_control.per_cell_rna_qc_metrics(rna_ptr, options=update(options.per_cell_rna_qc_metrics_options))')

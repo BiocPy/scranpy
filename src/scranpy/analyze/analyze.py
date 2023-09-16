@@ -50,7 +50,12 @@ def analyze(
         If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.
     """
     if dry_run:
-        return dry_analyze(options)
+        return dry_analyze(
+            rna_matrix=rna_matrix, 
+            adt_matrix=adt_matrix, 
+            crispr_matrix=crispr_matrix, 
+            options=options,
+        )
     else:
         return live_analyze(
             rna_matrix=rna_matrix, 
