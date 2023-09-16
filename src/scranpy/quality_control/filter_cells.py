@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 
 from mattress import TatamiNumericPointer
-from numpy import ndarray, logical_not, logical_or, logical_and, zeros, ones
+from numpy import logical_not, logical_or, logical_and, zeros, ones
 from delayedarray import DelayedArray
 from typing import Union, Sequence
 
 from .. import cpphelpers as lib
-from .._utils import to_logical, create_pointer_array
+from .._utils import to_logical
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
