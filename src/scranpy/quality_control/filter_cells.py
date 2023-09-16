@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from mattress import TatamiNumericPointer
-from numpy import logical_not, logical_or, logical_and, zeros, ones, uint8
+from numpy import logical_or, logical_and, zeros, ones, uint8
 from delayedarray import DelayedArray
 from typing import Union, Sequence
 

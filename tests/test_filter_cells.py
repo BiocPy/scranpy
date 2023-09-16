@@ -69,8 +69,8 @@ def test_filter_cells_multiple_arrays(mock_data):
     filtered = filter_cells(tatamize(x), filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]))
     assert filtered.nrow() == x.shape[0]
     assert filtered.ncol() == x.shape[1] - 8
-    assert (x[:,0] == filtered.column(0)).all()
-    assert (x[:,9] == filtered.column(1)).all()
+    assert (x[:, 0] == filtered.column(0)).all()
+    assert (x[:, 9] == filtered.column(1)).all()
 
     filtered = filter_cells(
         x,
