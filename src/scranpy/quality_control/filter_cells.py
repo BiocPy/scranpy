@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from mattress import TatamiNumericPointer
-from numpy import logical_not, logical_or, logical_and, zeros, ones
+from numpy import logical_not, logical_or, logical_and, zeros, ones, uint8
 from delayedarray import DelayedArray
 from typing import Union, Sequence
 
@@ -90,7 +90,7 @@ def filter_cells(
             for f in filter:
                 ll = to_logical(f, ncols, dtype=bool)
                 combined = logical_and(combined, ll)
-        filter = combined
+        filter = combined.astype(uint8)
     else:
         filter = to_logical(filter, ncols)
 
@@ -101,5 +101,7 @@ def filter_cells(
         if options.delayed and not isinstance(input, DelayedArray):
             input = DelayedArray(input)
         if options.discard:
-            filter = logical_not(filter)
+            filter = filter == 0
+        else:
+            filter = filter != 0
         return input[:, filter]
