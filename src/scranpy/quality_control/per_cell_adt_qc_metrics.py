@@ -5,7 +5,6 @@ from biocframe import BiocFrame
 from numpy import float64, int32, ndarray
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from .._utils import to_logical, tatamize_input, create_pointer_array, MatrixTypes
 from ._utils import create_subset_buffers, create_subset_frame
 
@@ -29,14 +28,11 @@ class PerCellAdtQcMetricsOptions:
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
         num_threads (int, optional): Number of threads to use. Defaults to 1.
-
-        verbose (bool, optional): Display logs?. Defaults to False.
     """
 
     subsets: Optional[Mapping] = None
     assay_type: Union[int, str] = 0
     num_threads: int = 1
-    verbose: bool = False
 
 
 def per_cell_adt_qc_metrics(
@@ -90,9 +86,6 @@ def per_cell_adt_qc_metrics(
     subset_in = create_pointer_array(collected_in)
 
     collected_out, subset_out = create_subset_buffers(nc, num_subsets)
-    if options.verbose is True:
-        logger.info(subset_in)
-        logger.info(subset_out)
 
     lib.per_cell_adt_qc_metrics(
         x.ptr,

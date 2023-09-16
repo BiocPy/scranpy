@@ -6,7 +6,6 @@ from biocframe import BiocFrame
 from numpy import ndarray, uintp, float64
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from .._utils import process_block, factorize, tatamize_input, MatrixTypes
 
 __author__ = "ltla, jkanche"
@@ -80,8 +79,6 @@ class ScoreMarkersOptions:
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
         num_threads (int, optional): Number of threads to use. Defaults to 1.
-
-        verbose (bool, optional): Whether to print logs. Defaults to False.
     """
 
     block: Optional[Sequence] = None
@@ -89,7 +86,6 @@ class ScoreMarkersOptions:
     compute_auc: bool = True
     assay_type: Union[str, int] = "logcounts"
     num_threads: int = 1
-    verbose: bool = False
 
 
 def score_markers(
@@ -153,9 +149,6 @@ def score_markers(
     if options.compute_auc is True:
         auc = create_output_summary_arrays(nr, num_groups)
         auc_offset = auc.references.ctypes.data
-
-    if options.verbose is True:
-        logger.info("Scoring markers for each cluster...")
 
     lib.score_markers(
         x.ptr,

@@ -38,15 +38,11 @@ class SuggestCrisprQcFiltersOptions:
             Otherwise, the number of rows should be equal to the number of blocks,
             where each row contains a block-specific threshold for the relevant metrics.
             The identity of each block should be stored in the row names.
-
-        verbose (bool, optional): Whether to print logging information.
-            Defaults to False.
     """
 
     block: Optional[Sequence] = None
     num_mads: int = 3
     custom_thresholds: Optional[BiocFrame] = None
-    verbose: bool = False
 
 
 def suggest_crispr_qc_filters(

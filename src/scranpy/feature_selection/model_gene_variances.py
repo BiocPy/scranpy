@@ -5,7 +5,6 @@ from biocframe import BiocFrame
 from numpy import float64, ndarray, uintp
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from .._utils import factorize, tatamize_input, MatrixTypes
 
 __author__ = "ltla, jkanche"
@@ -34,15 +33,12 @@ class ModelGeneVariancesOptions:
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
         num_threads (int, optional): Number of threads to use. Defaults to 1.
-
-        verbose (bool, optional): Whether to print logging information. Defaults to False.
     """
 
     block: Optional[Sequence] = None
     span: float = 0.3
     assay_type: Union[int, str] = "logcounts"
     num_threads: int = 1
-    verbose: bool = False
 
 
 def model_gene_variances(
@@ -81,11 +77,6 @@ def model_gene_variances(
     extra = None
 
     if options.block is None:
-        if options.verbose is True:
-            logger.info(
-                "No block information was provided, running model_gene_variances..."
-            )
-
         lib.model_gene_variances(
             x.ptr,
             means,
@@ -140,12 +131,6 @@ def model_gene_variances(
             all_variances.append(cur_variances)
             all_fitted.append(cur_fitted)
             all_residuals.append(cur_residuals)
-
-        if options.verbose is True:
-            logger.info(
-                "Block information was provided, running "
-                "`model_gene_variances_blocked`..."
-            )
 
         lib.model_gene_variances_blocked(
             x.ptr,

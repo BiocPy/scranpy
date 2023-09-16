@@ -18,13 +18,10 @@ class PerCellCrisprQcMetricsOptions:
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
         num_threads (int, optional): Number of threads to use. Defaults to 1.
-
-        verbose (bool, optional): Display logs?. Defaults to False.
     """
 
     assay_type: Union[int, str] = 0
     num_threads: int = 1
-    verbose: bool = False
 
 
 def per_cell_crispr_qc_metrics(

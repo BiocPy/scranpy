@@ -263,26 +263,6 @@ class AnalyzeOptions:
         self.run_tsne_options.set_seed(seed)
         self.run_umap_options.set_seed(seed)
 
-    def set_verbose(self, verbose: bool = False):
-        """Set verbose to display logs. This calls the method of the same name for all ``*_options`` objects.
-
-        Args:
-            verbose (bool, optional): Whether to print logs.
-                Defaults to False.
-        """
-        self.per_cell_rna_qc_metrics_options.set_verbose(verbose)
-        self.suggest_rna_qc_filters_options.set_verbose(verbose)
-        self.create_rna_qc_filter_options.set_verbose(verbose)
-        self.filter_cells_options.set_verbose(verbose)
-        self.log_norm_counts_options.set_verbose(verbose)
-        self.choose_hvgs_options.set_verbose(verbose)
-        self.model_gene_variances_options.set_verbose(verbose)
-        self.run_pca_options.set_verbose(verbose)
-        self.run_tsne_options.set_verbose(verbose)
-        self.run_umap_options.set_verbose(verbose)
-        self.build_snn_graph_options.set_verbose(verbose)
-        self.score_markers_options.set_verbose(verbose)
-
     def set_threads(self, num_threads: int = 1):
         """Set number of threads to use. This calls the method of the same name for
         :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`,

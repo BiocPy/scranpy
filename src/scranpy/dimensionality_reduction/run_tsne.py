@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 from numpy import float64, ndarray, copy
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from ..nearest_neighbors import (
     FindNearestNeighborsOptions,
     NeighborIndex,
@@ -119,14 +118,11 @@ class InitializeTsneOptions:
 
         seed (int, optional): Seed to use for random initialization of
             the t-SNE coordinates. Defaults to 42.
-
-        verbose (bool): Whether to display logs. Defaults to False.
     """
 
     perplexity: int = 30
     seed: int = 42
     num_threads: int = 1
-    verbose: bool = False
 
     def set_threads(self, num_threads: int):
         self.num_threads = num_threads
@@ -170,14 +166,7 @@ def initialize_tsne(
     if not isinstance(input, NeighborResults):
         k = tsne_perplexity_to_neighbors(options.perplexity)
         if not isinstance(input, NeighborIndex):
-            if options.verbose is True:
-                logger.info("`input` is a matrix, building nearest neighbor index...")
-
             input = build_neighbor_index(input)
-
-        if options.verbose is True:
-            logger.info("Finding the nearest neighbors...")
-
         input = find_nearest_neighbors(
             input,
             k=k,
@@ -204,15 +193,12 @@ class RunTsneOptions:
         initialize_tsne (InitializeTsneOptions):
             Optional arguments for
             :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.
-
-        verbose (bool): Whether to print logs. Defaults to False.
     """
 
     max_iterations: int = 500
     initialize_tsne: InitializeTsneOptions = field(
         default_factory=InitializeTsneOptions
     )
-    verbose: bool = False
 
     def set_threads(self, num_threads: int):
         self.initialize_tsne.set_threads(num_threads)
@@ -252,22 +238,9 @@ def run_tsne(
     Returns:
         TsneEmbedding: Result containing first two dimensions.
     """
-    if options.verbose is True:
-        logger.info("Initializing the t-SNE...")
-
     status = initialize_tsne(input, options=options.initialize_tsne)
-
-    if options.verbose is True:
-        logger.info(
-            f"Running the t-SNE algorithm for {options.max_iterations} iterations..."
-        )
     status.run(options.max_iterations)
-
-    if options.verbose is True:
-        logger.info("Done computing t-SNE embeddings...")
-
     output = status.extract()
     x = copy(output.x)  # realize NumPy slice views into concrete arrays.
     y = copy(output.y)
-
     return TsneEmbedding(x, y)

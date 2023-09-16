@@ -2,7 +2,6 @@ from numpy import ndarray, array, int32
 from typing import Union, Tuple
 
 from .. import cpphelpers as lib
-from .._logging import logger
 from ..nearest_neighbors import (
     FindNearestNeighborsOptions,
     NeighborIndex,
@@ -16,12 +15,9 @@ class DownsampleByNeighborsOptions:
     """Options to pass to `~scranpy.aggregation.downsample_by_neighbors.downsample_by_neighbors`.
 
     Attributes:
-        verbose (bool, optional): Whether to print logs. Defaults to False.
-
         num_threads (int): Number of threads to use.
     """
 
-    verbose: bool = False
     num_threads: int = 1
 
 
@@ -72,14 +68,7 @@ def downsample_by_neighbors(
     """
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
-            if options.verbose is True:
-                logger.info("`input` is a matrix, building nearest neighbor index...")
-
             input = build_neighbor_index(input)
-
-        if options.verbose is True:
-            logger.info("Finding the nearest neighbors...")
-
         input = find_nearest_neighbors(
             input,
             k=k,
