@@ -23,8 +23,8 @@ def is_list_of_type(x: Any, target_type: Callable) -> bool:
     )
 
 
-def to_logical(selection: Sequence, length: int) -> ndarray:
-    output = zeros((length,), dtype=uint8)
+def to_logical(selection: Sequence, length: int, dtype=uint8) -> ndarray:
+    output = zeros((length,), dtype=dtype)
 
     if isinstance(selection, range) or isinstance(selection, slice):
         output[selection] = 1

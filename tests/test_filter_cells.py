@@ -47,3 +47,23 @@ def test_filter_cells_by_matrix(mock_data):
         options=FilterCellsOptions(discard=True, delayed=False),
     )
     assert isinstance(out, np.ndarray)
+
+
+def test_filter_cells_multiple_arrays(mock_data):
+    x = mock_data.x
+    filtered = filter_cells(x, filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]))
+    assert filtered.shape[0] == x.shape[0]
+    assert filtered.shape[1] == x.shape[1] - 8
+    assert (x[:, 0] == filtered[:, 0]).all()
+    assert (x[:, 9] == filtered[:, 1]).all()
+
+    filtered = filter_cells(
+        x,
+        filter=(np.asarray([2, 4, 6, 8]), [1, 2, 3, 4, 5]),
+        options=FilterCellsOptions(intersect=True),
+    )
+    assert filtered.shape[0] == x.shape[0]
+    assert filtered.shape[1] == x.shape[1] - 2
+    assert (x[:, 1] == filtered[:, 1]).all()
+    assert (x[:, 3] == filtered[:, 2]).all()
+    assert (x[:, 5] == filtered[:, 3]).all()
