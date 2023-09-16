@@ -144,7 +144,9 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
 
     Returns:
         PcaResult: Object containing the PC coordinates and the variance
-            explained by each PC.
+        explained by each PC. The number of PCs is determined by ``options.rank``;
+        unless this is larger than the smallest dimension of ``input``,
+        in which case the number of PCs is equal to the smallest dimension instead.
     """
     x = tatamize_input(input, options.assay_type)
 
