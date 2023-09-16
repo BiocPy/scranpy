@@ -1,4 +1,4 @@
-from typing import Sequence, Union
+from typing import Sequence, Union, Optional
 from functools import singledispatch
 
 from .AnalyzeOptions import AnalyzeOptions
@@ -8,12 +8,17 @@ from .dry_analyze import dry_analyze
 
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
+from .._utils import MatrixTypes
 
 
 @singledispatch
 def analyze(
-    matrix,
-    features: Sequence[str],
+    rna_matrix: Optional[MatrixTypes],
+    rna_features: Optional[Sequence[str]],
+    adt_matrix: Optional[MatrixTypes] = None,
+    adt_features: Optional[Sequence[str]] = None,
+    crispr_matrix: Optional[MatrixTypes] = None,
+    crispr_features: Optional[Sequence[str]] = None,
     options: AnalyzeOptions = AnalyzeOptions(),
     dry_run: bool = False,
 ) -> Union[AnalyzeResults, str]:
@@ -28,9 +33,17 @@ def analyze(
     - Marker detection for each cluster
 
     Arguments:
-        matrix (Any): "Count" matrix.
+        rna_matrix (MatrixTypes, optional): Count matrix for RNA data.
 
-        features (Sequence[str]): Features information for the rows of the matrix.
+        rna_features (Sequence[str], optional): Feature names for the RNA data.
+
+        adt_matrix (MatrixTypes, optional): Count matrix for the ADT data.
+
+        adt_features (Sequence[str], optional): Feature names for the ADT data.
+
+        crispr_matrix (MatrixTypes, optional): Count matrix for the CRISPR data.
+
+        crispr_features (Sequence[str], optional): Feature names for the CRISPR data.
 
         options (AnalyzeOptions, optional): Optional analysis parameters.
 
@@ -48,7 +61,15 @@ def analyze(
     if dry_run:
         return dry_analyze(options)
     else:
-        return live_analyze(matrix, features=features, options=options)
+        return live_analyze(
+            rna_matrix=rna_matrix, 
+            rna_features=rna_features, 
+            adt_matrix=adt_matrix, 
+            adt_features=adt_features, 
+            crispr_matrix=crispr_matrix, 
+            crispr_features=crispr_features, 
+            options=options,
+        )
 
 
 @analyze.register

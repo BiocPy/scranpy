@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Optional
 from mattress import tatamize
 import numpy
 
@@ -26,19 +26,35 @@ def live_analyze(
     adt_matrix: Optional[MatrixTypes],
     adt_features: Optional[Sequence[str]],
     crispr_matrix: Optional[MatrixTypes],
-    crispr_matrix: Optional[Sequence[str]],
+    crispr_features: Optional[Sequence[str]],
     options: AnalyzeOptions = AnalyzeOptions(),
 ) -> AnalyzeResults:
-    ptr = tatamize(matrix)
-    if len(features) != ptr.nrow():
-        raise ValueError(
-            "Length of `features` not same as number of `rows` in the matrix."
-        )
 
-    do_rna = rna_matrix not is None
-    do_adt = adt_matrix not is None
-    do_crispr = crispr_matrix not is None
+    do_rna = rna_matrix is not None
+    do_adt = adt_matrix is not None
+    do_crispr = crispr_matrix is not None
     do_multiple = (do_rna + do_adt + do_crispr) > 1
+
+    if do_rna:
+        rna_ptr = tatamize(rna_matrix)
+        if len(rna_features) != rna_ptr.nrow():
+            raise ValueError(
+                "length of 'rna_features' should equal the number of rows in 'rna_matrix'"
+            )
+
+    if do_adt:
+        adt_ptr = tatamize(adt_matrix)
+        if len(adt_features) != adt_ptr.nrow():
+            raise ValueError(
+                "length of 'adt_features' should equal the number of rows in 'adt_matrix'"
+            )
+
+    if do_crispr:
+        crispr_ptr = tatamize(crispr_matrix)
+        if len(crispr_features) != crispr_ptr.nrow():
+            raise ValueError(
+                "length of 'crispr_features' should equal the number of rows in 'crispr_matrix'"
+            )
 
     # Start of the capture.
     results = AnalyzeResults()
@@ -47,12 +63,12 @@ def live_analyze(
         subsets = {}
         if isinstance(options.miscellaneous_options.mito_prefix, str):
             subsets["mito"] = qc.guess_mito_from_symbols(
-                features, options.miscellaneous_options.mito_prefix
+                rna_features, options.miscellaneous_options.mito_prefix
             )
         results.rna_quality_control_subsets = subsets
 
         results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
-            matrix, options=update(options.per_cell_rna_qc_metrics_options, subsets=subsets)
+            rna_ptr, options=update(options.per_cell_rna_qc_metrics_options, subsets=subsets)
         )
 
         results.rna_quality_control_thresholds = qc.suggest_rna_qc_filters(
@@ -78,7 +94,7 @@ def live_analyze(
         results.adt_quality_control_subsets = subsets
 
         results.adt_quality_control_metrics = qc.per_cell_adt_qc_metrics(
-            matrix, options=update(options.per_cell_adt_qc_metrics_options, subsets=subsets)
+            adt_ptr, options=update(options.per_cell_adt_qc_metrics_options, subsets=subsets)
         )
 
         results.adt_quality_control_thresholds = qc.suggest_adt_qc_filters(
@@ -100,7 +116,7 @@ def live_analyze(
 
     if do_crispr:
         results.crispr_quality_control_metrics = qc.per_cell_crispr_qc_metrics(
-            matrix, options=update(options.per_cell_crispr_qc_metrics_options, subsets=subsets)
+            crispr_ptr, options=update(options.per_cell_crispr_qc_metrics_options, subsets=subsets)
         )
 
         results.crispr_quality_control_thresholds = qc.suggest_crispr_qc_filters(
@@ -120,8 +136,20 @@ def live_analyze(
             ),
         )
 
-    # TODO: add other filters here.
-    filtered = qc.filter_cells(ptr, filter=results.rna_quality_control_filter)
+    all_filters = []
+    if do_rna:
+        all_filters.append(results.rna_quality_control_filter)
+    if do_adt:
+        all_filters.append(results.adt_quality_control_filter)
+    if do_crispr:
+        all_filters.append(results.crispr_quality_control_filter)
+
+    if do_rna:
+        rna_filtered = qc.filter_cells(rna_ptr, filter=(*all_filters,))
+    if do_adt:
+        adt_filtered = qc.filter_cells(adt_ptr, filter=(*all_filters,))
+    if do_crispr:
+        crispr_filtered = qc.filter_cells(crispr_ptr, filter=(*all_filters,))
 
     keep = numpy.logical_not(results.rna_quality_control_filter)
     if options.miscellaneous_options.block is not None:
@@ -138,8 +166,8 @@ def live_analyze(
         else:
             raw_size_factors = options.rna_log_norm_counts_options.size_factors
 
-        normed, final_size_factors = norm.log_norm_counts(
-            filtered,
+        rna_normed, final_size_factors = norm.log_norm_counts(
+            rna_filtered,
             options=update(
                 options.rna_log_norm_counts_options,
                 size_factors=raw_size_factors,
@@ -153,20 +181,20 @@ def live_analyze(
 
         results.rna_size_factors = final_size_factors
 
-        results.rna_gene_variances = feat.model_gene_variances(
-            normed,
+        results.gene_variances = feat.model_gene_variances(
+            rna_normed,
             options=update(options.model_gene_variances_options, block=filtered_block),
         )
 
-        results.rna_hvgs = feat.choose_hvgs(
+        results.hvgs = feat.choose_hvgs(
             results.gene_variances.column("residuals"),
             options=options.choose_hvgs_options,
         )
 
         results.rna_pca = dimred.run_pca(
-            normed,
+            rna_normed,
             options=update(
-                options.run_pca_options, subset=results.hvgs, block=filtered_block
+                options.rna_run_pca_options, subset=results.hvgs, block=filtered_block
             ),
         )
 
@@ -176,8 +204,8 @@ def live_analyze(
         else:
             raw_size_factors = options.adt_log_norm_counts_options.size_factors
 
-        normed, final_size_factors = norm.log_norm_counts(
-            filtered,
+        adt_normed, final_size_factors = norm.log_norm_counts(
+            adt_filtered,
             options=update(
                 options.adt_log_norm_counts_options,
                 size_factors=raw_size_factors,
@@ -191,9 +219,8 @@ def live_analyze(
 
         results.adt_size_factors = final_size_factors
 
-        # TODO: protect against not enough PCs.
         results.adt_pca = dimred.run_pca(
-            normed,
+            adt_normed,
             options=update(
                 options.adt_run_pca_options, block=filtered_block
             ),
@@ -205,8 +232,8 @@ def live_analyze(
         else:
             raw_size_factors = options.crispr_log_norm_counts_options.size_factors
 
-        normed, final_size_factors = norm.log_norm_counts(
-            filtered,
+        crispr_normed, final_size_factors = norm.log_norm_counts(
+            crispr_filtered,
             options=update(
                 options.crispr_log_norm_counts_options,
                 size_factors=raw_size_factors,
@@ -218,10 +245,12 @@ def live_analyze(
             ),
         )
 
+        results.crispr_size_factors = final_size_factors
+
         results.crispr_pca = dimred.run_pca(
-            normed,
+            crispr_normed,
             options=update(
-                options.run_pca_options, subset=results.hvgs, block=filtered_block
+                options.crispr_run_pca_options, block=filtered_block
             ),
         )
 
@@ -234,20 +263,26 @@ def live_analyze(
         if do_crispr:
             all_embeddings.append(results.crispr_pca.principal_components)
 
-        results.combined_embeddings = dimred.combine_embeddings(
+        results.combined_pcs = dimred.combine_embeddings(
             all_embeddings,
             options=options.combine_embeddings_options
         )
+        lowdim = results.combined.pcs
+    else:
+        if do_rna:
+            lowdim = results.rna_pca.principal_components
+        elif do_adt:
+            lowdim = results.adt_pca.principal_components
+        elif do_crispr:
+            lowdim = results.crispr_pca.principal_components
 
     if options.miscellaneous_options.block is not None:
         results.mnn = correct.mnn_correct(
-            results.pca.principal_components,
+            lowdim,
             filtered_block,
             options=options.mnn_correct_options,
         )
         lowdim = results.mnn.corrected
-    else:
-        lowdim = results.pca.principal_components
 
     get_tsne, get_umap, graph, remaining_threads = run_neighbor_suite(
         lowdim,
@@ -266,7 +301,7 @@ def live_analyze(
 
     if do_rna:
         results.rna_markers = mark.score_markers(
-            normed,
+            rna_normed,
             grouping=results.clusters,
             options=update(
                 options.rna_score_markers_options,
@@ -277,7 +312,7 @@ def live_analyze(
 
     if do_adt:
         results.adt_markers = mark.score_markers(
-            normed,
+            adt_normed,
             grouping=results.clusters,
             options=update(
                 options.adt_score_markers_options,
@@ -288,7 +323,7 @@ def live_analyze(
 
     if do_crispr:
         results.crispr_markers = mark.score_markers(
-            normed,
+            crispr_normed,
             grouping=results.clusters,
             options=update(
                 options.crispr_score_markers_options,

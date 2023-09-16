@@ -20,17 +20,43 @@ class AnalyzeResults:
 
     Attributes:
         rna_quality_control_metrics (BiocFrame, optional):
-            Output of :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
+            Output of :py:meth:`~scranpy.quality_control.per_cell_rna_qc_metrics.per_cell_rna_qc_metrics`.
 
         rna_quality_control_thresholds (BiocFrame, optional):
-            Output of :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+            Output of :py:meth:`~scranpy.quality_control.suggest_rna_qc_filters.suggest_rna_qc_filters`.
 
         rna_quality_control_filter (ndarray, optional):
-            Output of :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+            Output of :py:meth:`~scranpy.quality_control.create_rna_qc_filter.create_rna_qc_filter`.
 
-        size_factors (ndarray, optional):
+        adt_quality_control_metrics (BiocFrame, optional):
+            Output of :py:meth:`~scranpy.quality_control.per_cell_adt_qc_metrics.per_cell_adt_qc_metrics`.
+
+        adt_quality_control_thresholds (BiocFrame, optional):
+            Output of :py:meth:`~scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters`.
+
+        adt_quality_control_filter (ndarray, optional):
+            Output of :py:meth:`~scranpy.quality_control.create_adt_qc_filter.create_adt_qc_filter`.
+
+        crispr_quality_control_metrics (BiocFrame, optional):
+            Output of :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`.
+
+        crispr_quality_control_thresholds (BiocFrame, optional):
+            Output of :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters`.
+
+        crispr_quality_control_filter (ndarray, optional):
+            Output of :py:meth:`~scranpy.quality_control.create_crispr_qc_filter.create_crispr_qc_filter`.
+
+        rna_size_factors (ndarray, optional):
             Array of length equal to the number of cells in the dataset (usually after quality filtering),
-            containing the size factor for each cell.
+            containing the size factor from the RNA data for each cell. 
+
+        adt_size_factors (ndarray, optional):
+            Array of length equal to the number of cells in the dataset (usually after quality filtering),
+            containing the size factor from the ADT data for each cell.
+
+        crispr_size_factors (ndarray, optional):
+            Array of length equal to the number of cells in the dataset (usually after quality filtering),
+            containing the size factor from the CRISPR data for each cell.
 
         gene_variances (BiocFrame, optional):
             Output of :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
@@ -38,8 +64,18 @@ class AnalyzeResults:
         hvgs (ndarray, optional):
             Output of :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
-        pca (PcaResult, optional):
-            Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+        rna_pca (PcaResult, optional):
+            Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the RNA data.
+
+        adt_pca (PcaResult, optional):
+            Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the ADT data.
+
+        crispr_pca (PcaResult, optional):
+            Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the CRISPR data.
+
+        combined_pcs (PcaResult, optional):
+            Output of :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`
+            on the principal components for multiple modalities.
 
         mnn (MnnCorrectResult, optional):
             Output of :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
@@ -57,8 +93,18 @@ class AnalyzeResults:
             List of length equal to the number of cells in the (filtered) dataset,
             containing the cluster assignment for each cell.
 
-        markers (Mapping, optional):
-            Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
+        rna_markers (Mapping, optional):
+            Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
+            on the RNA data.
+
+        adt_markers (Mapping, optional):
+            Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
+            on the ADT data.
+
+        crispr_markers (Mapping, optional):
+            Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
+            on the CRISPR data.
+
     """
 
     rna_quality_control_subsets: Optional[dict] = None
@@ -69,13 +115,35 @@ class AnalyzeResults:
 
     rna_quality_control_filter: Optional[ndarray] = None
 
-    size_factors: Optional[ndarray] = None
+    adt_quality_control_metrics: Optional[BiocFrame] = None
+
+    adt_quality_control_thresholds: Optional[BiocFrame] = None
+
+    adt_quality_control_filter: Optional[ndarray] = None
+
+    crispr_quality_control_metrics: Optional[BiocFrame] = None
+
+    crispr_quality_control_thresholds: Optional[BiocFrame] = None
+
+    crispr_quality_control_filter: Optional[ndarray] = None
+
+    rna_size_factors: Optional[ndarray] = None
+
+    adt_size_factors: Optional[ndarray] = None
+
+    crispr_size_factors: Optional[ndarray] = None
 
     gene_variances: Optional[BiocFrame] = None
 
     hvgs: Optional[ndarray] = None
 
-    pca: Optional[dimred.PcaResult] = None
+    rna_pca: Optional[dimred.PcaResult] = None
+
+    adt_pca: Optional[dimred.PcaResult] = None
+
+    crispr_pca: Optional[dimred.PcaResult] = None
+
+    combined_pcs: Optional[ndarray] = None
 
     mnn: Optional[correct.MnnCorrectResult] = None
 
@@ -87,7 +155,11 @@ class AnalyzeResults:
 
     clusters: Optional[list] = None
 
-    markers: Optional[Mapping] = None
+    rna_markers: Optional[Mapping] = None
+
+    adt_markers: Optional[Mapping] = None
+
+    crispr_markers: Optional[Mapping] = None
 
     def __to_sce(self, x: MatrixTypes, assay: str, include_gene_data: bool = False):
         if isinstance(x, TatamiNumericPointer):

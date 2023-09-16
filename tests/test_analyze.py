@@ -11,7 +11,7 @@ __license__ = "MIT"
 
 def test_analyze(mock_data):
     x = mock_data.x
-    out = analyze(x, features=[f"{i}" for i in range(1000)])
+    out = analyze(x, rna_features=[f"{i}" for i in range(1000)])
 
     assert isinstance(out, AnalyzeResults)
     assert out.mnn is None
@@ -32,7 +32,7 @@ def test_analyze_size_factors(mock_data):
     x = mock_data.x
     out = analyze(
         x,
-        features=[f"{i}" for i in range(1000)],
+        rna_features=[f"{i}" for i in range(1000)],
         options=AnalyzeOptions(
             log_norm_counts_options=LogNormCountsOptions(
                 size_factors=np.ones(x.shape[1])
@@ -47,7 +47,7 @@ def test_analyze_blocked(mock_data):
     x = mock_data.x
     out = analyze(
         x,
-        features=[f"{i}" for i in range(1000)],
+        rna_features=[f"{i}" for i in range(1000)],
         options=AnalyzeOptions(
             miscellaneous_options=MiscellaneousOptions(block=mock_data.block)
         ),

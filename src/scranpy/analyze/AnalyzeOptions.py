@@ -45,19 +45,46 @@ class AnalyzeOptions:
 
     Attributes:
         per_cell_rna_qc_metrics_options (PerCellRnaQcMetricsOptions):
-            Options to pass to :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics`.
+            Options to pass to :py:meth:`~scranpy.quality_control.per_cell_rna_qc_metrics.per_cell_rna_qc_metrics`.
 
         suggest_rna_qc_filters_options (SuggestRnaQcFiltersOptions):
-            Options to pass to :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
+            Options to pass to :py:meth:`~scranpy.quality_control.suggest_rna_qc_filters.suggest_rna_qc_filters`.
 
         create_rna_qc_filter_options (CreateRnaQcFilterOptions):
-            Options to pass to :py:meth:`~scranpy.quality_control.rna.create_rna_qc_filter`.
+            Options to pass to :py:meth:`~scranpy.quality_control.create_rna_qc_filter.create_rna_qc_filter`.
+
+        per_cell_adt_qc_metrics_options (PerCellRnaQcMetricsOptions):
+            Options to pass to :py:meth:`~scranpy.quality_control.per_cell_adt_metrics.per_cell_adt_qc_metrics`.
+
+        suggest_adt_qc_filters_options (SuggestRnaQcFiltersOptions):
+            Options to pass to :py:meth:`~scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters`.
+
+        create_adt_qc_filter_options (CreateRnaQcFilterOptions):
+            Options to pass to :py:meth:`~scranpy.quality_control.create_adt_qc_filter.create_adt_qc_filter`.
+
+        per_cell_crispr_qc_metrics_options (PerCellRnaQcMetricsOptions):
+            Options to pass to :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`.
+
+        suggest_crispr_qc_filters_options (SuggestRnaQcFiltersOptions):
+            Options to pass to :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters`.
+
+        create_crispr_qc_filter_options (CreateRnaQcFilterOptions):
+            Options to pass to :py:meth:`~scranpy.quality_control.create_crispr_qc_filter.create_crispr_qc_filter`.
 
         filter_cells_options (FilterCellsOptions):
             Options to pass to :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
-        log_norm_counts_options (LogNormCountsOptions):
-            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
+        rna_log_norm_counts_options (LogNormCountsOptions):
+            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts` 
+            for the RNA count matrix.
+
+        adt_log_norm_counts_options (LogNormCountsOptions):
+            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`
+            for the ADT count matrix.
+
+        crispr_log_norm_counts_options (LogNormCountsOptions):
+            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`
+            for the CRISPR count matrix.
 
         choose_hvgs_options (ChooseHvgsOptions):
             Options to pass to :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
@@ -65,8 +92,17 @@ class AnalyzeOptions:
         model_gene_variances_options (ModelGeneVariancesOptions):
             Options to pass to :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
-        run_pca_options (RunPcaOptions):
-            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
+        rna_run_pca_options (RunPcaOptions):
+            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`
+            for the RNA log-expression matrix.
+
+        adt_run_pca_options (RunPcaOptions):
+            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`
+            for the ADT log-expression matrix.
+
+        crispr_run_pca_options (RunPcaOptions):
+            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`
+            for the CRISPR log-expression matrix.
 
         mnn_correct_options (MnnCorrectOptions):
             Options to pass to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
@@ -86,8 +122,17 @@ class AnalyzeOptions:
         build_snn_graph_options (BuildSnnGraphOptions):
             Options to pass to :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
-        score_markers_options (ScoreMarkersOptions):
-            Options to pass to :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.
+        rna_score_markers_options (ScoreMarkersOptions):
+            Options to pass to :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
+            for the RNA log-expression values.
+
+        adt_score_markers_options (ScoreMarkersOptions):
+            Options to pass to :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
+            for the ADT log-abundances.
+
+        crispr_score_markers_options (ScoreMarkersOptions):
+            Options to pass to :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
+            for the CRISPR log-abundances.
 
         miscellaneous_options (MiscellaneousOptions):
             Further options that are not associated with any single function call.
@@ -105,11 +150,43 @@ class AnalyzeOptions:
         default_factory=qc.CreateRnaQcFilterOptions
     )
 
+    per_cell_adt_qc_metrics_options: qc.PerCellAdtQcMetricsOptions = field(
+        default_factory=qc.PerCellAdtQcMetricsOptions
+    )
+
+    suggest_adt_qc_filters_options: qc.SuggestAdtQcFiltersOptions = field(
+        default_factory=qc.SuggestAdtQcFiltersOptions
+    )
+
+    create_adt_qc_filter_options: qc.CreateAdtQcFilterOptions = field(
+        default_factory=qc.CreateAdtQcFilterOptions
+    )
+
+    per_cell_crispr_qc_metrics_options: qc.PerCellCrisprQcMetricsOptions = field(
+        default_factory=qc.PerCellCrisprQcMetricsOptions
+    )
+
+    suggest_crispr_qc_filters_options: qc.SuggestCrisprQcFiltersOptions = field(
+        default_factory=qc.SuggestCrisprQcFiltersOptions
+    )
+
+    create_crispr_qc_filter_options: qc.CreateCrisprQcFilterOptions = field(
+        default_factory=qc.CreateCrisprQcFilterOptions
+    )
+
     filter_cells_options: qc.FilterCellsOptions = field(
         default_factory=qc.FilterCellsOptions
     )
 
-    log_norm_counts_options: norm.LogNormCountsOptions = field(
+    rna_log_norm_counts_options: norm.LogNormCountsOptions = field(
+        default_factory=norm.LogNormCountsOptions
+    )
+
+    adt_log_norm_counts_options: norm.LogNormCountsOptions = field(
+        default_factory=norm.LogNormCountsOptions
+    )
+
+    crispr_log_norm_counts_options: norm.LogNormCountsOptions = field(
         default_factory=norm.LogNormCountsOptions
     )
 
@@ -121,7 +198,15 @@ class AnalyzeOptions:
         default_factory=feat.ModelGeneVariancesOptions
     )
 
-    run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
+    rna_run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
+
+    adt_run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
+
+    crispr_run_pca_options: dimred.RunPcaOptions = field(default_factory=dimred.RunPcaOptions)
+
+    combine_embeddings_options: dimred.CombineEmbeddingsOptions = field(
+        default_factory = dimred.CombineEmbeddingsOptions
+    )
 
     mnn_correct_options: correct.MnnCorrectOptions = field(
         default_factory=correct.MnnCorrectOptions
@@ -147,7 +232,15 @@ class AnalyzeOptions:
         default_factory=clust.BuildSnnGraphOptions
     )
 
-    score_markers_options: mark.ScoreMarkersOptions = field(
+    rna_score_markers_options: mark.ScoreMarkersOptions = field(
+        default_factory=mark.ScoreMarkersOptions
+    )
+
+    adt_score_markers_options: mark.ScoreMarkersOptions = field(
+        default_factory=mark.ScoreMarkersOptions
+    )
+
+    crispr_score_markers_options: mark.ScoreMarkersOptions = field(
         default_factory=mark.ScoreMarkersOptions
     )
 
