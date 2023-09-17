@@ -82,3 +82,22 @@ def test_filter_cells_multiple_arrays(mock_data):
     assert (x[:, 1] == filtered[:, 1]).all()
     assert (x[:, 3] == filtered[:, 2]).all()
     assert (x[:, 5] == filtered[:, 3]).all()
+
+
+def test_filter_cells_return_vector(mock_data):
+    x = mock_data.x
+    filtered, vec = filter_cells(
+        x, 
+        filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]),
+        options=FilterCellsOptions(with_retain_vector=True)
+    )
+    assert len(vec) == x.shape[1] - 8
+    assert filtered.shape[1] == len(vec)
+
+    filtered, vec = filter_cells(
+        tatamize(x), 
+        filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]),
+        options=FilterCellsOptions(with_retain_vector=True)
+    )
+    assert len(vec) == x.shape[1] - 8
+    assert filtered.ncol() == len(vec)
