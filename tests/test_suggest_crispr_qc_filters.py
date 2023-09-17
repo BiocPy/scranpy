@@ -1,4 +1,4 @@
-from scranpy.quality_control import (
+from scranpy import (
     PerCellCrisprQcMetricsOptions,
     SuggestCrisprQcFiltersOptions,
     per_cell_crispr_qc_metrics,

@@ -1,5 +1,5 @@
 import numpy as np
-from scranpy.feature_selection import ChooseHvgsOptions, choose_hvgs
+from scranpy import ChooseHvgsOptions, choose_hvgs
 
 __author__ = "ltla"
 __copyright__ = "ltla"

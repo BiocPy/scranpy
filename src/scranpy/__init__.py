@@ -15,16 +15,14 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-from . import (
-    aggregation,
-    batch_correction,
-    clustering,
-    dimensionality_reduction,
-    feature_selection,
-    feature_set_enrichment,
-    marker_detection,
-    nearest_neighbors,
-    normalization,
-    quality_control,
-)
+from .aggregation import *
+from .batch_correction import *
+from .clustering import *
+from .dimensionality_reduction import *
+from .feature_selection import *
+from .feature_set_enrichment import *
+from .marker_detection import *
+from .nearest_neighbors import *
+from .normalization import *
+from .quality_control import *
 from .analyze import analyze, AnalyzeOptions, AnalyzeResults, update, MiscellaneousOptions

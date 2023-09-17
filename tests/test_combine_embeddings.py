@@ -1,5 +1,5 @@
 import numpy as np
-from scranpy.dimensionality_reduction import (
+from scranpy import (
     combine_embeddings,
     CombineEmbeddingsOptions,
 )

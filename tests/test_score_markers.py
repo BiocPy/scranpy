@@ -1,6 +1,6 @@
 from biocframe import BiocFrame
 from mattress import tatamize
-from scranpy.marker_detection import ScoreMarkersOptions, score_markers
+from scranpy import ScoreMarkersOptions, score_markers
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"

@@ -1,4 +1,4 @@
-from scranpy.quality_control import guess_mito_from_symbols
+from scranpy import guess_mito_from_symbols
 
 
 def test_guess_mito_from_symbols():

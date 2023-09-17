@@ -1,4 +1,4 @@
-from scranpy.quality_control import (
+from scranpy import (
     CreateRnaQcFilterOptions,
     PerCellRnaQcMetricsOptions,
     SuggestRnaQcFiltersOptions,

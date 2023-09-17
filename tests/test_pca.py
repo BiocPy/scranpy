@@ -1,5 +1,5 @@
 import numpy as np
-from scranpy.dimensionality_reduction import RunPcaOptions, run_pca
+from scranpy import RunPcaOptions, run_pca
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"

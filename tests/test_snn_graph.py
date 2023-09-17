@@ -1,5 +1,5 @@
 import igraph as ig
-from scranpy.clustering import BuildSnnGraphOptions, build_snn_graph
+from scranpy import BuildSnnGraphOptions, build_snn_graph
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"

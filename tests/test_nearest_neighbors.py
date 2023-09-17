@@ -1,4 +1,4 @@
-from scranpy.nearest_neighbors import (
+from scranpy import (
     BuildNeighborIndexOptions,
     FindNearestNeighborsOptions,
     NeighborResults,

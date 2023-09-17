@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 from mattress import tatamize
-from scranpy.normalization import CenterSizeFactorsOptions, center_size_factors
+from scranpy import CenterSizeFactorsOptions, center_size_factors
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
