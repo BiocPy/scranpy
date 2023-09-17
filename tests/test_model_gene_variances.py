@@ -1,4 +1,4 @@
-from scranpy.feature_selection import ModelGeneVariancesOptions, model_gene_variances
+from scranpy import ModelGeneVariancesOptions, model_gene_variances
 
 __author__ = "ltla"
 __copyright__ = "ltla"

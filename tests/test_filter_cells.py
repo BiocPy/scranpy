@@ -1,6 +1,6 @@
 import numpy as np
 from mattress import tatamize
-from scranpy.quality_control import FilterCellsOptions, filter_cells
+from scranpy import FilterCellsOptions, filter_cells
 import delayedarray as da
 
 __author__ = "ltla, jkanche"

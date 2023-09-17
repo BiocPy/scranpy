@@ -1,4 +1,4 @@
-from scranpy.dimensionality_reduction import (
+from scranpy import (
     InitializeTsneOptions,
     InitializeUmapOptions,
     RunTsneOptions,

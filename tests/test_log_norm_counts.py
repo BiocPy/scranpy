@@ -1,7 +1,7 @@
 import numpy as np
 import delayedarray as da
 from mattress import tatamize
-from scranpy.normalization import (
+from scranpy import (
     LogNormCountsOptions,
     log_norm_counts,
     CenterSizeFactorsOptions,

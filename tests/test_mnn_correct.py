@@ -1,5 +1,5 @@
 import numpy as np
-from scranpy.batch_correction import MnnCorrectOptions, mnn_correct
+from scranpy import MnnCorrectOptions, mnn_correct
 import pytest as pt
 
 __author__ = "ltla, jkanche"

@@ -1,4 +1,4 @@
-from scranpy.feature_set_enrichment import (
+from scranpy import (
     hypergeometric_test,
     HypergeometricTestOptions,
 )

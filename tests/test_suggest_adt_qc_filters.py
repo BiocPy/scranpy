@@ -1,4 +1,4 @@
-from scranpy.quality_control import (
+from scranpy import (
     PerCellAdtQcMetricsOptions,
     SuggestAdtQcFiltersOptions,
     per_cell_adt_qc_metrics,

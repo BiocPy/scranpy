@@ -1,5 +1,5 @@
 import numpy as np
-from scranpy.quality_control import (
+from scranpy import (
     PerCellCrisprQcMetricsOptions,
     per_cell_crispr_qc_metrics,
 )

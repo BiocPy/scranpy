@@ -1,5 +1,5 @@
 import numpy as np
-from scranpy.quality_control import PerCellAdtQcMetricsOptions, per_cell_adt_qc_metrics
+from scranpy import PerCellAdtQcMetricsOptions, per_cell_adt_qc_metrics
 
 
 def test_per_cell_adt_qc_metrics(mock_data):

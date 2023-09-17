@@ -1,4 +1,4 @@
-from scranpy.feature_set_enrichment import score_feature_set, ScoreFeatureSetOptions
+from scranpy import score_feature_set, ScoreFeatureSetOptions
 import numpy as np
 
 
