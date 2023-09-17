@@ -26,7 +26,7 @@ class FilterCellsOptions:
             multiple ``filter`` arrays, to create a combined filtering
             array. Note that this is orthogonal to ``discard``.
 
-        with_retain_vector (bool): 
+        with_retain_vector (bool):
             Whether to return a vector specifying which cells are to be
             retained.
 
@@ -77,7 +77,7 @@ def filter_cells(
         ``delayed = True``; or an object of the same type as ``input`` otherwise.
 
         If ``options.with_retain_vector = True``, a tuple is returned containing
-        the filtered matrix and a NumPy integer array containing the column 
+        the filtered matrix and a NumPy integer array containing the column
         indices of ``input`` for the cells that were retained.
     """
     is_ptr = isinstance(input, TatamiNumericPointer)

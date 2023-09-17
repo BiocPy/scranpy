@@ -87,17 +87,17 @@ def test_filter_cells_multiple_arrays(mock_data):
 def test_filter_cells_return_vector(mock_data):
     x = mock_data.x
     filtered, vec = filter_cells(
-        x, 
+        x,
         filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]),
-        options=FilterCellsOptions(with_retain_vector=True)
+        options=FilterCellsOptions(with_retain_vector=True),
     )
     assert len(vec) == x.shape[1] - 8
     assert filtered.shape[1] == len(vec)
 
     filtered, vec = filter_cells(
-        tatamize(x), 
+        tatamize(x),
         filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]),
-        options=FilterCellsOptions(with_retain_vector=True)
+        options=FilterCellsOptions(with_retain_vector=True),
     )
     assert len(vec) == x.shape[1] - 8
     assert filtered.ncol() == len(vec)
