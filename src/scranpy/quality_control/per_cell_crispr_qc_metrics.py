@@ -87,5 +87,5 @@ def per_cell_crispr_qc_metrics(
             "max_proportion": max_prop,
             "max_index": max_index,
         },
-        row_names = options.cell_names,
+        row_names=options.cell_names,
     )

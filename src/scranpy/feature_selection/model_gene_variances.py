@@ -162,7 +162,7 @@ def model_gene_variances(
                     "fitted": all_fitted[i],
                     "residuals": all_residuals[i],
                 },
-                row_names = options.feature_names,
+                row_names=options.feature_names,
             )
 
         return BiocFrame(

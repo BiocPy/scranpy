@@ -112,5 +112,5 @@ def per_cell_adt_qc_metrics(
                 num_rows=nc,
             ),
         },
-        row_names = options.cell_names,
+        row_names=options.cell_names,
     )
