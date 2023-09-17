@@ -44,7 +44,12 @@ mat = sp.csc_matrix(
 features = [x.decode("ascii") for x in fhandle["matrix"]["features"]["name"]]
 
 import scranpy
-results = scranpy.analyze(mat, features)
+options = scranpy.AnalyzeOptions()
+options.per_cell_rna_qc_metrics_options.subsets = {
+    "mito": scranpy.quality_control.guess_mito_from_symbols(features, "mt-")
+}
+
+results = scranpy.analyze(mat)
 ```
 
 ## Developer Notes
