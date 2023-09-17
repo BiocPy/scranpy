@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from mattress import TatamiNumericPointer
-from numpy import logical_or, logical_and, zeros, ones, uint8
+from numpy import logical_or, logical_and, zeros, ones, uint8, array
 from delayedarray import DelayedArray
 from typing import Union, Sequence
 
@@ -26,6 +26,10 @@ class FilterCellsOptions:
             multiple ``filter`` arrays, to create a combined filtering
             array. Note that this is orthogonal to ``discard``.
 
+        with_retain_vector (bool):
+            Whether to return a vector specifying which cells are to be
+            retained.
+
         delayed (bool): Whether to force the filtering operation to be
             delayed. This reduces memory usage by avoiding unnecessary
             copies of the count matrix.
@@ -33,6 +37,7 @@ class FilterCellsOptions:
 
     discard: bool = True
     intersect: bool = False
+    with_retain_vector: bool = False
     delayed: bool = True
 
 
@@ -65,10 +70,15 @@ def filter_cells(
         options (FilterCellsOptions): Optional parameters.
 
     Returns:
-        The filtered matrix, either as a :py:class:`~mattress.TatamiNumericPointer`
+        If ``options.with_retain_vector = False``, the filtered matrix is
+        directly returned, either as a :py:class:`~mattress.TatamiNumericPointer`
         if ``input`` is also a :py:class:`~mattress.TatamiNumericPointer`; as a
         :py:class:`~delayedarray.DelayedArray`, if ``input`` is array-like and
         ``delayed = True``; or an object of the same type as ``input`` otherwise.
+
+        If ``options.with_retain_vector = True``, a tuple is returned containing
+        the filtered matrix and a NumPy integer array containing the column
+        indices of ``input`` for the cells that were retained.
     """
     is_ptr = isinstance(input, TatamiNumericPointer)
 
@@ -96,12 +106,21 @@ def filter_cells(
 
     if is_ptr:
         outptr = lib.filter_cells(input.ptr, filter, options.discard)
-        return TatamiNumericPointer(ptr=outptr, obj=input.obj)
+        output = TatamiNumericPointer(ptr=outptr, obj=input.obj)
     else:
         if options.delayed and not isinstance(input, DelayedArray):
             input = DelayedArray(input)
         if options.discard:
-            filter = filter == 0
+            bool_filter = filter == 0
         else:
-            filter = filter != 0
-        return input[:, filter]
+            bool_filter = filter != 0
+        output = input[:, bool_filter]
+
+    if options.with_retain_vector:
+        keep = []
+        for i, x in enumerate(filter):
+            if x != options.discard:
+                keep.append(i)
+        return output, array(keep)
+    else:
+        return output
