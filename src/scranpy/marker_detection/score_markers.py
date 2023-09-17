@@ -78,6 +78,10 @@ class ScoreMarkersOptions:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
+        feature_names (Sequence[str], optional):
+            Sequence of feature names of length equal to the number of rows in ``input``.
+            If provided, this is used as the row names of the output data frames.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
     """
 
@@ -85,6 +89,7 @@ class ScoreMarkersOptions:
     threshold: float = 0
     compute_auc: bool = True
     assay_type: Union[str, int] = "logcounts"
+    feature_names: Optional[Sequence[str]] = None
     num_threads: int = 1
 
 
@@ -180,6 +185,6 @@ def score_markers(
         if options.compute_auc is True:
             current["auc"] = create_summary_biocframe(auc, g)
 
-        output[group_levels[g]] = BiocFrame(current)
+        output[group_levels[g]] = BiocFrame(current, row_names=options.feature_names)
 
     return output

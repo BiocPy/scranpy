@@ -32,12 +32,17 @@ class ModelGeneVariancesOptions:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
+        feature_names (Sequence[str], optional):
+            Sequence of feature names of length equal to the number of rows in ``input``.
+            If provided, this is used as the row names of the output data frames.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
     """
 
     block: Optional[Sequence] = None
     span: float = 0.3
     assay_type: Union[int, str] = "logcounts"
+    feature_names: Optional[Sequence[str]] = None
     num_threads: int = 1
 
 
@@ -156,7 +161,8 @@ def model_gene_variances(
                     "variances": all_variances[i],
                     "fitted": all_fitted[i],
                     "residuals": all_residuals[i],
-                }
+                },
+                row_names = options.feature_names,
             )
 
         return BiocFrame(
@@ -168,4 +174,5 @@ def model_gene_variances(
                 "per_block": BiocFrame(extra),
             },
             number_of_rows=NR,
+            row_names=options.feature_names,
         )

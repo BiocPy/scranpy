@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from biocframe import BiocFrame
 from numpy import float64, int32, ndarray
-from typing import Union
+from typing import Union, Sequence, Optional
 
 from .. import cpphelpers as lib
 from .._utils import tatamize_input, MatrixTypes
@@ -17,10 +17,15 @@ class PerCellCrisprQcMetricsOptions:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
+        cell_names (Sequence[str], optional):
+            Sequence of cell names of length equal to the number of columns  in ``input``.
+            If provided, this is used as the row names of the output data frames.
+
         num_threads (int, optional): Number of threads to use. Defaults to 1.
     """
 
     assay_type: Union[int, str] = 0
+    cell_names: Optional[Sequence[str]] = None
     num_threads: int = 1
 
 
@@ -81,5 +86,6 @@ def per_cell_crispr_qc_metrics(
             "detected": detected,
             "max_proportion": max_prop,
             "max_index": max_index,
-        }
+        },
+        row_names = options.cell_names,
     )
