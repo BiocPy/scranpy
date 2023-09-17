@@ -135,15 +135,21 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
     results.quality_control_retained = numpy.logical_not(discard)
     if options.miscellaneous_options.block is not None:
         if isinstance(options.miscellaneous_options.block, numpy.ndarray):
-            filtered_block = options.miscellaneous_options.block[results.quality_control_retained]
+            filtered_block = options.miscellaneous_options.block[
+                results.quality_control_retained
+            ]
         else:
-            filtered_block = numpy.array(options.miscellaneous_options.block)[results.quality_control_retained]
+            filtered_block = numpy.array(options.miscellaneous_options.block)[
+                results.quality_control_retained
+            ]
     else:
         filtered_block = None
 
     if _do_rna:
         if options.rna_log_norm_counts_options.size_factors is None:
-            raw_size_factors = results.rna_quality_control_metrics.column("sums")[results.quality_control_retained]
+            raw_size_factors = results.rna_quality_control_metrics.column("sums")[
+                results.quality_control_retained
+            ]
         else:
             raw_size_factors = options.rna_log_norm_counts_options.size_factors
 
@@ -181,7 +187,9 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
 
     if _do_adt:
         if options.adt_log_norm_counts_options.size_factors is None:
-            raw_size_factors = results.adt_quality_control_metrics.column("sums")[results.quality_control_retained]
+            raw_size_factors = results.adt_quality_control_metrics.column("sums")[
+                results.quality_control_retained
+            ]
         else:
             raw_size_factors = options.adt_log_norm_counts_options.size_factors
 

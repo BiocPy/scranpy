@@ -204,7 +204,7 @@ class AnalyzeResults:
                 main_sce = adt_sce
                 main_sce.main_experiment_name = "adt"
             else:
-                if main_sce.alternative_experiments == None:
+                if main_sce.alternative_experiments is None:
                     main_sce.alternative_experiments = {}
                 main_sce.alternative_experiments["adt"] = adt_sce
 
@@ -223,7 +223,7 @@ class AnalyzeResults:
                 main_sce = crispr_sce
                 main_sce.main_experiment_name = "crispr"
             else:
-                if main_sce.alternative_experiments == None:
+                if main_sce.alternative_experiments is None:
                     main_sce.alternative_experiments = {}
                 main_sce.alternative_experiments["crispr"] = crispr_sce
 

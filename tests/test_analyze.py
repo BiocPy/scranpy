@@ -93,25 +93,31 @@ def test_analyze_multimodal_skip_qc():
     crispr = np.random.rand(100, 200)
 
     # Works with only one.
-    out = analyze(rna, adt, crispr,
+    out = analyze(
+        rna,
+        adt,
+        crispr,
         options=AnalyzeOptions(
             miscellaneous_options=MiscellaneousOptions(
                 filter_on_rna_qc=False,
                 filter_on_adt_qc=False,
                 filter_on_crispr_qc=True,
             )
-        )
+        ),
     )
     assert (out.crispr_quality_control_filter != out.quality_control_retained).all()
 
     # Works with none.
-    out = analyze(rna, adt, crispr,
+    out = analyze(
+        rna,
+        adt,
+        crispr,
         options=AnalyzeOptions(
             miscellaneous_options=MiscellaneousOptions(
                 filter_on_rna_qc=False,
                 filter_on_adt_qc=False,
                 filter_on_crispr_qc=False,
             )
-        )
+        ),
     )
     assert len(out.rna_size_factors) == 200
