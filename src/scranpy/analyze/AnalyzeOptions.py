@@ -73,7 +73,8 @@ class AnalyzeOptions:
             Options to pass to :py:meth:`~scranpy.quality_control.create_adt_qc_filter.create_adt_qc_filter`.
 
         per_cell_crispr_qc_metrics_options (PerCellRnaQcMetricsOptions):
-            Options to pass to :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`.
+            Options to pass to 
+            :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`.
 
         suggest_crispr_qc_filters_options (SuggestRnaQcFiltersOptions):
             Options to pass to :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters`.
