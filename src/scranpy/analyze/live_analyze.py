@@ -46,7 +46,11 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
 
     if _do_rna:
         results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
-            rna_ptr, options=update(options.per_cell_rna_qc_metrics_options)
+            rna_ptr, 
+            options=update(
+                options.per_cell_rna_qc_metrics_options,
+                cell_names=options.miscellaneous_options.cell_names,
+            )
         )
 
         results.rna_quality_control_thresholds = qc.suggest_rna_qc_filters(
@@ -68,7 +72,11 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
 
     if _do_adt:
         results.adt_quality_control_metrics = qc.per_cell_adt_qc_metrics(
-            adt_ptr, options=update(options.per_cell_adt_qc_metrics_options)
+            adt_ptr, 
+            options=update(
+                options.per_cell_adt_qc_metrics_options,
+                cell_names=options.miscellaneous_options.cell_names,
+            )
         )
 
         results.adt_quality_control_thresholds = qc.suggest_adt_qc_filters(
@@ -91,7 +99,10 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
     if _do_crispr:
         results.crispr_quality_control_metrics = qc.per_cell_crispr_qc_metrics(
             crispr_ptr,
-            options=update(options.per_cell_crispr_qc_metrics_options),
+            options=update(
+                options.per_cell_crispr_qc_metrics_options,
+                cell_names=options.miscellaneous_options.cell_names,
+            )
         )
 
         results.crispr_quality_control_thresholds = qc.suggest_crispr_qc_filters(
@@ -170,7 +181,11 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
 
         results.gene_variances = feat.model_gene_variances(
             rna_normed,
-            options=update(options.model_gene_variances_options, block=filtered_block),
+            options=update(
+                options.model_gene_variances_options, 
+                block=filtered_block,
+                feature_names=options.miscellaneous_options.rna_feature_names,
+            ),
         )
 
         results.hvgs = feat.choose_hvgs(
@@ -292,6 +307,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             options=update(
                 options.rna_score_markers_options,
                 block=filtered_block,
+                feature_names=options.miscellaneous_options.rna_feature_names,
                 num_threads=remaining_threads,
             ),
         )
@@ -303,6 +319,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             options=update(
                 options.adt_score_markers_options,
                 block=filtered_block,
+                feature_names=options.miscellaneous_options.adt_feature_names,
                 num_threads=remaining_threads,
             ),
         )
@@ -314,6 +331,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             options=update(
                 options.crispr_score_markers_options,
                 block=filtered_block,
+                feature_names=options.miscellaneous_options.crispr_feature_names,
                 num_threads=remaining_threads,
             ),
         )

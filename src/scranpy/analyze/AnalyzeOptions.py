@@ -16,6 +16,22 @@ class MiscellaneousOptions:
     """Miscellaneous options for :py:meth:`~scranpy.analyze.analyze.analyze`.
 
     Attributes:
+        cell_names (Sequence[str], optional):
+            Names for all cells in the dataset, to be added to any per-cell data frames.
+            This should have the same length as the number of columns in each data matrix.
+
+        rna_feature_names (Sequence[str], optional):
+            Names for all features in the RNA data.
+            This should have the same length as the number of rows in the RNA count matrix.
+
+        adt_feature_names (Sequence[str], optional):
+            Names for all tags in the ADT data.
+            This should have the same length as the number of rows in the ADT count matrix.
+
+        crispr_feature_names (Sequence[str], optional):
+            Names for all guides in the CRISPR data.
+            This should have the same length as the number of rows in the CRISPR count matrix.
+
         filter_on_rna_qc (bool):
             Whether to filter cells on the RNA-based quality control metrics,
             when RNA data is available.
@@ -36,6 +52,10 @@ class MiscellaneousOptions:
             is applied.
     """
 
+    cell_names: Optional[Sequence[str]] = None
+    rna_feature_names: Optional[Sequence[str]] = None
+    adt_feature_names: Optional[Sequence[str]] = None
+    crispr_feature_names: Optional[Sequence[str]] = None
     filter_on_rna_qc: bool = True
     filter_on_adt_qc: bool = True
     filter_on_crispr_qc: bool = True
