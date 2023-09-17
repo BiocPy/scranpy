@@ -24,9 +24,7 @@ def test_aggregate_across_cells_combinations():
     groups = ["A", "B", "A", "B", "A", "B", "A", "B"]
     batches = [1, 1, 1, 1, 2, 2, 2, 2]
     x = numpy.round(numpy.random.rand(1000, 8) * 5)
-    y = scranpy.aggregate_across_cells(
-        x, {"group": groups, "batch": batches}
-    )
+    y = scranpy.aggregate_across_cells(x, {"group": groups, "batch": batches})
 
     assert y.col_data.column("group") == ["A", "A", "B", "B"]
     assert y.col_data.column("batch") == [1, 2, 1, 2]
@@ -46,9 +44,7 @@ def test_aggregate_across_cells_combinations():
     assert y2.col_data.column("factor_2") == [1, 2, 1, 2]
     assert (y2.assay("sums") == y.assay("sums")).all()
 
-    y2 = scranpy.aggregate_across_cells(
-        x, BiocFrame({"g": groups, "b": batches})
-    )
+    y2 = scranpy.aggregate_across_cells(x, BiocFrame({"g": groups, "b": batches}))
     assert y2.col_data.column("g") == ["A", "A", "B", "B"]
     assert y2.col_data.column("b") == [1, 2, 1, 2]
     assert (y2.assay("detected") == y.assay("detected")).all()
