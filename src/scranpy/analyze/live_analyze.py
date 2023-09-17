@@ -92,7 +92,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
     if do_crispr:
         results.crispr_quality_control_metrics = qc.per_cell_crispr_qc_metrics(
             crispr_ptr,
-            options=update(options.per_cell_crispr_qc_metrics_options, subsets=subsets),
+            options=update(options.per_cell_crispr_qc_metrics_options),
         )
 
         results.crispr_quality_control_thresholds = qc.suggest_crispr_qc_filters(
@@ -250,7 +250,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
         results.combined_pcs = dimred.combine_embeddings(
             all_embeddings, options=options.combine_embeddings_options
         )
-        lowdim = results.combined.pcs
+        lowdim = results.combined_pcs
     else:
         if do_rna:
             lowdim = results.rna_pca.principal_components
