@@ -119,7 +119,7 @@ def filter_cells(
     if options.with_retain_vector:
         keep = []
         for i, x in enumerate(filter):
-            if x == 0:
+            if x != options.discard:
                 keep.append(i)
         return output, array(keep)
     else:

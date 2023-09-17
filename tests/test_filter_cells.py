@@ -94,6 +94,16 @@ def test_filter_cells_return_vector(mock_data):
     assert len(vec) == x.shape[1] - 8
     assert filtered.shape[1] == len(vec)
 
+    x = mock_data.x
+    filtered, vec = filter_cells(
+        x,
+        filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]),
+        options=FilterCellsOptions(with_retain_vector=True, discard=False),
+    )
+    assert len(vec) == 8
+    assert filtered.shape[1] == len(vec)
+
+    # Works with pointers.
     filtered, vec = filter_cells(
         tatamize(x),
         filter=(np.array([2, 4, 6, 8]), [1, 3, 5, 7]),
