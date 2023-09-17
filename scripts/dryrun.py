@@ -51,8 +51,12 @@ def trawl(expr):
             trawl(expr.args[i])
 
     elif isinstance(expr, ast.Name):
-        if expr.id == "ptr":
-            expr.id = "matrix"
+        if expr.id == "rna_ptr":
+            expr.id = "rna_matrix"
+        elif expr.id == "adt_ptr":
+            expr.id = "adt_matrix"
+        elif expr.id == "crispr_ptr":
+            expr.id = "crispr_matrix"
 
     elif isinstance(expr, ast.Assign):
         trawl(expr.value)
@@ -121,10 +125,9 @@ def capture(expr):
 
 capturing = False
 new_body = [
-    ast.parse("""do_rna = rna_matrix is not None
-do_adt = adt_matrix is not None
-do_crispr = crispr_matrix is not None
-do_multiple = (do_rna + do_adt + do_crispr) > 1""")
+    ast.parse("""_do_rna = rna_matrix is not None
+_do_adt = adt_matrix is not None
+_do_crispr = crispr_matrix is not None""")
 ]
 
 for expr in fun.body:
@@ -134,6 +137,9 @@ for expr in fun.body:
                 capturing = True
                 new_body.append(ast.parse("__commands = ['import scranpy', 'import numpy', '']").body[0])
                 new_body.append(capture(expr))
+    elif isinstance(expr, ast.Assign) and len(expr.targets) == 1 and isinstance(expr.targets[0], ast.Name) and expr.targets[0].id.startswith("_"):
+        # Underscore variables are transferred directly to the function.
+        new_body.append(expr)
     elif not isinstance(expr, ast.Return):
         if not trawl(expr):
             new_body.append(capture(expr))

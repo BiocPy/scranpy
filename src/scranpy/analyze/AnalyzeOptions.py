@@ -16,18 +16,29 @@ class MiscellaneousOptions:
     """Miscellaneous options for :py:meth:`~scranpy.analyze.analyze.analyze`.
 
     Attributes:
+        filter_on_rna_qc (bool):
+            Whether to filter cells on the RNA-based quality control metrics,
+            when RNA data is available.
+
+        filter_on_adt_qc (bool):
+            Whether to filter cells on the ADT-based quality control metrics,
+            when ADT data is available.
+
+        filter_on_crispr_qc (bool):
+            Whether to filter cells on the CRISPR-based quality control metrics,
+            when CRISPR data is available.
+
         snn_graph_multilevel_resolution (float):
             Resolution to use for multi-level clustering of the SNN graph.
-
-        mito_prefix (str, Optional):
-            Prefix for mitochondrial genes, under the assumption that the feature names are gene symbols.
-            If None, no attempt is made to guess the identities of mitochondrial genes.
 
         block (Sequence, optional): Block assignment for each cell.
             This should have length equal to the total number of cells in the dataset, before any quality control
             is applied.
     """
 
+    filter_on_rna_qc: bool = True
+    filter_on_adt_qc: bool = True
+    filter_on_crispr_qc: bool = True
     snn_graph_multilevel_resolution: int = 1
     block: Optional[Sequence] = None
 

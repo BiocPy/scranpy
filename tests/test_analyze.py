@@ -83,4 +83,35 @@ def test_analyze_multimodal():
     assert list(as_sce.alternative_experiments.keys()) == ["adt", "crispr"]
 
     dry = analyze(rna, adt, crispr, dry_run=True)
+    print(dry)
     assert isinstance(dry, str)
+
+
+def test_analyze_multimodal_skip_qc():
+    rna = np.random.rand(1000, 200)
+    adt = np.random.rand(20, 200)
+    crispr = np.random.rand(100, 200)
+
+    # Works with only one.
+    out = analyze(rna, adt, crispr,
+        options=AnalyzeOptions(
+            miscellaneous_options=MiscellaneousOptions(
+                filter_on_rna_qc=False,
+                filter_on_adt_qc=False,
+                filter_on_crispr_qc=True,
+            )
+        )
+    )
+    assert (out.crispr_quality_control_filter != out.quality_control_retained).all()
+
+    # Works with none.
+    out = analyze(rna, adt, crispr,
+        options=AnalyzeOptions(
+            miscellaneous_options=MiscellaneousOptions(
+                filter_on_rna_qc=False,
+                filter_on_adt_qc=False,
+                filter_on_crispr_qc=False,
+            )
+        )
+    )
+    assert len(out.rna_size_factors) == 200

@@ -18,24 +18,23 @@ __license__ = "MIT"
 
 
 def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
-    do_rna = rna_matrix is not None
-    do_adt = adt_matrix is not None
-    do_crispr = crispr_matrix is not None
-    do_multiple = (do_rna + do_adt + do_crispr) > 1
+    _do_rna = rna_matrix is not None
+    _do_adt = adt_matrix is not None
+    _do_crispr = crispr_matrix is not None
 
     NC = None
-    if do_rna:
+    if _do_rna:
         rna_ptr = tatamize(rna_matrix)
         NC = rna_ptr.ncol()
 
-    if do_adt:
+    if _do_adt:
         adt_ptr = tatamize(adt_matrix)
         if NC is None and NC != adt_ptr.ncol():
             raise ValueError(
                 "all '*_matrix' inputs should have the same number of columns"
             )
 
-    if do_crispr:
+    if _do_crispr:
         crispr_ptr = tatamize(crispr_matrix)
         if NC is None and NC != crispr_ptr.ncol():
             raise ValueError(
@@ -45,7 +44,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
     # Start of the capture.
     results = AnalyzeResults()
 
-    if do_rna:
+    if _do_rna:
         results.rna_quality_control_metrics = qc.per_cell_rna_qc_metrics(
             rna_ptr, options=update(options.per_cell_rna_qc_metrics_options)
         )
@@ -67,7 +66,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             ),
         )
 
-    if do_adt:
+    if _do_adt:
         results.adt_quality_control_metrics = qc.per_cell_adt_qc_metrics(
             adt_ptr, options=update(options.per_cell_adt_qc_metrics_options)
         )
@@ -89,7 +88,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             ),
         )
 
-    if do_crispr:
+    if _do_crispr:
         results.crispr_quality_control_metrics = qc.per_cell_crispr_qc_metrics(
             crispr_ptr,
             options=update(options.per_cell_crispr_qc_metrics_options),
@@ -112,43 +111,39 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             ),
         )
 
-    # TODO: add option to turn off QC for each modality.
-    if do_multiple:
-        discard = False
-        if do_rna:
-            discard = numpy.logical_or(discard, results.rna_quality_control_filter)
-        if do_adt:
-            discard = numpy.logical_or(discard, results.adt_quality_control_filter)
-        if do_crispr:
-            discard = numpy.logical_or(discard, results.crispr_quality_control_filter)
-    else:
-        if do_rna:
-            discard = results.rna_quality_control_filter
-        elif do_adt:
-            discard = results.adt_quality_control_filter
-        elif do_crispr:
-            discard = results.crispr_quality_control_filter
+    if _do_rna:
+        discard = numpy.zeros(rna_ptr.shape[1], dtype=bool)
+    elif _do_adt:
+        discard = numpy.zeros(adt_ptr.shape[1], dtype=bool)
+    elif _do_crispr:
+        discard = numpy.zeros(crispr_ptr.shape[1], dtype=bool)
 
-    if do_rna:
+    if _do_rna and options.miscellaneous_options.filter_on_rna_qc:
+        discard = numpy.logical_or(discard, results.rna_quality_control_filter)
+    if _do_adt and options.miscellaneous_options.filter_on_adt_qc:
+        discard = numpy.logical_or(discard, results.adt_quality_control_filter)
+    if _do_crispr and options.miscellaneous_options.filter_on_crispr_qc:
+        discard = numpy.logical_or(discard, results.crispr_quality_control_filter)
+
+    if _do_rna:
         rna_filtered = qc.filter_cells(rna_ptr, filter=discard)
-    if do_adt:
+    if _do_adt:
         adt_filtered = qc.filter_cells(adt_ptr, filter=discard)
-    if do_crispr:
+    if _do_crispr:
         crispr_filtered = qc.filter_cells(crispr_ptr, filter=discard)
 
-    keep = numpy.logical_not(discard)
-    results.quality_control_retained = keep
+    results.quality_control_retained = numpy.logical_not(discard)
     if options.miscellaneous_options.block is not None:
         if isinstance(options.miscellaneous_options.block, numpy.ndarray):
-            filtered_block = options.miscellaneous_options.block[keep]
+            filtered_block = options.miscellaneous_options.block[results.quality_control_retained]
         else:
-            filtered_block = numpy.array(options.miscellaneous_options.block)[keep]
+            filtered_block = numpy.array(options.miscellaneous_options.block)[results.quality_control_retained]
     else:
         filtered_block = None
 
-    if do_rna:
+    if _do_rna:
         if options.rna_log_norm_counts_options.size_factors is None:
-            raw_size_factors = results.rna_quality_control_metrics.column("sums")[keep]
+            raw_size_factors = results.rna_quality_control_metrics.column("sums")[results.quality_control_retained]
         else:
             raw_size_factors = options.rna_log_norm_counts_options.size_factors
 
@@ -184,9 +179,9 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             ),
         )
 
-    if do_adt:
+    if _do_adt:
         if options.adt_log_norm_counts_options.size_factors is None:
-            raw_size_factors = results.adt_quality_control_metrics.column("sums")[keep]
+            raw_size_factors = results.adt_quality_control_metrics.column("sums")[results.quality_control_retained]
         else:
             raw_size_factors = options.adt_log_norm_counts_options.size_factors
 
@@ -210,10 +205,10 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             options=update(options.adt_run_pca_options, block=filtered_block),
         )
 
-    if do_crispr:
+    if _do_crispr:
         if options.crispr_log_norm_counts_options.size_factors is None:
             raw_size_factors = results.crispr_quality_control_metrics.column("sums")[
-                keep
+                results.quality_control_retained
             ]
         else:
             raw_size_factors = options.crispr_log_norm_counts_options.size_factors
@@ -238,13 +233,13 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             options=update(options.crispr_run_pca_options, block=filtered_block),
         )
 
-    if do_multiple:
+    if _do_rna + _do_adt + _do_crispr > 1:
         all_embeddings = []
-        if do_rna:
+        if _do_rna:
             all_embeddings.append(results.rna_pca.principal_components)
-        if do_adt:
+        if _do_adt:
             all_embeddings.append(results.adt_pca.principal_components)
-        if do_crispr:
+        if _do_crispr:
             all_embeddings.append(results.crispr_pca.principal_components)
 
         results.combined_pcs = dimred.combine_embeddings(
@@ -252,11 +247,11 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
         )
         lowdim = results.combined_pcs
     else:
-        if do_rna:
+        if _do_rna:
             lowdim = results.rna_pca.principal_components
-        elif do_adt:
+        elif _do_adt:
             lowdim = results.adt_pca.principal_components
-        elif do_crispr:
+        elif _do_crispr:
             lowdim = results.crispr_pca.principal_components
 
     if options.miscellaneous_options.block is not None:
@@ -282,7 +277,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
         resolution=options.miscellaneous_options.snn_graph_multilevel_resolution
     ).membership
 
-    if do_rna:
+    if _do_rna:
         results.rna_markers = mark.score_markers(
             rna_normed,
             grouping=results.clusters,
@@ -293,7 +288,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             ),
         )
 
-    if do_adt:
+    if _do_adt:
         results.adt_markers = mark.score_markers(
             adt_normed,
             grouping=results.clusters,
@@ -304,7 +299,7 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             ),
         )
 
-    if do_crispr:
+    if _do_crispr:
         results.crispr_markers = mark.score_markers(
             crispr_normed,
             grouping=results.clusters,
