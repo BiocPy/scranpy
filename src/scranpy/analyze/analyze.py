@@ -1,44 +1,49 @@
 from typing import Sequence, Union, Optional
-from functools import singledispatch
 
 from .AnalyzeOptions import AnalyzeOptions
 from .AnalyzeResults import AnalyzeResults
 from .live_analyze import live_analyze
 from .dry_analyze import dry_analyze
+from .update import update
 
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
 from .._utils import MatrixTypes
 
 
-@singledispatch
 def analyze(
-    rna_matrix: Optional[MatrixTypes],
-    adt_matrix: Optional[MatrixTypes] = None,
-    crispr_matrix: Optional[MatrixTypes] = None,
+    rna_matrix,
+    adt_matrix = None,
+    crispr_matrix = None,
     options: AnalyzeOptions = AnalyzeOptions(),
     dry_run: bool = False,
 ) -> Union[AnalyzeResults, str]:
-    """Run all steps of the scran workflow for single-cell RNA-seq datasets.
+    """Run a routine analysis workflow for single-cell datasets. This supports
+    RNA-seq, ADT and CRISPR modalities for the same cells. Steps include:
 
-    - Remove low-quality cells
+    - Removal of low-quality cells
     - Normalization and log-transformation
-    - Model mean-variance trend across genes
+    - Variance modelling across genes
     - PCA on highly variable genes
-    - graph-based clustering
-    - dimensionality reductions, t-SNE & UMAP
+    - Combined embeddings across modalities
+    - Batch correction with MNN
+    - Graph-based clustering
+    - Dimensionality reductions for visualization
     - Marker detection for each cluster
 
     Arguments:
-        rna_matrix (MatrixTypes, optional): Count matrix for RNA data.
+        rna_matrix (optional): Count matrix for RNA data.
+            Alternatively None if no RNA data is available.
 
-        adt_matrix (MatrixTypes, optional): Count matrix for the ADT data.
+        adt_matrix (optional): Count matrix for the ADT data.
+            Alternatively None if no ADT data is available.
 
-        crispr_matrix (MatrixTypes, optional): Count matrix for the CRISPR data.
+        crispr_matrix (optional): Count matrix for the CRISPR data.
+            Alternatively None if no CRISPR data is available.
 
-        options (AnalyzeOptions, optional): Optional analysis parameters.
+        options (AnalyzeOptions): Optional analysis parameters.
 
-        dry_run (bool, optional): Whether to perform a dry run.
+        dry_run (bool): Whether to perform a dry run.
 
     Raises:
         NotImplementedError: If ``matrix`` is not an expected type.
@@ -65,35 +70,107 @@ def analyze(
         )
 
 
-@analyze.register
-def analyze_sce(
-    matrix: SingleCellExperiment,
-    features: Union[Sequence[str], str],
-    assay: str = "counts",
+def analyze_se(
+    rna_se: Optional[SummarizedExperiment],
+    adt_se: Optional[SummarizedExperiment] = None,
+    crispr_se: Optional[SummarizedExperiment] = None,
+    assay_type: Union[str, int] = 0,
     options: AnalyzeOptions = AnalyzeOptions(),
     dry_run: bool = False,
 ) -> Union[AnalyzeResults, str]:
-    """Run all steps of the scran workflow for single-cell RNA-seq datasets.
-
-    - Remove low-quality cells
-    - Normalization and log-transformation
-    - Model mean-variance trend across genes
-    - PCA on highly variable genes
-    - graph-based clustering
-    - dimensionality reductions, t-SNE & UMAP
-    - Marker detection for each cluster
+    """Convenience wrapper around :py:meth:`~scranpy.analyze.analyze.analyze` for
+    :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment` inputs.
 
     Arguments:
-        matrix (SingleCellExperiment): A
-            :py:class:`singlecellexperiment.SingleCellExperiment` object.
-        features (Union[Sequence[str], str]): Features for the rows of
-            the matrix.
-        block (Union[Sequence, str], optional): Block assignments for each cell.
-            This is used to segregate cells in order to perform comparisons within
-            each block. Defaults to None, indicating all cells are part of the same
-            block.
-        assay (str): Assay matrix to use for analysis. Defaults to "counts".
+        rna_se (SummarizedExperiment, optional): SummarizedExperiment containing RNA data.
+            Alternatively None if no RNA data is available.
+
+        adt_se (SummarizedExperiment, optional): SummarizedExperiment containing ADT data.
+            Alternatively None if no ADT data is available.
+
+        crispr_se (SummarizedExperiment, optional): SummarizedExperiment containing CRISPR data.
+            Alternatively None if no CRISPR data is available.
+
+        assay_type (Union[str, int]):
+            Assay containing the count data in each SummarizedExperiment.
+
         options (AnalyzeOptions): Optional analysis parameters.
+
+        dry_run (bool): Whether to perform a dry run.
+
+    Raises:
+        NotImplementedError: If ``matrix`` is not an expected type.
+
+    Returns:
+        If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned
+        containing... well, the analysis results, obviously.
+
+        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.
+    """
+    def exfil(se):
+        if se is not None:
+            return se.assay(assay_type), se.row_names
+        else:
+            return None, None
+
+    rna_matrix, rna_features = exfil(rna_se)
+    adt_matrix, adt_features = exfil(adt_se)
+    crispr_matrix, crispr_features = exfil(crispr_se)
+
+    return analyze(
+        rna_matrix,
+        adt_matrix = adt_matrix,
+        crispr_matrix = crispr_matrix,
+        options = update(
+            options,
+            miscellaneous_options = update(
+                options.miscellaneous_options,
+                rna_feature_names = rna_features,
+                adt_feature_names = adt_features,
+                crispr_feature_names = crispr_features,
+            ),
+        ),
+        dry_run = dry_run,
+    )
+
+
+def analyze_sce(
+    sce: SingleCellExperiment,
+    rna_exp: Optional[Union[str, int]] = "",
+    adt_exp: Optional[Union[str, int]] = None,
+    crispr_exp: Optional[Union[str, int]] = None,
+    assay_type: str = "counts",
+    options: AnalyzeOptions = AnalyzeOptions(),
+    dry_run: bool = False,
+) -> Union[AnalyzeResults, str]:
+    """Convenience wrapper around :py:meth:`~scranpy.analyze.analyze.analyze` for
+    :py:class:`~singlecellexperiment.SingleCellExperiment.SingleCellExperiment` inputs.
+
+    Arguments:
+        sce (SingleCellExperiment): A :py:class:`singlecellexperiment.SingleCellExperiment` object,
+            possibly with data from other modalities in its alternative experiments.
+
+        rna_exp (Union[str, int], optional):
+            String or index specifying the alternative experiment containing the RNA data.
+            An empty string is assumed to refer to the main experiment.
+            If None, we assume that no RNA data is available.
+
+        adt_exp (Union[str, int], optional):
+            String or index specifying the alternative experiment containing the ADT data.
+            An empty string is assumed to refer to the main experiment.
+            If None, we assume that no RNA data is available.
+
+        crispr_exp (Union[str, int], optional):
+            String or index specifying the alternative experiment containing the CRISPR data.
+            An empty string is assumed to refer to the main experiment.
+            If None, we assume that no RNA data is available.
+
+        assay_type (Union[str, int]):
+            Assay containing the count data in each SummarizedExperiment.
+
+        options (AnalyzeOptions): Optional analysis parameters.
+
+        dry_run (bool): Whether to perform a dry run.
 
     Raises:
         ValueError: If SCE does not contain a ``assay`` matrix.
@@ -104,15 +181,18 @@ def analyze_sce(
 
         If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.
     """
-    if assay not in matrix.assayNames:
-        raise ValueError(f"SCE does not contain a '{assay}' matrix.")
-
-    if isinstance(features, str):
-        if isinstance(matrix.row_data, BiocFrame):
-            features = matrix.row_data.column(features)
+    def exfil(sce, exp):
+        if exp is None:
+            return None
+        elif exp == "":
+            return sce
         else:
-            features = matrix.row_data[features]
+            return sce.alternative_experiments[exp]
 
-    return analyze(
-        matrix.assay("counts"), features=features, options=options, dry_run=dry_run
+    return analyze_se(
+        rna_se = exfil(sce, rna_exp),
+        adt_se = exfil(sce, adt_exp),
+        crispr_se = exfil(sce, crispr_exp),
+        options=options, 
+        dry_run=dry_run,
     )
