@@ -125,7 +125,7 @@ int32_t get_combined_factors_size(void*);
 
 void grouped_size_factors_with_clusters(void*, const int32_t*, double*, int32_t);
 
-void grouped_size_factors_without_clusters(void*, uint8_t, const int32_t*, int32_t, double*, int32_t);
+void grouped_size_factors_without_clusters(void*, uint8_t, const int32_t*, uint8_t, const double*, int32_t, double*, int32_t);
 
 void hypergeometric_test(int32_t, int32_t, const int32_t*, int32_t, const int32_t*, int32_t, const int32_t*, int32_t, const int32_t*, uint8_t, uint8_t, int32_t, double*);
 
@@ -897,9 +897,9 @@ PYAPI void py_grouped_size_factors_with_clusters(void* mat, const int32_t* clust
     }
 }
 
-PYAPI void py_grouped_size_factors_without_clusters(void* mat, uint8_t use_block, const int32_t* block, int32_t rank, double* output, int32_t num_threads, int32_t* errcode, char** errmsg) {
+PYAPI void py_grouped_size_factors_without_clusters(void* mat, uint8_t use_block, const int32_t* block, uint8_t use_init_sf, const double* initial_size_factors, int32_t rank, double* output, int32_t num_threads, int32_t* errcode, char** errmsg) {
     try {
-        grouped_size_factors_without_clusters(mat, use_block, block, rank, output, num_threads);
+        grouped_size_factors_without_clusters(mat, use_block, block, use_init_sf, initial_size_factors, rank, output, num_threads);
     } catch(std::exception& e) {
         *errcode = 1;
         *errmsg = copy_error_message(e.what());

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional, Sequence, Union
-from numpy import ndarray, float64
+from numpy import ndarray, float64, array
 
 from .._utils import MatrixTypes, tatamize_input, factorize, process_block
 from .. import cpphelpers as lib
@@ -22,12 +22,20 @@ class GroupedSizeFactorsOptions:
             Sequence of block assignments, where PCA and clustering is
             performed within each block. Only used if ``clusters`` is None.
 
+        initial_factors (Sequence, optional):
+            Array of initial size factors to obtain a log-normalized matrix prior
+            to PCA and clustering. Only used if ``clusters`` is None.
+
+        assay_type (Union[str, int]):
+            Assay containing the count matrix, if ``input`` is a SummarizedExperiment.
+
         num_threads (int):
             Number of threads to use for the various calculations.
     """
     rank: int = 25
     groups: Optional[Sequence] = None
     block: Optional[Sequence] = None
+    initial_factors: Optional[Sequence] = None
     assay_type: Union[int, str] = 0
     num_threads: int = 1
 
@@ -64,6 +72,25 @@ def grouped_size_factors(input: MatrixTypes, options: GroupedSizeFactorsOptions 
         lib.grouped_size_factors_with_clusters(ptr.ptr, group_indices, output, options.num_threads)
     else:
         use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, ptr.ncol())
-        lib.grouped_size_factors_without_clusters(ptr.ptr, use_block, block_offset, options.rank, output, options.num_threads)
+
+        use_init_sf = options.initial_factors is not None
+        init_sf_info = None
+        init_sf_offset = 0
+        if use_init_sf:
+            if len(options.initial_factors) != ptr.ncol():
+                raise ValueError("length of 'options.initial_factors' should be equal to the number of cells in 'input'")
+            init_sf_info = array(options.initial_factors, copy=False, dtype=float64)
+            init_sf_offset = init_sf_info.ctypes.data
+
+        lib.grouped_size_factors_without_clusters(
+            ptr.ptr, 
+            use_block, 
+            block_offset, 
+            use_init_sf,
+            init_sf_offset,
+            options.rank, 
+            output, 
+            options.num_threads,
+        )
 
     return output

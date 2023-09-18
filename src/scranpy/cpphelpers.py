@@ -494,6 +494,8 @@ lib.py_grouped_size_factors_without_clusters.argtypes = [
     ct.c_void_p,
     ct.c_uint8,
     ct.c_void_p,
+    ct.c_uint8,
+    ct.c_void_p,
     ct.c_int32,
     ct.c_void_p,
     ct.c_int32,
@@ -985,8 +987,8 @@ def get_combined_factors_size(ptr):
 def grouped_size_factors_with_clusters(mat, clusters, output, num_threads):
     return _catch_errors(lib.py_grouped_size_factors_with_clusters)(mat, _np2ct(clusters, np.int32), _np2ct(output, np.float64), num_threads)
 
-def grouped_size_factors_without_clusters(mat, use_block, block, rank, output, num_threads):
-    return _catch_errors(lib.py_grouped_size_factors_without_clusters)(mat, use_block, block, rank, _np2ct(output, np.float64), num_threads)
+def grouped_size_factors_without_clusters(mat, use_block, block, use_init_sf, initial_size_factors, rank, output, num_threads):
+    return _catch_errors(lib.py_grouped_size_factors_without_clusters)(mat, use_block, block, use_init_sf, initial_size_factors, rank, _np2ct(output, np.float64), num_threads)
 
 def hypergeometric_test(num_genes, de_in_set_size, de_in_set, set_size_size, set_size, num_de_size, num_de, total_genes_size, total_genes, log, upper_tail, num_threads, output):
     return _catch_errors(lib.py_hypergeometric_test)(num_genes, de_in_set_size, de_in_set, set_size_size, set_size, num_de_size, num_de, total_genes_size, total_genes, log, upper_tail, num_threads, _np2ct(output, np.float64))

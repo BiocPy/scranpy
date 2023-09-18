@@ -17,10 +17,20 @@ void grouped_size_factors_with_clusters(void* mat, const int32_t* clusters /** n
 }
 
 //[[export]]
-void grouped_size_factors_without_clusters(void* mat, uint8_t use_block, const int32_t* block /** void_p */, int32_t rank, double* output /** numpy */, int32_t num_threads) {
+void grouped_size_factors_without_clusters(
+    void* mat, 
+    uint8_t use_block, 
+    const int32_t* block /** void_p */, 
+    uint8_t use_init_sf,
+    const double* initial_size_factors /** void_p */,
+    int32_t rank, 
+    double* output /** numpy */, 
+    int32_t num_threads) 
+{
     scran::quick_grouped_size_factors::Options<int32_t> options;
     options.block = block;
     options.rank = rank;
+    options.initial_factors = initial_size_factors;
     options.num_threads = num_threads;
 
     // TODO: turn on the safety handlers.
