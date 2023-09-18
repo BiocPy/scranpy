@@ -6,6 +6,7 @@ from .live_analyze import live_analyze
 from .dry_analyze import dry_analyze
 from .update import update
 
+from summarizedexperiment import SummarizedExperiment
 from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
 from .._utils import MatrixTypes
@@ -114,6 +115,7 @@ def analyze_se(
             return None, None
 
     rna_matrix, rna_features = exfil(rna_se)
+    print(rna_features)
     adt_matrix, adt_features = exfil(adt_se)
     crispr_matrix, crispr_features = exfil(crispr_se)
 

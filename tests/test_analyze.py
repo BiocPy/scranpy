@@ -1,6 +1,7 @@
-from scranpy import AnalyzeResults, analyze, AnalyzeOptions, MiscellaneousOptions
+from scranpy import AnalyzeResults, analyze, analyze_se, analyze_sce, AnalyzeOptions, MiscellaneousOptions
 from scranpy.normalization import LogNormCountsOptions
 from singlecellexperiment import SingleCellExperiment
+from summarizedexperiment import SummarizedExperiment
 import delayedarray as da
 import numpy as np
 
@@ -83,7 +84,6 @@ def test_analyze_multimodal():
     assert list(as_sce.alternative_experiments.keys()) == ["adt", "crispr"]
 
     dry = analyze(rna, adt, crispr, dry_run=True)
-    print(dry)
     assert isinstance(dry, str)
 
 
@@ -121,3 +121,20 @@ def test_analyze_multimodal_skip_qc():
         ),
     )
     assert len(out.rna_size_factors) == 200
+
+
+def test_analyze_summarizedexperiment(mock_data):
+    se = SummarizedExperiment({ "counts": mock_data.x })
+    se.row_names = [f"gene{i}" for i in range(1000)]
+    out = analyze_se(se, assay_type="counts")
+    print(out.gene_variances)
+    assert out.gene_variances.row_names == se.row_names
+
+    sce = SingleCellExperiment({ "counts": mock_data.x })
+    sce.row_names = [f"gene{i}" for i in range(1000)]
+    adt_se = SummarizedExperiment({ "counts": np.random.rand(20, 200) })
+    adt_se.row_names = [f"tag{i}" for i in range(20)]
+    sce.alternative_experiments = { "adt": adt_se }
+    out = analyze_sce(se, adt_exp = "adt", assay_type="counts")
+    assert out.gene_variances.row_names == se.row_names
+    assert out.adt_markers[0].row_names == adt_se.row_names
