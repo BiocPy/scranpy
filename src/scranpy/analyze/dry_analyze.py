@@ -10,15 +10,15 @@ def dry_analyze(rna_matrix, adt_matrix, crispr_matrix, options) -> str:
     __commands = ['import scranpy', 'import numpy', '']
     __commands.append('results = AnalyzeResults()')
     if _do_rna:
-        __commands.append('results.rna_quality_control_metrics = scranpy.quality_control.per_cell_rna_qc_metrics(rna_matrix, options=update(options.per_cell_rna_qc_metrics_options))')
+        __commands.append('results.rna_quality_control_metrics = scranpy.quality_control.per_cell_rna_qc_metrics(rna_matrix, options=update(options.per_cell_rna_qc_metrics_options, cell_names=options.miscellaneous_options.cell_names))')
         __commands.append('results.rna_quality_control_thresholds = scranpy.quality_control.suggest_rna_qc_filters(results.rna_quality_control_metrics, options=update(options.suggest_rna_qc_filters_options, block=options.miscellaneous_options.block))')
         __commands.append('results.rna_quality_control_filter = scranpy.quality_control.create_rna_qc_filter(results.rna_quality_control_metrics, results.rna_quality_control_thresholds, options=update(options.create_rna_qc_filter_options, block=options.miscellaneous_options.block))')
     if _do_adt:
-        __commands.append('results.adt_quality_control_metrics = scranpy.quality_control.per_cell_adt_qc_metrics(adt_matrix, options=update(options.per_cell_adt_qc_metrics_options))')
+        __commands.append('results.adt_quality_control_metrics = scranpy.quality_control.per_cell_adt_qc_metrics(adt_matrix, options=update(options.per_cell_adt_qc_metrics_options, cell_names=options.miscellaneous_options.cell_names))')
         __commands.append('results.adt_quality_control_thresholds = scranpy.quality_control.suggest_adt_qc_filters(results.adt_quality_control_metrics, options=update(options.suggest_adt_qc_filters_options, block=options.miscellaneous_options.block))')
         __commands.append('results.adt_quality_control_filter = scranpy.quality_control.create_adt_qc_filter(results.adt_quality_control_metrics, results.adt_quality_control_thresholds, options=update(options.create_adt_qc_filter_options, block=options.miscellaneous_options.block))')
     if _do_crispr:
-        __commands.append('results.crispr_quality_control_metrics = scranpy.quality_control.per_cell_crispr_qc_metrics(crispr_matrix, options=update(options.per_cell_crispr_qc_metrics_options))')
+        __commands.append('results.crispr_quality_control_metrics = scranpy.quality_control.per_cell_crispr_qc_metrics(crispr_matrix, options=update(options.per_cell_crispr_qc_metrics_options, cell_names=options.miscellaneous_options.cell_names))')
         __commands.append('results.crispr_quality_control_thresholds = scranpy.quality_control.suggest_crispr_qc_filters(results.crispr_quality_control_metrics, options=update(options.suggest_crispr_qc_filters_options, block=options.miscellaneous_options.block))')
         __commands.append('results.crispr_quality_control_filter = scranpy.quality_control.create_crispr_qc_filter(results.crispr_quality_control_metrics, results.crispr_quality_control_thresholds, options=update(options.create_crispr_qc_filter_options, block=options.miscellaneous_options.block))')
     if _do_rna:
@@ -54,12 +54,13 @@ def dry_analyze(rna_matrix, adt_matrix, crispr_matrix, options) -> str:
             __commands.append('raw_size_factors = options.rna_log_norm_counts_options.size_factors')
         __commands.append('(rna_normed, final_size_factors) = scranpy.normalization.log_norm_counts(rna_filtered, options=update(options.rna_log_norm_counts_options, size_factors=raw_size_factors, center_size_factors_options=update(options.rna_log_norm_counts_options.center_size_factors_options, block=filtered_block), with_size_factors=True))')
         __commands.append('results.rna_size_factors = final_size_factors')
-        __commands.append('results.gene_variances = scranpy.feature_selection.model_gene_variances(rna_normed, options=update(options.model_gene_variances_options, block=filtered_block))')
+        __commands.append('results.gene_variances = scranpy.feature_selection.model_gene_variances(rna_normed, options=update(options.model_gene_variances_options, block=filtered_block, feature_names=options.miscellaneous_options.rna_feature_names))')
         __commands.append("results.hvgs = scranpy.feature_selection.choose_hvgs(results.gene_variances.column('residuals'), options=options.choose_hvgs_options)")
         __commands.append('results.rna_pca = scranpy.dimensionality_reduction.run_pca(rna_normed, options=update(options.rna_run_pca_options, subset=results.hvgs, block=filtered_block))')
     if _do_adt:
         if options.adt_log_norm_counts_options.size_factors is None:
             __commands.append("raw_size_factors = results.adt_quality_control_metrics.column('sums')[results.quality_control_retained]")
+            __commands.append('raw_size_factors = scranpy.normalization.grouped_size_factors(adt_filtered, options=update(options.grouped_size_factors_options, block=filtered_block, initial_size_factors=raw_size_factors))')
         else:
             __commands.append('raw_size_factors = options.adt_log_norm_counts_options.size_factors')
         __commands.append('(adt_normed, final_size_factors) = scranpy.normalization.log_norm_counts(adt_filtered, options=update(options.adt_log_norm_counts_options, size_factors=raw_size_factors, center_size_factors_options=update(options.adt_log_norm_counts_options.center_size_factors_options, block=filtered_block), with_size_factors=True))')
@@ -96,11 +97,11 @@ def dry_analyze(rna_matrix, adt_matrix, crispr_matrix, options) -> str:
     __commands.append('results.snn_graph = graph')
     __commands.append('results.clusters = results.snn_graph.community_multilevel(resolution=options.miscellaneous_options.snn_graph_multilevel_resolution).membership')
     if _do_rna:
-        __commands.append('results.rna_markers = scranpy.marker_detection.score_markers(rna_normed, grouping=results.clusters, options=update(options.rna_score_markers_options, block=filtered_block, num_threads=remaining_threads))')
+        __commands.append('results.rna_markers = scranpy.marker_detection.score_markers(rna_normed, grouping=results.clusters, options=update(options.rna_score_markers_options, block=filtered_block, feature_names=options.miscellaneous_options.rna_feature_names, num_threads=remaining_threads))')
     if _do_adt:
-        __commands.append('results.adt_markers = scranpy.marker_detection.score_markers(adt_normed, grouping=results.clusters, options=update(options.adt_score_markers_options, block=filtered_block, num_threads=remaining_threads))')
+        __commands.append('results.adt_markers = scranpy.marker_detection.score_markers(adt_normed, grouping=results.clusters, options=update(options.adt_score_markers_options, block=filtered_block, feature_names=options.miscellaneous_options.adt_feature_names, num_threads=remaining_threads))')
     if _do_crispr:
-        __commands.append('results.crispr_markers = scranpy.marker_detection.score_markers(crispr_normed, grouping=results.clusters, options=update(options.crispr_score_markers_options, block=filtered_block, num_threads=remaining_threads))')
+        __commands.append('results.crispr_markers = scranpy.marker_detection.score_markers(crispr_normed, grouping=results.clusters, options=update(options.crispr_score_markers_options, block=filtered_block, feature_names=options.miscellaneous_options.crispr_feature_names, num_threads=remaining_threads))')
     __commands.append('results.tsne = get_tsne()')
     __commands.append('results.umap = get_umap()')
     return '\n'.join(__commands)

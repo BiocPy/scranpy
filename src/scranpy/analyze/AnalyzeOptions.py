@@ -109,6 +109,10 @@ class AnalyzeOptions:
             Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`
             for the RNA count matrix.
 
+        grouped_size_factors_options (GroupedSizeFactorsOptions):
+            Options to pass to :py:meth:`~scranpy.normalization.grouped_size_factors.grouped_size_factors`
+            to compute ADT size factors.
+
         adt_log_norm_counts_options (LogNormCountsOptions):
             Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`
             for the ADT count matrix.
@@ -118,10 +122,12 @@ class AnalyzeOptions:
             for the CRISPR count matrix.
 
         choose_hvgs_options (ChooseHvgsOptions):
-            Options to pass to :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
+            Options to pass to :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`
+            to choose highly variable genes for the RNA data.
 
         model_gene_variances_options (ModelGeneVariancesOptions):
-            Options to pass to :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
+            Options to pass to :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`
+            to model per-gene variances for the RNA data.
 
         rna_run_pca_options (RunPcaOptions):
             Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`
@@ -211,6 +217,10 @@ class AnalyzeOptions:
 
     rna_log_norm_counts_options: norm.LogNormCountsOptions = field(
         default_factory=norm.LogNormCountsOptions
+    )
+
+    grouped_size_factors_options: norm.GroupedSizeFactorsOptions = field(
+        default_factory=norm.GroupedSizeFactorsOptions
     )
 
     adt_log_norm_counts_options: norm.LogNormCountsOptions = field(
@@ -325,4 +335,5 @@ class AnalyzeOptions:
         self.choose_hvgs_options.set_threads(num_threads)
         self.model_gene_variances_options.set_threads(num_threads)
         self.run_pca_options.set_threads(num_threads)
-        self.find_nearest_neighbors.set_threads(num_threads)
+        self.find_nearest_neighbors_options.set_threads(num_threads)
+        self.grouped_size_factors_options.set_threads(num_threads)

@@ -205,6 +205,15 @@ def live_analyze(rna_matrix, adt_matrix, crispr_matrix, options):
             raw_size_factors = results.adt_quality_control_metrics.column("sums")[
                 results.quality_control_retained
             ]
+
+            raw_size_factors = norm.grouped_size_factors(
+                adt_filtered,
+                options=update(
+                    options.grouped_size_factors_options,
+                    block=filtered_block,
+                    initial_size_factors=raw_size_factors,
+                ),
+            )
         else:
             raw_size_factors = options.adt_log_norm_counts_options.size_factors
 
