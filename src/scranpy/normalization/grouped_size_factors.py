@@ -1,6 +1,9 @@
 from dataclasses import dataclass
+from typing import Optional, Sequence, Union
+from numpy import ndarray, float64
 
 from .._utils import MatrixTypes, tatamize_input, factorize, process_block
+from .. import cpphelpers as lib
 
 
 @dataclass
@@ -54,13 +57,13 @@ def grouped_size_factors(input: MatrixTypes, options: GroupedSizeFactorsOptions 
     ptr = tatamize_input(input, options.assay_type)
     output = ndarray(ptr.ncol(), dtype=float64)
 
-    if options.clusters is None:
-        cluster_levels, cluster_indices = factorize(options.clusters)
-        if len(cluster_indices) != ptr.ncol():
-            raise ValueError("length of 'options.clusters' should be equal to number of cells in 'input'")
-        lib.grouped_size_factors_with_clusters(ptr.ptr, output, options.num_threads)
+    if options.groups is not None:
+        group_levels, group_indices = factorize(options.groups)
+        if len(group_indices) != ptr.ncol():
+            raise ValueError("length of 'options.groups' should be equal to number of cells in 'input'")
+        lib.grouped_size_factors_with_clusters(ptr.ptr, group_indices, output, options.num_threads)
     else:
-        use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, NC)
+        use_block, num_blocks, block_names, block_info, block_offset = process_block(options.block, ptr.ncol())
         lib.grouped_size_factors_without_clusters(ptr.ptr, use_block, block_offset, options.rank, output, options.num_threads)
 
     return output
