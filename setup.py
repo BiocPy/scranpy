@@ -40,6 +40,7 @@ if __name__ == "__main__":
                         "src/scranpy/lib/scale_by_neighbors.cpp",
                         "src/scranpy/lib/hypergeometric_test.cpp",
                         "src/scranpy/lib/score_feature_set.cpp",
+                        "src/scranpy/lib/grouped_size_factors.cpp",
                         "src/scranpy/lib/bindings.cpp",
                     ],
                     include_dirs=[assorthead.includes()] + mattress.includes(),
