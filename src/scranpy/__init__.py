@@ -25,4 +25,4 @@ from .marker_detection import *
 from .nearest_neighbors import *
 from .normalization import *
 from .quality_control import *
-from .analyze import analyze, AnalyzeOptions, AnalyzeResults, update, MiscellaneousOptions
+from .analyze import *
