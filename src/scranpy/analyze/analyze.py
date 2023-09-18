@@ -115,7 +115,6 @@ def analyze_se(
             return None, None
 
     rna_matrix, rna_features = exfil(rna_se)
-    print(rna_features)
     adt_matrix, adt_features = exfil(adt_se)
     crispr_matrix, crispr_features = exfil(crispr_se)
 
@@ -195,6 +194,7 @@ def analyze_sce(
         rna_se = exfil(sce, rna_exp),
         adt_se = exfil(sce, adt_exp),
         crispr_se = exfil(sce, crispr_exp),
-        options=options, 
-        dry_run=dry_run,
+        assay_type = assay_type,
+        options = options, 
+        dry_run = dry_run,
     )

@@ -100,6 +100,7 @@ def model_gene_variances(
                 "residuals": residuals,
             },
             number_of_rows=NR,
+            row_names=options.feature_names,
         )
     else:
         NC = x.ncol()

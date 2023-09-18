@@ -127,14 +127,13 @@ def test_analyze_summarizedexperiment(mock_data):
     se = SummarizedExperiment({ "counts": mock_data.x })
     se.row_names = [f"gene{i}" for i in range(1000)]
     out = analyze_se(se, assay_type="counts")
-    print(out.gene_variances)
     assert out.gene_variances.row_names == se.row_names
 
     sce = SingleCellExperiment({ "counts": mock_data.x })
     sce.row_names = [f"gene{i}" for i in range(1000)]
-    adt_se = SummarizedExperiment({ "counts": np.random.rand(20, 200) })
+    adt_se = SummarizedExperiment({ "counts": np.random.rand(20, mock_data.x.shape[1]) })
     adt_se.row_names = [f"tag{i}" for i in range(20)]
     sce.alternative_experiments = { "adt": adt_se }
-    out = analyze_sce(se, adt_exp = "adt", assay_type="counts")
+    out = analyze_sce(sce, adt_exp = "adt", assay_type="counts")
     assert out.gene_variances.row_names == se.row_names
     assert out.adt_markers[0].row_names == adt_se.row_names
