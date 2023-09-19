@@ -17,12 +17,6 @@ def factorize(x: Sequence) -> Tuple[list, ndarray]:
     return lev, array(ind, int32)
 
 
-def is_list_of_type(x: Any, target_type: Callable) -> bool:
-    return (isinstance(x, list) or isinstance(x, tuple)) and all(
-        isinstance(item, target_type) for item in x
-    )
-
-
 def to_logical(selection: Sequence, length: int, dtype=uint8) -> ndarray:
     output = zeros((length,), dtype=dtype)
 
@@ -49,8 +43,13 @@ def to_logical(selection: Sequence, length: int, dtype=uint8) -> ndarray:
         has_bool = False
         has_number = True
     else:
-        has_bool = is_list_of_type(selection, bool)
-        has_number = is_list_of_type(selection, int)
+        has_bool = False
+        has_number = False
+        for ss in selection:
+            if isinstance(ss, bool):
+                has_bool = True
+            elif isinstance(ss, int):
+                has_number = True
 
     if (has_number and has_bool) or (not has_bool and not has_number):
         raise TypeError("'selection' should only contain booleans or numbers")
