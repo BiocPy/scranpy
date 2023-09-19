@@ -72,7 +72,9 @@ import biocutils
 common = biocutils.intersect(sce3k.row_data["id"], sce4k.row_data["id"])
 sce3k_common = sce3k[biocutils.match(common, sce3k.row_data["id"]), :]
 sce4k_common = sce4k[biocutils.match(common, sce4k.row_data["id"]), :]
-combined = sce3k_common.combine_cols(sce4k_common)
+
+import scipy.sparse
+combined = scipy.sparse.hstack((sce3k_common.assay(0), sce4k_common.assay(0)))
 batch = ["3k"] * sce3k_common.shape[1] + ["4k"] * sce4k_common.shape[1]
 ```
 
@@ -82,10 +84,16 @@ We can now perform a batch-aware analysis:
 import scranpy
 options = scranpy.AnalyzeOptions()
 options.per_cell_rna_qc_metrics_options.subsets = {
-    "mito": scranpy.guess_mito_from_symbols(combined.row_data["name"], "mt-")
+    "mito": scranpy.guess_mito_from_symbols(sce3k_common.row_data["name"], "mt-")
 }
 options.miscellaneous_options.block = batch
-results = scranpy.analyze_sce(combined, options=options)
+results = scranpy.analyze(combined, options=options)
+```
+
+This yields mostly the same set of results as before, but with an extra MNN-corrected embedding for clustering, visualization, etc.
+
+```python
+results.mnn
 ```
 
 ## Multiple modalities
@@ -120,11 +128,12 @@ options.per_cell_adt_qc_metrics_options.subsets = {
 results = scranpy.analyze_se(gene_data, adt_se = adt_data, options=options)
 ```
 
-This returns ADT-specific results in the relevant fields:
+This returns ADT-specific results in the relevant fields, as well as a set of combined PCs for use in clustering, visualization, etc. 
 
 ```python
 results.adt_size_factors
 results.adt_markers
+results.combined_pcs
 ```
 
 ## Customizing the analysis
