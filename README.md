@@ -100,9 +100,9 @@ sce = singlecellexperiment.read_tenx_h5("immune_3.0.0-tenx.h5")
 We need to split it to genes and ADTs:
 
 ```python
-is_gene = [sce.row_data["feature_type"] == "Gene Expression"]
+is_gene = [x == "Gene Expression" for x in sce.row_data["feature_type"]]
 gene_data = sce[is_gene,:]
-is_adt = [sce.row_data["feature_type"] == "Antibody Capture"]
+is_adt = [x == "Antibody Capture" for x in sce.row_data["feature_type"]]
 adt_data = sce[is_adt,:]
 ```
 
@@ -137,7 +137,8 @@ options.build_snn_graph_options.num_neighbors = 10
 options.miscellaneous_options.snn_graph_multilevel_resolution = 2
 ```
 
-Some of the parameters have convenience methods so that they can be easily across multiple `*_options`:
+The `AnalyzeOptions` has a few convenience methods to easily set the same parameter across multiple `*_options`.
+For example, to enable parallel processing:
 
 ```python
 options.set_threads(5)
