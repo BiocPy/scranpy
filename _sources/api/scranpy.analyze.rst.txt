@@ -1,0 +1,69 @@
+scranpy.analyze package
+=======================
+
+Submodules
+----------
+
+scranpy.analyze.AnalyzeOptions module
+-------------------------------------
+
+.. automodule:: scranpy.analyze.AnalyzeOptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.analyze.AnalyzeResults module
+-------------------------------------
+
+.. automodule:: scranpy.analyze.AnalyzeResults
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.analyze.analyze module
+------------------------------
+
+.. automodule:: scranpy.analyze.analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.analyze.dry\_analyze module
+-----------------------------------
+
+.. automodule:: scranpy.analyze.dry_analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.analyze.live\_analyze module
+------------------------------------
+
+.. automodule:: scranpy.analyze.live_analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.analyze.run\_neighbor\_suite module
+-------------------------------------------
+
+.. automodule:: scranpy.analyze.run_neighbor_suite
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.analyze.update module
+-----------------------------
+
+.. automodule:: scranpy.analyze.update
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: scranpy.analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:

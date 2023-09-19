@@ -1,0 +1,21 @@
+scranpy.batch\_correction package
+=================================
+
+Submodules
+----------
+
+scranpy.batch\_correction.mnn\_correct module
+---------------------------------------------
+
+.. automodule:: scranpy.batch_correction.mnn_correct
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: scranpy.batch_correction
+   :members:
+   :undoc-members:
+   :show-inheritance:

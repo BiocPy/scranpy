@@ -12,14 +12,6 @@ scranpy.marker\_detection.score\_markers module
    :undoc-members:
    :show-inheritance:
 
-scranpy.marker\_detection.types module
---------------------------------------
-
-.. automodule:: scranpy.marker_detection.types
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

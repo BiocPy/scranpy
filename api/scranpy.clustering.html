@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.dimensionality_reduction package" href="scranpy.dimensionality_reduction.html" /><link rel="prev" title="scranpy package" href="scranpy.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.dimensionality_reduction package" href="scranpy.dimensionality_reduction.html" /><link rel="prev" title="scranpy.batch_correction package" href="scranpy.batch_correction.html" />
 
-    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
-        <title>scranpy.clustering package - scranpy 0.0.4 documentation</title>
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+        <title>scranpy.clustering package - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
+      <a href="../index.html"><div class="brand">scranpy unknown documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
+  <span class="sidebar-brand-text">scranpy unknown documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -156,12 +156,16 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../customization.html">Customization</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="scranpy.aggregation.html">scranpy.aggregation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.analyze.html">scranpy.analyze package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.batch_correction.html">scranpy.batch_correction package</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.feature_set_enrichment.html">scranpy.feature_set_enrichment package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.normalization.html">scranpy.normalization package</a></li>
@@ -209,255 +213,16 @@
         </div>
         <article role="main">
           <section id="scranpy-clustering-package">
-<h1>scranpy.clustering package<a class="headerlink" href="#scranpy-clustering-package" title="Link to this heading">#</a></h1>
+<h1>scranpy.clustering package<a class="headerlink" href="#scranpy-clustering-package" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="scranpy-clustering-build-snn-graph-module">
-<h2>scranpy.clustering.build_snn_graph module<a class="headerlink" href="#scranpy-clustering-build-snn-graph-module" title="Link to this heading">#</a></h2>
-<dl class="py class" id="module-scranpy.clustering.build_snn_graph">
-<dt class="sig sig-object py" id="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.clustering.build_snn_graph.</span></span><span class="sig-name descname"><span class="pre">BuildSnnGraphOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_neighbors:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_scheme:</span> <span class="pre">~typing.Literal['ranked'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'jaccard'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'number']</span> <span class="pre">=</span> <span class="pre">'ranked'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_neighbor_index_options:</span> <span class="pre">~scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/clustering/build_snn_graph.html#BuildSnnGraphOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Optional arguments for <a class="reference internal" href="#scranpy.clustering.build_snn_graph.build_snn_graph" title="scranpy.clustering.build_snn_graph.build_snn_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_snn_graph()</span></code></a>.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.num_neighbors">
-<span class="sig-name descname"><span class="pre">num_neighbors</span></span><a class="headerlink" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.num_neighbors" title="Link to this definition">#</a></dt>
-<dd><p>Number of neighbors to use.
-Larger values result in a more interconnected graph and generally broader clusters from community detection.
-Ignored if <code class="docutils literal notranslate"><span class="pre">input</span></code> is a <a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborResults</span></code></a> object.
-Defaults to 15.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.weight_scheme">
-<span class="sig-name descname"><span class="pre">weight_scheme</span></span><a class="headerlink" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.weight_scheme" title="Link to this definition">#</a></dt>
-<dd><p>Weighting scheme for the edges between cells. This can be based on the top ranks
-of the shared neighbors (“rank”), the number of shared neighbors (“number”)
-or the Jaccard index of the neighbor sets between cells (“jaccard”).
-Defaults to “ranked”.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Literal[“ranked”, “jaccard”, “number”], optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.build_neighbor_index_options">
-<span class="sig-name descname"><span class="pre">build_neighbor_index_options</span></span><a class="headerlink" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.build_neighbor_index_options" title="Link to this definition">#</a></dt>
-<dd><p>Optional arguments to use for building a nearest neighbors index.
-Only used if <code class="docutils literal notranslate"><span class="pre">input</span></code> is a <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions" title="scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions">BuildNeighborIndexOptions</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.num_threads" title="Link to this definition">#</a></dt>
-<dd><p>Number of threads to use for the SNN graph construction.
-This is also used for the neighbor search if <code class="docutils literal notranslate"><span class="pre">input</span></code> is not already a
-<a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborResults</span></code></a>.
-Defaults to 1.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.verbose" title="Link to this definition">#</a></dt>
-<dd><p>Whether to print logging information. Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">weight_scheme</span></code> is not an expected value.</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">build_neighbor_index_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions" title="scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions"><span class="pre">BuildNeighborIndexOptions</span></a></em><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">num_neighbors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15</span></em><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">weight_scheme</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Literal" title="(in Python v3.9)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ranked'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'jaccard'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'number'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ranked'</span></em><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scranpy.clustering.build_snn_graph.build_snn_graph">
-<span class="sig-prename descclassname"><span class="pre">scranpy.clustering.build_snn_graph.</span></span><span class="sig-name descname"><span class="pre">build_snn_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><span class="pre">NeighborIndex</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><span class="pre">NeighborResults</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions" title="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions"><span class="pre">BuildSnnGraphOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">BuildSnnGraphOptions(num_neighbors=15,</span> <span class="pre">weight_scheme='ranked',</span> <span class="pre">build_neighbor_index_options=BuildNeighborIndexOptions(approximate=True,</span> <span class="pre">verbose=False),</span> <span class="pre">num_threads=1,</span> <span class="pre">verbose=False)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Graph</span></span></span><a class="reference internal" href="../_modules/scranpy/clustering/build_snn_graph.html#build_snn_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.clustering.build_snn_graph.build_snn_graph" title="Link to this definition">#</a></dt>
-<dd><p>Build a shared nearest neighbor (SNN) graph where each cell is a node and
-edges are formed between cells that share one or more nearest neighbors.
-This can be used for community detection to define clusters of similar cells.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<em>NeighborlyInputs</em>) – <p>Object containing per-cell nearest neighbor results or data that can be used to derive them.</p>
-<p>This may be a a 2-dimensional <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> containing per-cell
-coordinates, where rows are cells and columns are dimensions.
-This is most typically the result of the PCA step
-(<a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_pca.run_pca" title="scranpy.dimensionality_reduction.run_pca.run_pca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_pca()</span></code></a>).</p>
-<p>Alternatively, <code class="docutils literal notranslate"><span class="pre">input</span></code> may be a pre-built neighbor search index
-(<a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborIndex</span></code></a>)
-for the dataset, typically constructed from the PC coordinates for all cells.</p>
-<p>Alternatively, <code class="docutils literal notranslate"><span class="pre">input</span></code> may be a pre-computed set of neighbor
-search results
-(<a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborResults</span></code></a>).
-for all cells in the dataset.</p>
-</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions" title="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions"><em>BuildSnnGraphOptions</em></a>) – Optional parameters.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">input</span></code> is not a nearest neighbor search index or search result
-    (<a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborIndex</span></code></a>,
-    <a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborResults</span></code></a>).</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>An igraph object.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Graph</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="scranpy-clustering-types-module">
-<h2>scranpy.clustering.types module<a class="headerlink" href="#scranpy-clustering-types-module" title="Link to this heading">#</a></h2>
-<dl class="py class" id="module-scranpy.clustering.types">
-<dt class="sig sig-object py" id="scranpy.clustering.types.ClusteringOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.clustering.types.</span></span><span class="sig-name descname"><span class="pre">ClusteringOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_snn_graph:</span> <span class="pre">~scranpy.clustering.build_snn_graph.BuildSnnGraphOptions</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/clustering/types.html#ClusteringOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.clustering.types.ClusteringOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Options for clustering.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.types.ClusteringOptions.build_snn_graph">
-<span class="sig-name descname"><span class="pre">build_snn_graph</span></span><a class="headerlink" href="#scranpy.clustering.types.ClusteringOptions.build_snn_graph" title="Link to this definition">#</a></dt>
-<dd><p>Optional arguments to build the SNN graph</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions" title="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions">BuildSnnGraphOptions</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">(:py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`).</span></span></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">build_snn_graph</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions" title="scranpy.clustering.build_snn_graph.BuildSnnGraphOptions"><span class="pre">BuildSnnGraphOptions</span></a></em><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.types.ClusteringOptions.resolution">
-<span class="sig-name descname"><span class="pre">resolution</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#scranpy.clustering.types.ClusteringOptions.resolution" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.clustering.types.ClusteringOptions.set_threads">
-<span class="sig-name descname"><span class="pre">set_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/clustering/types.html#ClusteringOptions.set_threads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.clustering.types.ClusteringOptions.set_threads" title="Link to this definition">#</a></dt>
-<dd><p>Number of threads to use in steps that can be parallelized.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>num_threads</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Number of threads. Defaults to 1.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.clustering.types.ClusteringOptions.set_verbose">
-<span class="sig-name descname"><span class="pre">set_verbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/clustering/types.html#ClusteringOptions.set_verbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.clustering.types.ClusteringOptions.set_verbose" title="Link to this definition">#</a></dt>
-<dd><p>Set verbose to display logs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to display logs. Defaults to False.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="scranpy.clustering.types.ClusteringResults">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.clustering.types.</span></span><span class="sig-name descname"><span class="pre">ClusteringResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_snn_graph</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Graph</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/clustering/types.html#ClusteringResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.clustering.types.ClusteringResults" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Results of the clustering step.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.types.ClusteringResults.build_snn_graph">
-<span class="sig-name descname"><span class="pre">build_snn_graph</span></span><a class="headerlink" href="#scranpy.clustering.types.ClusteringResults.build_snn_graph" title="Link to this definition">#</a></dt>
-<dd><p>The output of
-<a class="reference internal" href="#scranpy.clustering.build_snn_graph.build_snn_graph" title="scranpy.clustering.build_snn_graph.build_snn_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_snn_graph()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Graph, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.clustering.types.ClusteringResults.clusters">
-<span class="sig-name descname"><span class="pre">clusters</span></span><a class="headerlink" href="#scranpy.clustering.types.ClusteringResults.clusters" title="Link to this definition">#</a></dt>
-<dd><p>Clusters identified by igraph.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">build_snn_graph</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Graph</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">clusters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<h2>scranpy.clustering.build_snn_graph module<a class="headerlink" href="#scranpy-clustering-build-snn-graph-module" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
-<span class="target" id="module-scranpy.clustering"></span></section>
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+</section>
 </section>
 
         </article>
@@ -474,14 +239,14 @@ for all cells in the dataset.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="scranpy.html">
+          <a class="prev-page" href="scranpy.batch_correction.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">scranpy package</div>
+                <div class="title">scranpy.batch_correction package</div>
                 
               </div>
             </a>
@@ -517,41 +282,7 @@ for all cells in the dataset.</p>
             <ul>
 <li><a class="reference internal" href="#">scranpy.clustering package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#scranpy-clustering-build-snn-graph-module">scranpy.clustering.build_snn_graph module</a><ul>
-<li><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.num_neighbors"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.num_neighbors</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.weight_scheme"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.weight_scheme</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.build_neighbor_index_options"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.build_neighbor_index_options</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.num_threads</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.verbose"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.verbose</span></code></a></li>
-<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.build_neighbor_index_options</span></code></a></li>
-<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.num_neighbors</span></code></a></li>
-<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.num_threads</span></code></a></li>
-<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.verbose</span></code></a></li>
-<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">BuildSnnGraphOptions.weight_scheme</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.clustering.build_snn_graph.build_snn_graph"><code class="docutils literal notranslate"><span class="pre">build_snn_graph()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy-clustering-types-module">scranpy.clustering.types module</a><ul>
-<li><a class="reference internal" href="#scranpy.clustering.types.ClusteringOptions"><code class="docutils literal notranslate"><span class="pre">ClusteringOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.clustering.types.ClusteringOptions.build_snn_graph"><code class="docutils literal notranslate"><span class="pre">ClusteringOptions.build_snn_graph</span></code></a></li>
-<li><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">ClusteringOptions.build_snn_graph</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.clustering.types.ClusteringOptions.resolution"><code class="docutils literal notranslate"><span class="pre">ClusteringOptions.resolution</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.clustering.types.ClusteringOptions.set_threads"><code class="docutils literal notranslate"><span class="pre">ClusteringOptions.set_threads()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.clustering.types.ClusteringOptions.set_verbose"><code class="docutils literal notranslate"><span class="pre">ClusteringOptions.set_verbose()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.clustering.types.ClusteringResults"><code class="docutils literal notranslate"><span class="pre">ClusteringResults</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.clustering.types.ClusteringResults.build_snn_graph"><code class="docutils literal notranslate"><span class="pre">ClusteringResults.build_snn_graph</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.clustering.types.ClusteringResults.clusters"><code class="docutils literal notranslate"><span class="pre">ClusteringResults.clusters</span></code></a></li>
-<li><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">ClusteringResults.build_snn_graph</span></code></a></li>
-<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">ClusteringResults.clusters</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#scranpy-clustering-build-snn-graph-module">scranpy.clustering.build_snn_graph module</a></li>
 <li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
@@ -564,9 +295,9 @@ for all cells in the dataset.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8c5712d9"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

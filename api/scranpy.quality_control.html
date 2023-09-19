@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contributing" href="../contributing.html" /><link rel="prev" title="scranpy.normalization package" href="scranpy.normalization.html" />
 
-    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
-        <title>scranpy.quality_control package - scranpy 0.0.4 documentation</title>
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+        <title>scranpy.quality_control package - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
+      <a href="../index.html"><div class="brand">scranpy unknown documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
+  <span class="sidebar-brand-text">scranpy unknown documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -156,12 +156,16 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../customization.html">Customization</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="scranpy.aggregation.html">scranpy.aggregation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.analyze.html">scranpy.analyze package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.batch_correction.html">scranpy.batch_correction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.feature_set_enrichment.html">scranpy.feature_set_enrichment package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.normalization.html">scranpy.normalization package</a></li>
@@ -209,593 +213,46 @@
         </div>
         <article role="main">
           <section id="scranpy-quality-control-package">
-<h1>scranpy.quality_control package<a class="headerlink" href="#scranpy-quality-control-package" title="Link to this heading">#</a></h1>
+<h1>scranpy.quality_control package<a class="headerlink" href="#scranpy-quality-control-package" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-quality-control-create-adt-qc-filter-module">
+<h2>scranpy.quality_control.create_adt_qc_filter module<a class="headerlink" href="#scranpy-quality-control-create-adt-qc-filter-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-quality-control-create-crispr-qc-filter-module">
+<h2>scranpy.quality_control.create_crispr_qc_filter module<a class="headerlink" href="#scranpy-quality-control-create-crispr-qc-filter-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-quality-control-create-rna-qc-filter-module">
+<h2>scranpy.quality_control.create_rna_qc_filter module<a class="headerlink" href="#scranpy-quality-control-create-rna-qc-filter-module" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="scranpy-quality-control-filter-cells-module">
-<h2>scranpy.quality_control.filter_cells module<a class="headerlink" href="#scranpy-quality-control-filter-cells-module" title="Link to this heading">#</a></h2>
-<dl class="py class" id="module-scranpy.quality_control.filter_cells">
-<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.filter_cells.</span></span><span class="sig-name descname"><span class="pre">FilterCellsOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">discard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/filter_cells.html#FilterCellsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Optional arguments for
-<a class="reference internal" href="#scranpy.quality_control.filter_cells.filter_cells" title="scranpy.quality_control.filter_cells.filter_cells"><code class="xref py py-meth docutils literal notranslate"><span class="pre">filter_cells()</span></code></a>.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions.discard">
-<span class="sig-name descname"><span class="pre">discard</span></span><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.discard" title="Link to this definition">#</a></dt>
-<dd><p>Whether to discard the cells listed in <code class="docutils literal notranslate"><span class="pre">filter</span></code>.
-If False, the specified cells are retained instead, and all
-other cells are discarded. Defaults to True.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.verbose" title="Link to this definition">#</a></dt>
-<dd><p>Whether to print logs. Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">discard</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.filter_cells">
-<span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.filter_cells.</span></span><span class="sig-name descname"><span class="pre">filter_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress v0.0.7)"><span class="pre">TatamiNumericPointer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.11.1)"><span class="pre">spmatrix</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions" title="scranpy.quality_control.filter_cells.FilterCellsOptions"><span class="pre">FilterCellsOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">FilterCellsOptions(discard=True,</span> <span class="pre">verbose=False)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress v0.0.7)"><span class="pre">TatamiNumericPointer</span></a></span></span><a class="reference internal" href="../_modules/scranpy/quality_control/filter_cells.html#filter_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.filter_cells.filter_cells" title="Link to this definition">#</a></dt>
-<dd><p>Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data,
-e.g., <a class="reference internal" href="#scranpy.quality_control.rna.create_rna_qc_filter" title="scranpy.quality_control.rna.create_rna_qc_filter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_rna_qc_filter()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<em>MatrixTypes</em>) – Matrix-like object containing cells in columns and features in rows.
-This should be a matrix class that can be converted into a <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code>.
-Developers may also provide the <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code> itself.</p></li>
-<li><p><strong>filter</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>] </em><em>| </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>]</em>) – <p>Array of integers containing indices to the columns of <cite>input</cite> to keep/discard.</p>
-<p>Alternatively, an array of booleans of length equal to the number of cells,
-specifying the columns of <cite>input</cite> to keep/discard.</p>
-</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions" title="scranpy.quality_control.filter_cells.FilterCellsOptions"><em>FilterCellsOptions</em></a>) – Optional parameters.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>If <code class="docutils literal notranslate"><span class="pre">input</span></code> is a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code>,
-a <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code> is returned
-containing the filtered matrix.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>TatamiNumericPointer</p>
-</dd>
-</dl>
-</dd></dl>
-
+<h2>scranpy.quality_control.filter_cells module<a class="headerlink" href="#scranpy-quality-control-filter-cells-module" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="scranpy-quality-control-rna-module">
-<h2>scranpy.quality_control.rna module<a class="headerlink" href="#scranpy-quality-control-rna-module" title="Link to this heading">#</a></h2>
-<dl class="py class" id="module-scranpy.quality_control.rna">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.CreateRnaQcFilterOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.rna.</span></span><span class="sig-name descname"><span class="pre">CreateRnaQcFilterOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/rna.html#CreateRnaQcFilterOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Optional arguments for
-<a class="reference internal" href="#scranpy.quality_control.rna.create_rna_qc_filter" title="scranpy.quality_control.rna.create_rna_qc_filter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_rna_qc_filter()</span></code></a>.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.CreateRnaQcFilterOptions.block">
-<span class="sig-name descname"><span class="pre">block</span></span><a class="headerlink" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions.block" title="Link to this definition">#</a></dt>
-<dd><p>Block assignment for each cell.
-This should be the same as that used in
-in <a class="reference internal" href="#scranpy.quality_control.rna.suggest_rna_qc_filters" title="scranpy.quality_control.rna.suggest_rna_qc_filters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.CreateRnaQcFilterOptions.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions.verbose" title="Link to this definition">#</a></dt>
-<dd><p>Whether to print logs. Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.PerCellRnaQcMetricsOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.rna.</span></span><span class="sig-name descname"><span class="pre">PerCellRnaQcMetricsOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Mapping" title="(in Python v3.9)"><span class="pre">Mapping</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/rna.html#PerCellRnaQcMetricsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Optional arguments for
-<a class="reference internal" href="#scranpy.quality_control.rna.per_cell_rna_qc_metrics" title="scranpy.quality_control.rna.per_cell_rna_qc_metrics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code></a>.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.subsets">
-<span class="sig-name descname"><span class="pre">subsets</span></span><a class="headerlink" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.subsets" title="Link to this definition">#</a></dt>
-<dd><p>Dictionary of feature subsets.
-Each key is the name of the subset and each value is an array.</p>
-<p>Each array may contain integer indices to the rows of <cite>input</cite> belonging to the subset.
-Alternatively, each array is of length equal to the number of rows in <code class="docutils literal notranslate"><span class="pre">input</span></code>
-and contains booleans specifying that the corresponding row belongs to the subset.</p>
-<p>Defaults to {}.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Mapping, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.num_threads" title="Link to this definition">#</a></dt>
-<dd><p>Number of threads to use. Defaults to 1.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.verbose" title="Link to this definition">#</a></dt>
-<dd><p>Display logs?. Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">subsets</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Mapping" title="(in Python v3.9)"><span class="pre">Mapping</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.SuggestRnaQcFiltersOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.rna.</span></span><span class="sig-name descname"><span class="pre">SuggestRnaQcFiltersOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_mads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/rna.html#SuggestRnaQcFiltersOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Optional arguments for
-<a class="reference internal" href="#scranpy.quality_control.rna.suggest_rna_qc_filters" title="scranpy.quality_control.rna.suggest_rna_qc_filters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code></a>.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.block">
-<span class="sig-name descname"><span class="pre">block</span></span><a class="headerlink" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.block" title="Link to this definition">#</a></dt>
-<dd><p>Block assignment for each cell.
-Thresholds are computed within each block to avoid inflated variances from
-inter-block differences.</p>
-<p>If provided, this should have length equal to the number of cells, where
-cells have the same value if and only if they are in the same block.
-Defaults to None, indicating all cells are part of the same block.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.num_mads">
-<span class="sig-name descname"><span class="pre">num_mads</span></span><a class="headerlink" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.num_mads" title="Link to this definition">#</a></dt>
-<dd><p>Number of median absolute deviations for computing an outlier threshold.
-Larger values will result in a less stringent threshold.
-Defaults to 3.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.verbose" title="Link to this definition">#</a></dt>
-<dd><p>Whether to print logging information.
-Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">num_mads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#id8" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id9" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.create_pointer_array">
-<span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.rna.</span></span><span class="sig-name descname"><span class="pre">create_pointer_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/rna.html#create_pointer_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.rna.create_pointer_array" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.create_rna_qc_filter">
-<span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.rna.</span></span><span class="sig-name descname"><span class="pre">create_rna_qc_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresholds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions" title="scranpy.quality_control.rna.CreateRnaQcFilterOptions"><span class="pre">CreateRnaQcFilterOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">CreateRnaQcFilterOptions(block=None,</span> <span class="pre">verbose=False)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/scranpy/quality_control/rna.html#create_rna_qc_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.rna.create_rna_qc_filter" title="Link to this definition">#</a></dt>
-<dd><p>Defines a filtering vector based on the RNA-derived per-cell quality control (QC) metrics and thresholds.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<em>BiocFrame</em>) – Data frame of metrics,
-see <a class="reference internal" href="#scranpy.quality_control.rna.per_cell_rna_qc_metrics" title="scranpy.quality_control.rna.per_cell_rna_qc_metrics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code></a> for the expected format.</p></li>
-<li><p><strong>thresholds</strong> (<em>BiocFrame</em>) – Data frame of filter thresholds,
-see <a class="reference internal" href="#scranpy.quality_control.rna.suggest_rna_qc_filters" title="scranpy.quality_control.rna.suggest_rna_qc_filters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code></a> for the expected format.</p></li>
-<li><p><strong>options</strong> (<em>CreateRnaQcFilter</em>) – Optional parameters.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A numpy boolean array filled with 1 for cells to filter.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.guess_mito_from_symbols">
-<span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.rna.</span></span><span class="sig-name descname"><span class="pre">guess_mito_from_symbols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'mt-'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/scranpy/quality_control/rna.html#guess_mito_from_symbols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.rna.guess_mito_from_symbols" title="Link to this definition">#</a></dt>
-<dd><p>Guess mitochondrial genes from their gene symbols.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>symbols</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – List of gene symbols.</p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Case-insensitive prefix to guess mitochondrial genes.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of integer indices for the guessed mitochondrial genes.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.per_cell_rna_qc_metrics">
-<span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.rna.</span></span><span class="sig-name descname"><span class="pre">per_cell_rna_qc_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress v0.0.7)"><span class="pre">TatamiNumericPointer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.11.1)"><span class="pre">spmatrix</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions" title="scranpy.quality_control.rna.PerCellRnaQcMetricsOptions"><span class="pre">PerCellRnaQcMetricsOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PerCellRnaQcMetricsOptions(subsets=None,</span> <span class="pre">num_threads=1,</span> <span class="pre">verbose=False)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a></span></span><a class="reference internal" href="../_modules/scranpy/quality_control/rna.html#per_cell_rna_qc_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.rna.per_cell_rna_qc_metrics" title="Link to this definition">#</a></dt>
-<dd><p>Compute per-cell quality control metrics for RNA data.
-This includes the total count for each cell, where low values are indicative of
-problems with library preparation or sequencing; the number of detected features
-per cell, where low values are indicative of problems with transcript capture;
-and the proportion of counts in particular feature subsets,
-typically mitochondrial genes where high values are indicative of cell damage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<em>MatrixTypes</em>) – Matrix-like object containing cells in columns and features in rows, typically with “count” data.
-This should be a matrix class that can be converted into a <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code>.
-Developers may also provide the <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code> itself.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions" title="scranpy.quality_control.rna.PerCellRnaQcMetricsOptions"><em>PerCellRnaQcMetricsOptions</em></a>) – Optional parameters.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">input</span></code> is not an expected matrix type.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A data frame containing one row per cell and the following fields -
-<code class="docutils literal notranslate"><span class="pre">&quot;sums&quot;</span></code>, the total count for each cell;
-<code class="docutils literal notranslate"><span class="pre">&quot;detected&quot;</span></code>, the number of detected features for each cell;
-and <code class="docutils literal notranslate"><span class="pre">&quot;subset_proportions&quot;</span></code>, a nested BiocFrame where each column is named
-after an entry in <code class="docutils literal notranslate"><span class="pre">subsets</span></code> and contains the proportion of counts in that subset.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>BiocFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scranpy.quality_control.rna.suggest_rna_qc_filters">
-<span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.rna.</span></span><span class="sig-name descname"><span class="pre">suggest_rna_qc_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions" title="scranpy.quality_control.rna.SuggestRnaQcFiltersOptions"><span class="pre">SuggestRnaQcFiltersOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">SuggestRnaQcFiltersOptions(block=None,</span> <span class="pre">num_mads=3,</span> <span class="pre">verbose=False)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a></span></span><a class="reference internal" href="../_modules/scranpy/quality_control/rna.html#suggest_rna_qc_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.rna.suggest_rna_qc_filters" title="Link to this definition">#</a></dt>
-<dd><p>Suggest filter thresholds for RNA-based per-cell quality control (QC) metrics.
-This identifies outliers on the relevant tail of the distribution of each QC metric.
-Outlier cells are considered to be low-quality and should be removed before further analysis.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<em>BiocFrame</em>) – A data frame containing QC metrics for each cell,
-see the output of <a class="reference internal" href="#scranpy.quality_control.rna.per_cell_rna_qc_metrics" title="scranpy.quality_control.rna.per_cell_rna_qc_metrics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code></a> for the expected format.</p></li>
-<li><p><strong>options</strong> (<em>SuggestRnaQcFilters</em>) – Optional parameters.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if provided <code class="docutils literal notranslate"><span class="pre">inputs</span></code> are incorrect type or do
-    not contain expected metrics.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>A data frame containing one row per block and the following fields -
-<code class="docutils literal notranslate"><span class="pre">&quot;sums&quot;</span></code>, the suggested (lower) threshold on the total count for each cell;
-<code class="docutils literal notranslate"><span class="pre">&quot;detected&quot;</span></code>, the suggested (lower) threshold on the number of detected features for each cell;
-and <code class="docutils literal notranslate"><span class="pre">&quot;subset_proportions&quot;</span></code>, a nested BiocFrame where each column is named
-after an entry in <code class="docutils literal notranslate"><span class="pre">subsets</span></code> and contains the suggested (upper) threshold
-on the proportion of counts in that subset.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">options.block</span></code> is None, all cells are assumed to belong to a single
-block, and the output BiocFrame contains a single row.</p>
-</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>BiocFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="scranpy-quality-control-guess-mito-from-symbols-module">
+<h2>scranpy.quality_control.guess_mito_from_symbols module<a class="headerlink" href="#scranpy-quality-control-guess-mito-from-symbols-module" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="scranpy-quality-control-types-module">
-<h2>scranpy.quality_control.types module<a class="headerlink" href="#scranpy-quality-control-types-module" title="Link to this heading">#</a></h2>
-<dl class="py class" id="module-scranpy.quality_control.types">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.types.</span></span><span class="sig-name descname"><span class="pre">RnaQualityControlOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">per_cell_rna_qc_metrics:</span> <span class="pre">~scranpy.quality_control.rna.PerCellRnaQcMetricsOptions</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggest_rna_qc_filters:</span> <span class="pre">~scranpy.quality_control.rna.SuggestRnaQcFiltersOptions</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_rna_qc_filter:</span> <span class="pre">~scranpy.quality_control.rna.CreateRnaQcFilterOptions</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mito_subset:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_thresholds:</span> <span class="pre">~biocframe.BiocFrame.BiocFrame</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/types.html#RnaQualityControlOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Optional arguments to perform quality control on RNA data.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.per_cell_rna_qc_metrics">
-<span class="sig-name descname"><span class="pre">per_cell_rna_qc_metrics</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.per_cell_rna_qc_metrics" title="Link to this definition">#</a></dt>
-<dd><p>Optional arguments to pass to
-(<a class="reference internal" href="#scranpy.quality_control.rna.per_cell_rna_qc_metrics" title="scranpy.quality_control.rna.per_cell_rna_qc_metrics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code></a>).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions" title="scranpy.quality_control.rna.PerCellRnaQcMetricsOptions">PerCellRnaQcMetricsOptions</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.suggest_rna_qc_filters">
-<span class="sig-name descname"><span class="pre">suggest_rna_qc_filters</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.suggest_rna_qc_filters" title="Link to this definition">#</a></dt>
-<dd><p>Optional arguments to pass to
-<a class="reference internal" href="#scranpy.quality_control.rna.suggest_rna_qc_filters" title="scranpy.quality_control.rna.suggest_rna_qc_filters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions" title="scranpy.quality_control.rna.SuggestRnaQcFiltersOptions">SuggestRnaQcFiltersOptions</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.create_rna_qc_filter">
-<span class="sig-name descname"><span class="pre">create_rna_qc_filter</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.create_rna_qc_filter" title="Link to this definition">#</a></dt>
-<dd><p>Optional arguments to pass to
-(<a class="reference internal" href="#scranpy.quality_control.rna.create_rna_qc_filter" title="scranpy.quality_control.rna.create_rna_qc_filter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_rna_qc_filter()</span></code></a>).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions" title="scranpy.quality_control.rna.CreateRnaQcFilterOptions">CreateRnaQcFilterOptions</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.mito_subset">
-<span class="sig-name descname"><span class="pre">mito_subset</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.mito_subset" title="Link to this definition">#</a></dt>
-<dd><p>subset mitochondrial genes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Union[<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)">str</a>, <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>], optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">create_rna_qc_filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions" title="scranpy.quality_control.rna.CreateRnaQcFilterOptions"><span class="pre">CreateRnaQcFilterOptions</span></a></em><a class="headerlink" href="#id10" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.custom_thresholds">
-<span class="sig-name descname"><span class="pre">custom_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.custom_thresholds" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">mito_subset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id11" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">per_cell_rna_qc_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions" title="scranpy.quality_control.rna.PerCellRnaQcMetricsOptions"><span class="pre">PerCellRnaQcMetricsOptions</span></a></em><a class="headerlink" href="#id12" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.set_block">
-<span class="sig-name descname"><span class="pre">set_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/types.html#RnaQualityControlOptions.set_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.set_block" title="Link to this definition">#</a></dt>
-<dd><p>Set block.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>block</strong> (<em>Sequence</em><em>, </em><em>optional</em>) – Blocks assignments
-for each cell. Defaults to None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.set_subset">
-<span class="sig-name descname"><span class="pre">set_subset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Mapping" title="(in Python v3.9)"><span class="pre">Mapping</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/types.html#RnaQualityControlOptions.set_subset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.set_subset" title="Link to this definition">#</a></dt>
-<dd><p>Set subsets.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>subset</strong> (<em>Mapping</em><em>, </em><em>optional</em>) – Set subsets. Defaults to None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.set_threads">
-<span class="sig-name descname"><span class="pre">set_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/types.html#RnaQualityControlOptions.set_threads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.set_threads" title="Link to this definition">#</a></dt>
-<dd><p>Set number of threads to use.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>num_threads</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Number of threads. Defaults to 1.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlOptions.set_verbose">
-<span class="sig-name descname"><span class="pre">set_verbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/types.html#RnaQualityControlOptions.set_verbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlOptions.set_verbose" title="Link to this definition">#</a></dt>
-<dd><p>Set verbose to display logs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to display logs. Defaults to False.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">suggest_rna_qc_filters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions" title="scranpy.quality_control.rna.SuggestRnaQcFiltersOptions"><span class="pre">SuggestRnaQcFiltersOptions</span></a></em><a class="headerlink" href="#id13" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.quality_control.types.</span></span><span class="sig-name descname"><span class="pre">RnaQualityControlResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qc_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_thresholds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Mapping" title="(in Python v3.9)"><span class="pre">Mapping</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filtered_cells</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/quality_control/types.html#RnaQualityControlResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Results of RNA QC step.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults.per_cell_rna_qc_metrics">
-<span class="sig-name descname"><span class="pre">per_cell_rna_qc_metrics</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults.per_cell_rna_qc_metrics" title="Link to this definition">#</a></dt>
-<dd><p>Result of
-<a class="reference internal" href="#scranpy.quality_control.rna.per_cell_rna_qc_metrics" title="scranpy.quality_control.rna.per_cell_rna_qc_metrics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BiocFrame, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults.suggest_rna_qc_filters">
-<span class="sig-name descname"><span class="pre">suggest_rna_qc_filters</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults.suggest_rna_qc_filters" title="Link to this definition">#</a></dt>
-<dd><p>Result of
-<a class="reference internal" href="#scranpy.quality_control.rna.suggest_rna_qc_filters" title="scranpy.quality_control.rna.suggest_rna_qc_filters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BiocFrame, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults.create_rna_qc_filter">
-<span class="sig-name descname"><span class="pre">create_rna_qc_filter</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults.create_rna_qc_filter" title="Link to this definition">#</a></dt>
-<dd><p>Result of create qc filter
-(<a class="reference internal" href="#scranpy.quality_control.rna.create_rna_qc_filter" title="scranpy.quality_control.rna.create_rna_qc_filter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_rna_qc_filter()</span></code></a>)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults.subsets">
-<span class="sig-name descname"><span class="pre">subsets</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults.subsets" title="Link to this definition">#</a></dt>
-<dd><p>Subsets.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Mapping, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults.filtered_cells">
-<span class="sig-name descname"><span class="pre">filtered_cells</span></span><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults.filtered_cells" title="Link to this definition">#</a></dt>
-<dd><p>Result of
-<a class="reference internal" href="#scranpy.quality_control.filter_cells.filter_cells" title="scranpy.quality_control.filter_cells.filter_cells"><code class="xref py py-meth docutils literal notranslate"><span class="pre">filter_cells()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">filtered_cells</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id14" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults.qc_filter">
-<span class="sig-name descname"><span class="pre">qc_filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults.qc_filter" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults.qc_metrics">
-<span class="sig-name descname"><span class="pre">qc_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults.qc_metrics" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.quality_control.types.RnaQualityControlResults.qc_thresholds">
-<span class="sig-name descname"><span class="pre">qc_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.2.16)"><span class="pre">BiocFrame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.types.RnaQualityControlResults.qc_thresholds" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">subsets</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Mapping" title="(in Python v3.9)"><span class="pre">Mapping</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id15" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<section id="scranpy-quality-control-per-cell-adt-qc-metrics-module">
+<h2>scranpy.quality_control.per_cell_adt_qc_metrics module<a class="headerlink" href="#scranpy-quality-control-per-cell-adt-qc-metrics-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-quality-control-per-cell-crispr-qc-metrics-module">
+<h2>scranpy.quality_control.per_cell_crispr_qc_metrics module<a class="headerlink" href="#scranpy-quality-control-per-cell-crispr-qc-metrics-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-quality-control-per-cell-rna-qc-metrics-module">
+<h2>scranpy.quality_control.per_cell_rna_qc_metrics module<a class="headerlink" href="#scranpy-quality-control-per-cell-rna-qc-metrics-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-quality-control-suggest-adt-qc-filters-module">
+<h2>scranpy.quality_control.suggest_adt_qc_filters module<a class="headerlink" href="#scranpy-quality-control-suggest-adt-qc-filters-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-quality-control-suggest-crispr-qc-filters-module">
+<h2>scranpy.quality_control.suggest_crispr_qc_filters module<a class="headerlink" href="#scranpy-quality-control-suggest-crispr-qc-filters-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-quality-control-suggest-rna-qc-filters-module">
+<h2>scranpy.quality_control.suggest_rna_qc_filters module<a class="headerlink" href="#scranpy-quality-control-suggest-rna-qc-filters-module" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
-<span class="target" id="module-scranpy.quality_control"></span></section>
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+</section>
 </section>
 
         </article>
@@ -855,82 +312,17 @@ for each cell. Defaults to None.</p>
             <ul>
 <li><a class="reference internal" href="#">scranpy.quality_control package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#scranpy-quality-control-filter-cells-module">scranpy.quality_control.filter_cells module</a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.discard"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.discard</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.verbose"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.verbose</span></code></a></li>
-<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.discard</span></code></a></li>
-<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.verbose</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.filter_cells"><code class="docutils literal notranslate"><span class="pre">filter_cells()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy-quality-control-rna-module">scranpy.quality_control.rna module</a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions.block"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.block</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.CreateRnaQcFilterOptions.verbose"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.verbose</span></code></a></li>
-<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.block</span></code></a></li>
-<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.verbose</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.subsets"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.subsets</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.num_threads</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.PerCellRnaQcMetricsOptions.verbose"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.verbose</span></code></a></li>
-<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.num_threads</span></code></a></li>
-<li><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.subsets</span></code></a></li>
-<li><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.verbose</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.block"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.block</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.num_mads"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.num_mads</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.SuggestRnaQcFiltersOptions.verbose"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.verbose</span></code></a></li>
-<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.block</span></code></a></li>
-<li><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.num_mads</span></code></a></li>
-<li><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.verbose</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.create_pointer_array"><code class="docutils literal notranslate"><span class="pre">create_pointer_array()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.create_rna_qc_filter"><code class="docutils literal notranslate"><span class="pre">create_rna_qc_filter()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.guess_mito_from_symbols"><code class="docutils literal notranslate"><span class="pre">guess_mito_from_symbols()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.per_cell_rna_qc_metrics"><code class="docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.rna.suggest_rna_qc_filters"><code class="docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy-quality-control-types-module">scranpy.quality_control.types module</a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.per_cell_rna_qc_metrics"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.per_cell_rna_qc_metrics</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.suggest_rna_qc_filters"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.suggest_rna_qc_filters</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.create_rna_qc_filter"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.create_rna_qc_filter</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.mito_subset"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.mito_subset</span></code></a></li>
-<li><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.create_rna_qc_filter</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.custom_thresholds"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.custom_thresholds</span></code></a></li>
-<li><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.mito_subset</span></code></a></li>
-<li><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.per_cell_rna_qc_metrics</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.set_block"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.set_block()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.set_subset"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.set_subset()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.set_threads"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.set_threads()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlOptions.set_verbose"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.set_verbose()</span></code></a></li>
-<li><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlOptions.suggest_rna_qc_filters</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults.per_cell_rna_qc_metrics"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.per_cell_rna_qc_metrics</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults.suggest_rna_qc_filters"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.suggest_rna_qc_filters</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults.create_rna_qc_filter"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.create_rna_qc_filter</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults.subsets"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.subsets</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults.filtered_cells"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.filtered_cells</span></code></a></li>
-<li><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.filtered_cells</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults.qc_filter"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.qc_filter</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults.qc_metrics"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.qc_metrics</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.quality_control.types.RnaQualityControlResults.qc_thresholds"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.qc_thresholds</span></code></a></li>
-<li><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">RnaQualityControlResults.subsets</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#scranpy-quality-control-create-adt-qc-filter-module">scranpy.quality_control.create_adt_qc_filter module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-create-crispr-qc-filter-module">scranpy.quality_control.create_crispr_qc_filter module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-create-rna-qc-filter-module">scranpy.quality_control.create_rna_qc_filter module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-filter-cells-module">scranpy.quality_control.filter_cells module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-guess-mito-from-symbols-module">scranpy.quality_control.guess_mito_from_symbols module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-per-cell-adt-qc-metrics-module">scranpy.quality_control.per_cell_adt_qc_metrics module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-per-cell-crispr-qc-metrics-module">scranpy.quality_control.per_cell_crispr_qc_metrics module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-per-cell-rna-qc-metrics-module">scranpy.quality_control.per_cell_rna_qc_metrics module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-suggest-adt-qc-filters-module">scranpy.quality_control.suggest_adt_qc_filters module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-suggest-crispr-qc-filters-module">scranpy.quality_control.suggest_crispr_qc_filters module</a></li>
+<li><a class="reference internal" href="#scranpy-quality-control-suggest-rna-qc-filters-module">scranpy.quality_control.suggest_rna_qc_filters module</a></li>
 <li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
@@ -943,9 +335,9 @@ for each cell. Defaults to None.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8c5712d9"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

@@ -1,11 +1,13 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="scranpy" href="api/modules.html" /><link rel="prev" title="Getting started" href="tutorial.html" />
 
-    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 --><title>Python Module Index - scranpy 0.0.4 documentation</title>
-<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+        <title>Customizing the analysis - scranpy unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -121,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
+      <a href="index.html"><div class="brand">scranpy unknown documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -132,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -144,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
+  <span class="sidebar-brand-text">scranpy unknown documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -152,14 +154,18 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul>
+  <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Customization</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.analyze.html">scranpy.analyze package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.batch_correction.html">scranpy.batch_correction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.feature_set_enrichment.html">scranpy.feature_set_enrichment package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.normalization.html">scranpy.normalization package</a></li>
@@ -191,7 +197,8 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          
+<div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -199,220 +206,65 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          
-<section class="domainindex-section">
-  <h1>Python Module Index</h1>
-  <div class="domainindex-jumpbox"><a href="#cap-s"><strong>s</strong></a></div>
+          <section class="tex2jax_ignore mathjax_ignore" id="customizing-the-analysis">
+<h1>Customizing the analysis<a class="headerlink" href="#customizing-the-analysis" title="Permalink to this heading">#</a></h1>
+<section id="setting-options">
+<h2>Setting options<a class="headerlink" href="#setting-options" title="Permalink to this heading">#</a></h2>
+<p>Advanced users can customize the behavior of the <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function by setting options for specific function calls:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">scranpy</span><span class="o">.</span><span class="n">AnalyzeOptions</span><span class="p">()</span>
+<span class="n">options</span><span class="o">.</span><span class="n">choose_hvgs_options</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">options</span><span class="o">.</span><span class="n">run_pca_options</span><span class="o">.</span><span class="n">rank</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">options</span><span class="o">.</span><span class="n">run_tsne_options</span><span class="o">.</span><span class="n">perplexity</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">options</span><span class="o">.</span><span class="n">run_umap_options</span><span class="o">.</span><span class="n">min_dist</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">scranpy</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The options available for each step can be found by following the <a class="reference internal" href="api/scranpy.html#scranpy.analyze_live.AnalyzeOptions"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions</span></code> documentation</span></a>.</p>
 </section>
-<table class="domainindex-table">
-  <tr class="pcap">
-    <td></td><td>&#160;</td><td></td>
-  </tr>
-  <tr class="cap" id="cap-s">
-    <td></td><td><strong>s</strong></td><td></td>
-  </tr>
-  <tr>
-    <td><img src="_static/minus.png" class="toggler"
-              id="toggle-1" style="display: none" alt="-" /></td>
-    <td>
-        <a href="api/scranpy.html#module-scranpy"><code class="xref">scranpy</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.html#module-scranpy.analyze"><code class="xref">scranpy.analyze</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.clustering.html#module-scranpy.clustering"><code class="xref">scranpy.clustering</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.clustering.html#module-scranpy.clustering.build_snn_graph"><code class="xref">scranpy.clustering.build_snn_graph</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.clustering.html#module-scranpy.clustering.types"><code class="xref">scranpy.clustering.types</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.html#module-scranpy.cpphelpers"><code class="xref">scranpy.cpphelpers</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction"><code class="xref">scranpy.dimensionality_reduction</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction.run_pca"><code class="xref">scranpy.dimensionality_reduction.run_pca</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction.run_tsne"><code class="xref">scranpy.dimensionality_reduction.run_tsne</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction.run_umap"><code class="xref">scranpy.dimensionality_reduction.run_umap</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.dimensionality_reduction.html#module-scranpy.dimensionality_reduction.types"><code class="xref">scranpy.dimensionality_reduction.types</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.feature_selection.html#module-scranpy.feature_selection"><code class="xref">scranpy.feature_selection</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.feature_selection.html#module-scranpy.feature_selection.choose_hvgs"><code class="xref">scranpy.feature_selection.choose_hvgs</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.feature_selection.html#module-scranpy.feature_selection.model_gene_variances"><code class="xref">scranpy.feature_selection.model_gene_variances</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.feature_selection.html#module-scranpy.feature_selection.types"><code class="xref">scranpy.feature_selection.types</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.marker_detection.html#module-scranpy.marker_detection"><code class="xref">scranpy.marker_detection</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.marker_detection.html#module-scranpy.marker_detection.score_markers"><code class="xref">scranpy.marker_detection.score_markers</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.marker_detection.html#module-scranpy.marker_detection.types"><code class="xref">scranpy.marker_detection.types</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.nearest_neighbors.html#module-scranpy.nearest_neighbors"><code class="xref">scranpy.nearest_neighbors</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.nearest_neighbors.html#module-scranpy.nearest_neighbors.build_neighbor_index"><code class="xref">scranpy.nearest_neighbors.build_neighbor_index</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.nearest_neighbors.html#module-scranpy.nearest_neighbors.find_nearest_neighbors"><code class="xref">scranpy.nearest_neighbors.find_nearest_neighbors</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.nearest_neighbors.html#module-scranpy.nearest_neighbors.types"><code class="xref">scranpy.nearest_neighbors.types</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.normalization.html#module-scranpy.normalization"><code class="xref">scranpy.normalization</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.normalization.html#module-scranpy.normalization.log_norm_counts"><code class="xref">scranpy.normalization.log_norm_counts</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.normalization.html#module-scranpy.normalization.types"><code class="xref">scranpy.normalization.types</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.quality_control.html#module-scranpy.quality_control"><code class="xref">scranpy.quality_control</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.quality_control.html#module-scranpy.quality_control.filter_cells"><code class="xref">scranpy.quality_control.filter_cells</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.quality_control.html#module-scranpy.quality_control.rna"><code class="xref">scranpy.quality_control.rna</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.quality_control.html#module-scranpy.quality_control.types"><code class="xref">scranpy.quality_control.types</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.html#module-scranpy.types"><code class="xref">scranpy.types</code></a></td><td>
-    <em></em></td>
-  </tr>
-  <tr class="cg-1">
-    <td></td>
-    <td>&#160;&#160;&#160;
-        <a href="api/scranpy.html#module-scranpy.utils"><code class="xref">scranpy.utils</code></a></td><td>
-    <em></em></td>
-  </tr>
-</table>
+<section id="getting-individual-commands">
+<h2>Getting individual commands<a class="headerlink" href="#getting-individual-commands" title="Permalink to this heading">#</a></h2>
+<p>If you need even more control, you can extract the function calls for the individual steps in <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> by setting <code class="docutils literal notranslate"><span class="pre">dry_run</span> <span class="pre">=</span> <span class="pre">True</span></code>.
+This performs a dry run of the analysis, capturing the calls and reporting them in a string.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matrix and features aren&#39;t actually required here, as they don&#39;t get used.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scranpy</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="n">options</span><span class="p">,</span> <span class="n">dry_run</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>You can then copy-paste this string into your own scripts for further customization, e.g., to swap out algorithms for various steps.
+Note that the stringified commands assume that your matrix is named <code class="docutils literal notranslate"><span class="pre">matrix</span></code> and your vector of features is named <code class="docutils literal notranslate"><span class="pre">features</span></code>.</p>
+</section>
+</section>
 
         </article>
       </div>
       <footer>
         
         <div class="related-pages">
-          
-          
+          <a class="next-page" href="api/modules.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">scranpy</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="tutorial.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Getting started</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -431,15 +283,35 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Customizing the analysis</a><ul>
+<li><a class="reference internal" href="#setting-options">Setting options</a></li>
+<li><a class="reference internal" href="#getting-individual-commands">Getting individual commands</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=8c5712d9"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=680b02e7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

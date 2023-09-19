@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="scranpy" href="api/modules.html" /><link rel="prev" title="scranpy" href="index.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Customizing the analysis" href="customization.html" /><link rel="prev" title="scranpy" href="index.html" />
 
-    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
-        <title>Getting started - scranpy 0.0.4 documentation</title>
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+        <title>Getting started - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
+      <a href="index.html"><div class="brand">scranpy unknown documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
+  <span class="sidebar-brand-text">scranpy unknown documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -156,12 +156,16 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#customizing-the-analysis">Customizing the analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customization.html">Customization</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.analyze.html">scranpy.analyze package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.batch_correction.html">scranpy.batch_correction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scranpy.feature_set_enrichment.html">scranpy.feature_set_enrichment package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/scranpy.normalization.html">scranpy.normalization package</a></li>
@@ -209,9 +213,9 @@
         </div>
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="getting-started">
-<h1>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading">#</a></h1>
 <section id="setting-up">
-<h2>Setting up<a class="headerlink" href="#setting-up" title="Link to this heading">#</a></h2>
+<h2>Setting up<a class="headerlink" href="#setting-up" title="Permalink to this heading">#</a></h2>
 <p>To use <strong>scranpy</strong>, you’ll need Python 3.9 or higher.
 You’ll also need to install <strong>scranpy</strong> itself (duh), which is available from <a class="reference external" href="https://pypi.org/project/scranpy">PyPi</a> via the usual commands:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scranpy
@@ -219,7 +223,7 @@ You’ll also need to install <strong>scranpy</strong> itself (duh), which is av
 </div>
 </section>
 <section id="loading-a-dataset">
-<h2>Loading a dataset<a class="headerlink" href="#loading-a-dataset" title="Link to this heading">#</a></h2>
+<h2>Loading a dataset<a class="headerlink" href="#loading-a-dataset" title="Permalink to this heading">#</a></h2>
 <p>The full <strong>scranpy</strong> workflow starts from a feature-by-cell count matrix.
 To illustrate, let’s load one of the famous peripheral blood mononuclear cell (PBMC) datasets from 10X Genomics.
 A copy of this dataset is available <a class="reference external" href="https://github.com/kanaverse/random-test-files/releases/download/10x-pbmc-v1.0.0/pbmc4k-tenx.h5">here</a>.</p>
@@ -244,12 +248,18 @@ The important thing is that you get a count matrix where features are in the row
 Oh, and an array of feature names.</p>
 </section>
 <section id="running-the-analysis">
-<h2>Running the analysis<a class="headerlink" href="#running-the-analysis" title="Link to this heading">#</a></h2>
+<h2>Running the analysis<a class="headerlink" href="#running-the-analysis" title="Permalink to this heading">#</a></h2>
 <p>Now we draw the rest of the owl.</p>
 <p><img alt="Draw the rest of the owl" src="https://i.kym-cdn.com/photos/images/original/000/572/078/d6d.jpg" /></p>
 <p>It’s as simple as calling <strong>scranpy</strong>’s <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scranpy</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">scranpy</span><span class="o">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">features</span><span class="p">)</span>
+
+<span class="c1"># Get the most interesting results:</span>
+<span class="n">results</span><span class="o">.</span><span class="n">clusters</span>
+<span class="n">results</span><span class="o">.</span><span class="n">markers</span>
+<span class="n">results</span><span class="o">.</span><span class="n">tsne</span>
+<span class="n">results</span><span class="o">.</span><span class="n">umap</span>
 </pre></div>
 </div>
 <p>This will perform all of the usual steps for a routine single-cell analysis, as described in Bioconductor’s <a class="reference external" href="https://bioconductor.org/books/OSCA">Orchestrating single cell analysis</a> book.
@@ -266,22 +276,18 @@ Specifically:</p>
 But you can also check out each module’s reference documentation for more details.</p>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="customizing-the-analysis">
-<h1>Customizing the analysis<a class="headerlink" href="#customizing-the-analysis" title="Link to this heading">#</a></h1>
-<p>Stay tuned!</p>
-</section>
 
         </article>
       </div>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="api/modules.html">
+          <a class="next-page" href="customization.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">scranpy</div>
+                <div class="title">Customizing the analysis</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -332,7 +338,6 @@ But you can also check out each module’s reference documentation for more deta
 <li><a class="reference internal" href="#running-the-analysis">Running the analysis</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#customizing-the-analysis">Customizing the analysis</a></li>
 </ul>
 
           </div>
@@ -342,9 +347,9 @@ But you can also check out each module’s reference documentation for more deta
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=8c5712d9"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=680b02e7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

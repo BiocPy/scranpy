@@ -20,14 +20,6 @@ scranpy.feature\_selection.model\_gene\_variances module
    :undoc-members:
    :show-inheritance:
 
-scranpy.feature\_selection.types module
----------------------------------------
-
-.. automodule:: scranpy.feature_selection.types
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

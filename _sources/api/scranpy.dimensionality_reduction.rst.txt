@@ -4,6 +4,14 @@ scranpy.dimensionality\_reduction package
 Submodules
 ----------
 
+scranpy.dimensionality\_reduction.combine\_embeddings module
+------------------------------------------------------------
+
+.. automodule:: scranpy.dimensionality_reduction.combine_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 scranpy.dimensionality\_reduction.run\_pca module
 -------------------------------------------------
 
@@ -24,14 +32,6 @@ scranpy.dimensionality\_reduction.run\_umap module
 --------------------------------------------------
 
 .. automodule:: scranpy.dimensionality_reduction.run_umap
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-scranpy.dimensionality\_reduction.types module
-----------------------------------------------
-
-.. automodule:: scranpy.dimensionality_reduction.types
    :members:
    :undoc-members:
    :show-inheritance:

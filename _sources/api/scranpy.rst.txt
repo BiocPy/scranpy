@@ -7,9 +7,13 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   scranpy.aggregation
+   scranpy.analyze
+   scranpy.batch_correction
    scranpy.clustering
    scranpy.dimensionality_reduction
    scranpy.feature_selection
+   scranpy.feature_set_enrichment
    scranpy.marker_detection
    scranpy.nearest_neighbors
    scranpy.normalization
@@ -18,42 +22,10 @@ Subpackages
 Submodules
 ----------
 
-scranpy.analyze module
-----------------------
-
-.. automodule:: scranpy.analyze
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-scranpy.core module
--------------------
-
-.. automodule:: scranpy.core
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 scranpy.cpphelpers module
 -------------------------
 
 .. automodule:: scranpy.cpphelpers
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-scranpy.types module
---------------------
-
-.. automodule:: scranpy.types
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-scranpy.utils module
---------------------
-
-.. automodule:: scranpy.utils
    :members:
    :undoc-members:
    :show-inheritance:

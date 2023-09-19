@@ -4,6 +4,30 @@ scranpy.quality\_control package
 Submodules
 ----------
 
+scranpy.quality\_control.create\_adt\_qc\_filter module
+-------------------------------------------------------
+
+.. automodule:: scranpy.quality_control.create_adt_qc_filter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.quality\_control.create\_crispr\_qc\_filter module
+----------------------------------------------------------
+
+.. automodule:: scranpy.quality_control.create_crispr_qc_filter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.quality\_control.create\_rna\_qc\_filter module
+-------------------------------------------------------
+
+.. automodule:: scranpy.quality_control.create_rna_qc_filter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 scranpy.quality\_control.filter\_cells module
 ---------------------------------------------
 
@@ -12,18 +36,58 @@ scranpy.quality\_control.filter\_cells module
    :undoc-members:
    :show-inheritance:
 
-scranpy.quality\_control.rna module
------------------------------------
+scranpy.quality\_control.guess\_mito\_from\_symbols module
+----------------------------------------------------------
 
-.. automodule:: scranpy.quality_control.rna
+.. automodule:: scranpy.quality_control.guess_mito_from_symbols
    :members:
    :undoc-members:
    :show-inheritance:
 
-scranpy.quality\_control.types module
--------------------------------------
+scranpy.quality\_control.per\_cell\_adt\_qc\_metrics module
+-----------------------------------------------------------
 
-.. automodule:: scranpy.quality_control.types
+.. automodule:: scranpy.quality_control.per_cell_adt_qc_metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.quality\_control.per\_cell\_crispr\_qc\_metrics module
+--------------------------------------------------------------
+
+.. automodule:: scranpy.quality_control.per_cell_crispr_qc_metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.quality\_control.per\_cell\_rna\_qc\_metrics module
+-----------------------------------------------------------
+
+.. automodule:: scranpy.quality_control.per_cell_rna_qc_metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.quality\_control.suggest\_adt\_qc\_filters module
+---------------------------------------------------------
+
+.. automodule:: scranpy.quality_control.suggest_adt_qc_filters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.quality\_control.suggest\_crispr\_qc\_filters module
+------------------------------------------------------------
+
+.. automodule:: scranpy.quality_control.suggest_crispr_qc_filters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.quality\_control.suggest\_rna\_qc\_filters module
+---------------------------------------------------------
+
+.. automodule:: scranpy.quality_control.suggest_rna_qc_filters
    :members:
    :undoc-members:
    :show-inheritance:

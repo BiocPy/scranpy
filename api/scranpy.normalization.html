@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.quality_control package" href="scranpy.quality_control.html" /><link rel="prev" title="scranpy.nearest_neighbors package" href="scranpy.nearest_neighbors.html" />
 
-    <!-- Generated with Sphinx 7.2.2 and Furo 2023.08.17 -->
-        <title>scranpy.normalization package - scranpy 0.0.4 documentation</title>
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+        <title>scranpy.normalization package - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">scranpy 0.0.4 documentation</div></a>
+      <a href="../index.html"><div class="brand">scranpy unknown documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">scranpy 0.0.4 documentation</span>
+  <span class="sidebar-brand-text">scranpy unknown documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -156,12 +156,16 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html#customizing-the-analysis">Customizing the analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../customization.html">Customization</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="scranpy.aggregation.html">scranpy.aggregation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.analyze.html">scranpy.analyze package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.batch_correction.html">scranpy.batch_correction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.clustering.html">scranpy.clustering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scranpy.feature_set_enrichment.html">scranpy.feature_set_enrichment package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">scranpy.normalization package</a></li>
@@ -209,261 +213,22 @@
         </div>
         <article role="main">
           <section id="scranpy-normalization-package">
-<h1>scranpy.normalization package<a class="headerlink" href="#scranpy-normalization-package" title="Link to this heading">#</a></h1>
+<h1>scranpy.normalization package<a class="headerlink" href="#scranpy-normalization-package" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-normalization-center-size-factors-module">
+<h2>scranpy.normalization.center_size_factors module<a class="headerlink" href="#scranpy-normalization-center-size-factors-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="scranpy-normalization-grouped-size-factors-module">
+<h2>scranpy.normalization.grouped_size_factors module<a class="headerlink" href="#scranpy-normalization-grouped-size-factors-module" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="scranpy-normalization-log-norm-counts-module">
-<h2>scranpy.normalization.log_norm_counts module<a class="headerlink" href="#scranpy-normalization-log-norm-counts-module" title="Link to this heading">#</a></h2>
-<dl class="py class" id="module-scranpy.normalization.log_norm_counts">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.normalization.log_norm_counts.</span></span><span class="sig-name descname"><span class="pre">LogNormCountsOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_factors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_zeros</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_non_finite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/normalization/log_norm_counts.html#LogNormCountsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Optional arguments for
-<a class="reference internal" href="#scranpy.normalization.log_norm_counts.log_norm_counts" title="scranpy.normalization.log_norm_counts.log_norm_counts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_norm_counts()</span></code></a>.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.block">
-<span class="sig-name descname"><span class="pre">block</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.block" title="Link to this definition">#</a></dt>
-<dd><p>Block assignment for each cell.
-This is used to adjust the centering of size factors so that higher-coverage blocks are scaled down.</p>
-<p>If provided, this should have length equal to the number of cells, where
-cells have the same value if and only if they are in the same block.
-Defaults to None, indicating all cells are part of the same block.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.size_factors">
-<span class="sig-name descname"><span class="pre">size_factors</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.size_factors" title="Link to this definition">#</a></dt>
-<dd><p>Size factors for each cell.
-Defaults to None.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.center">
-<span class="sig-name descname"><span class="pre">center</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.center" title="Link to this definition">#</a></dt>
-<dd><p>Whether to center the size factors. Defaults to True.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.allow_zeros">
-<span class="sig-name descname"><span class="pre">allow_zeros</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.allow_zeros" title="Link to this definition">#</a></dt>
-<dd><p>Whether to gracefully handle zero size factors.
-If True, zero size factors are automatically set to the smallest non-zero size factor.
-If False, an error is raised.
-Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.allow_non_finite">
-<span class="sig-name descname"><span class="pre">allow_non_finite</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.allow_non_finite" title="Link to this definition">#</a></dt>
-<dd><p>Whether to gracefully handle missing or infinite size factors.
-If True, infinite size factors are automatically set to the largest non-zero size factor,
-while missing values are automatically set to 1.
-If False, an error is raised.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.num_threads" title="Link to this definition">#</a></dt>
-<dd><p>Number of threads to use to compute size factors,
-if none are provided in <code class="docutils literal notranslate"><span class="pre">size_factors</span></code>. Defaults to 1.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.verbose" title="Link to this definition">#</a></dt>
-<dd><p>Whether to print logs. Defaults to False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">allow_non_finite</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">allow_zeros</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">center</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">size_factors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.log_norm_counts">
-<span class="sig-prename descclassname"><span class="pre">scranpy.normalization.log_norm_counts.</span></span><span class="sig-name descname"><span class="pre">log_norm_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress v0.0.7)"><span class="pre">TatamiNumericPointer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.11.1)"><span class="pre">spmatrix</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions" title="scranpy.normalization.log_norm_counts.LogNormCountsOptions"><span class="pre">LogNormCountsOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">LogNormCountsOptions(block=None,</span> <span class="pre">size_factors=None,</span> <span class="pre">center=True,</span> <span class="pre">allow_zeros=False,</span> <span class="pre">allow_non_finite=False,</span> <span class="pre">num_threads=1,</span> <span class="pre">verbose=False)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress v0.0.7)"><span class="pre">TatamiNumericPointer</span></a></span></span><a class="reference internal" href="../_modules/scranpy/normalization/log_norm_counts.html#log_norm_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.normalization.log_norm_counts.log_norm_counts" title="Link to this definition">#</a></dt>
-<dd><p>Compute log-transformed normalized values.
-The normalization removes uninteresting per-cell differences due to sequencing efficiency and library size.
-The subsequent log-transformation ensures that any differences in the log-values represent log-fold changes in downstream analysis steps;
-these relative changes in expression are more relevant than absolute changes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<em>MatrixTypes</em>) – Matrix-like object containing cells in columns and features in rows, typically with count data.
-This should be a matrix class that can be converted into a <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code>.
-Developers may also provide the <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code> itself.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions" title="scranpy.normalization.log_norm_counts.LogNormCountsOptions"><em>LogNormCountsOptions</em></a>) – Optional parameters.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If arguments don’t meet expectations.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Log-normalized expression matrix.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>TatamiNumericPointer</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="scranpy-normalization-types-module">
-<h2>scranpy.normalization.types module<a class="headerlink" href="#scranpy-normalization-types-module" title="Link to this heading">#</a></h2>
-<dl class="py class" id="module-scranpy.normalization.types">
-<dt class="sig sig-object py" id="scranpy.normalization.types.NormalizationOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.normalization.types.</span></span><span class="sig-name descname"><span class="pre">NormalizationOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_norm_counts:</span> <span class="pre">~scranpy.normalization.log_norm_counts.LogNormCountsOptions</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/normalization/types.html#NormalizationOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.normalization.types.NormalizationOptions" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Optional arguments for normalization.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.types.NormalizationOptions.log_norm_counts">
-<span class="sig-name descname"><span class="pre">log_norm_counts</span></span><a class="headerlink" href="#scranpy.normalization.types.NormalizationOptions.log_norm_counts" title="Link to this definition">#</a></dt>
-<dd><p>Options to pass to
-<a class="reference internal" href="#scranpy.normalization.log_norm_counts.log_norm_counts" title="scranpy.normalization.log_norm_counts.log_norm_counts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_norm_counts()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions" title="scranpy.normalization.log_norm_counts.LogNormCountsOptions">LogNormCountsOptions</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">log_norm_counts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions" title="scranpy.normalization.log_norm_counts.LogNormCountsOptions"><span class="pre">LogNormCountsOptions</span></a></em><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.normalization.types.NormalizationOptions.set_block">
-<span class="sig-name descname"><span class="pre">set_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/normalization/types.html#NormalizationOptions.set_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.normalization.types.NormalizationOptions.set_block" title="Link to this definition">#</a></dt>
-<dd><p>Set block.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>block</strong> (<em>Sequence</em><em>, </em><em>optional</em>) – Blocks assignments
-for each cell. Defaults to None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.normalization.types.NormalizationOptions.set_threads">
-<span class="sig-name descname"><span class="pre">set_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/normalization/types.html#NormalizationOptions.set_threads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.normalization.types.NormalizationOptions.set_threads" title="Link to this definition">#</a></dt>
-<dd><p>Set number of threads to use.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>num_threads</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Number of threads. Defaults to 1.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="scranpy.normalization.types.NormalizationOptions.set_verbose">
-<span class="sig-name descname"><span class="pre">set_verbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/normalization/types.html#NormalizationOptions.set_verbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.normalization.types.NormalizationOptions.set_verbose" title="Link to this definition">#</a></dt>
-<dd><p>Set verbose to display logs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Display logs? Defaults to False.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="scranpy.normalization.types.NormalizationResults">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.normalization.types.</span></span><span class="sig-name descname"><span class="pre">NormalizationResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_norm_counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress v0.0.7)"><span class="pre">TatamiNumericPointer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/normalization/types.html#NormalizationResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.normalization.types.NormalizationResults" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Results of normalization.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="scranpy.normalization.types.NormalizationResults.log_norm_counts">
-<span class="sig-name descname"><span class="pre">log_norm_counts</span></span><a class="headerlink" href="#scranpy.normalization.types.NormalizationResults.log_norm_counts" title="Link to this definition">#</a></dt>
-<dd><p>Output of
-<a class="reference internal" href="#scranpy.normalization.log_norm_counts.log_norm_counts" title="scranpy.normalization.log_norm_counts.log_norm_counts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_norm_counts()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>TatamiNumericPointer, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">log_norm_counts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress v0.0.7)"><span class="pre">TatamiNumericPointer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id8" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<h2>scranpy.normalization.log_norm_counts module<a class="headerlink" href="#scranpy-normalization-log-norm-counts-module" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
-<span class="target" id="module-scranpy.normalization"></span></section>
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+</section>
 </section>
 
         </article>
@@ -523,43 +288,9 @@ for each cell. Defaults to None.</p>
             <ul>
 <li><a class="reference internal" href="#">scranpy.normalization package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#scranpy-normalization-log-norm-counts-module">scranpy.normalization.log_norm_counts module</a><ul>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.block"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.block</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.size_factors"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.size_factors</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.center"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.center</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.allow_zeros"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.allow_zeros</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.allow_non_finite"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.allow_non_finite</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.num_threads</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.verbose"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.verbose</span></code></a></li>
-<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.allow_non_finite</span></code></a></li>
-<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.allow_zeros</span></code></a></li>
-<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.block</span></code></a></li>
-<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.center</span></code></a></li>
-<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.num_threads</span></code></a></li>
-<li><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.size_factors</span></code></a></li>
-<li><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.verbose</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.log_norm_counts"><code class="docutils literal notranslate"><span class="pre">log_norm_counts()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy-normalization-types-module">scranpy.normalization.types module</a><ul>
-<li><a class="reference internal" href="#scranpy.normalization.types.NormalizationOptions"><code class="docutils literal notranslate"><span class="pre">NormalizationOptions</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.normalization.types.NormalizationOptions.log_norm_counts"><code class="docutils literal notranslate"><span class="pre">NormalizationOptions.log_norm_counts</span></code></a></li>
-<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">NormalizationOptions.log_norm_counts</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.types.NormalizationOptions.set_block"><code class="docutils literal notranslate"><span class="pre">NormalizationOptions.set_block()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.types.NormalizationOptions.set_threads"><code class="docutils literal notranslate"><span class="pre">NormalizationOptions.set_threads()</span></code></a></li>
-<li><a class="reference internal" href="#scranpy.normalization.types.NormalizationOptions.set_verbose"><code class="docutils literal notranslate"><span class="pre">NormalizationOptions.set_verbose()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#scranpy.normalization.types.NormalizationResults"><code class="docutils literal notranslate"><span class="pre">NormalizationResults</span></code></a><ul>
-<li><a class="reference internal" href="#scranpy.normalization.types.NormalizationResults.log_norm_counts"><code class="docutils literal notranslate"><span class="pre">NormalizationResults.log_norm_counts</span></code></a></li>
-<li><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">NormalizationResults.log_norm_counts</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#scranpy-normalization-center-size-factors-module">scranpy.normalization.center_size_factors module</a></li>
+<li><a class="reference internal" href="#scranpy-normalization-grouped-size-factors-module">scranpy.normalization.grouped_size_factors module</a></li>
+<li><a class="reference internal" href="#scranpy-normalization-log-norm-counts-module">scranpy.normalization.log_norm_counts module</a></li>
 <li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
@@ -572,9 +303,9 @@ for each cell. Defaults to None.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8c5712d9"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
