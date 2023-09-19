@@ -26,31 +26,136 @@ which are based on the same underlying C++ libraries and concepts.
 
 ## Quick start
 
-🚧🚧🚧 **Under construction** 🚧🚧🚧
-
-Currently, it's anything but quick... at least it runs.
-More to come soon.
+Let's load in the famous PBMC 4k dataset from 10X Genomics (available [here](https://github.com/kanaverse/random-test-files/releases/tag/10x-pbmc-v1.0.0)):
 
 ```python
-# TODO: streamline the loader:
-path = "pbmc4k-tenx.h5"
-import h5py as h5
-fhandle = h5.File(path)
-import scipy.sparse as sp
-mat = sp.csc_matrix(
-    (fhandle["matrix"]["data"], fhandle["matrix"]["indices"], fhandle["matrix"]["indptr"]),
-    fhandle["matrix"]["shape"]
-)
-features = [x.decode("ascii") for x in fhandle["matrix"]["features"]["name"]]
+import singlecellexperiment
+sce = singlecellexperiment.read_tenx_h5("pbmc4k-tenx.h5")
+```
 
+Then we can perform the analysis using **scranpy**'s `analyze()` function:
+
+```python
 import scranpy
 options = scranpy.AnalyzeOptions()
 options.per_cell_rna_qc_metrics_options.subsets = {
-    "mito": scranpy.guess_mito_from_symbols(features, "mt-")
+    "mito": scranpy.guess_mito_from_symbols(sce.row_data["name"], "mt-")
 }
-
-results = scranpy.analyze(mat)
+results = scranpy.analyze_sce(sce, options=options)
 ```
+
+This returns an object containing clusters, t-SNEs, UMAPs, marker genes, and so on:
+
+```python
+results.clusters
+results.tsne
+results.umap
+results.rna_markers
+```
+
+Check out the [reference documentation](https://biocpy.github.io/scranpy) for more details.
+
+## Multiple batches
+
+To demonstrate, let's grab two batches of PBMC datasets from 10X Genomics (again, available [here](https://github.com/kanaverse/random-test-files/releases/tag/10x-pbmc-v1.0.0)):
+
+```python
+import singlecellexperiment
+sce3k = singlecellexperiment.read_tenx_h5("pbmc3k-tenx.h5")
+sce4k = singlecellexperiment.read_tenx_h5("pbmc4k-tenx.h5")
+```
+
+They don't have the same features, so we'll just take the intersection of their Ensembl IDs before combining them:
+
+```python
+import biocutils
+common = biocutils.intersect(sce3k.row_data["id"], sce4k.row_data["id"])
+sce3k_common = sce3k[biocutils.match(common, sce3k.row_data["id"]), :]
+sce4k_common = sce4k[biocutils.match(common, sce4k.row_data["id"]), :]
+combined = sce3k_common.combine_cols(sce4k_common)
+batch = ["3k"] * sce3k_common.shape[1] + ["4k"] * sce4k_common.shape[1]
+```
+
+We can now perform a batch-aware analysis:
+
+```python
+import scranpy
+options = scranpy.AnalyzeOptions()
+options.per_cell_rna_qc_metrics_options.subsets = {
+    "mito": scranpy.guess_mito_from_symbols(combined.row_data["name"], "mt-")
+}
+options.miscellaneous_options.block = batch
+results = scranpy.analyze_sce(combined, options=options)
+```
+
+## Multiple modalities
+
+Let's grab a 10X Genomics immune profiling dataset (see [here](https://github.com/kanaverse/random-test-files/releases/download/10x-immune-v1.0.0/immune_3.0.0-tenx.h5)):
+
+```python
+import singlecellexperiment
+sce = singlecellexperiment.read_tenx_h5("immune_3.0.0-tenx.h5")
+```
+
+We need to split it to genes and ADTs:
+
+```python
+is_gene = [sce.row_data["feature_type"] == "Gene Expression"]
+gene_data = sce[is_gene,:]
+is_adt = [sce.row_data["feature_type"] == "Antibody Capture"]
+adt_data = sce[is_adt,:]
+```
+
+And now we can run the analysis:
+
+```python
+import scranpy
+options = scranpy.AnalyzeOptions()
+options.per_cell_rna_qc_metrics_options.subsets = {
+    "mito": scranpy.guess_mito_from_symbols(gene_data.row_data["name"], "mt-")
+}
+options.per_cell_adt_qc_metrics_options.subsets = {
+    "igg": [n.lower().startswith("igg") for n in adt_data.row_data["name"]]
+}
+results = scranpy.analyze_se(gene_data, adt_se = adt_data, options=options)
+```
+
+This returns ADT-specific results in the relevant fields:
+
+```python
+results.adt_size_factors
+results.adt_markers
+```
+
+## Customizing the analysis
+
+Most parameters can be changed by setting the relevant fields in the `AnalyzeOptions` object.
+For example, we can modify the number of neighbors and resolution used for graph-based clustering:
+
+```python
+options.build_snn_graph_options.num_neighbors = 10
+options.miscellaneous_options.snn_graph_multilevel_resolution = 2
+```
+
+Some of the parameters have convenience methods so that they can be easily across multiple `*_options`:
+
+```python
+options.set_threads(5)
+```
+
+Advanced users can even obtain the sequence of steps used internally by `analyze()` by calling it with `dry_run = True`:
+
+```python
+commands = scranpy.analyze(sce, dry_run = True)
+print(commands)
+## import scranpy
+## import numpy
+## 
+## results = AnalyzeResults()
+## ...
+```
+
+Users can then add, remove or replace steps as desired.
 
 ## Developer Notes
 
@@ -83,10 +188,3 @@ To rebuild the [dry run analysis source code](src/scranpy/analysis_dry.py):
 ```shell
 ./scripts/dryrun.py src/scranpy/analyze/live_analyze.py > src/scranpy/analyze/dry_analyze.py
 ```
-
-<!-- pyscaffold-notes -->
-
-## Note
-
-This project has been set up using PyScaffold 4.5. For details and usage
-information on PyScaffold see https://pyscaffold.org/.
