@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.batch_correction.mnn_correct - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -216,45 +215,43 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">factorize</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 
 
-<div class="viewcode-block" id="MnnCorrectOptions">
-<a class="viewcode-back" href="../../../api/scranpy.batch_correction.html#scranpy.batch_correction.mnn_correct.MnnCorrectOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="MnnCorrectOptions"><a class="viewcode-back" href="../../../api/scranpy.batch_correction.html#scranpy.batch_correction.mnn_correct.MnnCorrectOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">MnnCorrectOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Options to pass to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        k (int): Number of neighbors for detecting mutual nearest neighbors.</span>
+<span class="sd">        k: Number of neighbors for detecting mutual nearest neighbors.</span>
 
-<span class="sd">        approximate (bool): Whether to perform an approximate nearest neighbor search.</span>
+<span class="sd">        approximate: Whether to perform an approximate nearest neighbor search.</span>
 
-<span class="sd">        order (Sequence, optional): Ordering of batches to correct. The first</span>
+<span class="sd">        order: Ordering of batches to correct. The first</span>
 <span class="sd">            entry is used as the initial reference, and all subsequent batches</span>
 <span class="sd">            are merged and added to the reference in the specified order.</span>
 <span class="sd">            This should contain all unique levels in the ``batch`` argument</span>
 <span class="sd">            supplied to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.</span>
 <span class="sd">            If None, an appropriate ordering is automatically determined.</span>
 
-<span class="sd">        reference_policy (str): Policy to use for choosing the initial reference</span>
+<span class="sd">        reference_policy: Policy to use for choosing the initial reference</span>
 <span class="sd">            batch. This can be one of &quot;max-rss&quot; (maximum residual sum of squares</span>
 <span class="sd">            within the batch, which is the default), &quot;max-variance&quot; (maximum</span>
 <span class="sd">            variance within the batch), &quot;max-size&quot; (maximum number of cells),</span>
 <span class="sd">            or &quot;input&quot; (using the supplied order of levels in ``batch``).</span>
 <span class="sd">            Only used if ``order`` is not supplied.</span>
 
-<span class="sd">        num_mads (int): Number of median absolute deviations, used to define</span>
+<span class="sd">        num_mads: Number of median absolute deviations, used to define</span>
 <span class="sd">            the threshold for outliers when computing the center of mass for</span>
 <span class="sd">            each cell involved in a MNN pair. Larger values reduce kissing but</span>
 <span class="sd">            may incorporate inappropriately distant subpopulations in a cell&#39;s center of mass.</span>
 
-<span class="sd">        mass_cap (int): Cap on the number of observations used to compute the</span>
+<span class="sd">        mass_cap: Cap on the number of observations used to compute the</span>
 <span class="sd">            center of mass for each MNN-involved observation.  The dataset is</span>
 <span class="sd">            effectively downsampled to `c` observations for this calculation, which</span>
 <span class="sd">            improves speed at the cost of some precision.</span>
 
-<span class="sd">        num_threads (int): Number of threads to use for the various MNN calculations.</span>
+<span class="sd">        num_threads: Number of threads to use for the various MNN calculations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span>
@@ -266,25 +263,22 @@
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-
-<div class="viewcode-block" id="MnnCorrectResult">
-<a class="viewcode-back" href="../../../api/scranpy.batch_correction.html#scranpy.batch_correction.mnn_correct.MnnCorrectResult">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="MnnCorrectResult"><a class="viewcode-back" href="../../../api/scranpy.batch_correction.html#scranpy.batch_correction.mnn_correct.MnnCorrectResult">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">MnnCorrectResult</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Results from :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        corrected (ndarray, optional):</span>
+<span class="sd">        corrected:</span>
 <span class="sd">            Matrix of corrected coordinates for each cell (row) and dimension (column).</span>
 <span class="sd">            Rows and columns should be in the same order as the input ``x`` in</span>
 <span class="sd">            :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.</span>
 
-<span class="sd">        merge_order (list, optional):</span>
+<span class="sd">        merge_order:</span>
 <span class="sd">            Order of batches used for merging.</span>
 <span class="sd">            The first batch is used as the initial reference.</span>
 <span class="sd">            The length of this list is equal to the number of batches.</span>
 
-<span class="sd">        num_pairs (ndarray, optional):</span>
+<span class="sd">        num_pairs:</span>
 <span class="sd">            Number of MNN pairs detected at each merge step.</span>
 <span class="sd">            This has length one less than the number of batches.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -296,26 +290,23 @@
     <span class="n">num_pairs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-
-<div class="viewcode-block" id="mnn_correct">
-<a class="viewcode-back" href="../../../api/scranpy.batch_correction.html#scranpy.batch_correction.mnn_correct.mnn_correct">[docs]</a>
-<span class="k">def</span> <span class="nf">mnn_correct</span><span class="p">(</span>
+<div class="viewcode-block" id="mnn_correct"><a class="viewcode-back" href="../../../api/scranpy.batch_correction.html#scranpy.batch_correction.mnn_correct.mnn_correct">[docs]</a><span class="k">def</span> <span class="nf">mnn_correct</span><span class="p">(</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">MnnCorrectOptions</span> <span class="o">=</span> <span class="n">MnnCorrectOptions</span><span class="p">()</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MnnCorrectResult</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Identify mutual nearest neighbors (MNNs) to correct batch effects in a low-dimensional embedding.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x (ndarray): Numeric matrix where rows are cells and columns are dimensions,</span>
+<span class="sd">        x: Numeric matrix where rows are cells and columns are dimensions,</span>
 <span class="sd">            typically generated from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
 
-<span class="sd">        batch (Sequence): Sequence of length equal to the number of cells (i.e., rows of ``x``),</span>
+<span class="sd">        batch: Sequence of length equal to the number of cells (i.e., rows of ``x``),</span>
 <span class="sd">            specifying the batch for each cell.</span>
 
-<span class="sd">        options (MnnCorrectOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        MnnCorrectResult: The corrected coordinates for each cell,</span>
-<span class="sd">            along with some diagnostics about the MNNs involved.</span>
+<span class="sd">        The corrected coordinates for each cell, along with some diagnostics</span>
+<span class="sd">        about the MNNs involved.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ndim</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">ncells</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -379,7 +370,6 @@
         <span class="n">merge_order</span><span class="o">=</span><span class="p">[</span><span class="n">batch_levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">merge_order_output</span><span class="p">],</span>
         <span class="n">num_pairs</span><span class="o">=</span><span class="n">num_pairs_output</span><span class="p">,</span>
     <span class="p">)</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -412,9 +402,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

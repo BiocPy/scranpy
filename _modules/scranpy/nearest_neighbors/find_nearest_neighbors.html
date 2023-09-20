@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.nearest_neighbors.find_nearest_neighbors - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -217,7 +216,7 @@
 
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int32</span><span class="p">,</span> <span class="n">ndarray</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.build_neighbor_index</span> <span class="kn">import</span> <span class="n">NeighborIndex</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
@@ -228,10 +227,10 @@
 <span class="n">SingleNeighborResults</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">Named tuple of nearest neighbors for a single cell.</span>
 
-<span class="s2">index (ndarray):</span>
+<span class="s2">index:</span>
 <span class="s2">    Array containing 0-based indices of a cell&#39;s neighbor neighbors,</span>
 <span class="s2">    ordered by increasing distance.</span>
-<span class="s2">distance (ndarray):</span>
+<span class="s2">distance:</span>
 <span class="s2">    Array containing distances to a cell&#39;s nearest neighbors,</span>
 <span class="s2">    ordered by increasing distance.</span>
 <span class="s2">&quot;&quot;&quot;</span>
@@ -242,18 +241,16 @@
 <span class="n">SerializedNeighborResults</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">Named tuple of serialized results from the nearest neighbor search.</span>
 
-<span class="s2">index (ndarray):</span>
+<span class="s2">index:</span>
 <span class="s2">    Row-major matrix containing 0-based indices of the neighbor neighbors for each cell.</span>
 <span class="s2">    Each row is a cell and each column is a neighbor, ordered by increasing distance.</span>
-<span class="s2">distance (ndarray):</span>
+<span class="s2">distance:</span>
 <span class="s2">    Row-major matrix containing distances to the nearest neighbors for each cell.</span>
 <span class="s2">    Each row is a cell and each column is a neighbor, ordered by increasing distance.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="NeighborResults">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults">[docs]</a>
-<span class="k">class</span> <span class="nc">NeighborResults</span><span class="p">:</span>
+<div class="viewcode-block" id="NeighborResults"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults">[docs]</a><span class="k">class</span> <span class="nc">NeighborResults</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Nearest neighbor search results.</span>
 
 <span class="sd">    This should not be constructed manually but instead should be created by</span>
@@ -267,46 +264,35 @@
         <span class="n">lib</span><span class="o">.</span><span class="n">free_neighbor_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">ptr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get pointer to scran&#39;s NN search index.</span>
-
+    <span class="k">def</span> <span class="nf">ptr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            ct.c_void_p: Pointer reference.</span>
+<span class="sd">            Pointer to the results object in C++.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span>
 
-<div class="viewcode-block" id="NeighborResults.num_cells">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_cells">[docs]</a>
-    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of cells in this object.</span>
-
+<div class="viewcode-block" id="NeighborResults.num_cells"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_cells">[docs]</a>    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            int: Number of cells.</span>
+<span class="sd">            Number of cells in this object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_results_nobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="NeighborResults.num_neighbors">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_neighbors">[docs]</a>
-    <span class="k">def</span> <span class="nf">num_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of neighbors used to build this object.</span>
-
+<div class="viewcode-block" id="NeighborResults.num_neighbors"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">num_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            int: Number of neighbors.</span>
+<span class="sd">            Number of neighbors used to build this object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_results_k</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="NeighborResults.get">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.get">[docs]</a>
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SingleNeighborResults</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the nearest neighbors for a particular cell.</span>
-
+<div class="viewcode-block" id="NeighborResults.get"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SingleNeighborResults</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            i (int): Index of the cell of interest.</span>
+<span class="sd">            i: Index of the cell of interest.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            SingleNeighborResults: A tuple with indices and distances.</span>
+<span class="sd">            A tuple with indices and distances to the nearest neighbors for cell ``i``.</span>
+<span class="sd">            Neighbors are guaranteed to be sorted in order of increasing distance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_results_k</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
         <span class="n">out_d</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">k</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
@@ -314,16 +300,13 @@
         <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_results_single</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">out_i</span><span class="p">,</span> <span class="n">out_d</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SingleNeighborResults</span><span class="p">(</span><span class="n">out_i</span><span class="p">,</span> <span class="n">out_d</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="NeighborResults.serialize">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize">[docs]</a>
-    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SerializedNeighborResults</span><span class="p">:</span>
+<div class="viewcode-block" id="NeighborResults.serialize"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize">[docs]</a>    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SerializedNeighborResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize nearest neighbors for all cells, typically to save or transfer to a new process. This can be used</span>
 <span class="sd">        to construct a new :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` object by</span>
 <span class="sd">        calling :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize`.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            SerializedNeighborResults: A tuple with indices and distances.</span>
+<span class="sd">            A tuple with indices and distances, to be passed to ``unserialize``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nobs</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_results_nobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_results_k</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
@@ -336,15 +319,12 @@
         <span class="n">lib</span><span class="o">.</span><span class="n">serialize_neighbor_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">,</span> <span class="n">out_i</span><span class="p">,</span> <span class="n">out_d</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SerializedNeighborResults</span><span class="p">(</span><span class="n">out_i</span><span class="p">,</span> <span class="n">out_d</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="NeighborResults.unserialize">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize">[docs]</a>
-    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="NeighborResults.unserialize"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">unserialize</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">SerializedNeighborResults</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;NeighborResults&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an instance of this class from serialized nearest neighbor results.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            content (SerializedNeighborResults): Result of</span>
+<span class="sd">            content: Result of</span>
 <span class="sd">                :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize`.</span>
 
 <span class="sd">        Returns:</span>
@@ -363,28 +343,21 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;expected &#39;content.index&#39; to have a row-major layout&quot;</span><span class="p">)</span>
 
         <span class="n">ptr</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">unserialize_neighbor_results</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">idx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idx</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span></div>
-</div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span></div></div>
 
 
-
-<div class="viewcode-block" id="FindNearestNeighborsOptions">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="FindNearestNeighborsOptions"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">FindNearestNeighborsOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        num_threads (int, optional): Number of threads to use. Defaults to 1.</span>
+<span class="sd">        num_threads: Number of threads to use. Defaults to 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-
-<div class="viewcode-block" id="find_nearest_neighbors">
-<a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors">[docs]</a>
-<span class="k">def</span> <span class="nf">find_nearest_neighbors</span><span class="p">(</span>
+<div class="viewcode-block" id="find_nearest_neighbors"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors">[docs]</a><span class="k">def</span> <span class="nf">find_nearest_neighbors</span><span class="p">(</span>
     <span class="n">idx</span><span class="p">:</span> <span class="n">NeighborIndex</span><span class="p">,</span>
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">FindNearestNeighborsOptions</span> <span class="o">=</span> <span class="n">FindNearestNeighborsOptions</span><span class="p">(),</span>
@@ -392,16 +365,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the nearest neighbors for each cell.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        idx (NeighborIndex): The nearest neighbor search index, usually built by</span>
+<span class="sd">        idx: The nearest neighbor search index, usually built by</span>
 <span class="sd">            :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.</span>
-<span class="sd">        k (int): Number of neighbors to find for each cell.</span>
-<span class="sd">        options (FindNearestNeighborsOptions): Optional parameters.</span>
+<span class="sd">        k: Number of neighbors to find for each cell.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        TypeError: If ``idx`` is not a nearest neighbor index.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        NeighborResults: &#39;k&#39; nearest neighbors for each cell.</span>
+<span class="sd">        Object containing the ``k`` nearest neighbors for each cell.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">NeighborIndex</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -411,7 +384,6 @@
 
     <span class="n">ptr</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">find_nearest_neighbors</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">num_threads</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">NeighborResults</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -444,9 +416,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.analyze package" href="scranpy.analyze.html" /><link rel="prev" title="scranpy package" href="scranpy.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.aggregation package - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -155,8 +155,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">scranpy.aggregation package</a></li>
@@ -174,10 +177,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -213,148 +212,123 @@
         </div>
         <article role="main">
           <section id="scranpy-aggregation-package">
-<h1>scranpy.aggregation package<a class="headerlink" href="#scranpy-aggregation-package" title="Link to this heading">#</a></h1>
+<h1>scranpy.aggregation package<a class="headerlink" href="#scranpy-aggregation-package" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-scranpy.aggregation.aggregate_across_cells">
-<span id="scranpy-aggregation-aggregate-across-cells-module"></span><h2>scranpy.aggregation.aggregate_across_cells module<a class="headerlink" href="#module-scranpy.aggregation.aggregate_across_cells" title="Link to this heading">#</a></h2>
+<span id="scranpy-aggregation-aggregate-across-cells-module"></span><h2>scranpy.aggregation.aggregate_across_cells module<a class="headerlink" href="#module-scranpy.aggregation.aggregate_across_cells" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.aggregation.aggregate_across_cells.</span></span><span class="sig-name descname"><span class="pre">AggregateAcrossCellsOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_sums</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_detected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assay_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/aggregation/aggregate_across_cells.html#AggregateAcrossCellsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.aggregation.aggregate_across_cells.</span></span><span class="sig-name descname"><span class="pre">AggregateAcrossCellsOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_sums</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_detected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assay_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/aggregation/aggregate_across_cells.html#AggregateAcrossCellsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Options to pass to <a class="reference internal" href="#scranpy.aggregation.aggregate_across_cells.aggregate_across_cells" title="scranpy.aggregation.aggregate_across_cells.aggregate_across_cells"><code class="xref py py-meth docutils literal notranslate"><span class="pre">aggregate_across_cells()</span></code></a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.compute_sums">
-<span class="sig-name descname"><span class="pre">compute_sums</span></span><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.compute_sums" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">compute_sums</span></span><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.compute_sums" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to compute the sum of each group.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.compute_detected">
-<span class="sig-name descname"><span class="pre">compute_detected</span></span><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.compute_detected" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">compute_detected</span></span><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.compute_detected" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to compute the number of detected cells in each group.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.assay_type">
-<span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.assay_type" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.assay_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Assay to use from <code class="docutils literal notranslate"><span class="pre">input</span></code> if it is a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Union[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>, <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
-</dd>
-</dl>
+<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.num_threads" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">assay_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">assay_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">compute_detected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">compute_detected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">compute_sums</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">compute_sums</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="scranpy.aggregation.aggregate_across_cells.aggregate_across_cells">
-<span class="sig-prename descclassname"><span class="pre">scranpy.aggregation.aggregate_across_cells.</span></span><span class="sig-name descname"><span class="pre">aggregate_across_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><span class="pre">TatamiNumericPointer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">SummarizedExperiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Tuple" title="(in Python v3.9)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><span class="pre">dict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><span class="pre">BiocFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions" title="scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions"><span class="pre">AggregateAcrossCellsOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">AggregateAcrossCellsOptions(compute_sums=True,</span> <span class="pre">compute_detected=True,</span> <span class="pre">assay_type=0,</span> <span class="pre">num_threads=1)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SummarizedExperiment</span></span></span><a class="reference internal" href="../_modules/scranpy/aggregation/aggregate_across_cells.html#aggregate_across_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.aggregate_across_cells" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">scranpy.aggregation.aggregate_across_cells.</span></span><span class="sig-name descname"><span class="pre">aggregate_across_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AggregateAcrossCellsOptions(compute_sums=True,</span> <span class="pre">compute_detected=True,</span> <span class="pre">assay_type=0,</span> <span class="pre">num_threads=1)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/aggregation/aggregate_across_cells.html#aggregate_across_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.aggregation.aggregate_across_cells.aggregate_across_cells" title="Permalink to this definition">#</a></dt>
 <dd><p>Aggregate expression values for groups of cells.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<em>MatrixTypes</em>) – <p>Matrix-like object where rows are features and columns are cells, typically containing
+<li><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]) – <p>Matrix-like object where rows are features and columns are cells, typically containing
 expression values of some kind. This should be a matrix class that can be converted into a
 <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>.</p>
-<p>Alternatively, a <code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code>
+<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
 containing such a matrix in its assays.</p>
 <p>Developers may also provide a <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a> directly.</p>
 </p></li>
-<li><p><strong>groups</strong> (<em>Union</em><em>[</em><em>Sequence</em><em>, </em><em>Tuple</em><em>[</em><em>Sequence</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>BiocFrame</em><em>]</em>) – A sequence of length equal to the number of columns of <code class="docutils literal notranslate"><span class="pre">input</span></code>, specifying the group
+<li><p><strong>groups</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>, <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Tuple" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>], <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>]) – A sequence of length equal to the number of columns of <code class="docutils literal notranslate"><span class="pre">input</span></code>, specifying the group
 to which each column is assigned. Alternatively, a tuple, dictionary, or
 <code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code> of one or more such sequences, in which case
 each unique combination of levels across all sequences is defined as a “group”.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions" title="scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions"><em>AggregateAcrossCellsOptions</em></a>) – Further options.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions" title="scranpy.aggregation.aggregate_across_cells.AggregateAcrossCellsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">AggregateAcrossCellsOptions</span></code></a>) – Further options.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Object where each row corresponds to a row in <code class="docutils literal notranslate"><span class="pre">input</span></code> and each
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A SummarizedExperiment where each row corresponds to a row in <code class="docutils literal notranslate"><span class="pre">input</span></code> and each
 column corresponds to a group. Assays contain the sum of expression values (if
 <code class="docutils literal notranslate"><span class="pre">options.compute_sums</span> <span class="pre">=</span> <span class="pre">True</span></code>) and the number of cells with detected expression (if
 <code class="docutils literal notranslate"><span class="pre">options.compute_detected</span> <span class="pre">=</span> <span class="pre">True</span></code>) for each group. Column data contains the identity
 of each group; for <code class="docutils literal notranslate"><span class="pre">groups</span></code> containing multiple sequences, the identity of each
 group is defined as a unique combination of levels from each sequence.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>SummarizedExperiment</p>
-</dd>
 </dl>
 </dd></dl>
 
 </section>
 <section id="module-scranpy.aggregation.downsample_by_neighbors">
-<span id="scranpy-aggregation-downsample-by-neighbors-module"></span><h2>scranpy.aggregation.downsample_by_neighbors module<a class="headerlink" href="#module-scranpy.aggregation.downsample_by_neighbors" title="Link to this heading">#</a></h2>
+<span id="scranpy-aggregation-downsample-by-neighbors-module"></span><h2>scranpy.aggregation.downsample_by_neighbors module<a class="headerlink" href="#module-scranpy.aggregation.downsample_by_neighbors" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.aggregation.downsample_by_neighbors.</span></span><span class="sig-name descname"><span class="pre">DownsampleByNeighborsOptions</span></span><a class="reference internal" href="../_modules/scranpy/aggregation/downsample_by_neighbors.html#DownsampleByNeighborsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.aggregation.downsample_by_neighbors.</span></span><span class="sig-name descname"><span class="pre">DownsampleByNeighborsOptions</span></span><a class="reference internal" href="../_modules/scranpy/aggregation/downsample_by_neighbors.html#DownsampleByNeighborsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Options to pass to <cite>~scranpy.aggregation.downsample_by_neighbors.downsample_by_neighbors</cite>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions.num_threads" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="scranpy.aggregation.downsample_by_neighbors.downsample_by_neighbors">
-<span class="sig-prename descclassname"><span class="pre">scranpy.aggregation.downsample_by_neighbors.</span></span><span class="sig-name descname"><span class="pre">downsample_by_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input:</span> <span class="pre">~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex</span> <span class="pre">|</span> <span class="pre">~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults</span> <span class="pre">|</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options:</span> <span class="pre">~scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions</span> <span class="pre">=</span> <span class="pre">&lt;scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Tuple" title="(in Python v3.9)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/scranpy/aggregation/downsample_by_neighbors.html#downsample_by_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.aggregation.downsample_by_neighbors.downsample_by_neighbors" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">scranpy.aggregation.downsample_by_neighbors.</span></span><span class="sig-name descname"><span class="pre">downsample_by_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options=&lt;scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/aggregation/downsample_by_neighbors.html#downsample_by_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.aggregation.downsample_by_neighbors.downsample_by_neighbors" title="Permalink to this definition">#</a></dt>
 <dd><p>Downsample a dataset by its neighbors. We do by considering a cell to be a “representative” of its nearest
 neighbors, allowing us to downsample by removing all of its neighbors; this is repeated until all cells are assigned
 to a representative, starting from the cells in the densest part of the dataset and working our way down. This
@@ -363,7 +337,7 @@ representation of rare subpopulations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><em>NeighborResults</em></a><em> | </em><a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><em>NeighborIndex</em></a><em> | </em><em>ndarray</em>) – <p>Object containing per-cell nearest neighbor results or data that can be used to derive them.</p>
+<li><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborIndex</span></code></a>, <a class="reference internal" href="scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborResults</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – <p>Object containing per-cell nearest neighbor results or data that can be used to derive them.</p>
 <p>This may be a a 2-dimensional <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> containing per-cell
 coordinates, where rows are cells and columns are features/dimensions.
 This is most typically the result of
@@ -378,28 +352,28 @@ The number of neighbors should be consistent with the perplexity provided
 in <a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions" title="scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">InitializeTsneOptions</span></code></a>
 (see also <a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors" title="scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tsne_perplexity_to_neighbors()</span></code></a>).</p>
 </p></li>
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of neighbors to use for downsampling.
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of neighbors to use for downsampling.
 Larger values result in more downsampling at the cost of speed.
 Only relevant if <code class="docutils literal notranslate"><span class="pre">input</span></code> is not a <code class="docutils literal notranslate"><span class="pre">NeighborResults</span></code> object.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions" title="scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions"><em>DownsampleByNeighborsOptions</em></a>) – Further options.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions" title="scranpy.aggregation.downsample_by_neighbors.DownsampleByNeighborsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">DownsampleByNeighborsOptions</span></code></a>) – Further options.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The first value is of length less than the number
-of observations, and contains the indices of the observations that were retained
-after downsampling. The second value is of length equal to the number of
-observations, and contains the index of the representative observation for
-each observation in the dataset.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Tuple" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[ndarray, ndarray]</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The first value is of length less than the number of observations, and
+contains the indices of the observations that were retained after
+downsampling. The second value is of length equal to the number of
+observations, and contains the index of the representative observation
+for each observation in the dataset.</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
 <section id="module-scranpy.aggregation">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.aggregation" title="Link to this heading">#</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.aggregation" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -496,9 +470,9 @@ each observation in the dataset.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

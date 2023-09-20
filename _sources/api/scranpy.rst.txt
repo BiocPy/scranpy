@@ -19,25 +19,6 @@ Subpackages
    scranpy.normalization
    scranpy.quality_control
 
-Submodules
-----------
-
-scranpy.core module
--------------------
-
-.. automodule:: scranpy.core
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-scranpy.cpphelpers module
--------------------------
-
-.. automodule:: scranpy.cpphelpers
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

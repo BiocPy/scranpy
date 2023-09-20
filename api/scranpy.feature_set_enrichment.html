@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.marker_detection package" href="scranpy.marker_detection.html" /><link rel="prev" title="scranpy.feature_selection package" href="scranpy.feature_selection.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.feature_set_enrichment package - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -155,8 +155,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -174,10 +177,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -213,93 +212,78 @@
         </div>
         <article role="main">
           <section id="scranpy-feature-set-enrichment-package">
-<h1>scranpy.feature_set_enrichment package<a class="headerlink" href="#scranpy-feature-set-enrichment-package" title="Link to this heading">#</a></h1>
+<h1>scranpy.feature_set_enrichment package<a class="headerlink" href="#scranpy-feature-set-enrichment-package" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-scranpy.feature_set_enrichment.hypergeometric_test">
-<span id="scranpy-feature-set-enrichment-hypergeometric-test-module"></span><h2>scranpy.feature_set_enrichment.hypergeometric_test module<a class="headerlink" href="#module-scranpy.feature_set_enrichment.hypergeometric_test" title="Link to this heading">#</a></h2>
+<span id="scranpy-feature-set-enrichment-hypergeometric-test-module"></span><h2>scranpy.feature_set_enrichment.hypergeometric_test module<a class="headerlink" href="#module-scranpy.feature_set_enrichment.hypergeometric_test" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.feature_set_enrichment.hypergeometric_test.</span></span><span class="sig-name descname"><span class="pre">HypergeometricTestOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_tail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/feature_set_enrichment/hypergeometric_test.html#HypergeometricTestOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.feature_set_enrichment.hypergeometric_test.</span></span><span class="sig-name descname"><span class="pre">HypergeometricTestOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_tail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/feature_set_enrichment/hypergeometric_test.html#HypergeometricTestOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Options for <code class="xref py py-meth docutils literal notranslate"><span class="pre">hypergeometric_tail()</span></code>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.log">
-<span class="sig-name descname"><span class="pre">log</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.log" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.log" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to report log-transformed p-values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.upper_tail">
-<span class="sig-name descname"><span class="pre">upper_tail</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.upper_tail" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">upper_tail</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.upper_tail" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to compute the upper tail of the hypergeometric distribution,
 i.e., test for overrepresentation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.num_threads" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">log</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">log</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">upper_tail</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">upper_tail</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.hypergeometric_test.hypergeometric_test">
-<span class="sig-prename descclassname"><span class="pre">scranpy.feature_set_enrichment.hypergeometric_test.</span></span><span class="sig-name descname"><span class="pre">hypergeometric_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">markers_in_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_markers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_genes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">HypergeometricTestOptions(log=False,</span> <span class="pre">upper_tail=True,</span> <span class="pre">num_threads=1)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/feature_set_enrichment/hypergeometric_test.html#hypergeometric_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.hypergeometric_test" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">scranpy.feature_set_enrichment.hypergeometric_test.</span></span><span class="sig-name descname"><span class="pre">hypergeometric_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">markers_in_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_markers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_genes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">HypergeometricTestOptions(log=False,</span> <span class="pre">upper_tail=True,</span> <span class="pre">num_threads=1)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/feature_set_enrichment/hypergeometric_test.html#hypergeometric_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_set_enrichment.hypergeometric_test.hypergeometric_test" title="Permalink to this definition">#</a></dt>
 <dd><p>Run the hypergeometric test to identify enrichment of interesting (usually marker) genes in a feature set or
 pathway.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>markers_in_set</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>]</em>) – Array containing the number of markers inside the feature sets.
+<li><p><strong>markers_in_set</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – Array containing the number of markers inside the feature sets.
 Alternatively, a single integer containing this number.</p></li>
-<li><p><strong>set_size</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>]</em>) – Array containing the sizes of the feature sets.
+<li><p><strong>set_size</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – Array containing the sizes of the feature sets.
 Alternatively, a single integer containing this number.</p></li>
-<li><p><strong>total_markers</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>]</em>) – Array containing the total number of markers.
+<li><p><strong>total_markers</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – Array containing the total number of markers.
 Alternatively, a single integer containing this number.</p></li>
-<li><p><strong>total_genes</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>]</em>) – Array containing the total number of genes in the analysis.
+<li><p><strong>total_genes</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – Array containing the total number of genes in the analysis.
 Alternatively, a single integer containing this number.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions" title="scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions"><em>HypergeometricTestOptions</em></a>) – Further options.</p></li>
+<li><p><strong>options</strong> – Further options.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Array of p-values of length equal to the length
-of the input arrays (or 1, if all inputs were scalars).</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Array of p-values of length equal to the length
+of the input arrays (or 1, if all inputs were scalars).</p>
 </dd>
 </dl>
 <p>Each array input is expected to be 1-dimensional and of the same length,
@@ -310,122 +294,105 @@ they are recycled to the length of the arrays for testing.</p>
 
 </section>
 <section id="module-scranpy.feature_set_enrichment.score_feature_set">
-<span id="scranpy-feature-set-enrichment-score-feature-set-module"></span><h2>scranpy.feature_set_enrichment.score_feature_set module<a class="headerlink" href="#module-scranpy.feature_set_enrichment.score_feature_set" title="Link to this heading">#</a></h2>
+<span id="scranpy-feature-set-enrichment-score-feature-set-module"></span><h2>scranpy.feature_set_enrichment.score_feature_set module<a class="headerlink" href="#module-scranpy.feature_set_enrichment.score_feature_set" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.feature_set_enrichment.score_feature_set.</span></span><span class="sig-name descname"><span class="pre">ScoreFeatureSetOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assay_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'logcounts'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/feature_set_enrichment/score_feature_set.html#ScoreFeatureSetOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.feature_set_enrichment.score_feature_set.</span></span><span class="sig-name descname"><span class="pre">ScoreFeatureSetOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assay_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'logcounts'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/feature_set_enrichment/score_feature_set.html#ScoreFeatureSetOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Options to pass to <a class="reference internal" href="#scranpy.feature_set_enrichment.score_feature_set.score_feature_set" title="scranpy.feature_set_enrichment.score_feature_set.score_feature_set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">score_feature_set()</span></code></a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.block">
-<span class="sig-name descname"><span class="pre">block</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.block" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">block</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.block" title="Permalink to this definition">#</a></dt>
 <dd><p>Block assignment for each cell.
 Thresholds are computed within each block to avoid inflated variances from
 inter-block differences.</p>
 <p>If provided, this should have length equal to the number of cells, where
 cells have the same value if and only if they are in the same block.
 Defaults to None, indicating all cells are part of the same block.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence, optional</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.scale">
-<span class="sig-name descname"><span class="pre">scale</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.scale" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">scale</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.scale" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to scale the features to unit variance before
 computing the scores.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.assay_type">
-<span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.assay_type" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.assay_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Assay to use from <code class="docutils literal notranslate"><span class="pre">input</span></code> if it is a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Union[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>, <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]</p>
-</dd>
-</dl>
+<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.num_threads" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">assay_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'logcounts'</span></em><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">assay_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'logcounts'</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id5" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id6" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="scranpy.feature_set_enrichment.score_feature_set.score_feature_set">
-<span class="sig-prename descclassname"><span class="pre">scranpy.feature_set_enrichment.score_feature_set.</span></span><span class="sig-name descname"><span class="pre">score_feature_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><span class="pre">TatamiNumericPointer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">SummarizedExperiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ScoreFeatureSetOptions(block=None,</span> <span class="pre">scale=False,</span> <span class="pre">assay_type='logcounts',</span> <span class="pre">num_threads=1)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Tuple" title="(in Python v3.9)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/scranpy/feature_set_enrichment/score_feature_set.html#score_feature_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.score_feature_set" title="Link to this definition">#</a></dt>
-<dd><p>Compute a score for the activity of a feature set in each cell. This is done using a slightly modified version of
-the GSDecon algorithm, where we perform a PCA to obtain the rank-1 reconstruction of the feature set’s expression
-values across all cells; the mean of the reconstructed values serves as the score per cell, while the rotation
-vector is reported as the weights on the features involved.</p>
+<span class="sig-prename descclassname"><span class="pre">scranpy.feature_set_enrichment.score_feature_set.</span></span><span class="sig-name descname"><span class="pre">score_feature_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ScoreFeatureSetOptions(block=None,</span> <span class="pre">scale=False,</span> <span class="pre">assay_type='logcounts',</span> <span class="pre">num_threads=1)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/feature_set_enrichment/score_feature_set.html#score_feature_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.feature_set_enrichment.score_feature_set.score_feature_set" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute a score for the activity of a feature set in each cell. This is
+done using a slightly modified version of the
+<a class="reference external" href="https://github.com/JasonHackney/GSDecon">GSDecon</a> algorithm,
+where we perform a PCA to obtain the rank-1 reconstruction of the feature
+set’s expression values across all cells; the mean of the reconstructed
+values serves as the score per cell, while the rotation vector is reported
+as the weights on the features involved.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> – Matrix-like object containing cells in columns and features in
+<li><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]) – Matrix-like object containing cells in columns and features in
 rows, typically with log-normalized expression data.  This should
 be a matrix class that can be converted into a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code>.  Developers may also
 provide the <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code> itself.</p></li>
-<li><p><strong>subset</strong> (<em>Sequence</em>) – Array of integer indices, specifying the rows of <cite>input</cite> belonging
+<li><p><strong>subset</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>) – Array of integer indices, specifying the rows of <cite>input</cite> belonging
 to the features subset. Alternatively, an array of length
 equal to the number of rows in <code class="docutils literal notranslate"><span class="pre">input</span></code>, containing booleans
 specifying that the corresponding row belongs to the subset.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions" title="scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions"><em>ScoreFeatureSetOptions</em></a>) – Further options.</p></li>
+<li><p><strong>options</strong> – Further options.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The first array is of length equal to the
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Tuple" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple where the first array is of length equal to the
 number of columns of <code class="docutils literal notranslate"><span class="pre">input</span></code> and contains the feature set score for
 each cell. The second array is of length equal to the number of
 features in <code class="docutils literal notranslate"><span class="pre">subset</span></code> and contains the weight for each feature.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[ndarray, ndarray]</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
 <section id="module-scranpy.feature_set_enrichment">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.feature_set_enrichment" title="Link to this heading">#</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.feature_set_enrichment" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -526,9 +493,9 @@ features in <code class="docutils literal notranslate"><span class="pre">subset<
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.feature_set_enrichment.hypergeometric_test - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -215,28 +214,25 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">int32</span><span class="p">,</span> <span class="n">float64</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 
 
-<div class="viewcode-block" id="HypergeometricTestOptions">
-<a class="viewcode-back" href="../../../api/scranpy.feature_set_enrichment.html#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="HypergeometricTestOptions"><a class="viewcode-back" href="../../../api/scranpy.feature_set_enrichment.html#scranpy.feature_set_enrichment.hypergeometric_test.HypergeometricTestOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">HypergeometricTestOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Options for :py:meth:`~scranpy.feature_set_enrichment.hypergeometric_tail.hypergeometric_tail`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        log (bool): Whether to report log-transformed p-values.</span>
+<span class="sd">        log: Whether to report log-transformed p-values.</span>
 
-<span class="sd">        upper_tail (bool): Whether to compute the upper tail of the hypergeometric distribution,</span>
+<span class="sd">        upper_tail: Whether to compute the upper tail of the hypergeometric distribution,</span>
 <span class="sd">            i.e., test for overrepresentation.</span>
 
-<span class="sd">        num_threads (int): Number of threads to use.</span>
+<span class="sd">        num_threads: Number of threads to use.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">upper_tail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
-
 
 
 <span class="k">def</span> <span class="nf">_recycle_vector</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -247,40 +243,38 @@
     <span class="k">return</span> <span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="hypergeometric_test">
-<a class="viewcode-back" href="../../../api/scranpy.feature_set_enrichment.html#scranpy.feature_set_enrichment.hypergeometric_test.hypergeometric_test">[docs]</a>
-<span class="k">def</span> <span class="nf">hypergeometric_test</span><span class="p">(</span>
+<div class="viewcode-block" id="hypergeometric_test"><a class="viewcode-back" href="../../../api/scranpy.feature_set_enrichment.html#scranpy.feature_set_enrichment.hypergeometric_test.hypergeometric_test">[docs]</a><span class="k">def</span> <span class="nf">hypergeometric_test</span><span class="p">(</span>
     <span class="n">markers_in_set</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
     <span class="n">set_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
     <span class="n">total_markers</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
     <span class="n">total_genes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
     <span class="n">options</span><span class="o">=</span><span class="n">HypergeometricTestOptions</span><span class="p">(),</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the hypergeometric test to identify enrichment of interesting (usually marker) genes in a feature set or</span>
 <span class="sd">    pathway.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        markers_in_set (Union[int, Sequence[int]]):</span>
+<span class="sd">        markers_in_set:</span>
 <span class="sd">            Array containing the number of markers inside the feature sets.</span>
 <span class="sd">            Alternatively, a single integer containing this number.</span>
 
-<span class="sd">        set_size (Union[int, Sequence[int]]):</span>
+<span class="sd">        set_size:</span>
 <span class="sd">            Array containing the sizes of the feature sets.</span>
 <span class="sd">            Alternatively, a single integer containing this number.</span>
 
-<span class="sd">        total_markers (Union[int, Sequence[int]]):</span>
+<span class="sd">        total_markers:</span>
 <span class="sd">            Array containing the total number of markers.</span>
 <span class="sd">            Alternatively, a single integer containing this number.</span>
 
-<span class="sd">        total_genes (Union[int, Sequence[int]]):</span>
+<span class="sd">        total_genes:</span>
 <span class="sd">            Array containing the total number of genes in the analysis.</span>
 <span class="sd">            Alternatively, a single integer containing this number.</span>
 
-<span class="sd">        options (HypergeometricTestOptions):</span>
+<span class="sd">        options:</span>
 <span class="sd">            Further options.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        ndarray: Array of p-values of length equal to the length</span>
+<span class="sd">        Array of p-values of length equal to the length</span>
 <span class="sd">        of the input arrays (or 1, if all inputs were scalars).</span>
 
 <span class="sd">    Each array input is expected to be 1-dimensional and of the same length,</span>
@@ -323,7 +317,6 @@
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -356,9 +349,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

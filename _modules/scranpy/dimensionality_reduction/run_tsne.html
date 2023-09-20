@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.dimensionality_reduction.run_tsne - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -218,7 +217,7 @@
 
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">copy</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">..nearest_neighbors</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">FindNearestNeighborsOptions</span><span class="p">,</span>
     <span class="n">NeighborIndex</span><span class="p">,</span>
@@ -234,16 +233,14 @@
 <span class="n">TsneEmbedding</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;TsneEmbedding&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span>
 <span class="n">TsneEmbedding</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Named tuple of t-SNE coordinates.</span>
 
-<span class="s2">x (ndarray): a NumPy view of length equal to the number of cells,</span>
+<span class="s2">x: a NumPy view of length equal to the number of cells,</span>
 <span class="s2">    containing the coordinate on the first dimension for each cell.</span>
-<span class="s2">y (ndarray): a NumPy view of length equal to the number of cells,</span>
+<span class="s2">y: a NumPy view of length equal to the number of cells,</span>
 <span class="s2">    containing the coordinate on the second dimension for each cell.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="TsneStatus">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus">[docs]</a>
-<span class="k">class</span> <span class="nc">TsneStatus</span><span class="p">:</span>
+<div class="viewcode-block" id="TsneStatus"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus">[docs]</a><span class="k">class</span> <span class="nc">TsneStatus</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Status of a t-SNE run.</span>
 
 <span class="sd">    This should not be constructed manually but should be returned by</span>
@@ -257,9 +254,7 @@
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">free_tsne_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
 
-<div class="viewcode-block" id="TsneStatus.num_cells">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.num_cells">[docs]</a>
-    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="TsneStatus.num_cells"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.num_cells">[docs]</a>    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of cells in the dataset.</span>
 
 <span class="sd">        Returns:</span>
@@ -267,10 +262,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_tsne_status_nobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="TsneStatus.iteration">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.iteration">[docs]</a>
-    <span class="k">def</span> <span class="nf">iteration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="TsneStatus.iteration"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.iteration">[docs]</a>    <span class="k">def</span> <span class="nf">iteration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current iteration number.</span>
 
 <span class="sd">        Returns:</span>
@@ -278,10 +270,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_tsne_status_iteration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="TsneStatus.clone">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.clone">[docs]</a>
-    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;TsneStatus&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="TsneStatus.clone"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;TsneStatus&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a deep copy of the current state.</span>
 
 <span class="sd">        Returns:</span>
@@ -290,45 +279,35 @@
         <span class="n">cloned</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">TsneStatus</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">clone_tsne_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">),</span> <span class="n">cloned</span><span class="p">)</span></div>
 
-
     <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 
-<div class="viewcode-block" id="TsneStatus.run">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.run">[docs]</a>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="TsneStatus.run"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the t-SNE algorithm up to the specified number of iterations.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            iteration (int): Number of iterations to run to.</span>
+<span class="sd">            iteration: Number of iterations to run to.</span>
 <span class="sd">                This should be greater than the current iteration number</span>
 <span class="sd">                in :func:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.iteration`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">run_tsne</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">,</span> <span class="n">iteration</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="TsneStatus.extract">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.extract">[docs]</a>
-    <span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TsneEmbedding</span><span class="p">:</span>
+<div class="viewcode-block" id="TsneStatus.extract"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.extract">[docs]</a>    <span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TsneEmbedding</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract the t-SNE coordinates for each cell at the current iteration.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            TsneEmbedding: &#39;x&#39; and &#39;y&#39; t-SNE coordinates for all cells.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">TsneEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span></div>
-</div>
+        <span class="k">return</span> <span class="n">TsneEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span></div></div>
 
 
-
-<div class="viewcode-block" id="tsne_perplexity_to_neighbors">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors">[docs]</a>
-<span class="k">def</span> <span class="nf">tsne_perplexity_to_neighbors</span><span class="p">(</span><span class="n">perplexity</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="tsne_perplexity_to_neighbors"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors">[docs]</a><span class="k">def</span> <span class="nf">tsne_perplexity_to_neighbors</span><span class="p">(</span><span class="n">perplexity</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert the t-SNE perplexity to the required number of neighbors. This is typically used to perform a separate</span>
 <span class="sd">    call to :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors` before passing the</span>
 <span class="sd">    nearest neighbor results to t-SNE functions.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        perplexity (float): Perplexity to use in the t-SNE algorithm.</span>
+<span class="sd">        perplexity: Perplexity to use in the t-SNE algorithm.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        int: Number of neighbors to search for.</span>
@@ -336,23 +315,20 @@
     <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">perplexity_to_k</span><span class="p">(</span><span class="n">perplexity</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="InitializeTsneOptions">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="InitializeTsneOptions"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">InitializeTsneOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        perplexity (int, optional):</span>
+<span class="sd">        perplexity:</span>
 <span class="sd">            Perplexity to use when computing neighbor probabilities.</span>
 <span class="sd">            Larger values cause the embedding to focus more on broad structure instead of local structure.</span>
 <span class="sd">            Defaults to 30.</span>
 
-<span class="sd">        num_threads (int, optional): Number of threads to use for the</span>
+<span class="sd">        num_threads: Number of threads to use for the</span>
 <span class="sd">            neighbor search and t-SNE iterations. Defaults to 1.</span>
 
-<span class="sd">        seed (int, optional): Seed to use for random initialization of</span>
+<span class="sd">        seed: Seed to use for random initialization of</span>
 <span class="sd">            the t-SNE coordinates. Defaults to 42.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -360,17 +336,11 @@
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span>
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
 
-<div class="viewcode-block" id="InitializeTsneOptions.set_threads">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions.set_threads">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span></div>
-</div>
+<div class="viewcode-block" id="InitializeTsneOptions.set_threads"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions.set_threads">[docs]</a>    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span></div></div>
 
 
-
-<div class="viewcode-block" id="initialize_tsne">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.initialize_tsne">[docs]</a>
-<span class="k">def</span> <span class="nf">initialize_tsne</span><span class="p">(</span>
+<div class="viewcode-block" id="initialize_tsne"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.initialize_tsne">[docs]</a><span class="k">def</span> <span class="nf">initialize_tsne</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NeighborIndex</span><span class="p">,</span> <span class="n">NeighborResults</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">],</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">InitializeTsneOptions</span> <span class="o">=</span> <span class="n">InitializeTsneOptions</span><span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TsneStatus</span><span class="p">:</span>
@@ -378,7 +348,7 @@
 <span class="sd">    to pause/resume the optimization of the coordinates.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input (NeighborIndex | NeighborResults | ndarray):</span>
+<span class="sd">        input:</span>
 <span class="sd">            Object containing per-cell nearest neighbor results or data that can be used to derive them.</span>
 
 <span class="sd">            This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell</span>
@@ -397,13 +367,13 @@
 <span class="sd">            in :py:class:`~scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions`</span>
 <span class="sd">            (see also :py:meth:`~scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors`).</span>
 
-<span class="sd">        options (InitializeTsneOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        TypeError: If ``input`` is not an expected type.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        TsneStatus: A t-SNE status object for further iterations.</span>
+<span class="sd">        A t-SNE status object for further iterations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">NeighborResults</span><span class="p">):</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">tsne_perplexity_to_neighbors</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">perplexity</span><span class="p">)</span>
@@ -422,20 +392,17 @@
     <span class="k">return</span> <span class="n">TsneStatus</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">coords</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="RunTsneOptions">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.RunTsneOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="RunTsneOptions"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.RunTsneOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">RunTsneOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        max_iterations (int, optional):</span>
+<span class="sd">        max_iterations:</span>
 <span class="sd">            Maximum number of iterations.</span>
 <span class="sd">            Larger numbers improve convergence at the cost of compute time.</span>
 <span class="sd">            Defaults to 500.</span>
 
-<span class="sd">        initialize_tsne (InitializeTsneOptions):</span>
+<span class="sd">        initialize_tsne:</span>
 <span class="sd">            Optional arguments for</span>
 <span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_tsne.initialize_tsne`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -445,17 +412,11 @@
         <span class="n">default_factory</span><span class="o">=</span><span class="n">InitializeTsneOptions</span>
     <span class="p">)</span>
 
-<div class="viewcode-block" id="RunTsneOptions.set_threads">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.RunTsneOptions.set_threads">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_tsne</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span></div>
-</div>
+<div class="viewcode-block" id="RunTsneOptions.set_threads"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.RunTsneOptions.set_threads">[docs]</a>    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_tsne</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span></div></div>
 
 
-
-<div class="viewcode-block" id="run_tsne">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.run_tsne">[docs]</a>
-<span class="k">def</span> <span class="nf">run_tsne</span><span class="p">(</span>
+<div class="viewcode-block" id="run_tsne"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.run_tsne">[docs]</a><span class="k">def</span> <span class="nf">run_tsne</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NeighborResults</span><span class="p">,</span> <span class="n">NeighborIndex</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">],</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">RunTsneOptions</span> <span class="o">=</span> <span class="n">RunTsneOptions</span><span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TsneEmbedding</span><span class="p">:</span>
@@ -465,7 +426,7 @@
 <span class="sd">    :py:meth:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.run` method to the specified number of iterations.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input (NeighborResults | NeighborIndex | ndarray):</span>
+<span class="sd">        input:</span>
 <span class="sd">            Object containing per-cell nearest neighbor results or data that can be used to derive them.</span>
 
 <span class="sd">            This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell</span>
@@ -484,10 +445,10 @@
 <span class="sd">            in :py:class:`~scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions`</span>
 <span class="sd">            (see also :py:meth:`~scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors`).</span>
 
-<span class="sd">        options (RunTsneOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        TsneEmbedding: Result containing first two dimensions.</span>
+<span class="sd">        Result containing first two dimensions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">initialize_tsne</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">initialize_tsne</span><span class="p">)</span>
     <span class="n">status</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">max_iterations</span><span class="p">)</span>
@@ -495,7 +456,6 @@
     <span class="n">x</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># realize NumPy slice views into concrete arrays.</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">TsneEmbedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -528,9 +488,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

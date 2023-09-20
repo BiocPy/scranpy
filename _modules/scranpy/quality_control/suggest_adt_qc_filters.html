@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.quality_control.suggest_adt_qc_filters - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -217,7 +216,7 @@
 <span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int32</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">array</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">process_block</span>
 <span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">process_subset_columns</span><span class="p">,</span>
@@ -227,14 +226,12 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="SuggestAdtQcFiltersOptions">
-<a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="SuggestAdtQcFiltersOptions"><a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SuggestAdtQcFiltersOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        block (Sequence, optional):</span>
+<span class="sd">        block:</span>
 <span class="sd">            Block assignment for each cell.</span>
 <span class="sd">            Thresholds are computed within each block to avoid inflated variances from</span>
 <span class="sd">            inter-block differences.</span>
@@ -243,12 +240,12 @@
 <span class="sd">            cells have the same value if and only if they are in the same block.</span>
 <span class="sd">            Defaults to None, indicating all cells are part of the same block.</span>
 
-<span class="sd">        num_mads (int, optional):</span>
+<span class="sd">        num_mads:</span>
 <span class="sd">            Number of median absolute deviations for computing an outlier threshold.</span>
 <span class="sd">            Larger values will result in a less stringent threshold.</span>
 <span class="sd">            Defaults to 3.</span>
 
-<span class="sd">        custom_thresholds (BiocFrame, optional):</span>
+<span class="sd">        custom_thresholds:</span>
 <span class="sd">            Data frame containing one or more columns with the same names as those in the return value of</span>
 <span class="sd">            :py:meth:`~scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters`.</span>
 <span class="sd">            If a column is present, it should contain custom thresholds for the corresponding metric</span>
@@ -265,10 +262,7 @@
     <span class="n">custom_thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BiocFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-
-<div class="viewcode-block" id="suggest_adt_qc_filters">
-<a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters">[docs]</a>
-<span class="k">def</span> <span class="nf">suggest_adt_qc_filters</span><span class="p">(</span>
+<div class="viewcode-block" id="suggest_adt_qc_filters"><a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters">[docs]</a><span class="k">def</span> <span class="nf">suggest_adt_qc_filters</span><span class="p">(</span>
     <span class="n">metrics</span><span class="p">:</span> <span class="n">BiocFrame</span><span class="p">,</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">SuggestAdtQcFiltersOptions</span> <span class="o">=</span> <span class="n">SuggestAdtQcFiltersOptions</span><span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BiocFrame</span><span class="p">:</span>
@@ -278,26 +272,25 @@
 <span class="sd">    quality and should be removed before further analysis.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        metrics (BiocFrame): A data frame containing QC metrics for each cell,</span>
+<span class="sd">        metrics: A data frame containing QC metrics for each cell,</span>
 <span class="sd">            see the output of :py:meth:`~scranpy.quality_control.per_cell_adt_qc_metrics.per_cell_adt_qc_metrics`</span>
 <span class="sd">            for the expected format.</span>
 
-<span class="sd">        options (SuggestAdtQcFiltersOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError, TypeError: if provided ``inputs`` are incorrect type or do</span>
 <span class="sd">            not contain expected metrics.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        BiocFrame:</span>
-<span class="sd">            A data frame containing one row per block and the following fields -</span>
-<span class="sd">            ``&quot;detected&quot;``, the suggested (lower) threshold on the number of detected features for each cell;</span>
-<span class="sd">            and ``&quot;subset_totals&quot;``, a nested BiocFrame where each column is named</span>
-<span class="sd">            after an entry in ``subsets`` and contains the suggested (upper) threshold</span>
-<span class="sd">            on the total count in that subset.</span>
+<span class="sd">        A data frame containing one row per block and the following fields -</span>
+<span class="sd">        ``&quot;detected&quot;``, the suggested (lower) threshold on the number of detected features for each cell;</span>
+<span class="sd">        and ``&quot;subset_totals&quot;``, a nested BiocFrame where each column is named</span>
+<span class="sd">        after an entry in ``subsets`` and contains the suggested (upper) threshold</span>
+<span class="sd">        on the total count in that subset.</span>
 
-<span class="sd">            If ``options.block`` is None, all cells are assumed to belong to a single</span>
-<span class="sd">            block, and the output BiocFrame contains a single row.</span>
+<span class="sd">        If ``options.block`` is None, all cells are assumed to belong to a single</span>
+<span class="sd">        block, and the output BiocFrame contains a single row.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">BiocFrame</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;metrics&#39; is not a `BiocFrame` object.&quot;</span><span class="p">)</span>
@@ -354,7 +347,6 @@
         <span class="n">number_of_rows</span><span class="o">=</span><span class="n">num_blocks</span><span class="p">,</span>
         <span class="n">row_names</span><span class="o">=</span><span class="n">block_names</span><span class="p">,</span>
     <span class="p">)</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -387,9 +379,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

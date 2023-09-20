@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.normalization package" href="scranpy.normalization.html" /><link rel="prev" title="scranpy.marker_detection package" href="scranpy.marker_detection.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.nearest_neighbors package - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -155,8 +155,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -174,10 +177,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -213,100 +212,86 @@
         </div>
         <article role="main">
           <section id="scranpy-nearest-neighbors-package">
-<h1>scranpy.nearest_neighbors package<a class="headerlink" href="#scranpy-nearest-neighbors-package" title="Link to this heading">#</a></h1>
+<h1>scranpy.nearest_neighbors package<a class="headerlink" href="#scranpy-nearest-neighbors-package" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-scranpy.nearest_neighbors.build_neighbor_index">
-<span id="scranpy-nearest-neighbors-build-neighbor-index-module"></span><h2>scranpy.nearest_neighbors.build_neighbor_index module<a class="headerlink" href="#module-scranpy.nearest_neighbors.build_neighbor_index" title="Link to this heading">#</a></h2>
+<span id="scranpy-nearest-neighbors-build-neighbor-index-module"></span><h2>scranpy.nearest_neighbors.build_neighbor_index module<a class="headerlink" href="#module-scranpy.nearest_neighbors.build_neighbor_index" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.build_neighbor_index.</span></span><span class="sig-name descname"><span class="pre">BuildNeighborIndexOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">approximate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#BuildNeighborIndexOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.build_neighbor_index.</span></span><span class="sig-name descname"><span class="pre">BuildNeighborIndexOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">approximate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#BuildNeighborIndexOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Optional arguments for <a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index" title="scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_neighbor_index()</span></code></a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions.approximate">
-<span class="sig-name descname"><span class="pre">approximate</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions.approximate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">approximate</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions.approximate" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to build an index for an approximate
 neighbor search. This sacrifices some accuracy for speed.
 Defaults to True.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a>, optional</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">approximate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">approximate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.build_neighbor_index.</span></span><span class="sig-name descname"><span class="pre">NeighborIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/ctypes.html#ctypes.c_void_p" title="(in Python v3.9)"><span class="pre">c_void_p</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#NeighborIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.build_neighbor_index.</span></span><span class="sig-name descname"><span class="pre">NeighborIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#NeighborIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The nearest neighbor search index.</p>
 <p>This should not be manually constructed but should be created
 by <a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index" title="scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_neighbor_index()</span></code></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.num_cells">
-<span class="sig-name descname"><span class="pre">num_cells</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#NeighborIndex.num_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.num_cells" title="Link to this definition">#</a></dt>
-<dd><p>Get number of cells in this index.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Number of cells.</p>
+<span class="sig-name descname"><span class="pre">num_cells</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#NeighborIndex.num_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.num_cells" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of cells in this index.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.num_dimensions">
-<span class="sig-name descname"><span class="pre">num_dimensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#NeighborIndex.num_dimensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.num_dimensions" title="Link to this definition">#</a></dt>
-<dd><p>Get number of dimensions in this index.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Number of dimensions.</p>
+<span class="sig-name descname"><span class="pre">num_dimensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#NeighborIndex.num_dimensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.num_dimensions" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of dimensions in this index.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.ptr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ptr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/ctypes.html#ctypes.c_void_p" title="(in Python v3.9)"><span class="pre">c_void_p</span></a></em><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.ptr" title="Link to this definition">#</a></dt>
-<dd><p>Get pointer to scran’s NN search index.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Pointer reference.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>ct.c_void_p</p>
-</dd>
-</dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ptr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.ptr" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns:
+Pointer to the search index in C++.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index">
-<span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.build_neighbor_index.</span></span><span class="sig-name descname"><span class="pre">build_neighbor_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions" title="scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions"><span class="pre">BuildNeighborIndexOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">BuildNeighborIndexOptions(approximate=True)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><span class="pre">NeighborIndex</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#build_neighbor_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.build_neighbor_index.</span></span><span class="sig-name descname"><span class="pre">build_neighbor_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">BuildNeighborIndexOptions(approximate=True)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/build_neighbor_index.html#build_neighbor_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index" title="Permalink to this definition">#</a></dt>
 <dd><p>Build a search index for finding nearest neighbors between cells, for input into functions like
 <a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors" title="scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_nearest_neighbors()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<em>ndarray</em>) – A matrix where rows are cells and dimensions are columns.
+<li><p><strong>input</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A matrix where rows are cells and dimensions are columns.
 This is usually the principal components matrix from
 <a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_pca.run_pca" title="scranpy.dimensionality_reduction.run_pca.run_pca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_pca()</span></code></a>.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions" title="scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions"><em>BuildNeighborIndexOptions</em></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions" title="scranpy.nearest_neighbors.build_neighbor_index.BuildNeighborIndexOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">BuildNeighborIndexOptions</span></code></a>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -320,119 +305,105 @@ This is usually the principal components matrix from
 
 </section>
 <section id="module-scranpy.nearest_neighbors.find_nearest_neighbors">
-<span id="scranpy-nearest-neighbors-find-nearest-neighbors-module"></span><h2>scranpy.nearest_neighbors.find_nearest_neighbors module<a class="headerlink" href="#module-scranpy.nearest_neighbors.find_nearest_neighbors" title="Link to this heading">#</a></h2>
+<span id="scranpy-nearest-neighbors-find-nearest-neighbors-module"></span><h2>scranpy.nearest_neighbors.find_nearest_neighbors module<a class="headerlink" href="#module-scranpy.nearest_neighbors.find_nearest_neighbors" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">FindNearestNeighborsOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#FindNearestNeighborsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">FindNearestNeighborsOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#FindNearestNeighborsOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Optional arguments for <a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors" title="scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_nearest_neighbors()</span></code></a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions.num_threads" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use. Defaults to 1.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a>, optional</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">NeighborResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/ctypes.html#ctypes.c_void_p" title="(in Python v3.9)"><span class="pre">c_void_p</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">NeighborResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Nearest neighbor search results.</p>
 <p>This should not be constructed manually but instead should be created by
 <a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors" title="scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_nearest_neighbors()</span></code></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults"><span class="pre">SingleNeighborResults</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.get" title="Link to this definition">#</a></dt>
-<dd><p>Get the nearest neighbors for a particular cell.</p>
-<dl class="field-list simple">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.get" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Index of the cell of interest.</p>
+<dd class="field-odd"><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Index of the cell of interest.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple with indices and distances.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleNeighborResults</span></code></a></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults">SingleNeighborResults</a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple with indices and distances to the nearest neighbors for cell <code class="docutils literal notranslate"><span class="pre">i</span></code>.
+Neighbors are guaranteed to be sorted in order of increasing distance.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_cells">
-<span class="sig-name descname"><span class="pre">num_cells</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.num_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_cells" title="Link to this definition">#</a></dt>
-<dd><p>Get the number of cells in this object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Number of cells.</p>
+<span class="sig-name descname"><span class="pre">num_cells</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.num_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_cells" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of cells in this object.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_neighbors">
-<span class="sig-name descname"><span class="pre">num_neighbors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.num_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_neighbors" title="Link to this definition">#</a></dt>
-<dd><p>Get the number of neighbors used to build this object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Number of neighbors.</p>
+<span class="sig-name descname"><span class="pre">num_neighbors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.num_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.num_neighbors" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of neighbors used to build this object.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.ptr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ptr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/ctypes.html#ctypes.c_void_p" title="(in Python v3.9)"><span class="pre">c_void_p</span></a></em><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.ptr" title="Link to this definition">#</a></dt>
-<dd><p>Get pointer to scran’s NN search index.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Pointer reference.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>ct.c_void_p</p>
-</dd>
-</dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ptr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.ptr" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns:
+Pointer to the results object in C++.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize">
-<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults"><span class="pre">SerializedNeighborResults</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize" title="Permalink to this definition">#</a></dt>
 <dd><p>Serialize nearest neighbors for all cells, typically to save or transfer to a new process. This can be used
 to construct a new <a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborResults</span></code></a> object by
 calling <a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unserialize()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A tuple with indices and distances.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">SerializedNeighborResults</span></code></a></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults">SerializedNeighborResults</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple with indices and distances, to be passed to <code class="docutils literal notranslate"><span class="pre">unserialize</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults"><span class="pre">SerializedNeighborResults</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><span class="pre">NeighborResults</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.unserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#NeighborResults.unserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize" title="Permalink to this definition">#</a></dt>
 <dd><p>Initialize an instance of this class from serialized nearest neighbor results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>content</strong> (<a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults"><em>SerializedNeighborResults</em></a>) – Result of
+<dd class="field-odd"><p><strong>content</strong> (<a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">SerializedNeighborResults</span></code></a>) – Result of
 <a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">serialize()</span></code></a>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -448,26 +419,26 @@ calling <a class="reference internal" href="#scranpy.nearest_neighbors.find_near
 
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">SerializedNeighborResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">SerializedNeighborResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
 <p>Named tuple of serialized results from the nearest neighbor search.</p>
 <dl class="simple">
-<dt>index (ndarray):</dt><dd><p>Row-major matrix containing 0-based indices of the neighbor neighbors for each cell.
+<dt>index:</dt><dd><p>Row-major matrix containing 0-based indices of the neighbor neighbors for each cell.
 Each row is a cell and each column is a neighbor, ordered by increasing distance.</p>
 </dd>
-<dt>distance (ndarray):</dt><dd><p>Row-major matrix containing distances to the nearest neighbors for each cell.
+<dt>distance:</dt><dd><p>Row-major matrix containing distances to the nearest neighbors for each cell.
 Each row is a cell and each column is a neighbor, ordered by increasing distance.</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults.distance">
-<span class="sig-name descname"><span class="pre">distance</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults.distance" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">distance</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults.distance" title="Permalink to this definition">#</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults.index">
-<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults.index" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SerializedNeighborResults.index" title="Permalink to this definition">#</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
@@ -475,26 +446,26 @@ Each row is a cell and each column is a neighbor, ordered by increasing distance
 
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">SingleNeighborResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">SingleNeighborResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
 <p>Named tuple of nearest neighbors for a single cell.</p>
 <dl class="simple">
-<dt>index (ndarray):</dt><dd><p>Array containing 0-based indices of a cell’s neighbor neighbors,
+<dt>index:</dt><dd><p>Array containing 0-based indices of a cell’s neighbor neighbors,
 ordered by increasing distance.</p>
 </dd>
-<dt>distance (ndarray):</dt><dd><p>Array containing distances to a cell’s nearest neighbors,
+<dt>distance:</dt><dd><p>Array containing distances to a cell’s nearest neighbors,
 ordered by increasing distance.</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults.distance">
-<span class="sig-name descname"><span class="pre">distance</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults.distance" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">distance</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults.distance" title="Permalink to this definition">#</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults.index">
-<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults.index" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.SingleNeighborResults.index" title="Permalink to this definition">#</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
@@ -502,32 +473,32 @@ ordered by increasing distance.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors">
-<span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">find_nearest_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><span class="pre">NeighborIndex</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions" title="scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions"><span class="pre">FindNearestNeighborsOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">FindNearestNeighborsOptions(num_threads=1)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><span class="pre">NeighborResults</span></a></span></span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#find_nearest_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">scranpy.nearest_neighbors.find_nearest_neighbors.</span></span><span class="sig-name descname"><span class="pre">find_nearest_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">FindNearestNeighborsOptions(num_threads=1)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/nearest_neighbors/find_nearest_neighbors.html#find_nearest_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors" title="Permalink to this definition">#</a></dt>
 <dd><p>Find the nearest neighbors for each cell.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>idx</strong> (<a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><em>NeighborIndex</em></a>) – The nearest neighbor search index, usually built by
+<li><p><strong>idx</strong> (<a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex" title="scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborIndex</span></code></a>) – The nearest neighbor search index, usually built by
 <a class="reference internal" href="#scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index" title="scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_neighbor_index()</span></code></a>.</p></li>
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of neighbors to find for each cell.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions" title="scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions"><em>FindNearestNeighborsOptions</em></a>) – Optional parameters.</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of neighbors to find for each cell.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions" title="scranpy.nearest_neighbors.find_nearest_neighbors.FindNearestNeighborsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">FindNearestNeighborsOptions</span></code></a>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">idx</span></code> is not a nearest neighbor index.</p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>‘k’ nearest neighbors for each cell.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborResults</span></code></a></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults" title="scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults">NeighborResults</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object containing the <code class="docutils literal notranslate"><span class="pre">k</span></code> nearest neighbors for each cell.</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
 <section id="module-scranpy.nearest_neighbors">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.nearest_neighbors" title="Link to this heading">#</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.nearest_neighbors" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -643,9 +614,9 @@ ordered by increasing distance.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

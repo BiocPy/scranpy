@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.quality_control.filter_cells - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -218,7 +217,7 @@
 <span class="kn">from</span> <span class="nn">delayedarray</span> <span class="kn">import</span> <span class="n">DelayedArray</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">to_logical</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
@@ -226,26 +225,24 @@
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
 
 
-<div class="viewcode-block" id="FilterCellsOptions">
-<a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.filter_cells.FilterCellsOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="FilterCellsOptions"><a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.filter_cells.FilterCellsOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">FilterCellsOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        discard (bool): Whether to discard the cells listed in ``filter``.</span>
+<span class="sd">        discard: Whether to discard the cells listed in ``filter``.</span>
 <span class="sd">            If False, the specified cells are retained instead, and all</span>
 <span class="sd">            other cells are discarded. Defaults to True.</span>
 
-<span class="sd">        intersect (bool): Whether to take the intersection or union of</span>
+<span class="sd">        intersect: Whether to take the intersection or union of</span>
 <span class="sd">            multiple ``filter`` arrays, to create a combined filtering</span>
 <span class="sd">            array. Note that this is orthogonal to ``discard``.</span>
 
-<span class="sd">        with_retain_vector (bool):</span>
+<span class="sd">        with_retain_vector:</span>
 <span class="sd">            Whether to return a vector specifying which cells are to be</span>
 <span class="sd">            retained.</span>
 
-<span class="sd">        delayed (bool): Whether to force the filtering operation to be</span>
+<span class="sd">        delayed: Whether to force the filtering operation to be</span>
 <span class="sd">            delayed. This reduces memory usage by avoiding unnecessary</span>
 <span class="sd">            copies of the count matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -257,14 +254,9 @@
 
 
 
-<span class="n">FilterArray</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]</span>
-
-
-<div class="viewcode-block" id="filter_cells">
-<a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.filter_cells.filter_cells">[docs]</a>
-<span class="k">def</span> <span class="nf">filter_cells</span><span class="p">(</span>
+<div class="viewcode-block" id="filter_cells"><a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.filter_cells.filter_cells">[docs]</a><span class="k">def</span> <span class="nf">filter_cells</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">,</span>
-    <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">FilterArray</span><span class="p">],</span> <span class="n">FilterArray</span><span class="p">],</span>
+    <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">],</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">FilterCellsOptions</span> <span class="o">=</span> <span class="n">FilterCellsOptions</span><span class="p">(),</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data, e.g.,</span>
@@ -276,7 +268,7 @@
 <span class="sd">            This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.</span>
 <span class="sd">            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.</span>
 
-<span class="sd">        filter (FilterArray, list[FilterArray]):</span>
+<span class="sd">        filter:</span>
 <span class="sd">            Array of integers containing indices to the columns of `input` to keep/discard.</span>
 
 <span class="sd">            Alternatively, an array of booleans of length equal to the number of cells,</span>
@@ -285,7 +277,7 @@
 <span class="sd">            Alternatively, a tuple of such arrays, to be combined into a single</span>
 <span class="sd">            filtering vector according to ``options.intersect``.</span>
 
-<span class="sd">        options (FilterCellsOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        If ``options.with_retain_vector = False``, the filtered matrix is</span>
@@ -342,7 +334,6 @@
         <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">array</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">output</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -375,9 +366,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

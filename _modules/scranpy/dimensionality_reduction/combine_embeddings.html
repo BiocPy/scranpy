@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.dimensionality_reduction.combine_embeddings - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -215,29 +214,27 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">..nearest_neighbors</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">build_neighbor_index</span><span class="p">,</span>
     <span class="n">BuildNeighborIndexOptions</span><span class="p">,</span>
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="CombineEmbeddingsOptions">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.combine_embeddings.CombineEmbeddingsOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="CombineEmbeddingsOptions"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.combine_embeddings.CombineEmbeddingsOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">CombineEmbeddingsOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Options for :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        neighbors (int): Number of neighbors to use for approximating the relative variance.</span>
+<span class="sd">        neighbors: Number of neighbors to use for approximating the relative variance.</span>
 
-<span class="sd">        approximate (bool): Whether to perform an approximate neighbor search.</span>
+<span class="sd">        approximate: Whether to perform an approximate neighbor search.</span>
 
-<span class="sd">        weights (list[float], Optional): Weights to apply to each entry of ``embeddings``. If None,</span>
+<span class="sd">        weights: Weights to apply to each entry of ``embeddings``. If None,</span>
 <span class="sd">            all embeddings recieve equal weight. If any weight is zero, the corresponding embedding</span>
 <span class="sd">            is omitted from the return value.</span>
 
-<span class="sd">        num_threads (int): Number of threads to use for the neighbor search.</span>
+<span class="sd">        num_threads: Number of threads to use for the neighbor search.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
@@ -246,10 +243,7 @@
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
-
-<div class="viewcode-block" id="combine_embeddings">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings">[docs]</a>
-<span class="k">def</span> <span class="nf">combine_embeddings</span><span class="p">(</span>
+<div class="viewcode-block" id="combine_embeddings"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings">[docs]</a><span class="k">def</span> <span class="nf">combine_embeddings</span><span class="p">(</span>
     <span class="n">embeddings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">CombineEmbeddingsOptions</span> <span class="o">=</span> <span class="n">CombineEmbeddingsOptions</span><span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
@@ -258,17 +252,17 @@
 <span class="sd">    embeddings.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        embeddings (list[ndarray]):</span>
+<span class="sd">        embeddings:</span>
 <span class="sd">            List of embeddings to be combined. Each embedding should be a</span>
 <span class="sd">            row-major matrix where rows are cells and columns are dimensions.</span>
 <span class="sd">            All embeddings should have the same number of rows.</span>
 
-<span class="sd">        options (CombineEmbeddingsOptions):</span>
+<span class="sd">        options:</span>
 <span class="sd">            Further options.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        ndarray: Array containing the combined embedding, where rows are cells</span>
-<span class="sd">        and columns are the dimensions from all embeddings with non-zero weight.</span>
+<span class="sd">        Array containing the combined embedding, where rows are cells and</span>
+<span class="sd">        columns are the dimensions from all embeddings with non-zero weight.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ncells</span> <span class="o">=</span> <span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">embeddings</span><span class="p">:</span>
@@ -331,7 +325,6 @@
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -364,9 +357,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

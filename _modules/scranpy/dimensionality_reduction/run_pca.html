@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.dimensionality_reduction.run_pca - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -218,7 +217,7 @@
 
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ctypeslib</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">copy</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">to_logical</span><span class="p">,</span> <span class="n">tatamize_input</span><span class="p">,</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">MatrixTypes</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
@@ -228,9 +227,9 @@
 <span class="n">PcaResult</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;PcaResult&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;principal_components&quot;</span><span class="p">,</span> <span class="s2">&quot;variance_explained&quot;</span><span class="p">])</span>
 <span class="n">PcaResult</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Named tuple of results from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
 
-<span class="s2">principal_components (ndarray): Matrix of principal component (PC) coordinates,</span>
+<span class="s2">principal_components: Matrix of principal component (PC) coordinates,</span>
 <span class="s2">    where the rows are cells and columns are PCs.</span>
-<span class="s2">variance_explained (ndarray): Array of length equal to the number of PCs,</span>
+<span class="s2">variance_explained: Array of length equal to the number of PCs,</span>
 <span class="s2">    containing the percentage of variance explained by each PC.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
@@ -254,25 +253,23 @@
     <span class="k">return</span> <span class="n">PcaResult</span><span class="p">(</span><span class="n">principal_components</span><span class="p">,</span> <span class="n">variance_explained</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="RunPcaOptions">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_pca.RunPcaOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="RunPcaOptions"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_pca.RunPcaOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">RunPcaOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        rank (int): Number of top PCs to compute.</span>
+<span class="sd">        rank: Number of top PCs to compute.</span>
 <span class="sd">            Larger values capture more biological structure at the cost of increasing</span>
 <span class="sd">            computational work and absorbing more random noise.</span>
 <span class="sd">            Defaults to 25.</span>
 
-<span class="sd">        subset (ndarray, optional): Array specifying which features should be</span>
+<span class="sd">        subset: Array specifying which features should be</span>
 <span class="sd">            used in the PCA (e.g., highly variable genes from</span>
 <span class="sd">            :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`).</span>
 <span class="sd">            This may contain integer indices or booleans.</span>
 <span class="sd">            Defaults to None, in which all features are used.</span>
 
-<span class="sd">        block (Sequence, optional):</span>
+<span class="sd">        block:</span>
 <span class="sd">            Block assignment for each cell.</span>
 <span class="sd">            This can be used to reduce the effect of inter-block differences on the PCA</span>
 <span class="sd">            (see ``block_method`` for more details).</span>
@@ -281,12 +278,12 @@
 <span class="sd">            cells have the same value if and only if they are in the same block.</span>
 <span class="sd">            Defaults to None, indicating all cells are part of the same block.</span>
 
-<span class="sd">        scale (bool, optional):</span>
+<span class="sd">        scale:</span>
 <span class="sd">            Whether to scale each feature to unit variance.</span>
 <span class="sd">            This improves robustness (i.e., reduces sensitivity) to a small number of</span>
 <span class="sd">            highly variable features. Defaults to False.</span>
 
-<span class="sd">        block_method (Literal[&quot;none&quot;, &quot;project&quot;, &quot;regress&quot;], optional): How to adjust</span>
+<span class="sd">        block_method: How to adjust</span>
 <span class="sd">            the PCA for the blocking factor.</span>
 
 <span class="sd">            - ``&quot;regress&quot;`` will regress out the factor, effectively performing a PCA on</span>
@@ -305,13 +302,13 @@
 <span class="sd">            This option is only used if ``block`` is not `null`.</span>
 <span class="sd">            Defaults to &quot;project&quot;.</span>
 
-<span class="sd">        block_weights (bool, optional):</span>
+<span class="sd">        block_weights:</span>
 <span class="sd">            Whether to weight each block so that it contributes the same number of effective observations to the</span>
 <span class="sd">            covariance matrix. Defaults to True.</span>
 
-<span class="sd">        num_threads (int, optional):  Number of threads to use. Defaults to 1.</span>
+<span class="sd">        num_threads:  Number of threads to use. Defaults to 1.</span>
 
-<span class="sd">        assay_type (Union[int, str]):</span>
+<span class="sd">        assay_type:</span>
 <span class="sd">            Assay to use from ``input`` if it is a</span>
 <span class="sd">            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.</span>
 
@@ -336,16 +333,13 @@
             <span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="run_pca">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_pca.run_pca">[docs]</a>
-<span class="k">def</span> <span class="nf">run_pca</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">RunPcaOptions</span> <span class="o">=</span> <span class="n">RunPcaOptions</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">PcaResult</span><span class="p">:</span>
+<div class="viewcode-block" id="run_pca"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_pca.run_pca">[docs]</a><span class="k">def</span> <span class="nf">run_pca</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">RunPcaOptions</span> <span class="o">=</span> <span class="n">RunPcaOptions</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">PcaResult</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform a principal component analysis (PCA) to retain the top PCs. This is used to denoise and compact a dataset</span>
 <span class="sd">    by removing later PCs associated with random noise, under the assumption that interesting biological heterogeneity</span>
 <span class="sd">    is the major source of variation in the dataset.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing</span>
+<span class="sd">        input: Matrix-like object where rows are features and columns are cells, typically containing</span>
 <span class="sd">            log-normalized values. This should be a matrix class that can be converted into a</span>
 <span class="sd">            :py:class:`~mattress.TatamiNumericPointer`.</span>
 
@@ -354,17 +348,17 @@
 
 <span class="sd">            Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.</span>
 
-<span class="sd">        options (RunPcaOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        TypeError: If ``input`` is not an expected type.</span>
 <span class="sd">        ValueError: if ``options.block`` does not match the number of cells.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        PcaResult: Object containing the PC coordinates and the variance</span>
-<span class="sd">        explained by each PC. The number of PCs is determined by ``options.rank``;</span>
-<span class="sd">        unless this is larger than the smallest dimension of ``input``,</span>
-<span class="sd">        in which case the number of PCs is equal to the smallest dimension instead.</span>
+<span class="sd">        Object containing the PC coordinates and the variance explained by each</span>
+<span class="sd">        PC. The number of PCs is determined by ``options.rank``; unless this is</span>
+<span class="sd">        larger than the smallest dimension of ``input``, in which case the</span>
+<span class="sd">        number of PCs is equal to the smallest dimension instead.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">tatamize_input</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">assay_type</span><span class="p">)</span>
 
@@ -444,7 +438,6 @@
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;PCA result cannot be empty.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -477,9 +470,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

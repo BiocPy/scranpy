@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.feature_set_enrichment.score_feature_set - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -215,18 +214,16 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">float64</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">to_logical</span><span class="p">,</span> <span class="n">tatamize_input</span><span class="p">,</span> <span class="n">MatrixTypes</span>
 
 
-<div class="viewcode-block" id="ScoreFeatureSetOptions">
-<a class="viewcode-back" href="../../../api/scranpy.feature_set_enrichment.html#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="ScoreFeatureSetOptions"><a class="viewcode-back" href="../../../api/scranpy.feature_set_enrichment.html#scranpy.feature_set_enrichment.score_feature_set.ScoreFeatureSetOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ScoreFeatureSetOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Options to pass to :py:meth:`~scranpy.feature_set_enrichment.score_feature_set.score_feature_set`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        block (Sequence, optional):</span>
+<span class="sd">        block:</span>
 <span class="sd">            Block assignment for each cell.</span>
 <span class="sd">            Thresholds are computed within each block to avoid inflated variances from</span>
 <span class="sd">            inter-block differences.</span>
@@ -235,14 +232,14 @@
 <span class="sd">            cells have the same value if and only if they are in the same block.</span>
 <span class="sd">            Defaults to None, indicating all cells are part of the same block.</span>
 
-<span class="sd">        scale (bool): Whether to scale the features to unit variance before</span>
+<span class="sd">        scale: Whether to scale the features to unit variance before</span>
 <span class="sd">            computing the scores.</span>
 
-<span class="sd">        assay_type (Union[int, str]):</span>
+<span class="sd">        assay_type:</span>
 <span class="sd">            Assay to use from ``input`` if it is a</span>
 <span class="sd">            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.</span>
 
-<span class="sd">        num_threads (int): Number of threads to use.</span>
+<span class="sd">        num_threads: Number of threads to use.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -251,18 +248,18 @@
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-
-<div class="viewcode-block" id="score_feature_set">
-<a class="viewcode-back" href="../../../api/scranpy.feature_set_enrichment.html#scranpy.feature_set_enrichment.score_feature_set.score_feature_set">[docs]</a>
-<span class="k">def</span> <span class="nf">score_feature_set</span><span class="p">(</span>
+<div class="viewcode-block" id="score_feature_set"><a class="viewcode-back" href="../../../api/scranpy.feature_set_enrichment.html#scranpy.feature_set_enrichment.score_feature_set.score_feature_set">[docs]</a><span class="k">def</span> <span class="nf">score_feature_set</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span>
     <span class="n">subset</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">options</span><span class="o">=</span><span class="n">ScoreFeatureSetOptions</span><span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a score for the activity of a feature set in each cell. This is done using a slightly modified version of</span>
-<span class="sd">    the GSDecon algorithm, where we perform a PCA to obtain the rank-1 reconstruction of the feature set&#39;s expression</span>
-<span class="sd">    values across all cells; the mean of the reconstructed values serves as the score per cell, while the rotation</span>
-<span class="sd">    vector is reported as the weights on the features involved.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a score for the activity of a feature set in each cell. This is</span>
+<span class="sd">    done using a slightly modified version of the </span>
+<span class="sd">    `GSDecon &lt;https://github.com/JasonHackney/GSDecon&gt;`_ algorithm, </span>
+<span class="sd">    where we perform a PCA to obtain the rank-1 reconstruction of the feature</span>
+<span class="sd">    set&#39;s expression values across all cells; the mean of the reconstructed</span>
+<span class="sd">    values serves as the score per cell, while the rotation vector is reported</span>
+<span class="sd">    as the weights on the features involved.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        input:</span>
@@ -272,17 +269,17 @@
 <span class="sd">            :py:class:`~mattress.TatamiNumericPointer`.  Developers may also</span>
 <span class="sd">            provide the :py:class:`~mattress.TatamiNumericPointer` itself.</span>
 
-<span class="sd">        subset (Sequence):</span>
+<span class="sd">        subset:</span>
 <span class="sd">            Array of integer indices, specifying the rows of `input` belonging</span>
 <span class="sd">            to the features subset. Alternatively, an array of length</span>
 <span class="sd">            equal to the number of rows in ``input``, containing booleans</span>
 <span class="sd">            specifying that the corresponding row belongs to the subset.</span>
 
-<span class="sd">        options (ScoreFeatureSetOptions):</span>
+<span class="sd">        options:</span>
 <span class="sd">            Further options.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Tuple[ndarray, ndarray]: The first array is of length equal to the</span>
+<span class="sd">        Tuple where the first array is of length equal to the</span>
 <span class="sd">        number of columns of ``input`` and contains the feature set score for</span>
 <span class="sd">        each cell. The second array is of length equal to the number of</span>
 <span class="sd">        features in ``subset`` and contains the weight for each feature.</span>
@@ -319,7 +316,6 @@
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">output_scores</span><span class="p">,</span> <span class="n">output_weights</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -352,9 +348,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

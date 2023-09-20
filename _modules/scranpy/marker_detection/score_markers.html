@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.marker_detection.score_markers - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -213,12 +212,12 @@
           <h1>Source code for scranpy.marker_detection.score_markers</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">uintp</span><span class="p">,</span> <span class="n">float64</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">process_block</span><span class="p">,</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">tatamize_input</span><span class="p">,</span> <span class="n">MatrixTypes</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
@@ -229,57 +228,46 @@
 <span class="n">_NDOutputArrays</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;_NDOutputArrays&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;arrays&quot;</span><span class="p">,</span> <span class="s2">&quot;references&quot;</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="create_output_arrays">
-<a class="viewcode-back" href="../../../api/scranpy.marker_detection.html#scranpy.marker_detection.score_markers.create_output_arrays">[docs]</a>
-<span class="k">def</span> <span class="nf">create_output_arrays</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_NDOutputArrays</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_create_output_arrays</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_NDOutputArrays</span><span class="p">:</span>
     <span class="n">outptrs</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">number</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
     <span class="n">outarrs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
         <span class="n">curarr</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">length</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
         <span class="n">outptrs</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="n">curarr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
         <span class="n">outarrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curarr</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_NDOutputArrays</span><span class="p">(</span><span class="n">outarrs</span><span class="p">,</span> <span class="n">outptrs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_NDOutputArrays</span><span class="p">(</span><span class="n">outarrs</span><span class="p">,</span> <span class="n">outptrs</span><span class="p">)</span>
 
 
-
-<div class="viewcode-block" id="create_output_summary_arrays">
-<a class="viewcode-back" href="../../../api/scranpy.marker_detection.html#scranpy.marker_detection.score_markers.create_output_summary_arrays">[docs]</a>
-<span class="k">def</span> <span class="nf">create_output_summary_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_NDOutputArrays</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_create_output_summary_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_NDOutputArrays</span><span class="p">:</span>
     <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="n">create_output_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">groups</span><span class="p">),</span>
-        <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="n">create_output_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">groups</span><span class="p">),</span>
-        <span class="s2">&quot;min_rank&quot;</span><span class="p">:</span> <span class="n">create_output_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">groups</span><span class="p">),</span>
+        <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="n">_create_output_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">groups</span><span class="p">),</span>
+        <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="n">_create_output_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">groups</span><span class="p">),</span>
+        <span class="s2">&quot;min_rank&quot;</span><span class="p">:</span> <span class="n">_create_output_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">groups</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="n">outptrs</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
     <span class="n">outptrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
     <span class="n">outptrs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
     <span class="n">outptrs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;min_rank&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
-    <span class="k">return</span> <span class="n">_NDOutputArrays</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">outptrs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_NDOutputArrays</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">outptrs</span><span class="p">)</span>
 
 
-
-<div class="viewcode-block" id="create_summary_biocframe">
-<a class="viewcode-back" href="../../../api/scranpy.marker_detection.html#scranpy.marker_detection.score_markers.create_summary_biocframe">[docs]</a>
-<span class="k">def</span> <span class="nf">create_summary_biocframe</span><span class="p">(</span><span class="n">summary</span><span class="p">:</span> <span class="n">_NDOutputArrays</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BiocFrame</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_create_summary_biocframe</span><span class="p">(</span><span class="n">summary</span><span class="p">:</span> <span class="n">_NDOutputArrays</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BiocFrame</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">BiocFrame</span><span class="p">(</span>
         <span class="p">{</span>
             <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="n">summary</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="n">group</span><span class="p">],</span>
             <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="n">summary</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="n">group</span><span class="p">],</span>
             <span class="s2">&quot;min_rank&quot;</span><span class="p">:</span> <span class="n">summary</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s2">&quot;min_rank&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="n">group</span><span class="p">],</span>
         <span class="p">}</span>
-    <span class="p">)</span></div>
+    <span class="p">)</span>
 
 
-
-<div class="viewcode-block" id="ScoreMarkersOptions">
-<a class="viewcode-back" href="../../../api/scranpy.marker_detection.html#scranpy.marker_detection.score_markers.ScoreMarkersOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="ScoreMarkersOptions"><a class="viewcode-back" href="../../../api/scranpy.marker_detection.html#scranpy.marker_detection.score_markers.ScoreMarkersOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ScoreMarkersOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.marker_detection.score_markers.score_markers`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        block (Sequence, optional):</span>
+<span class="sd">        block:</span>
 <span class="sd">            Block assignment for each cell.</span>
 <span class="sd">            Comparisons are only performed within each block to avoid interference from</span>
 <span class="sd">            inter-block differences, e.g., batch effects.</span>
@@ -288,25 +276,25 @@
 <span class="sd">            cells have the same value if and only if they are in the same block.</span>
 <span class="sd">            Defaults to None, indicating all cells are part of the same block.</span>
 
-<span class="sd">        threshold (float, optional):</span>
+<span class="sd">        threshold:</span>
 <span class="sd">            Log-fold change threshold to use for computing Cohen&#39;s d and the AUC.</span>
 <span class="sd">            Large positive values favor markers with large log-fold changes over those</span>
 <span class="sd">            with low variance. Defaults to 0.</span>
 
-<span class="sd">        compute_auc (bool, optional):</span>
+<span class="sd">        compute_auc:</span>
 <span class="sd">            Whether to compute the AUCs.</span>
 <span class="sd">            This can be set to ``False`` for greater speed and memory efficiency.</span>
 <span class="sd">            Defaults to True.</span>
 
-<span class="sd">        assay_type (Union[int, str]):</span>
+<span class="sd">        assay_type:</span>
 <span class="sd">            Assay to use from ``input`` if it is a</span>
 <span class="sd">            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.</span>
 
-<span class="sd">        feature_names (Sequence[str], optional):</span>
+<span class="sd">        feature_names:</span>
 <span class="sd">            Sequence of feature names of length equal to the number of rows in ``input``.</span>
 <span class="sd">            If provided, this is used as the row names of the output data frames.</span>
 
-<span class="sd">        num_threads (int, optional): Number of threads to use. Defaults to 1.</span>
+<span class="sd">        num_threads: Number of threads to use. Defaults to 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -317,21 +305,18 @@
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-
-<div class="viewcode-block" id="score_markers">
-<a class="viewcode-back" href="../../../api/scranpy.marker_detection.html#scranpy.marker_detection.score_markers.score_markers">[docs]</a>
-<span class="k">def</span> <span class="nf">score_markers</span><span class="p">(</span>
+<div class="viewcode-block" id="score_markers"><a class="viewcode-back" href="../../../api/scranpy.marker_detection.html#scranpy.marker_detection.score_markers.score_markers">[docs]</a><span class="k">def</span> <span class="nf">score_markers</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span>
     <span class="n">grouping</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">ScoreMarkersOptions</span> <span class="o">=</span> <span class="n">ScoreMarkersOptions</span><span class="p">(),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">BiocFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Score genes as potential markers for groups of cells. Markers are genes that are strongly up-regulated within</span>
 <span class="sd">    each group, allowing users to associate each group with some known (or novel) cell type or state. The groups</span>
 <span class="sd">    themselves are typically constructed from the data, e.g., with</span>
 <span class="sd">    :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing</span>
+<span class="sd">        input: Matrix-like object where rows are features and columns are cells, typically containing</span>
 <span class="sd">            expression values of some kind. This should be a matrix class that can be converted into a</span>
 <span class="sd">            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.</span>
 
@@ -340,18 +325,20 @@
 
 <span class="sd">            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.</span>
 
-<span class="sd">        grouping (Sequence, optional):</span>
+<span class="sd">        grouping:</span>
 <span class="sd">            Group assignment for each cell.</span>
 <span class="sd">            This should have length equal to the number of cells,</span>
 <span class="sd">            where the entry for each cell specifies the assigned group for that cell.</span>
 
-<span class="sd">        options (ScoreMarkersOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If ``input`` is not an expected type.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Mapping: Dictionary with computed metrics for each group.</span>
+<span class="sd">        Dictionary where the keys are the group identifiers (as defined in ``grouping``)</span>
+<span class="sd">        and the values are :py:class:`~biocframe.BiocFrame.BiocFrame` objects containing </span>
+<span class="sd">        computed metrics for each group.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">tatamize_input</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">assay_type</span><span class="p">)</span>
 
@@ -370,16 +357,16 @@
         <span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">,</span> <span class="n">nc</span>
     <span class="p">)</span>
 
-    <span class="n">means</span> <span class="o">=</span> <span class="n">create_output_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
-    <span class="n">detected</span> <span class="o">=</span> <span class="n">create_output_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
-    <span class="n">cohen</span> <span class="o">=</span> <span class="n">create_output_summary_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
-    <span class="n">lfc</span> <span class="o">=</span> <span class="n">create_output_summary_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
-    <span class="n">delta_detected</span> <span class="o">=</span> <span class="n">create_output_summary_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">_create_output_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
+    <span class="n">detected</span> <span class="o">=</span> <span class="n">_create_output_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
+    <span class="n">cohen</span> <span class="o">=</span> <span class="n">_create_output_summary_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
+    <span class="n">lfc</span> <span class="o">=</span> <span class="n">_create_output_summary_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
+    <span class="n">delta_detected</span> <span class="o">=</span> <span class="n">_create_output_summary_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
 
     <span class="n">auc</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">auc_offset</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">compute_auc</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">auc</span> <span class="o">=</span> <span class="n">create_output_summary_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
+        <span class="n">auc</span> <span class="o">=</span> <span class="n">_create_output_summary_arrays</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
         <span class="n">auc_offset</span> <span class="o">=</span> <span class="n">auc</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
 
     <span class="n">lib</span><span class="o">.</span><span class="n">score_markers</span><span class="p">(</span>
@@ -404,18 +391,17 @@
         <span class="n">current</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;means&quot;</span><span class="p">:</span> <span class="n">means</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="n">g</span><span class="p">],</span>
             <span class="s2">&quot;detected&quot;</span><span class="p">:</span> <span class="n">detected</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="n">g</span><span class="p">],</span>
-            <span class="s2">&quot;cohen&quot;</span><span class="p">:</span> <span class="n">create_summary_biocframe</span><span class="p">(</span><span class="n">cohen</span><span class="p">,</span> <span class="n">g</span><span class="p">),</span>
-            <span class="s2">&quot;lfc&quot;</span><span class="p">:</span> <span class="n">create_summary_biocframe</span><span class="p">(</span><span class="n">lfc</span><span class="p">,</span> <span class="n">g</span><span class="p">),</span>
-            <span class="s2">&quot;delta_detected&quot;</span><span class="p">:</span> <span class="n">create_summary_biocframe</span><span class="p">(</span><span class="n">delta_detected</span><span class="p">,</span> <span class="n">g</span><span class="p">),</span>
+            <span class="s2">&quot;cohen&quot;</span><span class="p">:</span> <span class="n">_create_summary_biocframe</span><span class="p">(</span><span class="n">cohen</span><span class="p">,</span> <span class="n">g</span><span class="p">),</span>
+            <span class="s2">&quot;lfc&quot;</span><span class="p">:</span> <span class="n">_create_summary_biocframe</span><span class="p">(</span><span class="n">lfc</span><span class="p">,</span> <span class="n">g</span><span class="p">),</span>
+            <span class="s2">&quot;delta_detected&quot;</span><span class="p">:</span> <span class="n">_create_summary_biocframe</span><span class="p">(</span><span class="n">delta_detected</span><span class="p">,</span> <span class="n">g</span><span class="p">),</span>
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">compute_auc</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">current</span><span class="p">[</span><span class="s2">&quot;auc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_summary_biocframe</span><span class="p">(</span><span class="n">auc</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+            <span class="n">current</span><span class="p">[</span><span class="s2">&quot;auc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_create_summary_biocframe</span><span class="p">(</span><span class="n">auc</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
 
         <span class="n">output</span><span class="p">[</span><span class="n">group_levels</span><span class="p">[</span><span class="n">g</span><span class="p">]]</span> <span class="o">=</span> <span class="n">BiocFrame</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">row_names</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -448,9 +434,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

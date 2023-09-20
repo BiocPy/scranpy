@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.dimensionality_reduction.run_umap - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -218,7 +217,7 @@
 
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">copy</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">..nearest_neighbors</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">FindNearestNeighborsOptions</span><span class="p">,</span>
     <span class="n">NeighborIndex</span><span class="p">,</span>
@@ -234,16 +233,14 @@
 <span class="n">UmapEmbedding</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;UmapEmbedding&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span>
 <span class="n">UmapEmbedding</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Named tuple of UMAP coordinates.</span>
 
-<span class="s2">x (ndarray): a NumPy view of length equal to the number of cells,</span>
+<span class="s2">x: a NumPy view of length equal to the number of cells,</span>
 <span class="s2">    containing the coordinate on the first dimension for each cell.</span>
-<span class="s2">y (ndarray): a NumPy view of length equal to the number of cells,</span>
+<span class="s2">y: a NumPy view of length equal to the number of cells,</span>
 <span class="s2">    containing the coordinate on the second dimension for each cell.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="UmapStatus">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus">[docs]</a>
-<span class="k">class</span> <span class="nc">UmapStatus</span><span class="p">:</span>
+<div class="viewcode-block" id="UmapStatus"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus">[docs]</a><span class="k">class</span> <span class="nc">UmapStatus</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Status of a UMAP run.</span>
 
 <span class="sd">    This should not be constructed manually but should be returned by</span>
@@ -257,9 +254,7 @@
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">free_umap_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
 
-<div class="viewcode-block" id="UmapStatus.num_cells">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.num_cells">[docs]</a>
-    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="UmapStatus.num_cells"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.num_cells">[docs]</a>    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of cells in the dataset.</span>
 
 <span class="sd">        Returns:</span>
@@ -267,10 +262,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_umap_status_nobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="UmapStatus.epoch">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.epoch">[docs]</a>
-    <span class="k">def</span> <span class="nf">epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="UmapStatus.epoch"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.epoch">[docs]</a>    <span class="k">def</span> <span class="nf">epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current epoch of the UMAP state.</span>
 
 <span class="sd">        Returns:</span>
@@ -278,10 +270,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_umap_status_epoch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="UmapStatus.num_epochs">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.num_epochs">[docs]</a>
-    <span class="k">def</span> <span class="nf">num_epochs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="UmapStatus.num_epochs"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.num_epochs">[docs]</a>    <span class="k">def</span> <span class="nf">num_epochs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total number of epochs for this UMAP run.</span>
 
 <span class="sd">        Returns:</span>
@@ -289,10 +278,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_umap_status_num_epochs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="UmapStatus.clone">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.clone">[docs]</a>
-    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UmapStatus&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="UmapStatus.clone"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;UmapStatus&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a deep copy of the current state.</span>
 
 <span class="sd">        Returns:</span>
@@ -301,17 +287,14 @@
         <span class="n">cloned</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">UmapStatus</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">clone_umap_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">,</span> <span class="n">cloned</span><span class="p">),</span> <span class="n">cloned</span><span class="p">)</span></div>
 
-
     <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 
-<div class="viewcode-block" id="UmapStatus.run">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.run">[docs]</a>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="UmapStatus.run"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the UMAP algorithm to the specified epoch limit.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            epoch_limit (int): Number of epochs to run up to.</span>
+<span class="sd">            epoch_limit: Number of epochs to run up to.</span>
 <span class="sd">                This should be greater than the current epoch</span>
 <span class="sd">                in :func:`~scranpy.dimensionality_reduction.run_umap.UmapStatus.epoch`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -319,48 +302,41 @@
             <span class="n">epoch_limit</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># i.e., until the end.</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">run_umap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">,</span> <span class="n">epoch_limit</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="UmapStatus.extract">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.extract">[docs]</a>
-    <span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UmapEmbedding</span><span class="p">:</span>
+<div class="viewcode-block" id="UmapStatus.extract"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.extract">[docs]</a>    <span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UmapEmbedding</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract the UMAP coordinates for each cell at the current epoch.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            UmapEmbedding: x and y UMAP coordinates for all cells.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">UmapEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span></div>
-</div>
+        <span class="k">return</span> <span class="n">UmapEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span></div></div>
 
 
-
-<div class="viewcode-block" id="InitializeUmapOptions">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.InitializeUmapOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="InitializeUmapOptions"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.InitializeUmapOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">InitializeUmapOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap`.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        min_dist (float, optional):</span>
+<span class="sd">        min_dist:</span>
 <span class="sd">            Minimum distance between points.</span>
 <span class="sd">            Larger values yield more inflated clumps of cells.</span>
 <span class="sd">            Defaults to 0.1.</span>
 
-<span class="sd">        num_neighbors (int, optional):</span>
+<span class="sd">        num_neighbors:</span>
 <span class="sd">            Number of neighbors to use in the UMAP algorithm.</span>
 <span class="sd">            Larger values focus more on global structure than local structure.</span>
 <span class="sd">            Ignored if ``input`` is a</span>
 <span class="sd">            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults` object. Defaults to 15.</span>
 
-<span class="sd">        num_epochs (int, optional):</span>
+<span class="sd">        num_epochs:</span>
 <span class="sd">            Number of epochs to run.</span>
 <span class="sd">            Larger values improve convergence at the cost of compute time.</span>
 <span class="sd">            Defaults to 500.</span>
 
-<span class="sd">        num_threads (int, optional):</span>
+<span class="sd">        num_threads:</span>
 <span class="sd">            Number of threads to use for neighbor detection and the UMAP initialization.</span>
 <span class="sd">            Defaults to 1.</span>
 
-<span class="sd">        seed (int, optional):</span>
+<span class="sd">        seed:</span>
 <span class="sd">            Seed to use for random number generation.</span>
 <span class="sd">            Defaults to 42.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -371,17 +347,11 @@
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span>
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
 
-<div class="viewcode-block" id="InitializeUmapOptions.set_threads">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.InitializeUmapOptions.set_threads">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span></div>
-</div>
+<div class="viewcode-block" id="InitializeUmapOptions.set_threads"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.InitializeUmapOptions.set_threads">[docs]</a>    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span></div></div>
 
 
-
-<div class="viewcode-block" id="initialize_umap">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.initialize_umap">[docs]</a>
-<span class="k">def</span> <span class="nf">initialize_umap</span><span class="p">(</span>
+<div class="viewcode-block" id="initialize_umap"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.initialize_umap">[docs]</a><span class="k">def</span> <span class="nf">initialize_umap</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NeighborResults</span><span class="p">,</span> <span class="n">NeighborIndex</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">],</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">InitializeUmapOptions</span> <span class="o">=</span> <span class="n">InitializeUmapOptions</span><span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UmapStatus</span><span class="p">:</span>
@@ -398,7 +368,7 @@
 <span class="sd">    (:py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input (NeighborResults | NeighborIndex | ndarray):</span>
+<span class="sd">        input:</span>
 <span class="sd">            Object containing per-cell nearest neighbor results or data that can be used to derive them.</span>
 
 <span class="sd">            This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell</span>
@@ -414,13 +384,13 @@
 <span class="sd">            (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).</span>
 <span class="sd">            for all cells in the dataset.</span>
 
-<span class="sd">        options (InitializeUmapOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        TypeError: If ``input`` is not an expected type.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UmapStatus: A UMAP status object for iteration through the epochs.</span>
+<span class="sd">        A UMAP status object for iteration through the epochs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">NeighborResults</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">NeighborIndex</span><span class="p">):</span>
@@ -439,15 +409,12 @@
     <span class="k">return</span> <span class="n">UmapStatus</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">coords</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="RunUmapOptions">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.RunUmapOptions">[docs]</a>
-<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="RunUmapOptions"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.RunUmapOptions">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">RunUmapOptions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        initialize_umap (InitializeUmapOptions):</span>
+<span class="sd">        initialize_umap:</span>
 <span class="sd">            Optional arguments for</span>
 <span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_umap.initialize_umap`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -456,17 +423,11 @@
         <span class="n">default_factory</span><span class="o">=</span><span class="n">InitializeUmapOptions</span>
     <span class="p">)</span>
 
-<div class="viewcode-block" id="RunUmapOptions.set_threads">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.RunUmapOptions.set_threads">[docs]</a>
-    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_umap</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span></div>
-</div>
+<div class="viewcode-block" id="RunUmapOptions.set_threads"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.RunUmapOptions.set_threads">[docs]</a>    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_umap</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span></div></div>
 
 
-
-<div class="viewcode-block" id="run_umap">
-<a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.run_umap">[docs]</a>
-<span class="k">def</span> <span class="nf">run_umap</span><span class="p">(</span>
+<div class="viewcode-block" id="run_umap"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.run_umap">[docs]</a><span class="k">def</span> <span class="nf">run_umap</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NeighborResults</span><span class="p">,</span> <span class="n">NeighborIndex</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">],</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">RunUmapOptions</span> <span class="o">=</span> <span class="n">RunUmapOptions</span><span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UmapEmbedding</span><span class="p">:</span>
@@ -476,7 +437,7 @@
 <span class="sd">    :py:meth:`~scranpy.dimensionality_reduction.run_umap.UmapStatus.run` method to the maximum number of epochs.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input (NeighborResults | NeighborIndex | ndarray):</span>
+<span class="sd">        input:</span>
 <span class="sd">            Object containing per-cell nearest neighbor results or data that can be used to derive them.</span>
 
 <span class="sd">            This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell</span>
@@ -492,10 +453,10 @@
 <span class="sd">            (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).</span>
 <span class="sd">            for all cells in the dataset.</span>
 
-<span class="sd">        options (RunUmapOptions): Optional parameters.</span>
+<span class="sd">        options: Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UmapEmbedding: Result containing the first two dimensions.</span>
+<span class="sd">        Result containing the first two dimensions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">initialize_umap</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">initialize_umap</span><span class="p">)</span>
     <span class="n">status</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
@@ -503,7 +464,6 @@
     <span class="n">x</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># realize NumPy slicing views into standalone arrays.</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">UmapEmbedding</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -536,9 +496,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../../../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.analyze.analyze - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -154,8 +154,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -173,10 +176,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -225,9 +224,7 @@
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">MatrixTypes</span>
 
 
-<div class="viewcode-block" id="analyze">
-<a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.analyze.analyze">[docs]</a>
-<span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span>
+<div class="viewcode-block" id="analyze"><a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.analyze.analyze">[docs]</a><span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span>
     <span class="n">rna_matrix</span><span class="p">,</span>
     <span class="n">adt_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">crispr_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -286,10 +283,7 @@
         <span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="analyze_se">
-<a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.analyze.analyze_se">[docs]</a>
-<span class="k">def</span> <span class="nf">analyze_se</span><span class="p">(</span>
+<div class="viewcode-block" id="analyze_se"><a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.analyze.analyze_se">[docs]</a><span class="k">def</span> <span class="nf">analyze_se</span><span class="p">(</span>
     <span class="n">rna_se</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SummarizedExperiment</span><span class="p">],</span>
     <span class="n">adt_se</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SummarizedExperiment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">crispr_se</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SummarizedExperiment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -353,10 +347,7 @@
     <span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="analyze_sce">
-<a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.analyze.analyze_sce">[docs]</a>
-<span class="k">def</span> <span class="nf">analyze_sce</span><span class="p">(</span>
+<div class="viewcode-block" id="analyze_sce"><a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.analyze.analyze_sce">[docs]</a><span class="k">def</span> <span class="nf">analyze_sce</span><span class="p">(</span>
     <span class="n">sce</span><span class="p">:</span> <span class="n">SingleCellExperiment</span><span class="p">,</span>
     <span class="n">rna_exp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">adt_exp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -419,7 +410,6 @@
         <span class="n">options</span> <span class="o">=</span> <span class="n">options</span><span class="p">,</span> 
         <span class="n">dry_run</span> <span class="o">=</span> <span class="n">dry_run</span><span class="p">,</span>
     <span class="p">)</span></div>
-
 </pre></div>
         </article>
       </div>
@@ -452,9 +442,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

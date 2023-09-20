@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="../">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="scranpy.clustering package" href="scranpy.clustering.html" /><link rel="prev" title="scranpy.analyze package" href="scranpy.analyze.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>scranpy.batch_correction package - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -155,8 +155,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="scranpy.html">scranpy package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="scranpy.aggregation.html">scranpy.aggregation package</a></li>
@@ -174,10 +177,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 
 </div>
@@ -213,237 +212,184 @@
         </div>
         <article role="main">
           <section id="scranpy-batch-correction-package">
-<h1>scranpy.batch_correction package<a class="headerlink" href="#scranpy-batch-correction-package" title="Link to this heading">#</a></h1>
+<h1>scranpy.batch_correction package<a class="headerlink" href="#scranpy-batch-correction-package" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-scranpy.batch_correction.mnn_correct">
-<span id="scranpy-batch-correction-mnn-correct-module"></span><h2>scranpy.batch_correction.mnn_correct module<a class="headerlink" href="#module-scranpy.batch_correction.mnn_correct" title="Link to this heading">#</a></h2>
+<span id="scranpy-batch-correction-mnn-correct-module"></span><h2>scranpy.batch_correction.mnn_correct module<a class="headerlink" href="#module-scranpy.batch_correction.mnn_correct" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectOptions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.batch_correction.mnn_correct.</span></span><span class="sig-name descname"><span class="pre">MnnCorrectOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approximate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'max-rss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_mads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_cap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/batch_correction/mnn_correct.html#MnnCorrectOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.batch_correction.mnn_correct.</span></span><span class="sig-name descname"><span class="pre">MnnCorrectOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approximate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'max-rss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_mads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_cap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/batch_correction/mnn_correct.html#MnnCorrectOptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Options to pass to <a class="reference internal" href="#scranpy.batch_correction.mnn_correct.mnn_correct" title="scranpy.batch_correction.mnn_correct.mnn_correct"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mnn_correct()</span></code></a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectOptions.k">
-<span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.k" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.k" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of neighbors for detecting mutual nearest neighbors.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectOptions.approximate">
-<span class="sig-name descname"><span class="pre">approximate</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.approximate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">approximate</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.approximate" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to perform an approximate nearest neighbor search.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectOptions.order">
-<span class="sig-name descname"><span class="pre">order</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.order" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">order</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.order" title="Permalink to this definition">#</a></dt>
 <dd><p>Ordering of batches to correct. The first
 entry is used as the initial reference, and all subsequent batches
 are merged and added to the reference in the specified order.
 This should contain all unique levels in the <code class="docutils literal notranslate"><span class="pre">batch</span></code> argument
 supplied to <a class="reference internal" href="#scranpy.batch_correction.mnn_correct.mnn_correct" title="scranpy.batch_correction.mnn_correct.mnn_correct"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mnn_correct()</span></code></a>.
 If None, an appropriate ordering is automatically determined.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence, optional</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectOptions.reference_policy">
-<span class="sig-name descname"><span class="pre">reference_policy</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.reference_policy" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reference_policy</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.reference_policy" title="Permalink to this definition">#</a></dt>
 <dd><p>Policy to use for choosing the initial reference
 batch. This can be one of “max-rss” (maximum residual sum of squares
 within the batch, which is the default), “max-variance” (maximum
 variance within the batch), “max-size” (maximum number of cells),
 or “input” (using the supplied order of levels in <code class="docutils literal notranslate"><span class="pre">batch</span></code>).
 Only used if <code class="docutils literal notranslate"><span class="pre">order</span></code> is not supplied.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectOptions.num_mads">
-<span class="sig-name descname"><span class="pre">num_mads</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.num_mads" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_mads</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.num_mads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of median absolute deviations, used to define
 the threshold for outliers when computing the center of mass for
 each cell involved in a MNN pair. Larger values reduce kissing but
 may incorporate inappropriately distant subpopulations in a cell’s center of mass.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectOptions.mass_cap">
-<span class="sig-name descname"><span class="pre">mass_cap</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.mass_cap" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">mass_cap</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.mass_cap" title="Permalink to this definition">#</a></dt>
 <dd><p>Cap on the number of observations used to compute the
 center of mass for each MNN-involved observation.  The dataset is
 effectively downsampled to <cite>c</cite> observations for this calculation, which
 improves speed at the cost of some precision.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectOptions.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.num_threads" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use for the various MNN calculations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)">int</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">approximate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">approximate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">k</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15</span></em><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">k</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">mass_cap</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">mass_cap</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">num_mads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_mads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id5" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id5" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">reference_policy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'max-rss'</span></em><a class="headerlink" href="#id6" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reference_policy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'max-rss'</span></em><a class="headerlink" href="#id6" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectResult">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.batch_correction.mnn_correct.</span></span><span class="sig-name descname"><span class="pre">MnnCorrectResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corrected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#list" title="(in Python v3.9)"><span class="pre">list</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/batch_correction/mnn_correct.html#MnnCorrectResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scranpy.batch_correction.mnn_correct.</span></span><span class="sig-name descname"><span class="pre">MnnCorrectResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corrected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_pairs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/batch_correction/mnn_correct.html#MnnCorrectResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Results from <a class="reference internal" href="#scranpy.batch_correction.mnn_correct.mnn_correct" title="scranpy.batch_correction.mnn_correct.mnn_correct"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mnn_correct()</span></code></a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectResult.corrected">
-<span class="sig-name descname"><span class="pre">corrected</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult.corrected" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">corrected</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult.corrected" title="Permalink to this definition">#</a></dt>
 <dd><p>Matrix of corrected coordinates for each cell (row) and dimension (column).
 Rows and columns should be in the same order as the input <code class="docutils literal notranslate"><span class="pre">x</span></code> in
 <a class="reference internal" href="#scranpy.batch_correction.mnn_correct.mnn_correct" title="scranpy.batch_correction.mnn_correct.mnn_correct"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mnn_correct()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray, optional</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectResult.merge_order">
-<span class="sig-name descname"><span class="pre">merge_order</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult.merge_order" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">merge_order</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult.merge_order" title="Permalink to this definition">#</a></dt>
 <dd><p>Order of batches used for merging.
 The first batch is used as the initial reference.
 The length of this list is equal to the number of batches.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#list" title="(in Python v3.9)">list</a>, optional</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.MnnCorrectResult.num_pairs">
-<span class="sig-name descname"><span class="pre">num_pairs</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult.num_pairs" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_pairs</span></span><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult.num_pairs" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of MNN pairs detected at each merge step.
 This has length one less than the number of batches.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ndarray, optional</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">corrected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id7" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">corrected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id7" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">merge_order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#list" title="(in Python v3.9)"><span class="pre">list</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id8" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">merge_order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id8" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">num_pairs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id9" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">num_pairs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id9" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="scranpy.batch_correction.mnn_correct.mnn_correct">
-<span class="sig-prename descclassname"><span class="pre">scranpy.batch_correction.mnn_correct.</span></span><span class="sig-name descname"><span class="pre">mnn_correct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><span class="pre">Sequence</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions" title="scranpy.batch_correction.mnn_correct.MnnCorrectOptions"><span class="pre">MnnCorrectOptions</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">MnnCorrectOptions(k=15,</span> <span class="pre">approximate=True,</span> <span class="pre">order=None,</span> <span class="pre">reference_policy='max-rss',</span> <span class="pre">num_mads=3,</span> <span class="pre">mass_cap=-1,</span> <span class="pre">num_threads=1)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult" title="scranpy.batch_correction.mnn_correct.MnnCorrectResult"><span class="pre">MnnCorrectResult</span></a></span></span><a class="reference internal" href="../_modules/scranpy/batch_correction/mnn_correct.html#mnn_correct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.mnn_correct" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">scranpy.batch_correction.mnn_correct.</span></span><span class="sig-name descname"><span class="pre">mnn_correct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MnnCorrectOptions(k=15,</span> <span class="pre">approximate=True,</span> <span class="pre">order=None,</span> <span class="pre">reference_policy='max-rss',</span> <span class="pre">num_mads=3,</span> <span class="pre">mass_cap=-1,</span> <span class="pre">num_threads=1)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scranpy/batch_correction/mnn_correct.html#mnn_correct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scranpy.batch_correction.mnn_correct.mnn_correct" title="Permalink to this definition">#</a></dt>
 <dd><p>Identify mutual nearest neighbors (MNNs) to correct batch effects in a low-dimensional embedding.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>ndarray</em>) – Numeric matrix where rows are cells and columns are dimensions,
+<li><p><strong>x</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Numeric matrix where rows are cells and columns are dimensions,
 typically generated from <a class="reference internal" href="scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_pca.run_pca" title="scranpy.dimensionality_reduction.run_pca.run_pca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_pca()</span></code></a>.</p></li>
-<li><p><strong>batch</strong> (<em>Sequence</em>) – Sequence of length equal to the number of cells (i.e., rows of <code class="docutils literal notranslate"><span class="pre">x</span></code>),
+<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>) – Sequence of length equal to the number of cells (i.e., rows of <code class="docutils literal notranslate"><span class="pre">x</span></code>),
 specifying the batch for each cell.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions" title="scranpy.batch_correction.mnn_correct.MnnCorrectOptions"><em>MnnCorrectOptions</em></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.batch_correction.mnn_correct.MnnCorrectOptions" title="scranpy.batch_correction.mnn_correct.MnnCorrectOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">MnnCorrectOptions</span></code></a>) – Optional parameters.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>The corrected coordinates for each cell,</dt><dd><p>along with some diagnostics about the MNNs involved.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult" title="scranpy.batch_correction.mnn_correct.MnnCorrectResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">MnnCorrectResult</span></code></a></p>
 </dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#scranpy.batch_correction.mnn_correct.MnnCorrectResult" title="scranpy.batch_correction.mnn_correct.MnnCorrectResult">MnnCorrectResult</a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The corrected coordinates for each cell, along with some diagnostics
+about the MNNs involved.</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
 <section id="module-scranpy.batch_correction">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.batch_correction" title="Link to this heading">#</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scranpy.batch_correction" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -546,9 +492,9 @@ specifying the batch for each cell.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=3f1b9271"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=680b02e7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
