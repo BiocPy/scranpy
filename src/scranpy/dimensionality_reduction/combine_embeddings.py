@@ -2,7 +2,7 @@ from numpy import ndarray, float64, int32, uintp, ones, array
 from dataclasses import dataclass
 from typing import Optional
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
     build_neighbor_index,
     BuildNeighborIndexOptions,
@@ -14,15 +14,15 @@ class CombineEmbeddingsOptions:
     """Options for :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`.
 
     Attributes:
-        neighbors (int): Number of neighbors to use for approximating the relative variance.
+        neighbors: Number of neighbors to use for approximating the relative variance.
 
-        approximate (bool): Whether to perform an approximate neighbor search.
+        approximate: Whether to perform an approximate neighbor search.
 
-        weights (list[float], Optional): Weights to apply to each entry of ``embeddings``. If None,
+        weights: Weights to apply to each entry of ``embeddings``. If None,
             all embeddings recieve equal weight. If any weight is zero, the corresponding embedding
             is omitted from the return value.
 
-        num_threads (int): Number of threads to use for the neighbor search.
+        num_threads: Number of threads to use for the neighbor search.
     """
 
     neighbors: int = 20
@@ -40,17 +40,17 @@ def combine_embeddings(
     embeddings.
 
     Args:
-        embeddings (list[ndarray]):
+        embeddings:
             List of embeddings to be combined. Each embedding should be a
             row-major matrix where rows are cells and columns are dimensions.
             All embeddings should have the same number of rows.
 
-        options (CombineEmbeddingsOptions):
+        options:
             Further options.
 
     Returns:
-        ndarray: Array containing the combined embedding, where rows are cells
-        and columns are the dimensions from all embeddings with non-zero weight.
+        Array containing the combined embedding, where rows are cells and
+        columns are the dimensions from all embeddings with non-zero weight.
     """
     ncells = embeddings[0].shape[0]
     for x in embeddings:

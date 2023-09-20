@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Sequence, Optional, Tuple, Union
 from numpy import ndarray, float64
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from .._utils import factorize, to_logical, tatamize_input, MatrixTypes
 
 
@@ -11,7 +11,7 @@ class ScoreFeatureSetOptions:
     """Options to pass to :py:meth:`~scranpy.feature_set_enrichment.score_feature_set.score_feature_set`.
 
     Attributes:
-        block (Sequence, optional):
+        block:
             Block assignment for each cell.
             Thresholds are computed within each block to avoid inflated variances from
             inter-block differences.
@@ -20,14 +20,14 @@ class ScoreFeatureSetOptions:
             cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
-        scale (bool): Whether to scale the features to unit variance before
+        scale: Whether to scale the features to unit variance before
             computing the scores.
 
-        assay_type (Union[int, str]):
+        assay_type:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
-        num_threads (int): Number of threads to use.
+        num_threads: Number of threads to use.
     """
 
     block: Optional[Sequence] = None
@@ -41,10 +41,13 @@ def score_feature_set(
     subset: Sequence,
     options=ScoreFeatureSetOptions(),
 ) -> Tuple[ndarray, ndarray]:
-    """Compute a score for the activity of a feature set in each cell. This is done using a slightly modified version of
-    the GSDecon algorithm, where we perform a PCA to obtain the rank-1 reconstruction of the feature set's expression
-    values across all cells; the mean of the reconstructed values serves as the score per cell, while the rotation
-    vector is reported as the weights on the features involved.
+    """Compute a score for the activity of a feature set in each cell. This is
+    done using a slightly modified version of the 
+    `GSDecon <https://github.com/JasonHackney/GSDecon>`_ algorithm, 
+    where we perform a PCA to obtain the rank-1 reconstruction of the feature
+    set's expression values across all cells; the mean of the reconstructed
+    values serves as the score per cell, while the rotation vector is reported
+    as the weights on the features involved.
 
     Args:
         input:
@@ -54,17 +57,17 @@ def score_feature_set(
             :py:class:`~mattress.TatamiNumericPointer`.  Developers may also
             provide the :py:class:`~mattress.TatamiNumericPointer` itself.
 
-        subset (Sequence):
+        subset:
             Array of integer indices, specifying the rows of `input` belonging
             to the features subset. Alternatively, an array of length
             equal to the number of rows in ``input``, containing booleans
             specifying that the corresponding row belongs to the subset.
 
-        options (ScoreFeatureSetOptions):
+        options:
             Further options.
 
     Returns:
-        Tuple[ndarray, ndarray]: The first array is of length equal to the
+        Tuple where the first array is of length equal to the
         number of columns of ``input`` and contains the feature set score for
         each cell. The second array is of length equal to the number of
         features in ``subset`` and contains the weight for each feature.

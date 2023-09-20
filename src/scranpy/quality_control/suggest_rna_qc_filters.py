@@ -4,7 +4,7 @@ from typing import Optional, Sequence
 from biocframe import BiocFrame
 from numpy import float64, int32, ndarray, array
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from .._utils import process_block
 from ._utils import (
     process_subset_columns,
@@ -19,7 +19,7 @@ class SuggestRnaQcFiltersOptions:
     """Optional arguments for :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
 
     Attributes:
-        block (Sequence, optional):
+        block:
             Block assignment for each cell.
             Thresholds are computed within each block to avoid inflated variances from
             inter-block differences.
@@ -28,12 +28,12 @@ class SuggestRnaQcFiltersOptions:
             cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
-        num_mads (int, optional):
+        num_mads:
             Number of median absolute deviations for computing an outlier threshold.
             Larger values will result in a less stringent threshold.
             Defaults to 3.
 
-        custom_thresholds (BiocFrame, optional):
+        custom_thresholds:
             Data frame containing one or more columns with the same names as those in the return value of
             :py:meth:`~scranpy.quality_control.rna.suggest_rna_qc_filters`.
             If a column is present, it should contain custom thresholds for the corresponding metric
@@ -59,26 +59,25 @@ def suggest_rna_qc_filters(
     removed before further analysis.
 
     Args:
-        metrics (BiocFrame): A data frame containing QC metrics for each cell,
+        metrics: A data frame containing QC metrics for each cell,
             see the output of :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` for the expected format.
 
-        options (SuggestRnaQcFiltersOptions): Optional parameters.
+        options: Optional parameters.
 
     Raises:
         ValueError, TypeError: if provided ``inputs`` are incorrect type or do
             not contain expected metrics.
 
     Returns:
-        BiocFrame:
-            A data frame containing one row per block and the following fields -
-            ``"sums"``, the suggested (lower) threshold on the total count for each cell;
-            ``"detected"``, the suggested (lower) threshold on the number of detected features for each cell;
-            and ``"subset_proportions"``, a nested BiocFrame where each column is named
-            after an entry in ``subsets`` and contains the suggested (upper) threshold
-            on the proportion of counts in that subset.
+        A data frame containing one row per block and the following fields -
+        ``"sums"``, the suggested (lower) threshold on the total count for each cell;
+        ``"detected"``, the suggested (lower) threshold on the number of detected features for each cell;
+        and ``"subset_proportions"``, a nested BiocFrame where each column is named
+        after an entry in ``subsets`` and contains the suggested (upper) threshold
+        on the proportion of counts in that subset.
 
-            If ``options.block`` is None, all cells are assumed to belong to a single
-            block, and the output BiocFrame contains a single row.
+        If ``options.block`` is None, all cells are assumed to belong to a single
+        block, and the output BiocFrame contains a single row.
     """
     if not isinstance(metrics, BiocFrame):
         raise TypeError("'metrics' is not a `BiocFrame` object.")

@@ -5,7 +5,7 @@ from biocframe import BiocFrame
 from summarizedexperiment import SummarizedExperiment
 
 from .._utils import factorize, tatamize_input, MatrixTypes
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 
 
 class _CombinedFactors:
@@ -35,17 +35,17 @@ class AggregateAcrossCellsOptions:
     """Options to pass to :py:meth:`~scranpy.aggregation.aggregate_across_cells.aggregate_across_cells`.
 
     Attributes:
-        compute_sums (bool):
+        compute_sums:
             Whether to compute the sum of each group.
 
-        compute_detected (bool):
+        compute_detected:
             Whether to compute the number of detected cells in each group.
 
-        assay_type (Union[int, str]):
+        assay_type:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
-        num_threads (int):
+        num_threads:
             Number of threads.
     """
 
@@ -63,7 +63,7 @@ def aggregate_across_cells(
     """Aggregate expression values for groups of cells.
 
     Args:
-        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
+        input: Matrix-like object where rows are features and columns are cells, typically containing
             expression values of some kind. This should be a matrix class that can be converted into a
             :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.
 
@@ -72,17 +72,17 @@ def aggregate_across_cells(
 
             Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
-        groups (Union[Sequence, Tuple[Sequence], dict, BiocFrame]):
+        groups:
             A sequence of length equal to the number of columns of ``input``, specifying the group
             to which each column is assigned. Alternatively, a tuple, dictionary, or
             :py:class:`~biocframe.BiocFrame` of one or more such sequences, in which case
             each unique combination of levels across all sequences is defined as a "group".
 
-        options (AggregateAcrossCellsOptions):
+        options:
             Further options.
 
     Returns:
-        SummarizedExperiment: Object where each row corresponds to a row in ``input`` and each
+        A SummarizedExperiment where each row corresponds to a row in ``input`` and each
         column corresponds to a group. Assays contain the sum of expression values (if
         ``options.compute_sums = True``) and the number of cells with detected expression (if
         ``options.compute_detected = True``) for each group. Column data contains the identity

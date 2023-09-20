@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Sequence, Union
 from numpy import array, ndarray, int32, float64
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 
 
 @dataclass
@@ -10,12 +10,12 @@ class HypergeometricTestOptions:
     """Options for :py:meth:`~scranpy.feature_set_enrichment.hypergeometric_tail.hypergeometric_tail`.
 
     Attributes:
-        log (bool): Whether to report log-transformed p-values.
+        log: Whether to report log-transformed p-values.
 
-        upper_tail (bool): Whether to compute the upper tail of the hypergeometric distribution,
+        upper_tail: Whether to compute the upper tail of the hypergeometric distribution,
             i.e., test for overrepresentation.
 
-        num_threads (int): Number of threads to use.
+        num_threads: Number of threads to use.
     """
 
     log: bool = False
@@ -37,32 +37,32 @@ def hypergeometric_test(
     total_markers: Union[int, Sequence[int]],
     total_genes: Union[int, Sequence[int]],
     options=HypergeometricTestOptions(),
-):
+) -> ndarray:
     """Run the hypergeometric test to identify enrichment of interesting (usually marker) genes in a feature set or
     pathway.
 
     Args:
-        markers_in_set (Union[int, Sequence[int]]):
+        markers_in_set:
             Array containing the number of markers inside the feature sets.
             Alternatively, a single integer containing this number.
 
-        set_size (Union[int, Sequence[int]]):
+        set_size:
             Array containing the sizes of the feature sets.
             Alternatively, a single integer containing this number.
 
-        total_markers (Union[int, Sequence[int]]):
+        total_markers:
             Array containing the total number of markers.
             Alternatively, a single integer containing this number.
 
-        total_genes (Union[int, Sequence[int]]):
+        total_genes:
             Array containing the total number of genes in the analysis.
             Alternatively, a single integer containing this number.
 
-        options (HypergeometricTestOptions):
+        options:
             Further options.
 
     Returns:
-        ndarray: Array of p-values of length equal to the length
+        Array of p-values of length equal to the length
         of the input arrays (or 1, if all inputs were scalars).
 
     Each array input is expected to be 1-dimensional and of the same length,

@@ -5,7 +5,7 @@ from numpy import logical_or, logical_and, zeros, ones, uint8, array
 from delayedarray import DelayedArray
 from typing import Union, Sequence
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from .._utils import to_logical
 
 __author__ = "ltla, jkanche"
@@ -18,19 +18,19 @@ class FilterCellsOptions:
     """Optional arguments for :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
     Attributes:
-        discard (bool): Whether to discard the cells listed in ``filter``.
+        discard: Whether to discard the cells listed in ``filter``.
             If False, the specified cells are retained instead, and all
             other cells are discarded. Defaults to True.
 
-        intersect (bool): Whether to take the intersection or union of
+        intersect: Whether to take the intersection or union of
             multiple ``filter`` arrays, to create a combined filtering
             array. Note that this is orthogonal to ``discard``.
 
-        with_retain_vector (bool):
+        with_retain_vector:
             Whether to return a vector specifying which cells are to be
             retained.
 
-        delayed (bool): Whether to force the filtering operation to be
+        delayed: Whether to force the filtering operation to be
             delayed. This reduces memory usage by avoiding unnecessary
             copies of the count matrix.
     """
@@ -41,12 +41,10 @@ class FilterCellsOptions:
     delayed: bool = True
 
 
-FilterArray = Union[Sequence[int], Sequence[bool]]
-
 
 def filter_cells(
     input,
-    filter: Union[tuple[FilterArray], FilterArray],
+    filter: Union[Sequence[int], Sequence[bool], tuple],
     options: FilterCellsOptions = FilterCellsOptions(),
 ):
     """Filter out low-quality cells, usually based on metrics and filter thresholds defined from the data, e.g.,
@@ -58,7 +56,7 @@ def filter_cells(
             This should be a matrix class that can be converted into a :py:class:`~mattress.TatamiNumericPointer`.
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
 
-        filter (FilterArray, list[FilterArray]):
+        filter:
             Array of integers containing indices to the columns of `input` to keep/discard.
 
             Alternatively, an array of booleans of length equal to the number of cells,
@@ -67,7 +65,7 @@ def filter_cells(
             Alternatively, a tuple of such arrays, to be combined into a single
             filtering vector according to ``options.intersect``.
 
-        options (FilterCellsOptions): Optional parameters.
+        options: Optional parameters.
 
     Returns:
         If ``options.with_retain_vector = False``, the filtered matrix is

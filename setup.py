@@ -15,7 +15,7 @@ if __name__ == "__main__":
             use_scm_version={"version_scheme": "no-guess-dev"},
             ext_modules=[
                 Extension(
-                    "scranpy.core",
+                    "scranpy._core",
                     [
                         "src/scranpy/lib/per_cell_rna_qc_metrics.cpp",
                         "src/scranpy/lib/per_cell_adt_qc_metrics.cpp",

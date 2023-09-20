@@ -4,7 +4,7 @@ from typing import Optional, Sequence, Union
 from biocframe import BiocFrame
 from numpy import float64, ndarray, uintp
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from .._utils import factorize, tatamize_input, MatrixTypes
 
 __author__ = "ltla, jkanche"
@@ -17,26 +17,26 @@ class ModelGeneVariancesOptions:
     """Optional arguments for :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
     Attributes:
-        block (Sequence, optional): Block assignment for each cell.
+        block: Block assignment for each cell.
             Variance modelling is performed within each block to avoid interference from inter-block differences.
 
             If provided, this should have length equal to the number of cells, where cells have the same value if and
             only if they are in the same block. Defaults to None, indicating all cells are part of the same block.
 
-        span (float, optional): Span to use for the LOWESS trend fitting.
+        span: Span to use for the LOWESS trend fitting.
             Larger values yield a smoother curve and reduces the risk of overfitting,
             at the cost of being less responsive to local variations.
             Defaults to 0.3.
 
-        assay_type (Union[int, str]):
+        assay_type:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
-        feature_names (Sequence[str], optional):
+        feature_names:
             Sequence of feature names of length equal to the number of rows in ``input``.
             If provided, this is used as the row names of the output data frames.
 
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        num_threads: Number of threads to use. Defaults to 1.
     """
 
     block: Optional[Sequence] = None
@@ -49,16 +49,17 @@ class ModelGeneVariancesOptions:
 def model_gene_variances(
     input: MatrixTypes, options: ModelGeneVariancesOptions = ModelGeneVariancesOptions()
 ) -> BiocFrame:
-    """Compute model gene variances.
-
-    Ideally, ``input`` would be a normalized log-expression matrix from
-    :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
-
-    Note: rows are features, columns are cells.
+    """Compute gene variances and model them with a trend to account for
+    non-trivial mean-variance relationships in count data. The residual from
+    the trend can then be used to identify highly variable genes, e.g., with
+    :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
     Args:
-        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
-            expression values of some kind. This should be a matrix class that can be converted into a
+        input: 
+            Matrix-like object where rows are features and columns are cells,
+            typically containing log-normalized expression values from
+            :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
+            This should be a matrix class that can be converted into a
             :py:class:`~mattress.TatamiNumericPointer`.
 
             Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`
@@ -66,11 +67,18 @@ def model_gene_variances(
 
             Developers may also provide a :py:class:`~mattress.TatamiNumericPointer` directly.
 
-        options (ModelGeneVariancesOptions): Optional parameters.
+        options: Optional parameters.
 
     Returns:
-        BiocFrame: Data frame with variance modelling results
-        (means, variance, fitted, residuals).
+        Data frame with variance modelling results for each gene, specifically
+        the mean log-expression, the variance, the fitted value of the
+        mean-variance trend and the residual from the trend. Each row
+        of the data frame corresponds to a row of ``input``.
+
+        For multiple blocks, the data frame's columns will represent the average
+        across blocks. An extra ``per_block`` column will also be present
+        containing a nested :py:class:`~biocframe.BiocFrame.BiocFrame`
+        with the same per-block statistics.
     """
     x = tatamize_input(input, options.assay_type)
 

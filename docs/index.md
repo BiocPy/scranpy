@@ -12,13 +12,12 @@ which are based on the same underlying C++ libraries and concepts.
 ```{toctree}
 :maxdepth: 2
 
-Getting started <tutorial>
-Customization <customization>
-Module Reference <api/modules>
+Overview <readme>
 Contributions <contributing>
 License <license>
 Authors <authors>
 Changelog <changelog>
+Module Reference <api/modules>
 ```
 
 ## Indices and tables

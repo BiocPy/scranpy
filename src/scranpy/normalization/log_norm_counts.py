@@ -8,7 +8,7 @@ from numpy import float64, ndarray, log1p, log
 from delayedarray import DelayedArray
 from copy import copy
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from .center_size_factors import center_size_factors, CenterSizeFactorsOptions
 
 __author__ = "ltla, jkanche"
@@ -21,26 +21,26 @@ class LogNormCountsOptions:
     """Optional arguments for :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
 
     Attributes:
-        size_factors (ndarray, optional): Size factors for each cell.
+        size_factors: Size factors for each cell.
             Defaults to None, in which case the library sizes are used.
 
-        delayed (bool): Whether to force the log-normalization to be
+        delayed: Whether to force the log-normalization to be
             delayed. This reduces memory usage by avoiding unnecessary
             copies of the count matrix.
 
-        center (bool): Whether to center the size factors. Defaults to True.
+        center: Whether to center the size factors. Defaults to True.
 
-        center_size_factors_options (CenterSizeFactorsOptions, optional):
+        center_size_factors_options:
             Optional arguments to pass to :py:meth:`~scranpy.normalization.center_size_factors.center_size_factors`
             if ``center = True``.
 
-        with_size_factors (bool): Whether to return the (possibly centered) size factors in the output.
+        with_size_factors: Whether to return the (possibly centered) size factors in the output.
 
-        assay_type (Union[int, str]):
+        assay_type:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
-        num_threads (int, optional): Number of threads to use to compute size factors,
+        num_threads: Number of threads to use to compute size factors,
             if none are provided in ``size_factors``. Defaults to 1.
     """
 
@@ -73,7 +73,7 @@ def log_norm_counts(input, options: LogNormCountsOptions = LogNormCountsOptions(
 
             Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
-        options (LogNormCountsOptions): Optional parameters.
+        options: Optional parameters.
 
     Raises:
         TypeError, ValueError: If arguments don't meet expectations.

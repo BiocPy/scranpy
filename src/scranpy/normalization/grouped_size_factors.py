@@ -3,7 +3,7 @@ from typing import Optional, Sequence, Union
 from numpy import ndarray, float64, array
 
 from .._utils import MatrixTypes, tatamize_input, factorize, process_block
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 
 
 @dataclass
@@ -11,25 +11,25 @@ class GroupedSizeFactorsOptions:
     """Options to pass to :py:meth:`~scranpy.grouped_size_factors.grouped_size_factors`.
 
     Attributes:
-        groups (Sequence, optional):
+        groups:
             Sequence of group assignments, of length equal to the number of cells.
 
-        rank (int): 
+        rank: 
             Number of principal components to obtain in the low-dimensional
             representation prior to clustering. Only used if ``clusters`` is None.
 
-        block (Sequence, optional): 
+        block: 
             Sequence of block assignments, where PCA and clustering is
             performed within each block. Only used if ``clusters`` is None.
 
-        initial_factors (Sequence, optional):
+        initial_factors:
             Array of initial size factors to obtain a log-normalized matrix prior
             to PCA and clustering. Only used if ``clusters`` is None.
 
-        assay_type (Union[str, int]):
+        assay_type:
             Assay containing the count matrix, if ``input`` is a SummarizedExperiment.
 
-        num_threads (int):
+        num_threads:
             Number of threads to use for the various calculations.
     """
     rank: int = 25
@@ -46,7 +46,7 @@ def grouped_size_factors(input: MatrixTypes, options: GroupedSizeFactorsOptions 
     and propagates the pseudo-cell size factors back to each cell via library size scaling.
 
     Args:
-        input (MatrixTypes): 
+        input: 
             Matrix-like object where rows are features and columns are cells, typically containing
             expression values of some kind. This should be a matrix class that can be converted into a
             :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.
@@ -56,11 +56,11 @@ def grouped_size_factors(input: MatrixTypes, options: GroupedSizeFactorsOptions 
 
             Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
-        options (GroupedSizeFactorsOptions):
+        options:
             Further options.
 
     Returns:
-        ndarray: Array of size factors for each cell in ``input``.
+        Array of size factors for each cell in ``input``.
     """
     ptr = tatamize_input(input, options.assay_type)
     output = ndarray(ptr.ncol(), dtype=float64)

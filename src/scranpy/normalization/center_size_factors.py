@@ -5,7 +5,7 @@ from typing import Optional, Sequence
 
 from numpy import float64, ndarray
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from .._utils import process_block
 
 __author__ = "ltla, jkanche"
@@ -18,7 +18,7 @@ class CenterSizeFactorsOptions:
     """Optional arguments for :py:meth:`~scranpy.normalization.center_size_factors.center_size_factors`.
 
     Attributes:
-        block (Sequence, optional):
+        block:
             Block assignment for each cell.
             This is used to adjust the centering of size factors so that higher-coverage blocks are scaled down.
 
@@ -26,18 +26,18 @@ class CenterSizeFactorsOptions:
             cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
-        in_place (bool, optional):
+        in_place:
             Whether to modify the size factors in place.
             If False, a new array is returned.
             This argument is ignored if the input ``size_factors`` are not double-precision,
             in which case a new array is always returned.
 
-        allow_zeros (bool, optional): Whether to gracefully handle zero size factors.
+        allow_zeros: Whether to gracefully handle zero size factors.
             If True, zero size factors are automatically set to the smallest non-zero size factor.
             If False, an error is raised.
             Defaults to False.
 
-        allow_non_finite (bool, optional): Whether to gracefully handle missing or infinite size factors.
+        allow_non_finite: Whether to gracefully handle missing or infinite size factors.
             If True, infinite size factors are automatically set to the largest non-zero size factor,
             while missing values are automatically set to 1.
             If False, an error is raised.
@@ -57,10 +57,10 @@ def center_size_factors(
     values are on the same scale as the original counts for easier interpretation.
 
     Args:
-        size_factors (ndarray):
+        size_factors:
             Floating-point array containing size factors for all cells.
 
-        options (CenterSizeFactorsOptions): Optional parameters.
+        options: Optional parameters.
 
     Raises:
         TypeError, ValueError: If arguments don't meet expectations.

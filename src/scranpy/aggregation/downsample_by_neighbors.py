@@ -1,7 +1,7 @@
 from numpy import ndarray, array, int32
 from typing import Union, Tuple
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
     FindNearestNeighborsOptions,
     NeighborIndex,
@@ -15,7 +15,7 @@ class DownsampleByNeighborsOptions:
     """Options to pass to `~scranpy.aggregation.downsample_by_neighbors.downsample_by_neighbors`.
 
     Attributes:
-        num_threads (int): Number of threads to use.
+        num_threads: Number of threads to use.
     """
 
     num_threads: int = 1
@@ -33,7 +33,7 @@ def downsample_by_neighbors(
     representation of rare subpopulations.
 
     Args:
-        input (NeighborResults | NeighborIndex | ndarray):
+        input:
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
@@ -52,19 +52,19 @@ def downsample_by_neighbors(
             in :py:class:`~scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions`
             (see also :py:meth:`~scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors`).
 
-        k (int): Number of neighbors to use for downsampling.
+        k: Number of neighbors to use for downsampling.
             Larger values result in more downsampling at the cost of speed.
             Only relevant if ``input`` is not a ``NeighborResults`` object.
 
-        options (DownsampleByNeighborsOptions):
+        options:
             Further options.
 
     Returns:
-        Tuple[ndarray, ndarray]: The first value is of length less than the number
-        of observations, and contains the indices of the observations that were retained
-        after downsampling. The second value is of length equal to the number of
-        observations, and contains the index of the representative observation for
-        each observation in the dataset.
+        The first value is of length less than the number of observations, and
+        contains the indices of the observations that were retained after
+        downsampling. The second value is of length equal to the number of
+        observations, and contains the index of the representative observation
+        for each observation in the dataset.
     """
     if not isinstance(input, NeighborResults):
         if not isinstance(input, NeighborIndex):
