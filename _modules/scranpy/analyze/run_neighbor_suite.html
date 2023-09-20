@@ -1,0 +1,387 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>scranpy.analyze.run_neighbor_suite - scranpy unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">scranpy unknown documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  
+  <span class="sidebar-brand-text">scranpy unknown documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../customization.html">Customization</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/scranpy.html">scranpy package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of scranpy package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.aggregation.html">scranpy.aggregation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.analyze.html">scranpy.analyze package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.batch_correction.html">scranpy.batch_correction package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.clustering.html">scranpy.clustering package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.dimensionality_reduction.html">scranpy.dimensionality_reduction package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.feature_selection.html">scranpy.feature_selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.feature_set_enrichment.html">scranpy.feature_set_enrichment package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.marker_detection.html">scranpy.marker_detection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.nearest_neighbors.html">scranpy.nearest_neighbors package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.normalization.html">scranpy.normalization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/scranpy.quality_control.html">scranpy.quality_control package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for scranpy.analyze.run_neighbor_suite</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">igraph</span> <span class="kn">import</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">wait</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">nearest_neighbors</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">dimensionality_reduction</span> <span class="k">as</span> <span class="n">dimred</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">clustering</span> <span class="k">as</span> <span class="n">clust</span>
+
+
+<span class="k">def</span> <span class="nf">_unserialize_neighbors_before_run</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">serialized</span><span class="p">,</span> <span class="n">opt</span><span class="p">):</span>
+    <span class="n">nnres</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">NeighborResults</span><span class="o">.</span><span class="n">unserialize</span><span class="p">(</span><span class="n">serialized</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">nnres</span><span class="p">,</span> <span class="n">opt</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="run_neighbor_suite">
+<a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.run_neighbor_suite.run_neighbor_suite">[docs]</a>
+<span class="k">def</span> <span class="nf">run_neighbor_suite</span><span class="p">(</span>
+    <span class="n">principal_components</span><span class="p">,</span>
+    <span class="n">build_neighbor_index_options</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">BuildNeighborIndexOptions</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BuildNeighborIndexOptions</span><span class="p">(),</span>
+    <span class="n">find_nearest_neighbors_options</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">FindNearestNeighborsOptions</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">FindNearestNeighborsOptions</span><span class="p">(),</span>
+    <span class="n">run_umap_options</span><span class="p">:</span> <span class="n">dimred</span><span class="o">.</span><span class="n">RunUmapOptions</span> <span class="o">=</span> <span class="n">dimred</span><span class="o">.</span><span class="n">RunUmapOptions</span><span class="p">(),</span>
+    <span class="n">run_tsne_options</span><span class="p">:</span> <span class="n">dimred</span><span class="o">.</span><span class="n">RunTsneOptions</span> <span class="o">=</span> <span class="n">dimred</span><span class="o">.</span><span class="n">RunTsneOptions</span><span class="p">(),</span>
+    <span class="n">build_snn_graph_options</span><span class="p">:</span> <span class="n">clust</span><span class="o">.</span><span class="n">BuildSnnGraphOptions</span> <span class="o">=</span> <span class="n">clust</span><span class="o">.</span><span class="n">BuildSnnGraphOptions</span><span class="p">(),</span>
+    <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the suite of nearest neighbor methods together. This builds the index once and re-uses it for all methods.</span>
+<span class="sd">    Given enough threads, it also runs all post-neighbor-detection functions in parallel, as none of them depend on each</span>
+<span class="sd">    other.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        principal_components (ndarray):</span>
+<span class="sd">            Matrix of principal components where rows are cells and columns are PCs.</span>
+<span class="sd">            Thi is usually produced by :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
+
+<span class="sd">        build_neighbor_index_options (BuildNeighborIndexOptions, optional): Optional arguments to pass to</span>
+<span class="sd">            :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.</span>
+
+<span class="sd">        find_nearest_neighbors_options (FindNearestNeighborsOptions, optional): Optional arguments to pass to</span>
+<span class="sd">            :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.</span>
+
+<span class="sd">        run_umap_options (RunUmapOptions, optional):</span>
+<span class="sd">            Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.</span>
+
+<span class="sd">        run_tsne_options (RunTsneOptions, optional):</span>
+<span class="sd">            Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.</span>
+
+<span class="sd">        build_snn_graph_options (BuildSnnGraphOptions, optional):</span>
+<span class="sd">            Optional arguments to pass to :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.</span>
+
+<span class="sd">        num_threads (int, optional):</span>
+<span class="sd">            Number of threads to use for the parallel execution of UMAP, t-SNE and SNN graph construction.</span>
+<span class="sd">            This overrides the specified number of threads in ``run_umap``, ``run_tsne`` and ``build_snn_graph``.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple containing, in order:</span>
+<span class="sd">        - A function that takes no arguments and returns a tuple containing the t-SNE and UMAP coordinates.</span>
+<span class="sd">        - The shared nearest neighbor graph from :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.</span>
+<span class="sd">        - The number of remaining threads.</span>
+
+<span class="sd">        The idea is that the number of remaining threads can be used to perform tasks on the main thread</span>
+<span class="sd">        (e.g., clustering, marker detection) while the t-SNE and UMAP are still being computed;</span>
+<span class="sd">        once all tasks on the main thread have completed, the first function can be called to obtain the coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">build_neighbor_index</span><span class="p">(</span>
+        <span class="n">principal_components</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="n">build_neighbor_index_options</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">tsne_nn</span> <span class="o">=</span> <span class="n">dimred</span><span class="o">.</span><span class="n">tsne_perplexity_to_neighbors</span><span class="p">(</span>
+        <span class="n">run_tsne_options</span><span class="o">.</span><span class="n">initialize_tsne</span><span class="o">.</span><span class="n">perplexity</span>
+    <span class="p">)</span>
+    <span class="n">umap_nn</span> <span class="o">=</span> <span class="n">run_umap_options</span><span class="o">.</span><span class="n">initialize_umap</span><span class="o">.</span><span class="n">num_neighbors</span>
+    <span class="n">snn_nn</span> <span class="o">=</span> <span class="n">build_snn_graph_options</span><span class="o">.</span><span class="n">num_neighbors</span>
+
+    <span class="n">nn_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">([</span><span class="n">umap_nn</span><span class="p">,</span> <span class="n">tsne_nn</span><span class="p">,</span> <span class="n">snn_nn</span><span class="p">]):</span>
+        <span class="n">nn_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">find_nearest_neighbors</span><span class="p">(</span>
+            <span class="n">index</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">find_nearest_neighbors_options</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">serialized_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">([</span><span class="n">umap_nn</span><span class="p">,</span> <span class="n">tsne_nn</span><span class="p">]):</span>
+        <span class="n">serialized_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">nn_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+
+    <span class="c1"># Attempting to evenly distribute threads across the tasks.  t-SNE and UMAP</span>
+    <span class="c1"># are run on separate processes while the SNN graph construction is kept on</span>
+    <span class="c1"># the main thread because we&#39;ll need the output for marker detection.</span>
+    <span class="n">threads_per_task</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_threads</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">executor</span> <span class="o">=</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">))</span>
+    <span class="n">_tasks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">run_tsne_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">run_tsne_options</span><span class="p">)</span>
+    <span class="n">run_tsne_copy</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">threads_per_task</span><span class="p">)</span>
+    <span class="n">_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+            <span class="n">_unserialize_neighbors_before_run</span><span class="p">,</span>
+            <span class="n">dimred</span><span class="o">.</span><span class="n">run_tsne</span><span class="p">,</span>
+            <span class="n">serialized_dict</span><span class="p">[</span><span class="n">tsne_nn</span><span class="p">],</span>
+            <span class="n">run_tsne_copy</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">run_umap_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">run_umap_options</span><span class="p">)</span>
+    <span class="n">run_umap_copy</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">threads_per_task</span><span class="p">)</span>
+    <span class="n">_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+            <span class="n">_unserialize_neighbors_before_run</span><span class="p">,</span>
+            <span class="n">dimred</span><span class="o">.</span><span class="n">run_umap</span><span class="p">,</span>
+            <span class="n">serialized_dict</span><span class="p">[</span><span class="n">umap_nn</span><span class="p">],</span>
+            <span class="n">run_umap_copy</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">retrieve</span><span class="p">():</span>
+        <span class="n">wait</span><span class="p">(</span><span class="n">_tasks</span><span class="p">)</span>
+        <span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_tsne</span><span class="p">():</span>
+        <span class="n">retrieve</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">_tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_umap</span><span class="p">():</span>
+        <span class="n">retrieve</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">_tasks</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+    <span class="n">build_snn_graph_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">build_snn_graph_options</span><span class="p">)</span>
+    <span class="n">remaining_threads</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_threads</span> <span class="o">-</span> <span class="n">threads_per_task</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">build_snn_graph_copy</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">remaining_threads</span><span class="p">)</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">clust</span><span class="o">.</span><span class="n">build_snn_graph</span><span class="p">(</span><span class="n">nn_dict</span><span class="p">[</span><span class="n">snn_nn</span><span class="p">],</span> <span class="n">options</span><span class="o">=</span><span class="n">build_snn_graph_copy</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">get_tsne</span><span class="p">,</span> <span class="n">get_umap</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">remaining_threads</span></div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Jayaram Kancherla
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/documentation_options.js?v=3f1b9271"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

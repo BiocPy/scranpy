@@ -22,6 +22,14 @@ Subpackages
 Submodules
 ----------
 
+scranpy.core module
+-------------------
+
+.. automodule:: scranpy.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 scranpy.cpphelpers module
 -------------------------
 

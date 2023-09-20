@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="">
+<html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="scranpy" href="api/modules.html" /><link rel="prev" title="Getting started" href="tutorial.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>Customizing the analysis - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -213,9 +213,9 @@
         </div>
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="customizing-the-analysis">
-<h1>Customizing the analysis<a class="headerlink" href="#customizing-the-analysis" title="Permalink to this heading">#</a></h1>
+<h1>Customizing the analysis<a class="headerlink" href="#customizing-the-analysis" title="Link to this heading">#</a></h1>
 <section id="setting-options">
-<h2>Setting options<a class="headerlink" href="#setting-options" title="Permalink to this heading">#</a></h2>
+<h2>Setting options<a class="headerlink" href="#setting-options" title="Link to this heading">#</a></h2>
 <p>Advanced users can customize the behavior of the <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function by setting options for specific function calls:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">scranpy</span><span class="o">.</span><span class="n">AnalyzeOptions</span><span class="p">()</span>
 <span class="n">options</span><span class="o">.</span><span class="n">choose_hvgs_options</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="mi">2000</span>
@@ -228,7 +228,7 @@
 <p>The options available for each step can be found by following the <a class="reference internal" href="api/scranpy.html#scranpy.analyze_live.AnalyzeOptions"><span class="std std-ref"><code class="docutils literal notranslate"><span class="pre">AnalyzeOptions</span></code> documentation</span></a>.</p>
 </section>
 <section id="getting-individual-commands">
-<h2>Getting individual commands<a class="headerlink" href="#getting-individual-commands" title="Permalink to this heading">#</a></h2>
+<h2>Getting individual commands<a class="headerlink" href="#getting-individual-commands" title="Link to this heading">#</a></h2>
 <p>If you need even more control, you can extract the function calls for the individual steps in <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> by setting <code class="docutils literal notranslate"><span class="pre">dry_run</span> <span class="pre">=</span> <span class="pre">True</span></code>.
 This performs a dry run of the analysis, capturing the calls and reporting them in a string.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matrix and features aren&#39;t actually required here, as they don&#39;t get used.</span>
@@ -309,9 +309,9 @@ Note that the stringified commands assume that your matrix is named <code class=
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=680b02e7"></script>
+</div><script src="_static/documentation_options.js?v=3f1b9271"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
