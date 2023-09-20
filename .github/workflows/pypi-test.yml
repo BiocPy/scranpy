@@ -66,12 +66,6 @@ jobs:
         with:
           submodules: true
 
-      - name: Download dependencies
-        run: |
-          cd extern/knncolle
-          cmake .
-          cd ../..
-
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.12.1
         env:
