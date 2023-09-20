@@ -33,7 +33,8 @@ import singlecellexperiment
 sce = singlecellexperiment.read_tenx_h5("pbmc4k-tenx.h5")
 ```
 
-Then we can perform the analysis using **scranpy**'s `analyze()` function:
+Then we just need to call one of **scranpy**'s `analyze()` functions.
+(We do have to tell it what the mitochondrial genes are, though.)
 
 ```python
 import scranpy
@@ -44,7 +45,9 @@ options.per_cell_rna_qc_metrics_options.subsets = {
 results = scranpy.analyze_sce(sce, options=options)
 ```
 
-This returns an object containing clusters, t-SNEs, UMAPs, marker genes, and so on:
+This will perform all of the usual steps for a routine single-cell analysis, 
+as described in Bioconductor's [Orchestrating single cell analysis](https://bioconductor.org/books/OSCA) book.
+It returns an object containing clusters, t-SNEs, UMAPs, marker genes, and so on:
 
 ```python
 results.clusters
@@ -53,6 +56,7 @@ results.umap
 results.rna_markers
 ```
 
+We won't go over the theory here as it's explained more thoroughly in the book.
 Check out the [reference documentation](https://biocpy.github.io/scranpy) for more details.
 
 ## Multiple batches
@@ -146,8 +150,16 @@ options.build_snn_graph_options.num_neighbors = 10
 options.miscellaneous_options.snn_graph_multilevel_resolution = 2
 ```
 
-The `AnalyzeOptions` has a few convenience methods to easily set the same parameter across multiple `*_options`.
-For example, to enable parallel processing:
+Or we can fiddle the the various dimensionality reduction parameters:
+
+```python
+options.run_pca_options.rank = 50
+options.run_tsne_options.perplexity = 20
+options.run_umap_options.min_dist = 0.5
+```
+
+The `AnalyzeOptions` has a few convenience methods to easily set the same parameter across multiple `*_options` attributes.
+For example, to enable parallel processing in every step:
 
 ```python
 options.set_threads(5)
@@ -190,7 +202,7 @@ python setup.py build_ext --inplace && tox
 To rebuild the **ctypes** bindings [**cpptypes**](https://github.com/BiocPy/ctypes-wrapper):
 
 ```shell
-cpptypes src/scranpy/lib --py src/scranpy/cpphelpers.py --cpp src/scranpy/lib/bindings.cpp
+cpptypes src/scranpy/lib --py src/scranpy/_cpphelpers.py --cpp src/scranpy/lib/bindings.cpp --dll _core
 ```
 
 To rebuild the [dry run analysis source code](src/scranpy/analysis_dry.py):

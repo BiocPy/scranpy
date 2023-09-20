@@ -1,7 +1,5 @@
 # Changelog
 
-## Version 0.1 (development)
+## Version 0.1.0 (development)
 
-- Feature A added
-- FIX: nasty bug #1729 fixed
-- add your changes here!
+- Added overlord functions for basic, multi-modal and multi-sample analyses from matrices, SummarizedExperiments and SingleCellExperiments.

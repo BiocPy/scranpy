@@ -4,7 +4,7 @@ from typing import Mapping, Optional, Union, Sequence
 from biocframe import BiocFrame
 from numpy import float64, int32, ndarray
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from .._utils import to_logical, tatamize_input, MatrixTypes, create_pointer_array
 from ._utils import create_subset_buffers, create_subset_frame
 
@@ -14,7 +14,7 @@ class PerCellRnaQcMetricsOptions:
     """Optional arguments for :py:meth:`~scranpy.quality_control.per_cell_rna_qc_metrics.per_cell_rna_qc_metrics`.
 
     Attributes:
-        subsets (Mapping, optional): Dictionary of feature subsets.
+        subsets: Dictionary of feature subsets.
             Each key is the name of the subset and each value is an array.
 
             Each array may contain integer indices to the rows of `input` belonging to the subset.
@@ -23,15 +23,15 @@ class PerCellRnaQcMetricsOptions:
 
             Defaults to {}.
 
-        assay_type (Union[int, str]):
+        assay_type:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
-        cell_names (Sequence[str], optional):
+        cell_names:
             Sequence of cell names of length equal to the number of columns  in ``input``.
             If provided, this is used as the row names of the output data frames.
 
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        num_threads: Number of threads to use. Defaults to 1.
     """
 
     subsets: Optional[Mapping] = None
@@ -50,7 +50,7 @@ def per_cell_rna_qc_metrics(
     feature subsets, typically mitochondrial genes where high values are indicative of cell damage.
 
     Args:
-        input (MatrixTypes): Matrix-like object where rows are features and columns are cells, typically containing
+        input: Matrix-like object where rows are features and columns are cells, typically containing
             expression values of some kind. This should be a matrix class that can be converted into a
             :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.
 
@@ -59,18 +59,17 @@ def per_cell_rna_qc_metrics(
 
             Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
-        options (PerCellRnaQcMetricsOptions): Optional parameters.
+        options: Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not an expected matrix type.
 
     Returns:
-        BiocFrame:
-            A data frame containing one row per cell and the following fields -
-            ``"sums"``, the total count for each cell;
-            ``"detected"``, the number of detected features for each cell;
-            and ``"subset_proportions"``, a nested BiocFrame where each column is named
-            after an entry in ``subsets`` and contains the proportion of counts in that subset.
+        A data frame containing one row per cell and the following fields -
+        ``"sums"``, the total count for each cell;
+        ``"detected"``, the number of detected features for each cell;
+        and ``"subset_proportions"``, a nested BiocFrame where each column is named
+        after an entry in ``subsets`` and contains the proportion of counts in that subset.
     """
     x = tatamize_input(input, options.assay_type)
 

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from numpy import ndarray
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -24,27 +24,24 @@ class NeighborIndex:
         lib.free_neighbor_index(self.__ptr)
 
     @property
-    def ptr(self) -> ct.c_void_p:
-        """Get pointer to scran's NN search index.
-
+    def ptr(self) -> int:
+        """
         Returns:
-            ct.c_void_p: Pointer reference.
+            Pointer to the search index in C++.
         """
         return self.__ptr
 
     def num_cells(self) -> int:
-        """Get number of cells in this index.
-
+        """
         Returns:
-            int: Number of cells.
+            Number of cells in this index.
         """
         return lib.fetch_neighbor_index_nobs(self.__ptr)
 
     def num_dimensions(self) -> int:
-        """Get number of dimensions in this index.
-
+        """
         Returns:
-            int: Number of dimensions.
+            Number of dimensions in this index.
         """
         return lib.fetch_neighbor_index_ndim(self.__ptr)
 
@@ -54,7 +51,7 @@ class BuildNeighborIndexOptions:
     """Optional arguments for :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
     Attributes:
-        approximate (bool, optional): Whether to build an index for an approximate
+        approximate: Whether to build an index for an approximate
             neighbor search. This sacrifices some accuracy for speed.
             Defaults to True.
     """
@@ -69,10 +66,10 @@ def build_neighbor_index(
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Args:
-        input (ndarray): A matrix where rows are cells and dimensions are columns.
+        input: A matrix where rows are cells and dimensions are columns.
             This is usually the principal components matrix from
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
-        options (BuildNeighborIndexOptions): Optional parameters.
+        options: Optional parameters.
 
     Returns:
         NeighborIndex: Nearest neighbor search index.

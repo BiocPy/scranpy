@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from numpy import bool_, float64, ndarray, uint8, zeros
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 
 __author__ = "ltla"
 __copyright__ = "ltla"
@@ -14,7 +14,7 @@ class ChooseHvgsOptions:
     """Optional arguments for :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
     Attributes:
-        number (int):
+        number:
             Number of HVGs to retain.
             Larger values preserve more biological structure at the cost of increasing
             computational work and random noise from less-variable genes.
@@ -32,17 +32,17 @@ def choose_hvgs(
     biology, under the assumption that biological variation is larger than random noise.
 
     Args:
-        stat (ndarray): Array of variance modelling statistics,
+        stat: Array of variance modelling statistics,
             where larger values correspond to higher variability.
             This usually contains the residuals of the fitted
             mean-variance trend from
             :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
-        options (ChooseHvgsOptions): Optional parameters.
+        options: Optional parameters.
 
     Return:
-        ndarray: Array of booleans of length equal to ``stat``,
-        specifying whether a given gene is considered to be highly variable.
+        Array of booleans of length equal to ``stat``, specifying whether a
+        given gene is considered to be highly variable.
     """
 
     output = zeros(len(stat), dtype=uint8)

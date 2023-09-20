@@ -21,12 +21,12 @@ dirname = os.path.dirname(os.path.abspath(__file__))
 contents = os.listdir(dirname)
 lib = None
 for x in contents:
-    if x.startswith('core') and not x.endswith("py"):
+    if x.startswith('_core') and not x.endswith("py"):
         lib = ct.CDLL(os.path.join(dirname, x))
         break
 
 if lib is None:
-    raise ImportError("failed to find the core.* module")
+    raise ImportError("failed to find the _core.* module")
 
 lib.free_error_message.argtypes = [ ct.POINTER(ct.c_char_p) ]
 

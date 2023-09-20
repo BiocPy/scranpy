@@ -4,7 +4,7 @@ from typing import Literal, Union
 from igraph import Graph
 from numpy import ctypeslib, ndarray, copy
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
     BuildNeighborIndexOptions,
     NeighborIndex,
@@ -22,22 +22,22 @@ class BuildSnnGraphOptions:
     """Optional arguments for :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Attributes:
-        num_neighbors (int, optional): Number of neighbors to use.
+        num_neighbors: Number of neighbors to use.
             Larger values result in a more interconnected graph and generally broader clusters from community detection.
             Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
             object. Defaults to 15.
 
-        weight_scheme (Literal["ranked", "jaccard", "number"], optional):
+        weight_scheme:
             Weighting scheme for the edges between cells. This can be based on the top ranks
             of the shared neighbors ("rank"), the number of shared neighbors ("number")
             or the Jaccard index of the neighbor sets between cells ("jaccard").
             Defaults to "ranked".
 
-        build_neighbor_index_options (BuildNeighborIndexOptions):
+        build_neighbor_index_options:
             Optional arguments to use for building a nearest neighbors index.
             Only used if ``input`` is a :py:class:`~numpy.ndarray`.
 
-        num_threads (int, optional):
+        num_threads:
             Number of threads to use for the SNN graph construction.
             This is also used for the neighbor search if ``input`` is not already a
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`.
@@ -73,7 +73,7 @@ def build_snn_graph(
     share one or more nearest neighbors. This can be used for community detection to define clusters of similar cells.
 
     Args:
-        input (NeighborIndex | NeighborResults | ndarray):
+        input:
             Object containing per-cell nearest neighbor results or data that can be used to derive them.
 
             This may be a a 2-dimensional :py:class:`~numpy.ndarray` containing per-cell
@@ -90,7 +90,7 @@ def build_snn_graph(
             (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
             for all cells in the dataset.
 
-        options (BuildSnnGraphOptions): Optional parameters.
+        options: Optional parameters.
 
     Raises:
         TypeError: If ``input`` is not a nearest neighbor search index or search result
@@ -98,7 +98,7 @@ def build_snn_graph(
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
 
     Returns:
-        Graph: An igraph object.
+        An igraph object.
     """
     graph = None
     scheme = options.weight_scheme.encode("UTF-8")

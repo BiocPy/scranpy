@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from numpy import float64, int32, ndarray
 
-from .. import cpphelpers as lib
+from .. import _cpphelpers as lib
 from .build_neighbor_index import NeighborIndex
 
 __author__ = "ltla, jkanche"
@@ -15,10 +15,10 @@ SingleNeighborResults = namedtuple("SingleNeighborResults", ["index", "distance"
 SingleNeighborResults.__doc__ = """\
 Named tuple of nearest neighbors for a single cell.
 
-index (ndarray):
+index:
     Array containing 0-based indices of a cell's neighbor neighbors,
     ordered by increasing distance.
-distance (ndarray):
+distance:
     Array containing distances to a cell's nearest neighbors,
     ordered by increasing distance.
 """
@@ -29,10 +29,10 @@ SerializedNeighborResults = namedtuple(
 SerializedNeighborResults.__doc__ = """\
 Named tuple of serialized results from the nearest neighbor search.
 
-index (ndarray):
+index:
     Row-major matrix containing 0-based indices of the neighbor neighbors for each cell.
     Each row is a cell and each column is a neighbor, ordered by increasing distance.
-distance (ndarray):
+distance:
     Row-major matrix containing distances to the nearest neighbors for each cell.
     Each row is a cell and each column is a neighbor, ordered by increasing distance.
 """
@@ -52,38 +52,35 @@ class NeighborResults:
         lib.free_neighbor_results(self.__ptr)
 
     @property
-    def ptr(self) -> ct.c_void_p:
-        """Get pointer to scran's NN search index.
-
+    def ptr(self) -> int:
+        """
         Returns:
-            ct.c_void_p: Pointer reference.
+            Pointer to the results object in C++.
         """
         return self.__ptr
 
     def num_cells(self) -> int:
-        """Get the number of cells in this object.
-
+        """
         Returns:
-            int: Number of cells.
+            Number of cells in this object.
         """
         return lib.fetch_neighbor_results_nobs(self.__ptr)
 
     def num_neighbors(self) -> int:
-        """Get the number of neighbors used to build this object.
-
+        """
         Returns:
-            int: Number of neighbors.
+            Number of neighbors used to build this object.
         """
         return lib.fetch_neighbor_results_k(self.__ptr)
 
     def get(self, i: int) -> SingleNeighborResults:
-        """Get the nearest neighbors for a particular cell.
-
+        """
         Args:
-            i (int): Index of the cell of interest.
+            i: Index of the cell of interest.
 
         Returns:
-            SingleNeighborResults: A tuple with indices and distances.
+            A tuple with indices and distances to the nearest neighbors for cell ``i``.
+            Neighbors are guaranteed to be sorted in order of increasing distance.
         """
         k = lib.fetch_neighbor_results_k(self.__ptr)
         out_d = ndarray((k,), dtype=float64)
@@ -97,7 +94,7 @@ class NeighborResults:
         calling :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.unserialize`.
 
         Returns:
-            SerializedNeighborResults: A tuple with indices and distances.
+            A tuple with indices and distances, to be passed to ``unserialize``.
         """
         nobs = lib.fetch_neighbor_results_nobs(self.__ptr)
         k = lib.fetch_neighbor_results_k(self.__ptr)
@@ -115,7 +112,7 @@ class NeighborResults:
         """Initialize an instance of this class from serialized nearest neighbor results.
 
         Args:
-            content (SerializedNeighborResults): Result of
+            content: Result of
                 :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize`.
 
         Returns:
@@ -142,7 +139,7 @@ class FindNearestNeighborsOptions:
     """Optional arguments for :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Attributes:
-        num_threads (int, optional): Number of threads to use. Defaults to 1.
+        num_threads: Number of threads to use. Defaults to 1.
     """
 
     num_threads: int = 1
@@ -156,16 +153,16 @@ def find_nearest_neighbors(
     """Find the nearest neighbors for each cell.
 
     Args:
-        idx (NeighborIndex): The nearest neighbor search index, usually built by
+        idx: The nearest neighbor search index, usually built by
             :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
-        k (int): Number of neighbors to find for each cell.
-        options (FindNearestNeighborsOptions): Optional parameters.
+        k: Number of neighbors to find for each cell.
+        options: Optional parameters.
 
     Raises:
         TypeError: If ``idx`` is not a nearest neighbor index.
 
     Returns:
-        NeighborResults: 'k' nearest neighbors for each cell.
+        Object containing the ``k`` nearest neighbors for each cell.
     """
     if not isinstance(idx, NeighborIndex):
         raise TypeError(
