@@ -3,10 +3,10 @@ from collections import namedtuple
 from dataclasses import dataclass
 from typing import Literal, Optional, Sequence, Union
 
-from numpy import ctypeslib, ndarray, copy
+from numpy import copy, ctypeslib, ndarray
 
 from .. import _cpphelpers as lib
-from .._utils import to_logical, tatamize_input, factorize, MatrixTypes
+from .._utils import MatrixTypes, factorize, tatamize_input, to_logical
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -15,9 +15,12 @@ __license__ = "MIT"
 PcaResult = namedtuple("PcaResult", ["principal_components", "variance_explained"])
 PcaResult.__doc__ = """Named tuple of results from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-principal_components: Matrix of principal component (PC) coordinates,
+principal_components: 
+    Matrix of principal component (PC) coordinates,
     where the rows are cells and columns are PCs.
-variance_explained: Array of length equal to the number of PCs,
+
+variance_explained: 
+    Array of length equal to the number of PCs,
     containing the percentage of variance explained by each PC.
 """
 
@@ -46,12 +49,14 @@ class RunPcaOptions:
     """Optional arguments for :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
     Attributes:
-        rank: Number of top PCs to compute.
+        rank:
+            Number of top PCs to compute.
             Larger values capture more biological structure at the cost of increasing
             computational work and absorbing more random noise.
             Defaults to 25.
 
-        subset: Array specifying which features should be
+        subset:
+            Array specifying which features should be
             used in the PCA (e.g., highly variable genes from
             :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`).
             This may contain integer indices or booleans.
@@ -94,14 +99,16 @@ class RunPcaOptions:
             Whether to weight each block so that it contributes the same number of effective observations to the
             covariance matrix. Defaults to True.
 
-        num_threads:  Number of threads to use. Defaults to 1.
+        num_threads:
+            Number of threads to use. Defaults to 1.
 
         assay_type:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
     Raises:
-        ValueError: If ``block_method`` is not an expected value.
+        ValueError:
+            If ``block_method`` is not an expected value.
     """
 
     rank: int = 25
@@ -127,7 +134,8 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
     is the major source of variation in the dataset.
 
     Args:
-        input: Matrix-like object where rows are features and columns are cells, typically containing
+        input:
+            Matrix-like object where rows are features and columns are cells, typically containing
             log-normalized values. This should be a matrix class that can be converted into a
             :py:class:`~mattress.TatamiNumericPointer`.
 
@@ -136,11 +144,15 @@ def run_pca(input: MatrixTypes, options: RunPcaOptions = RunPcaOptions()) -> Pca
 
             Developers may also provide the :py:class:`~mattress.TatamiNumericPointer` itself.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Raises:
-        TypeError: If ``input`` is not an expected type.
-        ValueError: if ``options.block`` does not match the number of cells.
+        TypeError:
+            If ``input`` is not an expected type.
+
+        ValueError:
+            If ``options.block`` does not match the number of cells.
 
     Returns:
         Object containing the PC coordinates and the variance explained by each

@@ -1,9 +1,10 @@
 from dataclasses import dataclass
-from typing import Sequence, Optional, Tuple, Union
-from numpy import ndarray, float64
+from typing import Optional, Sequence, Tuple, Union
+
+from numpy import float64, ndarray
 
 from .. import _cpphelpers as lib
-from .._utils import factorize, to_logical, tatamize_input, MatrixTypes
+from .._utils import MatrixTypes, factorize, tatamize_input, to_logical
 
 
 @dataclass
@@ -20,14 +21,16 @@ class ScoreFeatureSetOptions:
             cells have the same value if and only if they are in the same block.
             Defaults to None, indicating all cells are part of the same block.
 
-        scale: Whether to scale the features to unit variance before
+        scale:
+            Whether to scale the features to unit variance before
             computing the scores.
 
         assay_type:
             Assay to use from ``input`` if it is a
             :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.
 
-        num_threads: Number of threads to use.
+        num_threads:
+            Number of threads to use.
     """
 
     block: Optional[Sequence] = None
@@ -42,8 +45,8 @@ def score_feature_set(
     options=ScoreFeatureSetOptions(),
 ) -> Tuple[ndarray, ndarray]:
     """Compute a score for the activity of a feature set in each cell. This is
-    done using a slightly modified version of the 
-    `GSDecon <https://github.com/JasonHackney/GSDecon>`_ algorithm, 
+    done using a slightly modified version of the
+    `GSDecon <https://github.com/JasonHackney/GSDecon>`_ algorithm,
     where we perform a PCA to obtain the rank-1 reconstruction of the feature
     set's expression values across all cells; the mean of the reconstructed
     values serves as the score per cell, while the rotation vector is reported
@@ -64,7 +67,7 @@ def score_feature_set(
             specifying that the corresponding row belongs to the subset.
 
         options:
-            Further options.
+            Optional parameters.
 
     Returns:
         Tuple where the first array is of length equal to the

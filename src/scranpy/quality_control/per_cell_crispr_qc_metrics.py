@@ -1,11 +1,11 @@
 from dataclasses import dataclass
+from typing import Optional, Sequence, Union
 
 from biocframe import BiocFrame
 from numpy import float64, int32, ndarray
-from typing import Union, Sequence, Optional
 
 from .. import _cpphelpers as lib
-from .._utils import tatamize_input, MatrixTypes
+from .._utils import MatrixTypes, tatamize_input
 
 
 @dataclass
@@ -21,7 +21,8 @@ class PerCellCrisprQcMetricsOptions:
             Sequence of cell names of length equal to the number of columns  in ``input``.
             If provided, this is used as the row names of the output data frames.
 
-        num_threads: Number of threads to use. Defaults to 1.
+        num_threads: 
+            Number of threads to use. Defaults to 1.
     """
 
     assay_type: Union[int, str] = 0
@@ -40,7 +41,8 @@ def per_cell_crispr_qc_metrics(
     identity of the most abundant guide is also reported.
 
     Args:
-        input: Matrix-like object where rows are features and columns are cells, typically containing
+        input: 
+            Matrix-like object where rows are features and columns are cells, typically containing
             expression values of some kind. This should be a matrix class that can be converted into a
             :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.
 
@@ -49,10 +51,12 @@ def per_cell_crispr_qc_metrics(
 
             Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.
 
-        options: Optional parameters.
+        options: 
+            Optional parameters.
 
     Raises:
-        TypeError: If ``input`` is not an expected matrix type.
+        TypeError: 
+            If ``input`` is not an expected matrix type.
 
     Returns:
         A data frame containing one row per cell and the following fields -

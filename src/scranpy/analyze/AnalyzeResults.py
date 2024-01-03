@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from functools import singledispatchmethod
+from typing import Any, Mapping, Optional, Sequence
 
-from typing import Optional, Mapping, Any, Sequence
-from singlecellexperiment import SingleCellExperiment
 from biocframe import BiocFrame
-from numpy import ndarray, array, log1p, log
-from igraph import Graph
 from delayedarray import DelayedArray
+from igraph import Graph
+from numpy import array, log, log1p, ndarray
+from singlecellexperiment import SingleCellExperiment
 
-from .. import dimensionality_reduction as dimred
 from .. import batch_correction as correct
+from .. import dimensionality_reduction as dimred
 
 
 @dataclass
@@ -17,93 +17,93 @@ class AnalyzeResults:
     """Results across all analyis steps from :py:meth:`~scranpy.analyze.analyze.analyze`.
 
     Attributes:
-        rna_quality_control_metrics (BiocFrame, optional):
+        rna_quality_control_metrics:
             Output of :py:meth:`~scranpy.quality_control.per_cell_rna_qc_metrics.per_cell_rna_qc_metrics`.
 
-        rna_quality_control_thresholds (BiocFrame, optional):
+        rna_quality_control_thresholds:
             Output of :py:meth:`~scranpy.quality_control.suggest_rna_qc_filters.suggest_rna_qc_filters`.
 
-        rna_quality_control_filter (ndarray, optional):
+        rna_quality_control_filter:
             Output of :py:meth:`~scranpy.quality_control.create_rna_qc_filter.create_rna_qc_filter`.
 
-        adt_quality_control_metrics (BiocFrame, optional):
+        adt_quality_control_metrics:
             Output of :py:meth:`~scranpy.quality_control.per_cell_adt_qc_metrics.per_cell_adt_qc_metrics`.
 
-        adt_quality_control_thresholds (BiocFrame, optional):
+        adt_quality_control_thresholds:
             Output of :py:meth:`~scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters`.
 
-        adt_quality_control_filter (ndarray, optional):
+        adt_quality_control_filter:
             Output of :py:meth:`~scranpy.quality_control.create_adt_qc_filter.create_adt_qc_filter`.
 
-        crispr_quality_control_metrics (BiocFrame, optional):
+        crispr_quality_control_metrics:
             Output of :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`.
 
-        crispr_quality_control_thresholds (BiocFrame, optional):
+        crispr_quality_control_thresholds:
             Output of :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters`.
 
-        crispr_quality_control_filter (ndarray, optional):
+        crispr_quality_control_filter:
             Output of :py:meth:`~scranpy.quality_control.create_crispr_qc_filter.create_crispr_qc_filter`.
 
-        quality_control_retained (ndarray, optional):
+        quality_control_retained:
             Array of length equal to the number of cells in the dataset before quality filtering,
             indicating whether each cell should be retained.
 
-        rna_size_factors (ndarray, optional):
+        rna_size_factors:
             Array of length equal to the number of cells in the dataset after quality filtering,
             containing the size factor from the RNA data for each cell.
 
-        adt_size_factors (ndarray, optional):
+        adt_size_factors:
             Array of length equal to the number of cells in the dataset after quality filtering,
             containing the size factor from the ADT data for each cell.
 
-        crispr_size_factors (ndarray, optional):
+        crispr_size_factors:
             Array of length equal to the number of cells in the dataset after quality filtering,
             containing the size factor from the CRISPR data for each cell.
 
-        gene_variances (BiocFrame, optional):
+        gene_variances:
             Output of :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
-        hvgs (ndarray, optional):
+        hvgs:
             Output of :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
-        rna_pca (PcaResult, optional):
+        rna_pca:
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the RNA data.
 
-        adt_pca (PcaResult, optional):
+        adt_pca:
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the ADT data.
 
-        crispr_pca (PcaResult, optional):
+        crispr_pca:
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the CRISPR data.
 
-        combined_pcs (PcaResult, optional):
+        combined_pcs:
             Output of :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`
             on the principal components for multiple modalities.
 
-        mnn (MnnCorrectResult, optional):
+        mnn:
             Output of :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
 
-        tsne (TsneEmbedding, optional):
+        tsne:
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
 
-        umap (UmapEmbedding, optional):
+        umap:
             Output of :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
 
-        snn_graph (Graph, optional):
+        snn_graph:
             Output of :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
-        clusters (List, optional):
+        clusters:
             List of length equal to the number of cells in the (filtered) dataset,
             containing the cluster assignment for each cell.
 
-        rna_markers (Mapping, optional):
+        rna_markers:
             Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
             on the RNA data.
 
-        adt_markers (Mapping, optional):
+        adt_markers:
             Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
             on the ADT data.
 
-        crispr_markers (Mapping, optional):
+        crispr_markers:
             Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`
             on the CRISPR data.
     """
@@ -182,8 +182,8 @@ class AnalyzeResults:
                 assays={"counts": filtered, "logcounts": normalized}
             )
             rna_sce.row_names = rna_features
-            rna_sce.col_data = self.rna_quality_control_metrics[keep, :]
-            rna_sce.col_data["size_factors"] = self.rna_size_factors
+            rna_sce.column_data = self.rna_quality_control_metrics[keep, :]
+            rna_sce.column_data["size_factors"] = self.rna_size_factors
             rna_sce.row_data = self.gene_variances
             rna_sce.reduced_dims = {"pca": self.rna_pca.principal_components}
             main_sce = rna_sce
@@ -197,8 +197,8 @@ class AnalyzeResults:
                 assays={"counts": filtered, "logcounts": normalized}
             )
             adt_sce.row_names = adt_features
-            adt_sce.col_data = self.rna_quality_control_metrics[keep, :]
-            adt_sce.col_data["size_factors"] = self.adt_size_factors
+            adt_sce.column_data = self.rna_quality_control_metrics[keep, :]
+            adt_sce.column_data["size_factors"] = self.adt_size_factors
             adt_sce.reduced_dims = {"pca": self.adt_pca.principal_components}
             if main_sce is None:
                 main_sce = adt_sce
@@ -216,8 +216,8 @@ class AnalyzeResults:
                 assays={"counts": filtered, "logcounts": normalized}
             )
             crispr_sce.row_names = crispr_features
-            crispr_sce.col_data = self.rna_quality_control_metrics[keep, :]
-            crispr_sce.col_data["size_factors"] = self.crispr_size_factors
+            crispr_sce.column_data = self.rna_quality_control_metrics[keep, :]
+            crispr_sce.column_data["size_factors"] = self.crispr_size_factors
             crispr_sce.reduced_dims = {"pca": self.crispr_pca.principal_components}
             if main_sce is None:
                 main_sce = crispr_sce
@@ -252,12 +252,15 @@ class AnalyzeResults:
         """Save results as a :py:class:`singlecellexperiment.SingleCellExperiment`.
 
         Args:
-            x: Input object. usually a matrix of raw counts.
-            assay (str, optional): assay name for the matrix.
+            x: 
+                Input object. usually a matrix of raw counts.
+            
+            assay: 
+                Assay name for the matrix.
                 Defaults to "counts".
 
         Returns:
-            SingleCellExperiment: An SCE with the results.
+            An SCE with the results.
         """
         return self.__to_sce(
             rna_matrix=rna_matrix,
@@ -275,7 +278,7 @@ class AnalyzeResults:
         assay: str = "counts",
         include_gene_data: bool = False,
     ) -> SingleCellExperiment:
-        if assay not in x.assayNames:
+        if assay not in x.assay_names:
             raise ValueError(f"SCE does not contain a '{assay}' matrix.")
 
         mat = x.assay(assay)

@@ -51,8 +51,10 @@ class BuildNeighborIndexOptions:
     """Optional arguments for :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
     Attributes:
-        approximate: Whether to build an index for an approximate
+        approximate:
+            Whether to build an index for an approximate
             neighbor search. This sacrifices some accuracy for speed.
+
             Defaults to True.
     """
 
@@ -66,13 +68,16 @@ def build_neighbor_index(
     :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Args:
-        input: A matrix where rows are cells and dimensions are columns.
+        input:
+            A matrix where rows are cells and dimensions are columns.
             This is usually the principal components matrix from
             :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
-        options: Optional parameters.
+
+        options:
+            Optional parameters.
 
     Returns:
-        NeighborIndex: Nearest neighbor search index.
+        Nearest neighbor search index.
     """
     if not input.flags.c_contiguous:
         raise ValueError("expected 'input' to have row-major layout")

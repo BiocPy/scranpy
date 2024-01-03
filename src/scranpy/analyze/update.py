@@ -9,9 +9,11 @@ def update(options, **kwargs):
     """Convenience function to update the settings on an ``*Options`` object.
 
     Args:
-        options: Any of the ``*Options`` object>
+        options:
+            Any of the ``*Options`` object.
 
-        kwargs: Key-value pairs of settings to replace.
+        kwargs:
+            Key-value pairs of settings to replace.
 
     Results:
         A copy of ``options`` with replaced settings.

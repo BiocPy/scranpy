@@ -32,12 +32,14 @@ class CenterSizeFactorsOptions:
             This argument is ignored if the input ``size_factors`` are not double-precision,
             in which case a new array is always returned.
 
-        allow_zeros: Whether to gracefully handle zero size factors.
+        allow_zeros:
+            Whether to gracefully handle zero size factors.
             If True, zero size factors are automatically set to the smallest non-zero size factor.
             If False, an error is raised.
             Defaults to False.
 
-        allow_non_finite: Whether to gracefully handle missing or infinite size factors.
+        allow_non_finite:
+            Whether to gracefully handle missing or infinite size factors.
             If True, infinite size factors are automatically set to the largest non-zero size factor,
             while missing values are automatically set to 1.
             If False, an error is raised.
@@ -60,10 +62,12 @@ def center_size_factors(
         size_factors:
             Floating-point array containing size factors for all cells.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Raises:
-        TypeError, ValueError: If arguments don't meet expectations.
+        TypeError, ValueError:
+            If arguments don't meet expectations.
 
     Returns:
         Array containing centered size factors.

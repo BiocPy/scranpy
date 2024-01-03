@@ -1,7 +1,9 @@
-from .._utils import match_lists, create_pointer_array
-from numpy import float64, ndarray, array
-from typing import Tuple, Optional, Union
+from typing import Optional, Tuple, Union
+
 from biocframe import BiocFrame
+from numpy import array, float64, ndarray
+
+from .._utils import create_pointer_array, match_lists
 
 
 def process_subset_columns(subsets: BiocFrame) -> Tuple[list[ndarray], ndarray]:

@@ -18,6 +18,7 @@ class ChooseHvgsOptions:
             Number of HVGs to retain.
             Larger values preserve more biological structure at the cost of increasing
             computational work and random noise from less-variable genes.
+
             Defaults to 2500.
     """
 
@@ -32,13 +33,15 @@ def choose_hvgs(
     biology, under the assumption that biological variation is larger than random noise.
 
     Args:
-        stat: Array of variance modelling statistics,
+        stat:
+            Array of variance modelling statistics,
             where larger values correspond to higher variability.
             This usually contains the residuals of the fitted
             mean-variance trend from
             :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Return:
         Array of booleans of length equal to ``stat``, specifying whether a

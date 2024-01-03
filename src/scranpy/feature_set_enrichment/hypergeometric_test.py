@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Sequence, Union
-from numpy import array, ndarray, int32, float64
+
+from numpy import array, float64, int32, ndarray
 
 from .. import _cpphelpers as lib
 
@@ -10,12 +11,15 @@ class HypergeometricTestOptions:
     """Options for :py:meth:`~scranpy.feature_set_enrichment.hypergeometric_tail.hypergeometric_tail`.
 
     Attributes:
-        log: Whether to report log-transformed p-values.
+        log:
+            Whether to report log-transformed p-values.
 
-        upper_tail: Whether to compute the upper tail of the hypergeometric distribution,
+        upper_tail:
+            Whether to compute the upper tail of the hypergeometric distribution,
             i.e., test for overrepresentation.
 
-        num_threads: Number of threads to use.
+        num_threads:
+            Number of threads to use.
     """
 
     log: bool = False

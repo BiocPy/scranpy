@@ -1,7 +1,8 @@
-from typing import Sequence, Callable, Any, Tuple, Union
+from typing import Sequence, Tuple, Union
+
 from biocutils import factor, match
 from mattress import TatamiNumericPointer, tatamize
-from numpy import bool_, int32, int_, ndarray, uint8, uintp, zeros, array
+from numpy import array, bool_, int32, int_, ndarray, uint8, uintp, zeros
 from summarizedexperiment import SummarizedExperiment
 
 __author__ = "ltla, jkanche"
