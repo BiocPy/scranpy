@@ -6,7 +6,7 @@ from typing import Optional, Sequence, Union
 
 from delayedarray import DelayedArray
 from mattress import TatamiNumericPointer, tatamize
-from numpy import float64, log, log1p, ndarray
+from numpy import array, float64, log, log1p, ndarray
 
 from .. import _cpphelpers as lib
 from .center_size_factors import CenterSizeFactorsOptions, center_size_factors
