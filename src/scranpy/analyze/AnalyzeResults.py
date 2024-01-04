@@ -197,7 +197,7 @@ class AnalyzeResults:
                 assays={"counts": filtered, "logcounts": normalized}
             )
             adt_sce.row_names = adt_features
-            adt_sce.column_data = self.rna_quality_control_metrics[keep, :]
+            adt_sce.column_data = self.adt_quality_control_metrics[keep, :]
             adt_sce.column_data["size_factors"] = self.adt_size_factors
             adt_sce.reduced_dims = {"pca": self.adt_pca.principal_components}
             if main_sce is None:
@@ -216,7 +216,7 @@ class AnalyzeResults:
                 assays={"counts": filtered, "logcounts": normalized}
             )
             crispr_sce.row_names = crispr_features
-            crispr_sce.column_data = self.rna_quality_control_metrics[keep, :]
+            crispr_sce.column_data = self.crispr_quality_control_metrics[keep, :]
             crispr_sce.column_data["size_factors"] = self.crispr_size_factors
             crispr_sce.reduced_dims = {"pca": self.crispr_pca.principal_components}
             if main_sce is None:
