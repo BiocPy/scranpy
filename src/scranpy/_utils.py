@@ -1,8 +1,8 @@
 from typing import Sequence, Tuple, Union
 
-from biocutils import factor, match
+from biocutils import Factor, match
 from mattress import TatamiNumericPointer, tatamize
-from numpy import array, bool_, int32, int_, ndarray, uint8, uintp, zeros
+import numpy as np
 from summarizedexperiment import SummarizedExperiment
 
 __author__ = "ltla, jkanche"
@@ -13,25 +13,25 @@ __license__ = "MIT"
 MatrixTypes = Union[TatamiNumericPointer, SummarizedExperiment]
 
 
-def factorize(x: Sequence) -> Tuple[list, ndarray]:
-    lev, ind = factor(x)
-    return lev, array(ind, int32)
+def factorize(x: Sequence) -> Tuple[list, np.ndarray]:
+    _factor = Factor.from_sequence(x)
+    return _factor.levels, _factor.codes
 
 
-def to_logical(selection: Sequence, length: int, dtype=uint8) -> ndarray:
-    output = zeros((length,), dtype=dtype)
+def to_logical(selection: Sequence, length: int, dtype=np.uint8) -> np.ndarray:
+    output = np.zeros((length,), dtype=dtype)
 
     if isinstance(selection, range) or isinstance(selection, slice):
         output[selection] = 1
         return output
 
-    if isinstance(selection, ndarray):
-        if selection.dtype == bool_:
+    if isinstance(selection, np.ndarray):
+        if selection.dtype == np.bool_:
             if len(selection) != length:
                 raise ValueError("length of 'selection' is not equal to 'length'.")
             output[selection] = 1
             return output
-        elif selection.dtype == int_:
+        elif selection.dtype == np.int_:
             output[selection] = 1
             return output
         else:
@@ -81,7 +81,7 @@ def tatamize_input(x: MatrixTypes, assay_type: Union[str, int]) -> TatamiNumeric
 
 def create_pointer_array(arrs):
     num = len(arrs)
-    output = ndarray((num,), dtype=uintp)
+    output = np.ndarray((num,), dtype=np.uintp)
 
     if isinstance(arrs, list):
         for i in range(num):

@@ -1,10 +1,8 @@
-from typing import Optional, Sequence, Union
+from typing import Optional, Union
 
-from biocframe import BiocFrame
 from singlecellexperiment import SingleCellExperiment
 from summarizedexperiment import SummarizedExperiment
 
-from .._utils import MatrixTypes
 from .AnalyzeOptions import AnalyzeOptions
 from .AnalyzeResults import AnalyzeResults
 from .dry_analyze import dry_analyze
