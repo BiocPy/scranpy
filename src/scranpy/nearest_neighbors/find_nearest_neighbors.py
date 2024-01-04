@@ -76,7 +76,8 @@ class NeighborResults:
     def get(self, i: int) -> SingleNeighborResults:
         """
         Args:
-            i: Index of the cell of interest.
+            i:
+                Index of the cell of interest.
 
         Returns:
             A tuple with indices and distances to the nearest neighbors for cell ``i``.
@@ -112,11 +113,12 @@ class NeighborResults:
         """Initialize an instance of this class from serialized nearest neighbor results.
 
         Args:
-            content: Result of
+            content:
+                Result of
                 :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize`.
 
         Returns:
-            NeighborResults: Instance of this class, constructed from the data in ``content``.
+            Instance of this class, constructed from the data in ``content``.
         """
         idx = content.index
         if not idx.flags.c_contiguous:
@@ -139,7 +141,8 @@ class FindNearestNeighborsOptions:
     """Optional arguments for :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
     Attributes:
-        num_threads: Number of threads to use. Defaults to 1.
+        num_threads:
+            Number of threads to use. Defaults to 1.
     """
 
     num_threads: int = 1
@@ -153,13 +156,19 @@ def find_nearest_neighbors(
     """Find the nearest neighbors for each cell.
 
     Args:
-        idx: The nearest neighbor search index, usually built by
+        idx:
+            The nearest neighbor search index, usually built by
             :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
-        k: Number of neighbors to find for each cell.
-        options: Optional parameters.
+
+        k:
+            Number of neighbors to find for each cell.
+
+        options:
+            Optional parameters.
 
     Raises:
-        TypeError: If ``idx`` is not a nearest neighbor index.
+        TypeError:
+            If ``idx`` is not a nearest neighbor index.
 
     Returns:
         Object containing the ``k`` nearest neighbors for each cell.

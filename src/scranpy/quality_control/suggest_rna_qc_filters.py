@@ -2,15 +2,15 @@ from dataclasses import dataclass
 from typing import Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import float64, int32, ndarray, array
+from numpy import array, float64, int32, ndarray
 
 from .. import _cpphelpers as lib
 from .._utils import process_block
 from ._utils import (
-    process_subset_columns,
     check_custom_thresholds,
     create_subset_buffers,
     create_subset_frame,
+    process_subset_columns,
 )
 
 
@@ -59,13 +59,16 @@ def suggest_rna_qc_filters(
     removed before further analysis.
 
     Args:
-        metrics: A data frame containing QC metrics for each cell,
+        metrics:
+            A data frame containing QC metrics for each cell,
             see the output of :py:meth:`~scranpy.quality_control.rna.per_cell_rna_qc_metrics` for the expected format.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Raises:
-        ValueError, TypeError: if provided ``inputs`` are incorrect type or do
+        ValueError, TypeError:
+            If provided ``inputs`` are incorrect type or do
             not contain expected metrics.
 
     Returns:

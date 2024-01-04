@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Literal, Union
 
 from igraph import Graph
-from numpy import ctypeslib, ndarray, copy
+from numpy import copy, ctypeslib, ndarray
 
 from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
@@ -22,7 +22,8 @@ class BuildSnnGraphOptions:
     """Optional arguments for :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Attributes:
-        num_neighbors: Number of neighbors to use.
+        num_neighbors:
+            Number of neighbors to use.
             Larger values result in a more interconnected graph and generally broader clusters from community detection.
             Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`
             object. Defaults to 15.
@@ -44,7 +45,8 @@ class BuildSnnGraphOptions:
             Defaults to 1.
 
     Raises:
-        ValueError: If ``weight_scheme`` is not an expected value.
+        ValueError:
+            If ``weight_scheme`` is not an expected value.
     """
 
     num_neighbors: int = 15
@@ -90,10 +92,12 @@ def build_snn_graph(
             (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
             for all cells in the dataset.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Raises:
-        TypeError: If ``input`` is not a nearest neighbor search index or search result
+        TypeError:
+            If ``input`` is not a nearest neighbor search index or search result
             (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`,
             :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
 

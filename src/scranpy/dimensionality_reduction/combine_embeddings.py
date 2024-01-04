@@ -1,11 +1,12 @@
-from numpy import ndarray, float64, int32, uintp, ones, array
 from dataclasses import dataclass
 from typing import Optional
 
+from numpy import array, float64, int32, ndarray, ones, uintp
+
 from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
-    build_neighbor_index,
     BuildNeighborIndexOptions,
+    build_neighbor_index,
 )
 
 
@@ -14,15 +15,19 @@ class CombineEmbeddingsOptions:
     """Options for :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`.
 
     Attributes:
-        neighbors: Number of neighbors to use for approximating the relative variance.
+        neighbors:
+            Number of neighbors to use for approximating the relative variance.
 
-        approximate: Whether to perform an approximate neighbor search.
+        approximate:
+            Whether to perform an approximate neighbor search.
 
-        weights: Weights to apply to each entry of ``embeddings``. If None,
+        weights:
+            Weights to apply to each entry of ``embeddings``. If None,
             all embeddings recieve equal weight. If any weight is zero, the corresponding embedding
             is omitted from the return value.
 
-        num_threads: Number of threads to use for the neighbor search.
+        num_threads:
+            Number of threads to use for the neighbor search.
     """
 
     neighbors: int = 20
@@ -46,7 +51,7 @@ def combine_embeddings(
             All embeddings should have the same number of rows.
 
         options:
-            Further options.
+            Optional parameters.
 
     Returns:
         Array containing the combined embedding, where rows are cells and

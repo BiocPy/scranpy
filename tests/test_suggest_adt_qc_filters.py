@@ -78,6 +78,8 @@ def test_suggest_adt_qc_filters_custom(mock_data):
     assert list(filters_custom.column("detected")) == [4, 5, 6]
     assert list(filters_custom.column("subset_totals").column("foo")) == [7, 8, 9]
 
+    print("HEREEEEE")
+
     # Now with some blocks, out of order.
     filters_custom = suggest_adt_qc_filters(
         result,
@@ -92,6 +94,8 @@ def test_suggest_adt_qc_filters_custom(mock_data):
             ),
         ),
     )
+
+    print("filters_custom", filters_custom)
 
     assert filters_custom.shape[0] == 3
     assert list(filters_custom.column("detected")) == [6, 5, 4]

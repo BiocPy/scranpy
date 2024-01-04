@@ -54,14 +54,17 @@ def suggest_crispr_qc_filters(
     low counts due to failed transfection. (Multiple transfections are not considered undesirable at this point.)
 
     Args:
-        metrics: A data frame containing QC metrics for each cell,
+        metrics:
+            A data frame containing QC metrics for each cell,
             see the output of :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`
             for the expected format.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Raises:
-        ValueError, TypeError: if provided ``inputs`` are incorrect type or do
+        ValueError, TypeError:
+            If provided ``inputs`` are incorrect type or do
             not contain expected metrics.
 
     Returns:

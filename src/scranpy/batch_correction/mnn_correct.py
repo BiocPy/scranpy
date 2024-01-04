@@ -1,9 +1,10 @@
-from numpy import ndarray, float64, int32
-from typing import Sequence, Optional
 from dataclasses import dataclass
+from typing import Optional, Sequence
 
-from .._utils import factorize
+from numpy import float64, int32, ndarray
+
 from .. import _cpphelpers as lib
+from .._utils import factorize
 
 
 @dataclass
@@ -11,35 +12,42 @@ class MnnCorrectOptions:
     """Options to pass to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
 
     Attributes:
-        k: Number of neighbors for detecting mutual nearest neighbors.
+        k:
+            Number of neighbors for detecting mutual nearest neighbors.
 
-        approximate: Whether to perform an approximate nearest neighbor search.
+        approximate:
+            Whether to perform an approximate nearest neighbor search.
 
-        order: Ordering of batches to correct. The first
+        order:
+            Ordering of batches to correct. The first
             entry is used as the initial reference, and all subsequent batches
             are merged and added to the reference in the specified order.
             This should contain all unique levels in the ``batch`` argument
             supplied to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.
             If None, an appropriate ordering is automatically determined.
 
-        reference_policy: Policy to use for choosing the initial reference
+        reference_policy:
+            Policy to use for choosing the initial reference
             batch. This can be one of "max-rss" (maximum residual sum of squares
             within the batch, which is the default), "max-variance" (maximum
             variance within the batch), "max-size" (maximum number of cells),
             or "input" (using the supplied order of levels in ``batch``).
             Only used if ``order`` is not supplied.
 
-        num_mads: Number of median absolute deviations, used to define
+        num_mads:
+            Number of median absolute deviations, used to define
             the threshold for outliers when computing the center of mass for
             each cell involved in a MNN pair. Larger values reduce kissing but
             may incorporate inappropriately distant subpopulations in a cell's center of mass.
 
-        mass_cap: Cap on the number of observations used to compute the
+        mass_cap:
+            Cap on the number of observations used to compute the
             center of mass for each MNN-involved observation.  The dataset is
             effectively downsampled to `c` observations for this calculation, which
             improves speed at the cost of some precision.
 
-        num_threads: Number of threads to use for the various MNN calculations.
+        num_threads:
+            Number of threads to use for the various MNN calculations.
     """
 
     k: int = 15
@@ -84,13 +92,16 @@ def mnn_correct(
     """Identify mutual nearest neighbors (MNNs) to correct batch effects in a low-dimensional embedding.
 
     Args:
-        x: Numeric matrix where rows are cells and columns are dimensions,
+        x:
+            Numeric matrix where rows are cells and columns are dimensions,
             typically generated from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-        batch: Sequence of length equal to the number of cells (i.e., rows of ``x``),
+        batch:
+            Sequence of length equal to the number of cells (i.e., rows of ``x``),
             specifying the batch for each cell.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Returns:
         The corrected coordinates for each cell, along with some diagnostics

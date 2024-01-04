@@ -1,9 +1,9 @@
 import ctypes as ct
 from collections import namedtuple
 from dataclasses import dataclass, field
-from typing import Union, Optional
+from typing import Optional, Union
 
-from numpy import float64, ndarray, copy
+from numpy import copy, float64, ndarray
 
 from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
@@ -21,9 +21,12 @@ __license__ = "MIT"
 UmapEmbedding = namedtuple("UmapEmbedding", ["x", "y"])
 UmapEmbedding.__doc__ = """Named tuple of UMAP coordinates.
 
-x: a NumPy view of length equal to the number of cells,
+x: 
+    A NumPy view of length equal to the number of cells,
     containing the coordinate on the first dimension for each cell.
-y: a NumPy view of length equal to the number of cells,
+
+y: 
+    A NumPy view of length equal to the number of cells,
     containing the coordinate on the second dimension for each cell.
 """
 
@@ -46,7 +49,7 @@ class UmapStatus:
         """Get the number of cells in the dataset.
 
         Returns:
-            int: Number of cells.
+            Number of cells.
         """
         return lib.fetch_umap_status_nobs(self.__ptr)
 
@@ -54,7 +57,7 @@ class UmapStatus:
         """Get the current epoch of the UMAP state.
 
         Returns:
-            int: The current epoch.
+            The current epoch.
         """
         return lib.fetch_umap_status_epoch(self.__ptr)
 
@@ -62,7 +65,7 @@ class UmapStatus:
         """Get the total number of epochs for this UMAP run.
 
         Returns:
-            int: Number of epochs.
+            Number of epochs.
         """
         return lib.fetch_umap_status_num_epochs(self.__ptr)
 
@@ -70,7 +73,7 @@ class UmapStatus:
         """Create a deep copy of the current state.
 
         Returns:
-            UmapStatus: Copy of the current state.
+            Copy of the current state.
         """
         cloned = copy(self.coordinates)
         return UmapStatus(lib.clone_umap_status(self.__ptr, cloned), cloned)
@@ -82,7 +85,8 @@ class UmapStatus:
         """Run the UMAP algorithm to the specified epoch limit.
 
         Args:
-            epoch_limit: Number of epochs to run up to.
+            epoch_limit:
+                Number of epochs to run up to.
                 This should be greater than the current epoch
                 in :func:`~scranpy.dimensionality_reduction.run_umap.UmapStatus.epoch`.
         """
@@ -94,7 +98,7 @@ class UmapStatus:
         """Extract the UMAP coordinates for each cell at the current epoch.
 
         Returns:
-            UmapEmbedding: x and y UMAP coordinates for all cells.
+            `x` and `y` UMAP coordinates for all cells.
         """
         return UmapEmbedding(self.coordinates[:, 0], self.coordinates[:, 1])
 
@@ -172,10 +176,12 @@ def initialize_umap(
             (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
             for all cells in the dataset.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Raises:
-        TypeError: If ``input`` is not an expected type.
+        TypeError:
+            If ``input`` is not an expected type.
 
     Returns:
         A UMAP status object for iteration through the epochs.
@@ -241,7 +247,8 @@ def run_umap(
             (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).
             for all cells in the dataset.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Returns:
         Result containing the first two dimensions.

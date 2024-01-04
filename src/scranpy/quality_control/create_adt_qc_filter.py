@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import bool_, float64, int32, ndarray, zeros, uint8
+from numpy import bool_, float64, int32, ndarray, uint8, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import process_block
@@ -35,16 +35,19 @@ def create_adt_qc_filter(
     """Defines a filtering vector based on the RNA-derived per-cell quality control (QC) metrics and thresholds.
 
     Args:
-        metrics: Data frame of metrics,
+        metrics:
+            Data frame of metrics,
             see :py:meth:`~scranpy.quality_control.adt.per_cell_adt_qc_metrics` for the expected format.
 
-        thresholds: Data frame of filter thresholds,
+        thresholds:
+            Data frame of filter thresholds,
             see :py:meth:`~scranpy.quality_control.adt.suggest_adt_qc_filters` for the expected format.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Returns:
-        A boolean array where True entries mark the cells to be discarded. 
+        A boolean array where True entries mark the cells to be discarded.
     """
 
     if not isinstance(metrics, BiocFrame):

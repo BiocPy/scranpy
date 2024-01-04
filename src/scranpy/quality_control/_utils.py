@@ -1,7 +1,9 @@
-from .._utils import match_lists, create_pointer_array
-from numpy import float64, ndarray, array
-from typing import Tuple, Optional, Union
+from typing import Optional, Tuple, Union
+
 from biocframe import BiocFrame
+from numpy import array, float64, ndarray
+
+from .._utils import create_pointer_array, match_lists
 
 
 def process_subset_columns(subsets: BiocFrame) -> Tuple[list[ndarray], ndarray]:
@@ -44,12 +46,11 @@ def check_custom_thresholds(
             "number of rows in 'custom_thresholds' should equal the number of blocks"
         )
 
-    if num_blocks > 1 and custom_thresholds.rownames != block_names:
-        m = match_lists(block_names, custom_thresholds.rownames)
+    if num_blocks > 1 and custom_thresholds.row_names != block_names:
+        m = match_lists(block_names, custom_thresholds.row_names)
         if m is None:
             raise ValueError(
                 "row names of 'custom_thresholds' should equal the unique values of 'block'"
             )
-        custom_thresholds = custom_thresholds[m, :]
-
+        custom_thresholds = custom_thresholds[list(m), :]
     return custom_thresholds

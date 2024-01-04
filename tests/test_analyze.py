@@ -136,4 +136,4 @@ def test_analyze_summarizedexperiment(mock_data):
     sce.alternative_experiments = { "adt": adt_se }
     out = analyze_sce(sce, adt_exp = "adt", assay_type="counts")
     assert out.gene_variances.row_names == se.row_names
-    assert out.adt_markers[0].row_names == adt_se.row_names
+    assert out.adt_markers["0"].row_names == adt_se.row_names

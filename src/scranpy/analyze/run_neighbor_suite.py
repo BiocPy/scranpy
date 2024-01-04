@@ -1,11 +1,12 @@
-from typing import Tuple, Callable
-from igraph import Graph
 from concurrent.futures import ProcessPoolExecutor, wait
 from copy import copy
+from typing import Callable, Tuple
 
-from .. import nearest_neighbors as nn
-from .. import dimensionality_reduction as dimred
+from igraph import Graph
+
 from .. import clustering as clust
+from .. import dimensionality_reduction as dimred
+from .. import nearest_neighbors as nn
 
 
 def _unserialize_neighbors_before_run(f, serialized, opt):
@@ -27,26 +28,28 @@ def run_neighbor_suite(
     other.
 
     Args:
-        principal_components (ndarray):
+        principal_components:
             Matrix of principal components where rows are cells and columns are PCs.
             Thi is usually produced by :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.
 
-        build_neighbor_index_options (BuildNeighborIndexOptions, optional): Optional arguments to pass to
+        build_neighbor_index_options:
+            Optional arguments to pass to
             :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.
 
-        find_nearest_neighbors_options (FindNearestNeighborsOptions, optional): Optional arguments to pass to
+        find_nearest_neighbors_options:
+            Optional arguments to pass to
             :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.
 
-        run_umap_options (RunUmapOptions, optional):
+        run_umap_options:
             Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.
 
-        run_tsne_options (RunTsneOptions, optional):
+        run_tsne_options:
             Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.
 
-        build_snn_graph_options (BuildSnnGraphOptions, optional):
+        build_snn_graph_options:
             Optional arguments to pass to :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
-        num_threads (int, optional):
+        num_threads:
             Number of threads to use for the parallel execution of UMAP, t-SNE and SNN graph construction.
             This overrides the specified number of threads in ``run_umap``, ``run_tsne`` and ``build_snn_graph``.
 

@@ -189,6 +189,6 @@ def aggregate_across_cells(
     for i, x in enumerate(levels):
         reported_factors[factor_names[i]] = x
     reported_factors["counts"] = counts
-    output.col_data = BiocFrame(reported_factors)
+    output.column_data = BiocFrame(reported_factors)
 
     return output

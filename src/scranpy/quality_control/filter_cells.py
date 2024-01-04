@@ -1,9 +1,9 @@
 from dataclasses import dataclass
+from typing import Sequence, Union
 
-from mattress import TatamiNumericPointer
-from numpy import logical_or, logical_and, zeros, ones, uint8, array
 from delayedarray import DelayedArray
-from typing import Union, Sequence
+from mattress import TatamiNumericPointer
+from numpy import array, logical_and, logical_or, ones, uint8, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import to_logical
@@ -18,11 +18,13 @@ class FilterCellsOptions:
     """Optional arguments for :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.
 
     Attributes:
-        discard: Whether to discard the cells listed in ``filter``.
+        discard: 
+            Whether to discard the cells listed in ``filter``.
             If False, the specified cells are retained instead, and all
             other cells are discarded. Defaults to True.
 
-        intersect: Whether to take the intersection or union of
+        intersect: 
+            Whether to take the intersection or union of
             multiple ``filter`` arrays, to create a combined filtering
             array. Note that this is orthogonal to ``discard``.
 
@@ -30,7 +32,8 @@ class FilterCellsOptions:
             Whether to return a vector specifying which cells are to be
             retained.
 
-        delayed: Whether to force the filtering operation to be
+        delayed: 
+            Whether to force the filtering operation to be
             delayed. This reduces memory usage by avoiding unnecessary
             copies of the count matrix.
     """
@@ -39,7 +42,6 @@ class FilterCellsOptions:
     intersect: bool = False
     with_retain_vector: bool = False
     delayed: bool = True
-
 
 
 def filter_cells(
@@ -65,7 +67,8 @@ def filter_cells(
             Alternatively, a tuple of such arrays, to be combined into a single
             filtering vector according to ``options.intersect``.
 
-        options: Optional parameters.
+        options: 
+            Optional parameters.
 
     Returns:
         If ``options.with_retain_vector = False``, the filtered matrix is

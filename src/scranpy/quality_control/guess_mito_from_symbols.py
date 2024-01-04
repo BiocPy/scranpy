@@ -5,8 +5,11 @@ def guess_mito_from_symbols(symbols: Sequence[str], prefix: str) -> Sequence[int
     """Guess mitochondrial genes from their gene symbols.
 
     Args:
-        symbols: List of gene symbols.
-        prefix: Case-insensitive prefix to guess mitochondrial genes.
+        symbols:
+            List of gene symbols.
+
+        prefix:
+            Case-insensitive prefix to guess mitochondrial genes.
 
     Return:
         List of integer indices for the guessed mitochondrial genes.

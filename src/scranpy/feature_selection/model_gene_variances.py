@@ -5,7 +5,7 @@ from biocframe import BiocFrame
 from numpy import float64, ndarray, uintp
 
 from .. import _cpphelpers as lib
-from .._utils import factorize, tatamize_input, MatrixTypes
+from .._utils import MatrixTypes, factorize, tatamize_input
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -17,13 +17,15 @@ class ModelGeneVariancesOptions:
     """Optional arguments for :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.
 
     Attributes:
-        block: Block assignment for each cell.
+        block:
+            Block assignment for each cell.
             Variance modelling is performed within each block to avoid interference from inter-block differences.
 
             If provided, this should have length equal to the number of cells, where cells have the same value if and
             only if they are in the same block. Defaults to None, indicating all cells are part of the same block.
 
-        span: Span to use for the LOWESS trend fitting.
+        span:
+            Span to use for the LOWESS trend fitting.
             Larger values yield a smoother curve and reduces the risk of overfitting,
             at the cost of being less responsive to local variations.
             Defaults to 0.3.
@@ -36,7 +38,8 @@ class ModelGeneVariancesOptions:
             Sequence of feature names of length equal to the number of rows in ``input``.
             If provided, this is used as the row names of the output data frames.
 
-        num_threads: Number of threads to use. Defaults to 1.
+        num_threads:
+            Number of threads to use. Defaults to 1.
     """
 
     block: Optional[Sequence] = None
@@ -55,7 +58,7 @@ def model_gene_variances(
     :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.
 
     Args:
-        input: 
+        input:
             Matrix-like object where rows are features and columns are cells,
             typically containing log-normalized expression values from
             :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.
@@ -67,7 +70,8 @@ def model_gene_variances(
 
             Developers may also provide a :py:class:`~mattress.TatamiNumericPointer` directly.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Returns:
         Data frame with variance modelling results for each gene, specifically

@@ -1,12 +1,12 @@
-from dataclasses import dataclass
 from collections import namedtuple
-from typing import Mapping, Optional, Sequence, Union, Any
+from dataclasses import dataclass
+from typing import Any, Mapping, Optional, Sequence, Union
 
 from biocframe import BiocFrame
-from numpy import ndarray, uintp, float64
+from numpy import float64, ndarray, uintp
 
 from .. import _cpphelpers as lib
-from .._utils import process_block, factorize, tatamize_input, MatrixTypes
+from .._utils import MatrixTypes, factorize, process_block, tatamize_input
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"
@@ -82,7 +82,8 @@ class ScoreMarkersOptions:
             Sequence of feature names of length equal to the number of rows in ``input``.
             If provided, this is used as the row names of the output data frames.
 
-        num_threads: Number of threads to use. Defaults to 1.
+        num_threads:
+            Number of threads to use. Defaults to 1.
     """
 
     block: Optional[Sequence] = None
@@ -104,7 +105,8 @@ def score_markers(
     :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
 
     Args:
-        input: Matrix-like object where rows are features and columns are cells, typically containing
+        input:
+            Matrix-like object where rows are features and columns are cells, typically containing
             expression values of some kind. This should be a matrix class that can be converted into a
             :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.
 
@@ -118,14 +120,16 @@ def score_markers(
             This should have length equal to the number of cells,
             where the entry for each cell specifies the assigned group for that cell.
 
-        options: Optional parameters.
+        options:
+            Optional parameters.
 
     Raises:
-        ValueError: If ``input`` is not an expected type.
+        ValueError:
+            If ``input`` is not an expected type.
 
     Returns:
         Dictionary where the keys are the group identifiers (as defined in ``grouping``)
-        and the values are :py:class:`~biocframe.BiocFrame.BiocFrame` objects containing 
+        and the values are :py:class:`~biocframe.BiocFrame.BiocFrame` objects containing
         computed metrics for each group.
     """
     x = tatamize_input(input, options.assay_type)
