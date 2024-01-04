@@ -8,7 +8,7 @@ def test_aggregate_across_cells_simple():
     x = numpy.round(numpy.random.rand(1000, 8) * 5)
     y = scranpy.aggregate_across_cells(x, groups)
 
-    assert y.col_data.column("factor_1") == ["A", "B", "C", "D"]
+    assert list(y.col_data.column("factor_1")) == ["A", "B", "C", "D"]
     assert list(y.col_data.column("counts")) == [3, 2, 2, 1]
 
     obs_a = y.assay("sums")[:, 0]
@@ -27,7 +27,7 @@ def test_aggregate_across_cells_combinations():
     y = scranpy.aggregate_across_cells(x, {"group": groups, "batch": batches})
 
     assert y.col_data.column("group") == ["A", "A", "B", "B"]
-    assert y.col_data.column("batch") == [1, 2, 1, 2]
+    assert y.col_data.column("batch") == ["1", "2", "1", "2"]
     assert list(y.col_data.column("counts")) == [2, 2, 2, 2]
 
     obs_a = y.assay("sums")[:, 1]
@@ -41,10 +41,10 @@ def test_aggregate_across_cells_combinations():
     # Try out different input types.
     y2 = scranpy.aggregate_across_cells(x, (groups, batches))
     assert y2.col_data.column("factor_1") == ["A", "A", "B", "B"]
-    assert y2.col_data.column("factor_2") == [1, 2, 1, 2]
+    assert y2.col_data.column("factor_2") == ["1", "2", "1", "2"]
     assert (y2.assay("sums") == y.assay("sums")).all()
 
     y2 = scranpy.aggregate_across_cells(x, BiocFrame({"g": groups, "b": batches}))
     assert y2.col_data.column("g") == ["A", "A", "B", "B"]
-    assert y2.col_data.column("b") == [1, 2, 1, 2]
+    assert y2.col_data.column("b") == ["1", "2", "1", "2"]
     assert (y2.assay("detected") == y.assay("detected")).all()
