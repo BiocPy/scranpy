@@ -77,7 +77,7 @@ def tatamize_input(x: MatrixTypes, assay_type: Union[str, int]) -> TatamiNumeric
     if isinstance(x, TatamiNumericPointer):
         return x
 
-    if isinstance(x, SummarizedExperiment):
+    if issubclass(type(x), SummarizedExperiment):
         x = x.assay(assay_type)
     return tatamize(x)
 
