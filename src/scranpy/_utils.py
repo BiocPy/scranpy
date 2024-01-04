@@ -14,8 +14,8 @@ MatrixTypes = Union[TatamiNumericPointer, SummarizedExperiment]
 
 
 def factorize(x: Sequence) -> Tuple[list, np.ndarray]:
-    _factor = Factor.from_sequence(x)
-    return _factor.levels, _factor.codes
+    _factor = Factor.from_sequence(x, sort_levels=False)
+    return _factor.levels, np.array(_factor.codes, np.int32)
 
 
 def to_logical(selection: Sequence, length: int, dtype=np.uint8) -> np.ndarray:
@@ -74,6 +74,9 @@ def match_lists(x, y):
 
 
 def tatamize_input(x: MatrixTypes, assay_type: Union[str, int]) -> TatamiNumericPointer:
+    if isinstance(x, TatamiNumericPointer):
+        return x
+
     if isinstance(x, SummarizedExperiment):
         x = x.assay(assay_type)
     return tatamize(x)
