@@ -214,7 +214,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
 <span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">bool_</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">uint8</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">bool_</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">uint8</span><span class="p">,</span> <span class="n">zeros</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">process_block</span>
@@ -246,18 +246,21 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Defines a filtering vector based on the RNA-derived per-cell quality control (QC) metrics and thresholds.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        metrics: Data frame of metrics,</span>
+<span class="sd">        metrics: </span>
+<span class="sd">            Data frame of metrics,</span>
 <span class="sd">            see :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`</span>
 <span class="sd">            for the expected format.</span>
 
-<span class="sd">        thresholds: Data frame of filter thresholds,</span>
+<span class="sd">        thresholds: </span>
+<span class="sd">            Data frame of filter thresholds,</span>
 <span class="sd">            see :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters`</span>
 <span class="sd">            for the expected format.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options: </span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A boolean array where True entries mark the cells to be discarded. </span>
+<span class="sd">        A boolean array where True entries mark the cells to be discarded.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">BiocFrame</span><span class="p">):</span>

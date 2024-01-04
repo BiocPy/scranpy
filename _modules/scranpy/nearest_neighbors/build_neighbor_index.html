@@ -232,8 +232,8 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span> <span class="o">=</span> <span class="n">ptr</span>
 
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">free_neighbor_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
+<div class="viewcode-block" id="NeighborIndex.__del__"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex.__del__">[docs]</a>    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">free_neighbor_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ptr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -263,8 +263,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        approximate: Whether to build an index for an approximate</span>
+<span class="sd">        approximate:</span>
+<span class="sd">            Whether to build an index for an approximate</span>
 <span class="sd">            neighbor search. This sacrifices some accuracy for speed.</span>
+
 <span class="sd">            Defaults to True.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -278,13 +280,16 @@
 <span class="sd">    :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input: A matrix where rows are cells and dimensions are columns.</span>
+<span class="sd">        input:</span>
+<span class="sd">            A matrix where rows are cells and dimensions are columns.</span>
 <span class="sd">            This is usually the principal components matrix from</span>
 <span class="sd">            :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
-<span class="sd">        options: Optional parameters.</span>
+
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        NeighborIndex: Nearest neighbor search index.</span>
+<span class="sd">        Nearest neighbor search index.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">input</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">c_contiguous</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;expected &#39;input&#39; to have row-major layout&quot;</span><span class="p">)</span>

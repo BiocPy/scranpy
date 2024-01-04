@@ -232,6 +232,38 @@ in <code class="xref py py-meth docutils literal notranslate"><span class="pre">
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">typing.Optional[typing.Sequence]}</span></em><a class="headerlink" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">Field(name='block',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -245,15 +277,15 @@ in <code class="xref py py-meth docutils literal notranslate"><span class="pre">
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – Data frame of metrics,
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – Data frame of metrics,
 see <code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_adt_qc_metrics()</span></code> for the expected format.</p></li>
-<li><p><strong>thresholds</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – Data frame of filter thresholds,
+<li><p><strong>thresholds</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – Data frame of filter thresholds,
 see <code class="xref py py-meth docutils literal notranslate"><span class="pre">suggest_adt_qc_filters()</span></code> for the expected format.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions" title="scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions" title="scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A boolean array where True entries mark the cells to be discarded.</p>
@@ -278,6 +310,38 @@ in <code class="xref py py-meth docutils literal notranslate"><span class="pre">
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">typing.Optional[typing.Sequence]}</span></em><a class="headerlink" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">Field(name='block',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id1">
 <span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -291,17 +355,17 @@ in <code class="xref py py-meth docutils literal notranslate"><span class="pre">
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – Data frame of metrics,
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – Data frame of metrics,
 see <a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics" title="scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_crispr_qc_metrics()</span></code></a>
 for the expected format.</p></li>
-<li><p><strong>thresholds</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – Data frame of filter thresholds,
+<li><p><strong>thresholds</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – Data frame of filter thresholds,
 see <a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters" title="scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">suggest_crispr_qc_filters()</span></code></a>
 for the expected format.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions" title="scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions" title="scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A boolean array where True entries mark the cells to be discarded.</p>
@@ -326,6 +390,38 @@ in <code class="xref py py-meth docutils literal notranslate"><span class="pre">
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">typing.Optional[typing.Sequence]}</span></em><a class="headerlink" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">Field(name='block',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id2">
 <span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -339,15 +435,15 @@ in <code class="xref py py-meth docutils literal notranslate"><span class="pre">
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – Data frame of metrics,
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – Data frame of metrics,
 see <code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code> for the expected format.</p></li>
-<li><p><strong>thresholds</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – Data frame of filter thresholds,
+<li><p><strong>thresholds</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – Data frame of filter thresholds,
 see <code class="xref py py-meth docutils literal notranslate"><span class="pre">suggest_rna_qc_filters()</span></code> for the expected format.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions" title="scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions" title="scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A boolean array where True entries mark the cells to be discarded.</p>
@@ -395,6 +491,38 @@ copies of the count matrix.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'delayed':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'discard':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'intersect':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'with_retain_vector':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;}</span></em><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'delayed':</span> <span class="pre">Field(name='delayed',type=&lt;class</span> <span class="pre">'bool'&gt;,default=True,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'discard':</span> <span class="pre">Field(name='discard',type=&lt;class</span> <span class="pre">'bool'&gt;,default=True,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'intersect':</span> <span class="pre">Field(name='intersect',type=&lt;class</span> <span class="pre">'bool'&gt;,default=False,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'with_retain_vector':</span> <span class="pre">Field(name='with_retain_vector',type=&lt;class</span> <span class="pre">'bool'&gt;,default=False,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.filter_cells.FilterCellsOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id3">
 <span class="sig-name descname"><span class="pre">delayed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -427,13 +555,13 @@ copies of the count matrix.</p>
 <li><p><strong>input</strong> – Matrix-like object containing cells in columns and features in rows.
 This should be a matrix class that can be converted into a <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code>.
 Developers may also provide the <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code> itself.</p></li>
-<li><p><strong>filter</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>], <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>]) – <p>Array of integers containing indices to the columns of <cite>input</cite> to keep/discard.</p>
+<li><p><strong>filter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>], <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>]</span>) – <p>Array of integers containing indices to the columns of <cite>input</cite> to keep/discard.</p>
 <p>Alternatively, an array of booleans of length equal to the number of cells,
 specifying the columns of <cite>input</cite> to keep/discard.</p>
 <p>Alternatively, a tuple of such arrays, to be combined into a single
 filtering vector according to <code class="docutils literal notranslate"><span class="pre">options.intersect</span></code>.</p>
 </p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions" title="scranpy.quality_control.filter_cells.FilterCellsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterCellsOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions" title="scranpy.quality_control.filter_cells.FilterCellsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterCellsOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -460,12 +588,12 @@ indices of <code class="docutils literal notranslate"><span class="pre">input</s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>symbols</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – List of gene symbols.</p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Case-insensitive prefix to guess mitochondrial genes.</p></li>
+<li><p><strong>symbols</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – List of gene symbols.</p></li>
+<li><p><strong>prefix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Case-insensitive prefix to guess mitochondrial genes.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List of integer indices for the guessed mitochondrial genes.</p>
@@ -496,7 +624,7 @@ and contains booleans specifying that the corresponding row belongs to the subse
 <dt class="sig sig-object py" id="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.assay_type">
 <span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.assay_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Assay to use from <code class="docutils literal notranslate"><span class="pre">input</span></code> if it is a
-<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
+<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -510,6 +638,38 @@ If provided, this is used as the row names of the output data frames.</p>
 <dt class="sig sig-object py" id="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.num_threads">
 <span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use. Defaults to 1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">typing.Union[int,</span> <span class="pre">str],</span> <span class="pre">'cell_names':</span> <span class="pre">typing.Optional[typing.Sequence[str]],</span> <span class="pre">'num_threads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'subsets':</span> <span class="pre">typing.Optional[typing.Mapping]}</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">Field(name='assay_type',type=typing.Union[int,</span> <span class="pre">str],default=0,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'cell_names':</span> <span class="pre">Field(name='cell_names',type=typing.Optional[typing.Sequence[str]],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_threads':</span> <span class="pre">Field(name='num_threads',type=&lt;class</span> <span class="pre">'int'&gt;,default=1,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'subsets':</span> <span class="pre">Field(name='subsets',type=typing.Optional[typing.Mapping],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -544,21 +704,21 @@ for each cell for diagnostic purposes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]) – <p>Matrix-like object where rows are features and columns are cells, typically containing
+<li><p><strong>input</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]</span>) – <p>Matrix-like object where rows are features and columns are cells, typically containing
 expression values of some kind. This should be a matrix class that can be converted into a
 <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>.</p>
-<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
+<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
 containing such a matrix in its assays.</p>
 <p>Developers may also provide a <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a> directly.</p>
 </p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions" title="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions" title="scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">input</span></code> is not an expected matrix type.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A data frame containing one row per cell and the following fields -
@@ -582,7 +742,7 @@ after an entry in <code class="docutils literal notranslate"><span class="pre">s
 <dt class="sig sig-object py" id="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.assay_type">
 <span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.assay_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Assay to use from <code class="docutils literal notranslate"><span class="pre">input</span></code> if it is a
-<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
+<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -596,6 +756,38 @@ If provided, this is used as the row names of the output data frames.</p>
 <dt class="sig sig-object py" id="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.num_threads">
 <span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use. Defaults to 1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">typing.Union[int,</span> <span class="pre">str],</span> <span class="pre">'cell_names':</span> <span class="pre">typing.Optional[typing.Sequence[str]],</span> <span class="pre">'num_threads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;}</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">Field(name='assay_type',type=typing.Union[int,</span> <span class="pre">str],default=0,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'cell_names':</span> <span class="pre">Field(name='cell_names',type=typing.Optional[typing.Sequence[str]],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_threads':</span> <span class="pre">Field(name='num_threads',type=&lt;class</span> <span class="pre">'int'&gt;,default=1,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -626,21 +818,21 @@ identity of the most abundant guide is also reported.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]) – <p>Matrix-like object where rows are features and columns are cells, typically containing
+<li><p><strong>input</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]</span>) – <p>Matrix-like object where rows are features and columns are cells, typically containing
 expression values of some kind. This should be a matrix class that can be converted into a
 <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>.</p>
-<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
+<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
 containing such a matrix in its assays.</p>
 <p>Developers may also provide a <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a> directly.</p>
 </p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions" title="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions" title="scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">input</span></code> is not an expected matrix type.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A data frame containing one row per cell and the following fields -
@@ -675,7 +867,7 @@ and contains booleans specifying that the corresponding row belongs to the subse
 <dt class="sig sig-object py" id="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.assay_type">
 <span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.assay_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Assay to use from <code class="docutils literal notranslate"><span class="pre">input</span></code> if it is a
-<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
+<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -689,6 +881,38 @@ If provided, this is used as the row names of the output data frames.</p>
 <dt class="sig sig-object py" id="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.num_threads">
 <span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use. Defaults to 1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">typing.Union[str,</span> <span class="pre">int],</span> <span class="pre">'cell_names':</span> <span class="pre">typing.Optional[typing.Sequence[str]],</span> <span class="pre">'num_threads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'subsets':</span> <span class="pre">typing.Optional[typing.Mapping]}</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">Field(name='assay_type',type=typing.Union[str,</span> <span class="pre">int],default=0,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'cell_names':</span> <span class="pre">Field(name='cell_names',type=typing.Optional[typing.Sequence[str]],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_threads':</span> <span class="pre">Field(name='num_threads',type=&lt;class</span> <span class="pre">'int'&gt;,default=1,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'subsets':</span> <span class="pre">Field(name='subsets',type=typing.Optional[typing.Mapping],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -723,21 +947,21 @@ feature subsets, typically mitochondrial genes where high values are indicative 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]) – <p>Matrix-like object where rows are features and columns are cells, typically containing
+<li><p><strong>input</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]</span>) – <p>Matrix-like object where rows are features and columns are cells, typically containing
 expression values of some kind. This should be a matrix class that can be converted into a
 <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>.</p>
-<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
+<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
 containing such a matrix in its assays.</p>
 <p>Developers may also provide a <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a> directly.</p>
 </p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions" title="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions" title="scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">input</span></code> is not an expected matrix type.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A data frame containing one row per cell and the following fields -
@@ -790,13 +1014,45 @@ The identity of each block should be stored in the row names.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">typing.Optional[typing.Sequence],</span> <span class="pre">'custom_thresholds':</span> <span class="pre">typing.Optional[biocframe.BiocFrame.BiocFrame],</span> <span class="pre">'num_mads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;}</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">Field(name='block',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'custom_thresholds':</span> <span class="pre">Field(name='custom_thresholds',type=typing.Optional[biocframe.BiocFrame.BiocFrame],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_mads':</span> <span class="pre">Field(name='num_mads',type=&lt;class</span> <span class="pre">'int'&gt;,default=3,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id18">
 <span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id18" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">custom_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id19" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">custom_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id19" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -816,18 +1072,18 @@ quality and should be removed before further analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – A data frame containing QC metrics for each cell,
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – A data frame containing QC metrics for each cell,
 see the output of <a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.per_cell_adt_qc_metrics" title="scranpy.quality_control.per_cell_adt_qc_metrics.per_cell_adt_qc_metrics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_adt_qc_metrics()</span></code></a>
 for the expected format.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions" title="scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions" title="scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if provided <code class="docutils literal notranslate"><span class="pre">inputs</span></code> are incorrect type or do
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If provided <code class="docutils literal notranslate"><span class="pre">inputs</span></code> are incorrect type or do
     not contain expected metrics.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p>A data frame containing one row per block and the following fields -
@@ -883,13 +1139,45 @@ The identity of each block should be stored in the row names.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">typing.Optional[typing.Sequence],</span> <span class="pre">'custom_thresholds':</span> <span class="pre">typing.Optional[biocframe.BiocFrame.BiocFrame],</span> <span class="pre">'num_mads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;}</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">Field(name='block',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'custom_thresholds':</span> <span class="pre">Field(name='custom_thresholds',type=typing.Optional[biocframe.BiocFrame.BiocFrame],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_mads':</span> <span class="pre">Field(name='num_mads',type=&lt;class</span> <span class="pre">'int'&gt;,default=3,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id21">
 <span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id21" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">custom_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id22" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">custom_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id22" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -908,18 +1196,18 @@ low counts due to failed transfection. (Multiple transfections are not considere
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – A data frame containing QC metrics for each cell,
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – A data frame containing QC metrics for each cell,
 see the output of <a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics" title="scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_crispr_qc_metrics()</span></code></a>
 for the expected format.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions" title="scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions" title="scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if provided <code class="docutils literal notranslate"><span class="pre">inputs</span></code> are incorrect type or do
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If provided <code class="docutils literal notranslate"><span class="pre">inputs</span></code> are incorrect type or do
     not contain expected metrics.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p>A data frame containing one row per block and the following fields -
@@ -972,13 +1260,45 @@ The identity of each block should be stored in the row names.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">typing.Optional[typing.Sequence],</span> <span class="pre">'custom_thresholds':</span> <span class="pre">typing.Optional[biocframe.BiocFrame.BiocFrame],</span> <span class="pre">'num_mads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;}</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'block':</span> <span class="pre">Field(name='block',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'custom_thresholds':</span> <span class="pre">Field(name='custom_thresholds',type=typing.Optional[biocframe.BiocFrame.BiocFrame],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_mads':</span> <span class="pre">Field(name='num_mads',type=&lt;class</span> <span class="pre">'int'&gt;,default=3,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id24">
 <span class="sig-name descname"><span class="pre">block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Sequence" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id24" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id25">
-<span class="sig-name descname"><span class="pre">custom_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id25" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">custom_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Optional" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id25" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -997,17 +1317,17 @@ removed before further analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>) – A data frame containing QC metrics for each cell,
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span>) – A data frame containing QC metrics for each cell,
 see the output of <code class="xref py py-meth docutils literal notranslate"><span class="pre">per_cell_rna_qc_metrics()</span></code> for the expected format.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions" title="scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions" title="scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if provided <code class="docutils literal notranslate"><span class="pre">inputs</span></code> are incorrect type or do
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – If provided <code class="docutils literal notranslate"><span class="pre">inputs</span></code> are incorrect type or do
     not contain expected metrics.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p>A data frame containing one row per block and the following fields -
@@ -1081,6 +1401,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#module-scranpy.quality_control.create_adt_qc_filter">scranpy.quality_control.create_adt_qc_filter module</a><ul>
 <li><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions</span></code></a><ul>
 <li><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.block"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions.block</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_adt_qc_filter.CreateAdtQcFilterOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">CreateAdtQcFilterOptions.block</span></code></a></li>
 </ul>
 </li>
@@ -1090,6 +1416,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#module-scranpy.quality_control.create_crispr_qc_filter">scranpy.quality_control.create_crispr_qc_filter module</a><ul>
 <li><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions</span></code></a><ul>
 <li><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.block"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions.block</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_crispr_qc_filter.CreateCrisprQcFilterOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">CreateCrisprQcFilterOptions.block</span></code></a></li>
 </ul>
 </li>
@@ -1099,6 +1431,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#module-scranpy.quality_control.create_rna_qc_filter">scranpy.quality_control.create_rna_qc_filter module</a><ul>
 <li><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions</span></code></a><ul>
 <li><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.block"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.block</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.create_rna_qc_filter.CreateRnaQcFilterOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">CreateRnaQcFilterOptions.block</span></code></a></li>
 </ul>
 </li>
@@ -1111,6 +1449,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.intersect"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.intersect</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.with_retain_vector"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.with_retain_vector</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.delayed"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.delayed</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.filter_cells.FilterCellsOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.delayed</span></code></a></li>
 <li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.discard</span></code></a></li>
 <li><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">FilterCellsOptions.intersect</span></code></a></li>
@@ -1130,6 +1474,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.assay_type"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.cell_names"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.cell_names</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.num_threads</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_adt_qc_metrics.PerCellAdtQcMetricsOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.cell_names</span></code></a></li>
 <li><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">PerCellAdtQcMetricsOptions.num_threads</span></code></a></li>
@@ -1144,6 +1494,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.assay_type"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.cell_names"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.cell_names</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.num_threads</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.cell_names</span></code></a></li>
 <li><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">PerCellCrisprQcMetricsOptions.num_threads</span></code></a></li>
@@ -1158,6 +1514,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.assay_type"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.cell_names"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.cell_names</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.num_threads</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.per_cell_rna_qc_metrics.PerCellRnaQcMetricsOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.cell_names</span></code></a></li>
 <li><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">PerCellRnaQcMetricsOptions.num_threads</span></code></a></li>
@@ -1172,6 +1534,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.block"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.num_mads"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.num_mads</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.custom_thresholds"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.custom_thresholds</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_adt_qc_filters.SuggestAdtQcFiltersOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.custom_thresholds</span></code></a></li>
 <li><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">SuggestAdtQcFiltersOptions.num_mads</span></code></a></li>
@@ -1185,6 +1553,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.block"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.num_mads"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.num_mads</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.custom_thresholds"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.custom_thresholds</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_crispr_qc_filters.SuggestCrisprQcFiltersOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.custom_thresholds</span></code></a></li>
 <li><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">SuggestCrisprQcFiltersOptions.num_mads</span></code></a></li>
@@ -1198,6 +1572,12 @@ block, and the output BiocFrame contains a single row.</p>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.block"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.num_mads"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.num_mads</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.custom_thresholds"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.custom_thresholds</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.quality_control.suggest_rna_qc_filters.SuggestRnaQcFiltersOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.custom_thresholds</span></code></a></li>
 <li><a class="reference internal" href="#id26"><code class="docutils literal notranslate"><span class="pre">SuggestRnaQcFiltersOptions.num_mads</span></code></a></li>

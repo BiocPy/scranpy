@@ -211,13 +211,13 @@
         <article role="main">
           <h1>Source code for scranpy.quality_control.per_cell_crispr_qc_metrics</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int32</span><span class="p">,</span> <span class="n">ndarray</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
-<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">tatamize_input</span><span class="p">,</span> <span class="n">MatrixTypes</span>
+<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">tatamize_input</span>
 
 
 <div class="viewcode-block" id="PerCellCrisprQcMetricsOptions"><a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.per_cell_crispr_qc_metrics.PerCellCrisprQcMetricsOptions">[docs]</a><span class="nd">@dataclass</span>
@@ -233,7 +233,8 @@
 <span class="sd">            Sequence of cell names of length equal to the number of columns  in ``input``.</span>
 <span class="sd">            If provided, this is used as the row names of the output data frames.</span>
 
-<span class="sd">        num_threads: Number of threads to use. Defaults to 1.</span>
+<span class="sd">        num_threads: </span>
+<span class="sd">            Number of threads to use. Defaults to 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">assay_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -252,7 +253,8 @@
 <span class="sd">    identity of the most abundant guide is also reported.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input: Matrix-like object where rows are features and columns are cells, typically containing</span>
+<span class="sd">        input: </span>
+<span class="sd">            Matrix-like object where rows are features and columns are cells, typically containing</span>
 <span class="sd">            expression values of some kind. This should be a matrix class that can be converted into a</span>
 <span class="sd">            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.</span>
 
@@ -261,10 +263,12 @@
 
 <span class="sd">            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options: </span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError: If ``input`` is not an expected matrix type.</span>
+<span class="sd">        TypeError: </span>
+<span class="sd">            If ``input`` is not an expected matrix type.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A data frame containing one row per cell and the following fields -</span>

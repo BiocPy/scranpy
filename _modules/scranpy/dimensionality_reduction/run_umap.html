@@ -213,9 +213,9 @@
 <span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">ct</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">copy</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">..nearest_neighbors</span> <span class="kn">import</span> <span class="p">(</span>
@@ -233,9 +233,12 @@
 <span class="n">UmapEmbedding</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;UmapEmbedding&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span>
 <span class="n">UmapEmbedding</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Named tuple of UMAP coordinates.</span>
 
-<span class="s2">x: a NumPy view of length equal to the number of cells,</span>
+<span class="s2">x: </span>
+<span class="s2">    A NumPy view of length equal to the number of cells,</span>
 <span class="s2">    containing the coordinate on the first dimension for each cell.</span>
-<span class="s2">y: a NumPy view of length equal to the number of cells,</span>
+
+<span class="s2">y: </span>
+<span class="s2">    A NumPy view of length equal to the number of cells,</span>
 <span class="s2">    containing the coordinate on the second dimension for each cell.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
@@ -251,14 +254,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span> <span class="o">=</span> <span class="n">ptr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">coordinates</span>
 
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">free_umap_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
+<div class="viewcode-block" id="UmapStatus.__del__"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.__del__">[docs]</a>    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">free_umap_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="UmapStatus.num_cells"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.num_cells">[docs]</a>    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of cells in the dataset.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            int: Number of cells.</span>
+<span class="sd">            Number of cells.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_umap_status_nobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
@@ -266,7 +269,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current epoch of the UMAP state.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            int: The current epoch.</span>
+<span class="sd">            The current epoch.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_umap_status_epoch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
@@ -274,7 +277,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total number of epochs for this UMAP run.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            int: Number of epochs.</span>
+<span class="sd">            Number of epochs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_umap_status_num_epochs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
@@ -282,19 +285,20 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a deep copy of the current state.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            UmapStatus: Copy of the current state.</span>
+<span class="sd">            Copy of the current state.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cloned</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">UmapStatus</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">clone_umap_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">,</span> <span class="n">cloned</span><span class="p">),</span> <span class="n">cloned</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+<div class="viewcode-block" id="UmapStatus.__deepcopy__"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.__deepcopy__">[docs]</a>    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="UmapStatus.run"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_umap.UmapStatus.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the UMAP algorithm to the specified epoch limit.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            epoch_limit: Number of epochs to run up to.</span>
+<span class="sd">            epoch_limit:</span>
+<span class="sd">                Number of epochs to run up to.</span>
 <span class="sd">                This should be greater than the current epoch</span>
 <span class="sd">                in :func:`~scranpy.dimensionality_reduction.run_umap.UmapStatus.epoch`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -306,7 +310,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract the UMAP coordinates for each cell at the current epoch.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            UmapEmbedding: x and y UMAP coordinates for all cells.</span>
+<span class="sd">            `x` and `y` UMAP coordinates for all cells.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">UmapEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span></div></div>
 
@@ -384,10 +388,12 @@
 <span class="sd">            (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).</span>
 <span class="sd">            for all cells in the dataset.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError: If ``input`` is not an expected type.</span>
+<span class="sd">        TypeError:</span>
+<span class="sd">            If ``input`` is not an expected type.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A UMAP status object for iteration through the epochs.</span>
@@ -453,7 +459,8 @@
 <span class="sd">            (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).</span>
 <span class="sd">            for all cells in the dataset.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Result containing the first two dimensions.</span>

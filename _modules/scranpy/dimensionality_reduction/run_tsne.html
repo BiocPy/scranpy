@@ -211,11 +211,11 @@
         <article role="main">
           <h1>Source code for scranpy.dimensionality_reduction.run_tsne</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">ct</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">copy</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">..nearest_neighbors</span> <span class="kn">import</span> <span class="p">(</span>
@@ -233,9 +233,12 @@
 <span class="n">TsneEmbedding</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;TsneEmbedding&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span>
 <span class="n">TsneEmbedding</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Named tuple of t-SNE coordinates.</span>
 
-<span class="s2">x: a NumPy view of length equal to the number of cells,</span>
+<span class="s2">x: </span>
+<span class="s2">    A NumPy view of length equal to the number of cells,</span>
 <span class="s2">    containing the coordinate on the first dimension for each cell.</span>
-<span class="s2">y: a NumPy view of length equal to the number of cells,</span>
+
+<span class="s2">y: </span>
+<span class="s2">    A NumPy view of length equal to the number of cells,</span>
 <span class="s2">    containing the coordinate on the second dimension for each cell.</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
@@ -251,14 +254,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span> <span class="o">=</span> <span class="n">ptr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">coordinates</span>
 
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">free_tsne_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
+<div class="viewcode-block" id="TsneStatus.__del__"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.__del__">[docs]</a>    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">free_tsne_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TsneStatus.num_cells"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.num_cells">[docs]</a>    <span class="k">def</span> <span class="nf">num_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of cells in the dataset.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            int: Number of cells.</span>
+<span class="sd">            Number of cells.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_tsne_status_nobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
@@ -266,7 +269,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current iteration number.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            int: The current iteration number.</span>
+<span class="sd">            The current iteration number.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_tsne_status_iteration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
@@ -274,19 +277,20 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a deep copy of the current state.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            TsneStatus: Copy of the current state.</span>
+<span class="sd">            Copy of the current state.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cloned</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">TsneStatus</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">clone_tsne_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">),</span> <span class="n">cloned</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+<div class="viewcode-block" id="TsneStatus.__deepcopy__"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.__deepcopy__">[docs]</a>    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="TsneStatus.run"><a class="viewcode-back" href="../../../api/scranpy.dimensionality_reduction.html#scranpy.dimensionality_reduction.run_tsne.TsneStatus.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the t-SNE algorithm up to the specified number of iterations.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            iteration: Number of iterations to run to.</span>
+<span class="sd">            iteration:</span>
+<span class="sd">                Number of iterations to run to.</span>
 <span class="sd">                This should be greater than the current iteration number</span>
 <span class="sd">                in :func:`~scranpy.dimensionality_reduction.run_tsne.TsneStatus.iteration`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -296,7 +300,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract the t-SNE coordinates for each cell at the current iteration.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            TsneEmbedding: &#39;x&#39; and &#39;y&#39; t-SNE coordinates for all cells.</span>
+<span class="sd">            &#39;x&#39; and &#39;y&#39; t-SNE coordinates for all cells.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">TsneEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span></div></div>
 
@@ -307,10 +311,11 @@
 <span class="sd">    nearest neighbor results to t-SNE functions.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        perplexity: Perplexity to use in the t-SNE algorithm.</span>
+<span class="sd">        perplexity:</span>
+<span class="sd">            Perplexity to use in the t-SNE algorithm.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        int: Number of neighbors to search for.</span>
+<span class="sd">        Number of neighbors to search for.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">lib</span><span class="o">.</span><span class="n">perplexity_to_k</span><span class="p">(</span><span class="n">perplexity</span><span class="p">)</span></div>
 
@@ -325,10 +330,12 @@
 <span class="sd">            Larger values cause the embedding to focus more on broad structure instead of local structure.</span>
 <span class="sd">            Defaults to 30.</span>
 
-<span class="sd">        num_threads: Number of threads to use for the</span>
+<span class="sd">        num_threads:</span>
+<span class="sd">            Number of threads to use for the</span>
 <span class="sd">            neighbor search and t-SNE iterations. Defaults to 1.</span>
 
-<span class="sd">        seed: Seed to use for random initialization of</span>
+<span class="sd">        seed:</span>
+<span class="sd">            Seed to use for random initialization of</span>
 <span class="sd">            the t-SNE coordinates. Defaults to 42.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -367,10 +374,12 @@
 <span class="sd">            in :py:class:`~scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions`</span>
 <span class="sd">            (see also :py:meth:`~scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors`).</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError: If ``input`` is not an expected type.</span>
+<span class="sd">        TypeError:</span>
+<span class="sd">            If ``input`` is not an expected type.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A t-SNE status object for further iterations.</span>
@@ -445,7 +454,8 @@
 <span class="sd">            in :py:class:`~scranpy.dimensionality_reduction.run_tsne.InitializeTsneOptions`</span>
 <span class="sd">            (see also :py:meth:`~scranpy.dimensionality_reduction.run_tsne.tsne_perplexity_to_neighbors`).</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Result containing first two dimensions.</span>

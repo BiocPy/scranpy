@@ -212,16 +212,16 @@
           <h1>Source code for scranpy.analyze.AnalyzeResults</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">singledispatchmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">singlecellexperiment</span> <span class="kn">import</span> <span class="n">SingleCellExperiment</span>
 <span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">log1p</span><span class="p">,</span> <span class="n">log</span>
-<span class="kn">from</span> <span class="nn">igraph</span> <span class="kn">import</span> <span class="n">Graph</span>
 <span class="kn">from</span> <span class="nn">delayedarray</span> <span class="kn">import</span> <span class="n">DelayedArray</span>
+<span class="kn">from</span> <span class="nn">igraph</span> <span class="kn">import</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">log1p</span><span class="p">,</span> <span class="n">ndarray</span>
+<span class="kn">from</span> <span class="nn">singlecellexperiment</span> <span class="kn">import</span> <span class="n">SingleCellExperiment</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">dimensionality_reduction</span> <span class="k">as</span> <span class="n">dimred</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">batch_correction</span> <span class="k">as</span> <span class="n">correct</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">dimensionality_reduction</span> <span class="k">as</span> <span class="n">dimred</span>
 
 
 <div class="viewcode-block" id="AnalyzeResults"><a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.AnalyzeResults.AnalyzeResults">[docs]</a><span class="nd">@dataclass</span>
@@ -229,93 +229,93 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Results across all analyis steps from :py:meth:`~scranpy.analyze.analyze.analyze`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        rna_quality_control_metrics (BiocFrame, optional):</span>
+<span class="sd">        rna_quality_control_metrics:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.per_cell_rna_qc_metrics.per_cell_rna_qc_metrics`.</span>
 
-<span class="sd">        rna_quality_control_thresholds (BiocFrame, optional):</span>
+<span class="sd">        rna_quality_control_thresholds:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.suggest_rna_qc_filters.suggest_rna_qc_filters`.</span>
 
-<span class="sd">        rna_quality_control_filter (ndarray, optional):</span>
+<span class="sd">        rna_quality_control_filter:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.create_rna_qc_filter.create_rna_qc_filter`.</span>
 
-<span class="sd">        adt_quality_control_metrics (BiocFrame, optional):</span>
+<span class="sd">        adt_quality_control_metrics:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.per_cell_adt_qc_metrics.per_cell_adt_qc_metrics`.</span>
 
-<span class="sd">        adt_quality_control_thresholds (BiocFrame, optional):</span>
+<span class="sd">        adt_quality_control_thresholds:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters`.</span>
 
-<span class="sd">        adt_quality_control_filter (ndarray, optional):</span>
+<span class="sd">        adt_quality_control_filter:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.create_adt_qc_filter.create_adt_qc_filter`.</span>
 
-<span class="sd">        crispr_quality_control_metrics (BiocFrame, optional):</span>
+<span class="sd">        crispr_quality_control_metrics:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`.</span>
 
-<span class="sd">        crispr_quality_control_thresholds (BiocFrame, optional):</span>
+<span class="sd">        crispr_quality_control_thresholds:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters`.</span>
 
-<span class="sd">        crispr_quality_control_filter (ndarray, optional):</span>
+<span class="sd">        crispr_quality_control_filter:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.quality_control.create_crispr_qc_filter.create_crispr_qc_filter`.</span>
 
-<span class="sd">        quality_control_retained (ndarray, optional):</span>
+<span class="sd">        quality_control_retained:</span>
 <span class="sd">            Array of length equal to the number of cells in the dataset before quality filtering,</span>
 <span class="sd">            indicating whether each cell should be retained.</span>
 
-<span class="sd">        rna_size_factors (ndarray, optional):</span>
+<span class="sd">        rna_size_factors:</span>
 <span class="sd">            Array of length equal to the number of cells in the dataset after quality filtering,</span>
 <span class="sd">            containing the size factor from the RNA data for each cell.</span>
 
-<span class="sd">        adt_size_factors (ndarray, optional):</span>
+<span class="sd">        adt_size_factors:</span>
 <span class="sd">            Array of length equal to the number of cells in the dataset after quality filtering,</span>
 <span class="sd">            containing the size factor from the ADT data for each cell.</span>
 
-<span class="sd">        crispr_size_factors (ndarray, optional):</span>
+<span class="sd">        crispr_size_factors:</span>
 <span class="sd">            Array of length equal to the number of cells in the dataset after quality filtering,</span>
 <span class="sd">            containing the size factor from the CRISPR data for each cell.</span>
 
-<span class="sd">        gene_variances (BiocFrame, optional):</span>
+<span class="sd">        gene_variances:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.</span>
 
-<span class="sd">        hvgs (ndarray, optional):</span>
+<span class="sd">        hvgs:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`.</span>
 
-<span class="sd">        rna_pca (PcaResult, optional):</span>
+<span class="sd">        rna_pca:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the RNA data.</span>
 
-<span class="sd">        adt_pca (PcaResult, optional):</span>
+<span class="sd">        adt_pca:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the ADT data.</span>
 
-<span class="sd">        crispr_pca (PcaResult, optional):</span>
+<span class="sd">        crispr_pca:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca` on the CRISPR data.</span>
 
-<span class="sd">        combined_pcs (PcaResult, optional):</span>
+<span class="sd">        combined_pcs:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.dimensionality_reduction.combine_embeddings.combine_embeddings`</span>
 <span class="sd">            on the principal components for multiple modalities.</span>
 
-<span class="sd">        mnn (MnnCorrectResult, optional):</span>
+<span class="sd">        mnn:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.</span>
 
-<span class="sd">        tsne (TsneEmbedding, optional):</span>
+<span class="sd">        tsne:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.</span>
 
-<span class="sd">        umap (UmapEmbedding, optional):</span>
+<span class="sd">        umap:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.</span>
 
-<span class="sd">        snn_graph (Graph, optional):</span>
+<span class="sd">        snn_graph:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.</span>
 
-<span class="sd">        clusters (List, optional):</span>
+<span class="sd">        clusters:</span>
 <span class="sd">            List of length equal to the number of cells in the (filtered) dataset,</span>
 <span class="sd">            containing the cluster assignment for each cell.</span>
 
-<span class="sd">        rna_markers (Mapping, optional):</span>
+<span class="sd">        rna_markers:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`</span>
 <span class="sd">            on the RNA data.</span>
 
-<span class="sd">        adt_markers (Mapping, optional):</span>
+<span class="sd">        adt_markers:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`</span>
 <span class="sd">            on the ADT data.</span>
 
-<span class="sd">        crispr_markers (Mapping, optional):</span>
+<span class="sd">        crispr_markers:</span>
 <span class="sd">            Output of :py:meth:`~scranpy.marker_detection.score_markers.score_markers`</span>
 <span class="sd">            on the CRISPR data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -394,8 +394,8 @@
                 <span class="n">assays</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;counts&quot;</span><span class="p">:</span> <span class="n">filtered</span><span class="p">,</span> <span class="s2">&quot;logcounts&quot;</span><span class="p">:</span> <span class="n">normalized</span><span class="p">}</span>
             <span class="p">)</span>
             <span class="n">rna_sce</span><span class="o">.</span><span class="n">row_names</span> <span class="o">=</span> <span class="n">rna_features</span>
-            <span class="n">rna_sce</span><span class="o">.</span><span class="n">col_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rna_quality_control_metrics</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="n">rna_sce</span><span class="o">.</span><span class="n">col_data</span><span class="p">[</span><span class="s2">&quot;size_factors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rna_size_factors</span>
+            <span class="n">rna_sce</span><span class="o">.</span><span class="n">column_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rna_quality_control_metrics</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">rna_sce</span><span class="o">.</span><span class="n">column_data</span><span class="p">[</span><span class="s2">&quot;size_factors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rna_size_factors</span>
             <span class="n">rna_sce</span><span class="o">.</span><span class="n">row_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gene_variances</span>
             <span class="n">rna_sce</span><span class="o">.</span><span class="n">reduced_dims</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pca&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rna_pca</span><span class="o">.</span><span class="n">principal_components</span><span class="p">}</span>
             <span class="n">main_sce</span> <span class="o">=</span> <span class="n">rna_sce</span>
@@ -409,8 +409,8 @@
                 <span class="n">assays</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;counts&quot;</span><span class="p">:</span> <span class="n">filtered</span><span class="p">,</span> <span class="s2">&quot;logcounts&quot;</span><span class="p">:</span> <span class="n">normalized</span><span class="p">}</span>
             <span class="p">)</span>
             <span class="n">adt_sce</span><span class="o">.</span><span class="n">row_names</span> <span class="o">=</span> <span class="n">adt_features</span>
-            <span class="n">adt_sce</span><span class="o">.</span><span class="n">col_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rna_quality_control_metrics</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="n">adt_sce</span><span class="o">.</span><span class="n">col_data</span><span class="p">[</span><span class="s2">&quot;size_factors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adt_size_factors</span>
+            <span class="n">adt_sce</span><span class="o">.</span><span class="n">column_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adt_quality_control_metrics</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">adt_sce</span><span class="o">.</span><span class="n">column_data</span><span class="p">[</span><span class="s2">&quot;size_factors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adt_size_factors</span>
             <span class="n">adt_sce</span><span class="o">.</span><span class="n">reduced_dims</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pca&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">adt_pca</span><span class="o">.</span><span class="n">principal_components</span><span class="p">}</span>
             <span class="k">if</span> <span class="n">main_sce</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">main_sce</span> <span class="o">=</span> <span class="n">adt_sce</span>
@@ -428,8 +428,8 @@
                 <span class="n">assays</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;counts&quot;</span><span class="p">:</span> <span class="n">filtered</span><span class="p">,</span> <span class="s2">&quot;logcounts&quot;</span><span class="p">:</span> <span class="n">normalized</span><span class="p">}</span>
             <span class="p">)</span>
             <span class="n">crispr_sce</span><span class="o">.</span><span class="n">row_names</span> <span class="o">=</span> <span class="n">crispr_features</span>
-            <span class="n">crispr_sce</span><span class="o">.</span><span class="n">col_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rna_quality_control_metrics</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="n">crispr_sce</span><span class="o">.</span><span class="n">col_data</span><span class="p">[</span><span class="s2">&quot;size_factors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crispr_size_factors</span>
+            <span class="n">crispr_sce</span><span class="o">.</span><span class="n">column_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crispr_quality_control_metrics</span><span class="p">[</span><span class="n">keep</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">crispr_sce</span><span class="o">.</span><span class="n">column_data</span><span class="p">[</span><span class="s2">&quot;size_factors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crispr_size_factors</span>
             <span class="n">crispr_sce</span><span class="o">.</span><span class="n">reduced_dims</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pca&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">crispr_pca</span><span class="o">.</span><span class="n">principal_components</span><span class="p">}</span>
             <span class="k">if</span> <span class="n">main_sce</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">main_sce</span> <span class="o">=</span> <span class="n">crispr_sce</span>
@@ -464,12 +464,15 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save results as a :py:class:`singlecellexperiment.SingleCellExperiment`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x: Input object. usually a matrix of raw counts.</span>
-<span class="sd">            assay (str, optional): assay name for the matrix.</span>
+<span class="sd">            x: </span>
+<span class="sd">                Input object. usually a matrix of raw counts.</span>
+<span class="sd">            </span>
+<span class="sd">            assay: </span>
+<span class="sd">                Assay name for the matrix.</span>
 <span class="sd">                Defaults to &quot;counts&quot;.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            SingleCellExperiment: An SCE with the results.</span>
+<span class="sd">            An SCE with the results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__to_sce</span><span class="p">(</span>
             <span class="n">rna_matrix</span><span class="o">=</span><span class="n">rna_matrix</span><span class="p">,</span>
@@ -487,7 +490,7 @@
         <span class="n">assay</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;counts&quot;</span><span class="p">,</span>
         <span class="n">include_gene_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SingleCellExperiment</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">assay</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">assayNames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">assay</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">assay_names</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SCE does not contain a &#39;</span><span class="si">{</span><span class="n">assay</span><span class="si">}</span><span class="s2">&#39; matrix.&quot;</span><span class="p">)</span>
 
         <span class="n">mat</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">assay</span><span class="p">(</span><span class="n">assay</span><span class="p">)</span>

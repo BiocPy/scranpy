@@ -228,8 +228,40 @@
 <span class="sig-name descname"><span class="pre">number</span></span><a class="headerlink" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.number" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of HVGs to retain.
 Larger values preserve more biological structure at the cost of increasing
-computational work and random noise from less-variable genes.
-Defaults to 2500.</p>
+computational work and random noise from less-variable genes.</p>
+<p>Defaults to 2500.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'number':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;}</span></em><a class="headerlink" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'number':</span> <span class="pre">Field(name='number',type=&lt;class</span> <span class="pre">'int'&gt;,default=2500,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -248,16 +280,16 @@ biology, under the assumption that biological variation is larger than random no
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>stat</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Array of variance modelling statistics,
+<li><p><strong>stat</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Array of variance modelling statistics,
 where larger values correspond to higher variability.
 This usually contains the residuals of the fitted
 mean-variance trend from
 <a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.model_gene_variances" title="scranpy.feature_selection.model_gene_variances.model_gene_variances"><code class="xref py py-meth docutils literal notranslate"><span class="pre">model_gene_variances()</span></code></a>.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions" title="scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChooseHvgsOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions" title="scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChooseHvgsOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Array of booleans of length equal to <code class="docutils literal notranslate"><span class="pre">stat</span></code>, specifying whether a
@@ -296,7 +328,7 @@ Defaults to 0.3.</p>
 <dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.assay_type">
 <span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.assay_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Assay to use from <code class="docutils literal notranslate"><span class="pre">input</span></code> if it is a
-<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
+<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -310,6 +342,38 @@ If provided, this is used as the row names of the output data frames.</p>
 <dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.num_threads">
 <span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use. Defaults to 1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">typing.Union[int,</span> <span class="pre">str],</span> <span class="pre">'block':</span> <span class="pre">typing.Optional[typing.Sequence],</span> <span class="pre">'feature_names':</span> <span class="pre">typing.Optional[typing.Sequence[str]],</span> <span class="pre">'num_threads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'span':</span> <span class="pre">&lt;class</span> <span class="pre">'float'&gt;}</span></em><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">Field(name='assay_type',type=typing.Union[int,</span> <span class="pre">str],default='logcounts',default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'block':</span> <span class="pre">Field(name='block',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'feature_names':</span> <span class="pre">Field(name='feature_names',type=typing.Optional[typing.Sequence[str]],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_threads':</span> <span class="pre">Field(name='num_threads',type=&lt;class</span> <span class="pre">'int'&gt;,default=1,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'span':</span> <span class="pre">Field(name='span',type=&lt;class</span> <span class="pre">'float'&gt;,default=0.3,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -349,20 +413,20 @@ the trend can then be used to identify highly variable genes, e.g., with
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]) – <p>Matrix-like object where rows are features and columns are cells,
+<li><p><strong>input</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]</span>) – <p>Matrix-like object where rows are features and columns are cells,
 typically containing log-normalized expression values from
 <a class="reference internal" href="scranpy.normalization.html#scranpy.normalization.log_norm_counts.log_norm_counts" title="scranpy.normalization.log_norm_counts.log_norm_counts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">log_norm_counts()</span></code></a>.
 This should be a matrix class that can be converted into a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code>.</p>
-<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
+<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
 containing such a matrix in its assays.</p>
 <p>Developers may also provide a <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code> directly.</p>
 </p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions" title="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions" title="scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>Data frame with variance modelling results for each gene, specifically
@@ -371,7 +435,7 @@ mean-variance trend and the residual from the trend. Each row
 of the data frame corresponds to a row of <code class="docutils literal notranslate"><span class="pre">input</span></code>.</p>
 <p>For multiple blocks, the data frame’s columns will represent the average
 across blocks. An extra <code class="docutils literal notranslate"><span class="pre">per_block</span></code> column will also be present
-containing a nested <a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>
+containing a nested <a class="reference external" href="https://biocpy.github.io/BiocFrame/api/biocframe.html#biocframe.BiocFrame.BiocFrame" title="(in BiocFrame v0.5.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BiocFrame</span></code></a>
 with the same per-block statistics.</p>
 </p>
 </dd>
@@ -444,6 +508,12 @@ with the same per-block statistics.</p>
 <li><a class="reference internal" href="#module-scranpy.feature_selection.choose_hvgs">scranpy.feature_selection.choose_hvgs module</a><ul>
 <li><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions</span></code></a><ul>
 <li><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.number"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions.number</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.choose_hvgs.ChooseHvgsOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">ChooseHvgsOptions.number</span></code></a></li>
 </ul>
 </li>
@@ -457,6 +527,12 @@ with the same per-block statistics.</p>
 <li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.assay_type"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.feature_names"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.feature_names</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.num_threads</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.feature_selection.model_gene_variances.ModelGeneVariancesOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">ModelGeneVariancesOptions.feature_names</span></code></a></li>

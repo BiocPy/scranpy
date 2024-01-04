@@ -210,14 +210,15 @@
         </div>
         <article role="main">
           <h1>Source code for scranpy.analyze.run_neighbor_suite</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">igraph</span> <span class="kn">import</span> <span class="n">Graph</span>
-<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">wait</span>
+<span></span><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">wait</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">nearest_neighbors</span> <span class="k">as</span> <span class="n">nn</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">dimensionality_reduction</span> <span class="k">as</span> <span class="n">dimred</span>
+<span class="kn">from</span> <span class="nn">igraph</span> <span class="kn">import</span> <span class="n">Graph</span>
+
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">clustering</span> <span class="k">as</span> <span class="n">clust</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">dimensionality_reduction</span> <span class="k">as</span> <span class="n">dimred</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">nearest_neighbors</span> <span class="k">as</span> <span class="n">nn</span>
 
 
 <span class="k">def</span> <span class="nf">_unserialize_neighbors_before_run</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">serialized</span><span class="p">,</span> <span class="n">opt</span><span class="p">):</span>
@@ -239,26 +240,28 @@
 <span class="sd">    other.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        principal_components (ndarray):</span>
+<span class="sd">        principal_components:</span>
 <span class="sd">            Matrix of principal components where rows are cells and columns are PCs.</span>
 <span class="sd">            Thi is usually produced by :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
 
-<span class="sd">        build_neighbor_index_options (BuildNeighborIndexOptions, optional): Optional arguments to pass to</span>
+<span class="sd">        build_neighbor_index_options:</span>
+<span class="sd">            Optional arguments to pass to</span>
 <span class="sd">            :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.</span>
 
-<span class="sd">        find_nearest_neighbors_options (FindNearestNeighborsOptions, optional): Optional arguments to pass to</span>
+<span class="sd">        find_nearest_neighbors_options:</span>
+<span class="sd">            Optional arguments to pass to</span>
 <span class="sd">            :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.</span>
 
-<span class="sd">        run_umap_options (RunUmapOptions, optional):</span>
+<span class="sd">        run_umap_options:</span>
 <span class="sd">            Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.</span>
 
-<span class="sd">        run_tsne_options (RunTsneOptions, optional):</span>
+<span class="sd">        run_tsne_options:</span>
 <span class="sd">            Optional arguments to pass to :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.</span>
 
-<span class="sd">        build_snn_graph_options (BuildSnnGraphOptions, optional):</span>
+<span class="sd">        build_snn_graph_options:</span>
 <span class="sd">            Optional arguments to pass to :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.</span>
 
-<span class="sd">        num_threads (int, optional):</span>
+<span class="sd">        num_threads:</span>
 <span class="sd">            Number of threads to use for the parallel execution of UMAP, t-SNE and SNN graph construction.</span>
 <span class="sd">            This overrides the specified number of threads in ``run_umap``, ``run_tsne`` and ``build_snn_graph``.</span>
 

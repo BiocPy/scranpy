@@ -230,6 +230,7 @@
 <span class="sd">            Number of HVGs to retain.</span>
 <span class="sd">            Larger values preserve more biological structure at the cost of increasing</span>
 <span class="sd">            computational work and random noise from less-variable genes.</span>
+
 <span class="sd">            Defaults to 2500.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -244,13 +245,15 @@
 <span class="sd">    biology, under the assumption that biological variation is larger than random noise.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        stat: Array of variance modelling statistics,</span>
+<span class="sd">        stat:</span>
+<span class="sd">            Array of variance modelling statistics,</span>
 <span class="sd">            where larger values correspond to higher variability.</span>
 <span class="sd">            This usually contains the residuals of the fitted</span>
 <span class="sd">            mean-variance trend from</span>
 <span class="sd">            :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Return:</span>
 <span class="sd">        Array of booleans of length equal to ``stat``, specifying whether a</span>

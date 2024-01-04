@@ -213,6 +213,7 @@
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">batch_correction</span> <span class="k">as</span> <span class="n">correct</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">clustering</span> <span class="k">as</span> <span class="n">clust</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">dimensionality_reduction</span> <span class="k">as</span> <span class="n">dimred</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">feature_selection</span> <span class="k">as</span> <span class="n">feat</span>
@@ -220,7 +221,6 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">nearest_neighbors</span> <span class="k">as</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">normalization</span> <span class="k">as</span> <span class="n">norm</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">quality_control</span> <span class="k">as</span> <span class="n">qc</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">batch_correction</span> <span class="k">as</span> <span class="n">correct</span>
 
 
 <div class="viewcode-block" id="MiscellaneousOptions"><a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.AnalyzeOptions.MiscellaneousOptions">[docs]</a><span class="nd">@dataclass</span>
@@ -228,38 +228,39 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Miscellaneous options for :py:meth:`~scranpy.analyze.analyze.analyze`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        cell_names (Sequence[str], optional):</span>
+<span class="sd">        cell_names:</span>
 <span class="sd">            Names for all cells in the dataset, to be added to any per-cell data frames.</span>
 <span class="sd">            This should have the same length as the number of columns in each data matrix.</span>
 
-<span class="sd">        rna_feature_names (Sequence[str], optional):</span>
+<span class="sd">        rna_feature_names:</span>
 <span class="sd">            Names for all features in the RNA data.</span>
 <span class="sd">            This should have the same length as the number of rows in the RNA count matrix.</span>
 
-<span class="sd">        adt_feature_names (Sequence[str], optional):</span>
+<span class="sd">        adt_feature_names:</span>
 <span class="sd">            Names for all tags in the ADT data.</span>
 <span class="sd">            This should have the same length as the number of rows in the ADT count matrix.</span>
 
-<span class="sd">        crispr_feature_names (Sequence[str], optional):</span>
+<span class="sd">        crispr_feature_names:</span>
 <span class="sd">            Names for all guides in the CRISPR data.</span>
 <span class="sd">            This should have the same length as the number of rows in the CRISPR count matrix.</span>
 
-<span class="sd">        filter_on_rna_qc (bool):</span>
+<span class="sd">        filter_on_rna_qc:</span>
 <span class="sd">            Whether to filter cells on the RNA-based quality control metrics,</span>
 <span class="sd">            when RNA data is available.</span>
 
-<span class="sd">        filter_on_adt_qc (bool):</span>
+<span class="sd">        filter_on_adt_qc:</span>
 <span class="sd">            Whether to filter cells on the ADT-based quality control metrics,</span>
 <span class="sd">            when ADT data is available.</span>
 
-<span class="sd">        filter_on_crispr_qc (bool):</span>
+<span class="sd">        filter_on_crispr_qc:</span>
 <span class="sd">            Whether to filter cells on the CRISPR-based quality control metrics,</span>
 <span class="sd">            when CRISPR data is available.</span>
 
-<span class="sd">        snn_graph_multilevel_resolution (float):</span>
+<span class="sd">        snn_graph_multilevel_resolution:</span>
 <span class="sd">            Resolution to use for multi-level clustering of the SNN graph.</span>
 
-<span class="sd">        block (Sequence, optional): Block assignment for each cell.</span>
+<span class="sd">        block:</span>
+<span class="sd">            Block assignment for each cell.</span>
 <span class="sd">            This should have length equal to the total number of cells in the dataset, before any quality control</span>
 <span class="sd">            is applied.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -286,104 +287,104 @@
 <span class="sd">    check out the setter methods of this class for more details.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        per_cell_rna_qc_metrics_options (PerCellRnaQcMetricsOptions):</span>
+<span class="sd">        per_cell_rna_qc_metrics_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.per_cell_rna_qc_metrics.per_cell_rna_qc_metrics`.</span>
 
-<span class="sd">        suggest_rna_qc_filters_options (SuggestRnaQcFiltersOptions):</span>
+<span class="sd">        suggest_rna_qc_filters_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.suggest_rna_qc_filters.suggest_rna_qc_filters`.</span>
 
-<span class="sd">        create_rna_qc_filter_options (CreateRnaQcFilterOptions):</span>
+<span class="sd">        create_rna_qc_filter_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.create_rna_qc_filter.create_rna_qc_filter`.</span>
 
-<span class="sd">        per_cell_adt_qc_metrics_options (PerCellRnaQcMetricsOptions):</span>
+<span class="sd">        per_cell_adt_qc_metrics_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.per_cell_adt_metrics.per_cell_adt_qc_metrics`.</span>
 
-<span class="sd">        suggest_adt_qc_filters_options (SuggestRnaQcFiltersOptions):</span>
+<span class="sd">        suggest_adt_qc_filters_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.suggest_adt_qc_filters.suggest_adt_qc_filters`.</span>
 
-<span class="sd">        create_adt_qc_filter_options (CreateRnaQcFilterOptions):</span>
+<span class="sd">        create_adt_qc_filter_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.create_adt_qc_filter.create_adt_qc_filter`.</span>
 
-<span class="sd">        per_cell_crispr_qc_metrics_options (PerCellRnaQcMetricsOptions):</span>
+<span class="sd">        per_cell_crispr_qc_metrics_options:</span>
 <span class="sd">            Options to pass to</span>
 <span class="sd">            :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`.</span>
 
-<span class="sd">        suggest_crispr_qc_filters_options (SuggestRnaQcFiltersOptions):</span>
+<span class="sd">        suggest_crispr_qc_filters_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.suggest_crispr_qc_filters.suggest_crispr_qc_filters`.</span>
 
-<span class="sd">        create_crispr_qc_filter_options (CreateRnaQcFilterOptions):</span>
+<span class="sd">        create_crispr_qc_filter_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.create_crispr_qc_filter.create_crispr_qc_filter`.</span>
 
-<span class="sd">        filter_cells_options (FilterCellsOptions):</span>
+<span class="sd">        filter_cells_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.</span>
 
-<span class="sd">        rna_log_norm_counts_options (LogNormCountsOptions):</span>
+<span class="sd">        rna_log_norm_counts_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`</span>
 <span class="sd">            for the RNA count matrix.</span>
 
-<span class="sd">        grouped_size_factors_options (GroupedSizeFactorsOptions):</span>
+<span class="sd">        grouped_size_factors_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.normalization.grouped_size_factors.grouped_size_factors`</span>
 <span class="sd">            to compute ADT size factors.</span>
 
-<span class="sd">        adt_log_norm_counts_options (LogNormCountsOptions):</span>
+<span class="sd">        adt_log_norm_counts_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`</span>
 <span class="sd">            for the ADT count matrix.</span>
 
-<span class="sd">        crispr_log_norm_counts_options (LogNormCountsOptions):</span>
+<span class="sd">        crispr_log_norm_counts_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`</span>
 <span class="sd">            for the CRISPR count matrix.</span>
 
-<span class="sd">        choose_hvgs_options (ChooseHvgsOptions):</span>
+<span class="sd">        choose_hvgs_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.feature_selection.choose_hvgs.choose_hvgs`</span>
 <span class="sd">            to choose highly variable genes for the RNA data.</span>
 
-<span class="sd">        model_gene_variances_options (ModelGeneVariancesOptions):</span>
+<span class="sd">        model_gene_variances_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.feature_selection.model_gene_variances.model_gene_variances`</span>
 <span class="sd">            to model per-gene variances for the RNA data.</span>
 
-<span class="sd">        rna_run_pca_options (RunPcaOptions):</span>
+<span class="sd">        rna_run_pca_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`</span>
 <span class="sd">            for the RNA log-expression matrix.</span>
 
-<span class="sd">        adt_run_pca_options (RunPcaOptions):</span>
+<span class="sd">        adt_run_pca_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`</span>
 <span class="sd">            for the ADT log-expression matrix.</span>
 
-<span class="sd">        crispr_run_pca_options (RunPcaOptions):</span>
+<span class="sd">        crispr_run_pca_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`</span>
 <span class="sd">            for the CRISPR log-expression matrix.</span>
 
-<span class="sd">        mnn_correct_options (MnnCorrectOptions):</span>
+<span class="sd">        mnn_correct_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.</span>
 
-<span class="sd">        build_neighbor_index_options (BuildNeighborIndexOptions):</span>
+<span class="sd">        build_neighbor_index_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.</span>
 
-<span class="sd">        find_nearest_neighbors_options (FindNearestNeighborsOptions):</span>
+<span class="sd">        find_nearest_neighbors_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.</span>
 
-<span class="sd">        run_tsne_options (RunTsneOptions):</span>
+<span class="sd">        run_tsne_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_tsne.run_tsne`.</span>
 
-<span class="sd">        run_umap_options (RunUmapOptions):</span>
+<span class="sd">        run_umap_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.</span>
 
-<span class="sd">        build_snn_graph_options (BuildSnnGraphOptions):</span>
+<span class="sd">        build_snn_graph_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.</span>
 
-<span class="sd">        rna_score_markers_options (ScoreMarkersOptions):</span>
+<span class="sd">        rna_score_markers_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.marker_detection.score_markers.score_markers`</span>
 <span class="sd">            for the RNA log-expression values.</span>
 
-<span class="sd">        adt_score_markers_options (ScoreMarkersOptions):</span>
+<span class="sd">        adt_score_markers_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.marker_detection.score_markers.score_markers`</span>
 <span class="sd">            for the ADT log-abundances.</span>
 
-<span class="sd">        crispr_score_markers_options (ScoreMarkersOptions):</span>
+<span class="sd">        crispr_score_markers_options:</span>
 <span class="sd">            Options to pass to :py:meth:`~scranpy.marker_detection.score_markers.score_markers`</span>
 <span class="sd">            for the CRISPR log-abundances.</span>
 
-<span class="sd">        miscellaneous_options (MiscellaneousOptions):</span>
+<span class="sd">        miscellaneous_options:</span>
 <span class="sd">            Further options that are not associated with any single function call.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -515,7 +516,7 @@
 <span class="sd">        :py:meth:`~scranpy.dimensionality_reduction.run_umap.run_umap`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            seed (int, optional):</span>
+<span class="sd">            seed:</span>
 <span class="sd">                Seed for random number generation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run_pca_options</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
@@ -540,7 +541,8 @@
 <span class="sd">        In all cases, thread utilization will not exceed the limit specified here in ``num_threads``.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            num_threads (int, optional): Number of threads. Defaults to 1.</span>
+<span class="sd">            num_threads:</span>
+<span class="sd">                Number of threads. Defaults to 1.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">per_cell_rna_qc_metrics_options</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_norm_counts_options</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span>

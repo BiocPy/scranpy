@@ -212,16 +212,16 @@
           <h1>Source code for scranpy.normalization.log_norm_counts</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span><span class="p">,</span> <span class="n">tatamize</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">log1p</span><span class="p">,</span> <span class="n">log</span>
 <span class="kn">from</span> <span class="nn">delayedarray</span> <span class="kn">import</span> <span class="n">DelayedArray</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span><span class="p">,</span> <span class="n">tatamize</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">log1p</span><span class="p">,</span> <span class="n">ndarray</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
-<span class="kn">from</span> <span class="nn">.center_size_factors</span> <span class="kn">import</span> <span class="n">center_size_factors</span><span class="p">,</span> <span class="n">CenterSizeFactorsOptions</span>
+<span class="kn">from</span> <span class="nn">.center_size_factors</span> <span class="kn">import</span> <span class="n">CenterSizeFactorsOptions</span><span class="p">,</span> <span class="n">center_size_factors</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
@@ -233,26 +233,31 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.normalization.log_norm_counts.log_norm_counts`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        size_factors: Size factors for each cell.</span>
+<span class="sd">        size_factors:</span>
+<span class="sd">            Size factors for each cell.</span>
 <span class="sd">            Defaults to None, in which case the library sizes are used.</span>
 
-<span class="sd">        delayed: Whether to force the log-normalization to be</span>
+<span class="sd">        delayed:</span>
+<span class="sd">            Whether to force the log-normalization to be</span>
 <span class="sd">            delayed. This reduces memory usage by avoiding unnecessary</span>
 <span class="sd">            copies of the count matrix.</span>
 
-<span class="sd">        center: Whether to center the size factors. Defaults to True.</span>
+<span class="sd">        center:</span>
+<span class="sd">            Whether to center the size factors. Defaults to True.</span>
 
 <span class="sd">        center_size_factors_options:</span>
 <span class="sd">            Optional arguments to pass to :py:meth:`~scranpy.normalization.center_size_factors.center_size_factors`</span>
 <span class="sd">            if ``center = True``.</span>
 
-<span class="sd">        with_size_factors: Whether to return the (possibly centered) size factors in the output.</span>
+<span class="sd">        with_size_factors:</span>
+<span class="sd">            Whether to return the (possibly centered) size factors in the output.</span>
 
 <span class="sd">        assay_type:</span>
 <span class="sd">            Assay to use from ``input`` if it is a</span>
 <span class="sd">            :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment`.</span>
 
-<span class="sd">        num_threads: Number of threads to use to compute size factors,</span>
+<span class="sd">        num_threads:</span>
+<span class="sd">            Number of threads to use to compute size factors,</span>
 <span class="sd">            if none are provided in ``size_factors``. Defaults to 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -285,10 +290,12 @@
 
 <span class="sd">            Developers may also provide a :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer` directly.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError, ValueError: If arguments don&#39;t meet expectations.</span>
+<span class="sd">        TypeError, ValueError:</span>
+<span class="sd">            If arguments don&#39;t meet expectations.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        If `options.with_size_factors = False`, the log-normalized matrix is</span>

@@ -210,12 +210,13 @@
         </div>
         <article role="main">
           <h1>Source code for scranpy.batch_correction.mnn_correct</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int32</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">factorize</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int32</span><span class="p">,</span> <span class="n">ndarray</span>
+
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">factorize</span>
 
 
 <div class="viewcode-block" id="MnnCorrectOptions"><a class="viewcode-back" href="../../../api/scranpy.batch_correction.html#scranpy.batch_correction.mnn_correct.MnnCorrectOptions">[docs]</a><span class="nd">@dataclass</span>
@@ -223,35 +224,42 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Options to pass to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        k: Number of neighbors for detecting mutual nearest neighbors.</span>
+<span class="sd">        k:</span>
+<span class="sd">            Number of neighbors for detecting mutual nearest neighbors.</span>
 
-<span class="sd">        approximate: Whether to perform an approximate nearest neighbor search.</span>
+<span class="sd">        approximate:</span>
+<span class="sd">            Whether to perform an approximate nearest neighbor search.</span>
 
-<span class="sd">        order: Ordering of batches to correct. The first</span>
+<span class="sd">        order:</span>
+<span class="sd">            Ordering of batches to correct. The first</span>
 <span class="sd">            entry is used as the initial reference, and all subsequent batches</span>
 <span class="sd">            are merged and added to the reference in the specified order.</span>
 <span class="sd">            This should contain all unique levels in the ``batch`` argument</span>
 <span class="sd">            supplied to :py:meth:`~scranpy.batch_correction.mnn_correct.mnn_correct`.</span>
 <span class="sd">            If None, an appropriate ordering is automatically determined.</span>
 
-<span class="sd">        reference_policy: Policy to use for choosing the initial reference</span>
+<span class="sd">        reference_policy:</span>
+<span class="sd">            Policy to use for choosing the initial reference</span>
 <span class="sd">            batch. This can be one of &quot;max-rss&quot; (maximum residual sum of squares</span>
 <span class="sd">            within the batch, which is the default), &quot;max-variance&quot; (maximum</span>
 <span class="sd">            variance within the batch), &quot;max-size&quot; (maximum number of cells),</span>
 <span class="sd">            or &quot;input&quot; (using the supplied order of levels in ``batch``).</span>
 <span class="sd">            Only used if ``order`` is not supplied.</span>
 
-<span class="sd">        num_mads: Number of median absolute deviations, used to define</span>
+<span class="sd">        num_mads:</span>
+<span class="sd">            Number of median absolute deviations, used to define</span>
 <span class="sd">            the threshold for outliers when computing the center of mass for</span>
 <span class="sd">            each cell involved in a MNN pair. Larger values reduce kissing but</span>
 <span class="sd">            may incorporate inappropriately distant subpopulations in a cell&#39;s center of mass.</span>
 
-<span class="sd">        mass_cap: Cap on the number of observations used to compute the</span>
+<span class="sd">        mass_cap:</span>
+<span class="sd">            Cap on the number of observations used to compute the</span>
 <span class="sd">            center of mass for each MNN-involved observation.  The dataset is</span>
 <span class="sd">            effectively downsampled to `c` observations for this calculation, which</span>
 <span class="sd">            improves speed at the cost of some precision.</span>
 
-<span class="sd">        num_threads: Number of threads to use for the various MNN calculations.</span>
+<span class="sd">        num_threads:</span>
+<span class="sd">            Number of threads to use for the various MNN calculations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span>
@@ -296,13 +304,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Identify mutual nearest neighbors (MNNs) to correct batch effects in a low-dimensional embedding.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x: Numeric matrix where rows are cells and columns are dimensions,</span>
+<span class="sd">        x:</span>
+<span class="sd">            Numeric matrix where rows are cells and columns are dimensions,</span>
 <span class="sd">            typically generated from :py:meth:`~scranpy.dimensionality_reduction.run_pca.run_pca`.</span>
 
-<span class="sd">        batch: Sequence of length equal to the number of cells (i.e., rows of ``x``),</span>
+<span class="sd">        batch:</span>
+<span class="sd">            Sequence of length equal to the number of cells (i.e., rows of ``x``),</span>
 <span class="sd">            specifying the batch for each cell.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The corrected coordinates for each cell, along with some diagnostics</span>

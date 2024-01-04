@@ -214,7 +214,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">igraph</span> <span class="kn">import</span> <span class="n">Graph</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ctypeslib</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">copy</span><span class="p">,</span> <span class="n">ctypeslib</span><span class="p">,</span> <span class="n">ndarray</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">..nearest_neighbors</span> <span class="kn">import</span> <span class="p">(</span>
@@ -234,7 +234,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        num_neighbors: Number of neighbors to use.</span>
+<span class="sd">        num_neighbors:</span>
+<span class="sd">            Number of neighbors to use.</span>
 <span class="sd">            Larger values result in a more interconnected graph and generally broader clusters from community detection.</span>
 <span class="sd">            Ignored if ``input`` is a :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`</span>
 <span class="sd">            object. Defaults to 15.</span>
@@ -256,7 +257,8 @@
 <span class="sd">            Defaults to 1.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: If ``weight_scheme`` is not an expected value.</span>
+<span class="sd">        ValueError:</span>
+<span class="sd">            If ``weight_scheme`` is not an expected value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">num_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span>
@@ -266,12 +268,12 @@
     <span class="p">)</span>
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BuildSnnGraphOptions.__post_init__"><a class="viewcode-back" href="../../../api/scranpy.clustering.html#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.__post_init__">[docs]</a>    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ranked&quot;</span><span class="p">,</span> <span class="s2">&quot;jaccard&quot;</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">weight_scheme</span><span class="se">\&#39;</span><span class="s1"> must be one of &quot;ranked&quot;, &quot;jaccard&quot;, &quot;number&quot;&#39;</span>
                 <span class="sa">f</span><span class="s2">&quot;provided </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_scheme</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="BuildSnnGraphOptions.set_threads"><a class="viewcode-back" href="../../../api/scranpy.clustering.html#scranpy.clustering.build_snn_graph.BuildSnnGraphOptions.set_threads">[docs]</a>    <span class="k">def</span> <span class="nf">set_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span></div></div>
@@ -302,10 +304,12 @@
 <span class="sd">            (:py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).</span>
 <span class="sd">            for all cells in the dataset.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError: If ``input`` is not a nearest neighbor search index or search result</span>
+<span class="sd">        TypeError:</span>
+<span class="sd">            If ``input`` is not a nearest neighbor search index or search result</span>
 <span class="sd">            (:py:class:`~scranpy.nearest_neighbors.build_neighbor_index.NeighborIndex`,</span>
 <span class="sd">            :py:class:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults`).</span>
 

@@ -266,14 +266,17 @@
 <span class="sd">    low counts due to failed transfection. (Multiple transfections are not considered undesirable at this point.)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        metrics: A data frame containing QC metrics for each cell,</span>
+<span class="sd">        metrics:</span>
+<span class="sd">            A data frame containing QC metrics for each cell,</span>
 <span class="sd">            see the output of :py:meth:`~scranpy.quality_control.per_cell_crispr_qc_metrics.per_cell_crispr_qc_metrics`</span>
 <span class="sd">            for the expected format.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError, TypeError: if provided ``inputs`` are incorrect type or do</span>
+<span class="sd">        ValueError, TypeError:</span>
+<span class="sd">            If provided ``inputs`` are incorrect type or do</span>
 <span class="sd">            not contain expected metrics.</span>
 
 <span class="sd">    Returns:</span>

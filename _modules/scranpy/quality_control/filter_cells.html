@@ -211,11 +211,11 @@
         <article role="main">
           <h1>Source code for scranpy.quality_control.filter_cells</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">logical_or</span><span class="p">,</span> <span class="n">logical_and</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">uint8</span><span class="p">,</span> <span class="n">array</span>
 <span class="kn">from</span> <span class="nn">delayedarray</span> <span class="kn">import</span> <span class="n">DelayedArray</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">mattress</span> <span class="kn">import</span> <span class="n">TatamiNumericPointer</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">logical_and</span><span class="p">,</span> <span class="n">logical_or</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">uint8</span><span class="p">,</span> <span class="n">zeros</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">to_logical</span>
@@ -230,11 +230,13 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.quality_control.filter_cells.filter_cells`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        discard: Whether to discard the cells listed in ``filter``.</span>
+<span class="sd">        discard: </span>
+<span class="sd">            Whether to discard the cells listed in ``filter``.</span>
 <span class="sd">            If False, the specified cells are retained instead, and all</span>
 <span class="sd">            other cells are discarded. Defaults to True.</span>
 
-<span class="sd">        intersect: Whether to take the intersection or union of</span>
+<span class="sd">        intersect: </span>
+<span class="sd">            Whether to take the intersection or union of</span>
 <span class="sd">            multiple ``filter`` arrays, to create a combined filtering</span>
 <span class="sd">            array. Note that this is orthogonal to ``discard``.</span>
 
@@ -242,7 +244,8 @@
 <span class="sd">            Whether to return a vector specifying which cells are to be</span>
 <span class="sd">            retained.</span>
 
-<span class="sd">        delayed: Whether to force the filtering operation to be</span>
+<span class="sd">        delayed: </span>
+<span class="sd">            Whether to force the filtering operation to be</span>
 <span class="sd">            delayed. This reduces memory usage by avoiding unnecessary</span>
 <span class="sd">            copies of the count matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -251,7 +254,6 @@
     <span class="n">intersect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">with_retain_vector</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">delayed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
-
 
 
 <div class="viewcode-block" id="filter_cells"><a class="viewcode-back" href="../../../api/scranpy.quality_control.html#scranpy.quality_control.filter_cells.filter_cells">[docs]</a><span class="k">def</span> <span class="nf">filter_cells</span><span class="p">(</span>
@@ -277,7 +279,8 @@
 <span class="sd">            Alternatively, a tuple of such arrays, to be combined into a single</span>
 <span class="sd">            filtering vector according to ``options.intersect``.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options: </span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        If ``options.with_retain_vector = False``, the filtered matrix is</span>

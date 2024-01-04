@@ -244,12 +244,14 @@
 <span class="sd">            This argument is ignored if the input ``size_factors`` are not double-precision,</span>
 <span class="sd">            in which case a new array is always returned.</span>
 
-<span class="sd">        allow_zeros: Whether to gracefully handle zero size factors.</span>
+<span class="sd">        allow_zeros:</span>
+<span class="sd">            Whether to gracefully handle zero size factors.</span>
 <span class="sd">            If True, zero size factors are automatically set to the smallest non-zero size factor.</span>
 <span class="sd">            If False, an error is raised.</span>
 <span class="sd">            Defaults to False.</span>
 
-<span class="sd">        allow_non_finite: Whether to gracefully handle missing or infinite size factors.</span>
+<span class="sd">        allow_non_finite:</span>
+<span class="sd">            Whether to gracefully handle missing or infinite size factors.</span>
 <span class="sd">            If True, infinite size factors are automatically set to the largest non-zero size factor,</span>
 <span class="sd">            while missing values are automatically set to 1.</span>
 <span class="sd">            If False, an error is raised.</span>
@@ -272,10 +274,12 @@
 <span class="sd">        size_factors:</span>
 <span class="sd">            Floating-point array containing size factors for all cells.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError, ValueError: If arguments don&#39;t meet expectations.</span>
+<span class="sd">        TypeError, ValueError:</span>
+<span class="sd">            If arguments don&#39;t meet expectations.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Array containing centered size factors.</span>

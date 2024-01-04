@@ -210,15 +210,15 @@
         </div>
         <article role="main">
           <h1>Source code for scranpy.marker_detection.score_markers</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">uintp</span><span class="p">,</span> <span class="n">float64</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">uintp</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
-<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">process_block</span><span class="p">,</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">tatamize_input</span><span class="p">,</span> <span class="n">MatrixTypes</span>
+<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">process_block</span><span class="p">,</span> <span class="n">tatamize_input</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
 <span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;ltla, jkanche&quot;</span>
@@ -294,7 +294,8 @@
 <span class="sd">            Sequence of feature names of length equal to the number of rows in ``input``.</span>
 <span class="sd">            If provided, this is used as the row names of the output data frames.</span>
 
-<span class="sd">        num_threads: Number of threads to use. Defaults to 1.</span>
+<span class="sd">        num_threads:</span>
+<span class="sd">            Number of threads to use. Defaults to 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -316,7 +317,8 @@
 <span class="sd">    :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input: Matrix-like object where rows are features and columns are cells, typically containing</span>
+<span class="sd">        input:</span>
+<span class="sd">            Matrix-like object where rows are features and columns are cells, typically containing</span>
 <span class="sd">            expression values of some kind. This should be a matrix class that can be converted into a</span>
 <span class="sd">            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.</span>
 
@@ -330,14 +332,16 @@
 <span class="sd">            This should have length equal to the number of cells,</span>
 <span class="sd">            where the entry for each cell specifies the assigned group for that cell.</span>
 
-<span class="sd">        options: Optional parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: If ``input`` is not an expected type.</span>
+<span class="sd">        ValueError:</span>
+<span class="sd">            If ``input`` is not an expected type.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dictionary where the keys are the group identifiers (as defined in ``grouping``)</span>
-<span class="sd">        and the values are :py:class:`~biocframe.BiocFrame.BiocFrame` objects containing </span>
+<span class="sd">        and the values are :py:class:`~biocframe.BiocFrame.BiocFrame` objects containing</span>
 <span class="sd">        computed metrics for each group.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">tatamize_input</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">assay_type</span><span class="p">)</span>

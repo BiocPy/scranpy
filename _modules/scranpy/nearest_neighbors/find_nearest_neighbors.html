@@ -260,8 +260,8 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span> <span class="o">=</span> <span class="n">ptr</span>
 
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">free_neighbor_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
+<div class="viewcode-block" id="NeighborResults.__del__"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.__del__">[docs]</a>    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">free_neighbor_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ptr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -288,7 +288,8 @@
 <div class="viewcode-block" id="NeighborResults.get"><a class="viewcode-back" href="../../../api/scranpy.nearest_neighbors.html#scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SingleNeighborResults</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            i: Index of the cell of interest.</span>
+<span class="sd">            i:</span>
+<span class="sd">                Index of the cell of interest.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A tuple with indices and distances to the nearest neighbors for cell ``i``.</span>
@@ -324,11 +325,12 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an instance of this class from serialized nearest neighbor results.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            content: Result of</span>
+<span class="sd">            content:</span>
+<span class="sd">                Result of</span>
 <span class="sd">                :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.NeighborResults.serialize`.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            NeighborResults: Instance of this class, constructed from the data in ``content``.</span>
+<span class="sd">            Instance of this class, constructed from the data in ``content``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">index</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">idx</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">c_contiguous</span><span class="p">:</span>
@@ -351,7 +353,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional arguments for :py:meth:`~scranpy.nearest_neighbors.find_nearest_neighbors.find_nearest_neighbors`.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        num_threads: Number of threads to use. Defaults to 1.</span>
+<span class="sd">        num_threads:</span>
+<span class="sd">            Number of threads to use. Defaults to 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
@@ -365,13 +368,19 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the nearest neighbors for each cell.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        idx: The nearest neighbor search index, usually built by</span>
+<span class="sd">        idx:</span>
+<span class="sd">            The nearest neighbor search index, usually built by</span>
 <span class="sd">            :py:meth:`~scranpy.nearest_neighbors.build_neighbor_index.build_neighbor_index`.</span>
-<span class="sd">        k: Number of neighbors to find for each cell.</span>
-<span class="sd">        options: Optional parameters.</span>
+
+<span class="sd">        k:</span>
+<span class="sd">            Number of neighbors to find for each cell.</span>
+
+<span class="sd">        options:</span>
+<span class="sd">            Optional parameters.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TypeError: If ``idx`` is not a nearest neighbor index.</span>
+<span class="sd">        TypeError:</span>
+<span class="sd">            If ``idx`` is not a nearest neighbor index.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Object containing the ``k`` nearest neighbors for each cell.</span>

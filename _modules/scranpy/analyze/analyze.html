@@ -210,24 +210,22 @@
         </div>
         <article role="main">
           <h1>Source code for scranpy.analyze.analyze</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">singlecellexperiment</span> <span class="kn">import</span> <span class="n">SingleCellExperiment</span>
+<span class="kn">from</span> <span class="nn">summarizedexperiment</span> <span class="kn">import</span> <span class="n">SummarizedExperiment</span>
 
 <span class="kn">from</span> <span class="nn">.AnalyzeOptions</span> <span class="kn">import</span> <span class="n">AnalyzeOptions</span>
 <span class="kn">from</span> <span class="nn">.AnalyzeResults</span> <span class="kn">import</span> <span class="n">AnalyzeResults</span>
-<span class="kn">from</span> <span class="nn">.live_analyze</span> <span class="kn">import</span> <span class="n">live_analyze</span>
 <span class="kn">from</span> <span class="nn">.dry_analyze</span> <span class="kn">import</span> <span class="n">dry_analyze</span>
+<span class="kn">from</span> <span class="nn">.live_analyze</span> <span class="kn">import</span> <span class="n">live_analyze</span>
 <span class="kn">from</span> <span class="nn">.update</span> <span class="kn">import</span> <span class="n">update</span>
-
-<span class="kn">from</span> <span class="nn">summarizedexperiment</span> <span class="kn">import</span> <span class="n">SummarizedExperiment</span>
-<span class="kn">from</span> <span class="nn">singlecellexperiment</span> <span class="kn">import</span> <span class="n">SingleCellExperiment</span>
-<span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
-<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">MatrixTypes</span>
 
 
 <div class="viewcode-block" id="analyze"><a class="viewcode-back" href="../../../api/scranpy.analyze.html#scranpy.analyze.analyze.analyze">[docs]</a><span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span>
     <span class="n">rna_matrix</span><span class="p">,</span>
-    <span class="n">adt_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">crispr_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">adt_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">crispr_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">AnalyzeOptions</span> <span class="o">=</span> <span class="n">AnalyzeOptions</span><span class="p">(),</span>
     <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">AnalyzeResults</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
@@ -245,21 +243,27 @@
 <span class="sd">    - Marker detection for each cluster</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        rna_matrix (optional): Count matrix for RNA data.</span>
+<span class="sd">        rna_matrix:</span>
+<span class="sd">            Count matrix for RNA data.</span>
 <span class="sd">            Alternatively None if no RNA data is available.</span>
 
-<span class="sd">        adt_matrix (optional): Count matrix for the ADT data.</span>
+<span class="sd">        adt_matrix:</span>
+<span class="sd">            Count matrix for the ADT data.</span>
 <span class="sd">            Alternatively None if no ADT data is available.</span>
 
-<span class="sd">        crispr_matrix (optional): Count matrix for the CRISPR data.</span>
+<span class="sd">        crispr_matrix:</span>
+<span class="sd">            Count matrix for the CRISPR data.</span>
 <span class="sd">            Alternatively None if no CRISPR data is available.</span>
 
-<span class="sd">        options (AnalyzeOptions): Optional analysis parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional analysis parameters.</span>
 
-<span class="sd">        dry_run (bool): Whether to perform a dry run.</span>
+<span class="sd">        dry_run:</span>
+<span class="sd">            Whether to perform a dry run.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        NotImplementedError: If ``matrix`` is not an expected type.</span>
+<span class="sd">        NotImplementedError:</span>
+<span class="sd">            If ``matrix`` is not an expected type.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned</span>
@@ -295,24 +299,30 @@
 <span class="sd">    :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment` inputs.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        rna_se (SummarizedExperiment, optional): SummarizedExperiment containing RNA data.</span>
+<span class="sd">        rna_se:</span>
+<span class="sd">            SummarizedExperiment containing RNA data.</span>
 <span class="sd">            Alternatively None if no RNA data is available.</span>
 
-<span class="sd">        adt_se (SummarizedExperiment, optional): SummarizedExperiment containing ADT data.</span>
+<span class="sd">        adt_se:</span>
+<span class="sd">            SummarizedExperiment containing ADT data.</span>
 <span class="sd">            Alternatively None if no ADT data is available.</span>
 
-<span class="sd">        crispr_se (SummarizedExperiment, optional): SummarizedExperiment containing CRISPR data.</span>
+<span class="sd">        crispr_se:</span>
+<span class="sd">            SummarizedExperiment containing CRISPR data.</span>
 <span class="sd">            Alternatively None if no CRISPR data is available.</span>
 
-<span class="sd">        assay_type (Union[str, int]):</span>
+<span class="sd">        assay_type:</span>
 <span class="sd">            Assay containing the count data in each SummarizedExperiment.</span>
 
-<span class="sd">        options (AnalyzeOptions): Optional analysis parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional analysis parameters.</span>
 
-<span class="sd">        dry_run (bool): Whether to perform a dry run.</span>
+<span class="sd">        dry_run:</span>
+<span class="sd">            Whether to perform a dry run.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        NotImplementedError: If ``matrix`` is not an expected type.</span>
+<span class="sd">        NotImplementedError:</span>
+<span class="sd">            If ``matrix`` is not an expected type.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned</span>
@@ -320,6 +330,7 @@
 
 <span class="sd">        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">exfil</span><span class="p">(</span><span class="n">se</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">se</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">se</span><span class="o">.</span><span class="n">assay</span><span class="p">(</span><span class="n">assay_type</span><span class="p">),</span> <span class="n">se</span><span class="o">.</span><span class="n">row_names</span>
@@ -332,18 +343,18 @@
 
     <span class="k">return</span> <span class="n">analyze</span><span class="p">(</span>
         <span class="n">rna_matrix</span><span class="p">,</span>
-        <span class="n">adt_matrix</span> <span class="o">=</span> <span class="n">adt_matrix</span><span class="p">,</span>
-        <span class="n">crispr_matrix</span> <span class="o">=</span> <span class="n">crispr_matrix</span><span class="p">,</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span>
+        <span class="n">adt_matrix</span><span class="o">=</span><span class="n">adt_matrix</span><span class="p">,</span>
+        <span class="n">crispr_matrix</span><span class="o">=</span><span class="n">crispr_matrix</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="n">update</span><span class="p">(</span>
             <span class="n">options</span><span class="p">,</span>
-            <span class="n">miscellaneous_options</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span>
+            <span class="n">miscellaneous_options</span><span class="o">=</span><span class="n">update</span><span class="p">(</span>
                 <span class="n">options</span><span class="o">.</span><span class="n">miscellaneous_options</span><span class="p">,</span>
-                <span class="n">rna_feature_names</span> <span class="o">=</span> <span class="n">rna_features</span><span class="p">,</span>
-                <span class="n">adt_feature_names</span> <span class="o">=</span> <span class="n">adt_features</span><span class="p">,</span>
-                <span class="n">crispr_feature_names</span> <span class="o">=</span> <span class="n">crispr_features</span><span class="p">,</span>
+                <span class="n">rna_feature_names</span><span class="o">=</span><span class="n">rna_features</span><span class="p">,</span>
+                <span class="n">adt_feature_names</span><span class="o">=</span><span class="n">adt_features</span><span class="p">,</span>
+                <span class="n">crispr_feature_names</span><span class="o">=</span><span class="n">crispr_features</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">),</span>
-        <span class="n">dry_run</span> <span class="o">=</span> <span class="n">dry_run</span><span class="p">,</span>
+        <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
@@ -360,33 +371,37 @@
 <span class="sd">    :py:class:`~singlecellexperiment.SingleCellExperiment.SingleCellExperiment` inputs.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        sce (SingleCellExperiment): A :py:class:`singlecellexperiment.SingleCellExperiment` object,</span>
+<span class="sd">        sce:</span>
+<span class="sd">            A :py:class:`singlecellexperiment.SingleCellExperiment` object,</span>
 <span class="sd">            possibly with data from other modalities in its alternative experiments.</span>
 
-<span class="sd">        rna_exp (Union[str, int], optional):</span>
+<span class="sd">        rna_exp:</span>
 <span class="sd">            String or index specifying the alternative experiment containing the RNA data.</span>
 <span class="sd">            An empty string is assumed to refer to the main experiment.</span>
 <span class="sd">            If None, we assume that no RNA data is available.</span>
 
-<span class="sd">        adt_exp (Union[str, int], optional):</span>
+<span class="sd">        adt_exp:</span>
 <span class="sd">            String or index specifying the alternative experiment containing the ADT data.</span>
 <span class="sd">            An empty string is assumed to refer to the main experiment.</span>
 <span class="sd">            If None, we assume that no RNA data is available.</span>
 
-<span class="sd">        crispr_exp (Union[str, int], optional):</span>
+<span class="sd">        crispr_exp:</span>
 <span class="sd">            String or index specifying the alternative experiment containing the CRISPR data.</span>
 <span class="sd">            An empty string is assumed to refer to the main experiment.</span>
 <span class="sd">            If None, we assume that no RNA data is available.</span>
 
-<span class="sd">        assay_type (Union[str, int]):</span>
+<span class="sd">        assay_type:</span>
 <span class="sd">            Assay containing the count data in each SummarizedExperiment.</span>
 
-<span class="sd">        options (AnalyzeOptions): Optional analysis parameters.</span>
+<span class="sd">        options:</span>
+<span class="sd">            Optional analysis parameters.</span>
 
-<span class="sd">        dry_run (bool): Whether to perform a dry run.</span>
+<span class="sd">        dry_run:</span>
+<span class="sd">            Whether to perform a dry run.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: If SCE does not contain a ``assay`` matrix.</span>
+<span class="sd">        ValueError:</span>
+<span class="sd">            If SCE does not contain a ``assay`` matrix.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        If ``dry_run = False``, a :py:class:`~scranpy.analyze.AnalyzeResults.AnalyzeResults` object is returned</span>
@@ -394,6 +409,7 @@
 
 <span class="sd">        If ``dry_run = True``, a string is returned containing all the steps required to perform the analysis.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">exfil</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span> <span class="n">exp</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">exp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -403,12 +419,12 @@
             <span class="k">return</span> <span class="n">sce</span><span class="o">.</span><span class="n">alternative_experiments</span><span class="p">[</span><span class="n">exp</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">analyze_se</span><span class="p">(</span>
-        <span class="n">rna_se</span> <span class="o">=</span> <span class="n">exfil</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span> <span class="n">rna_exp</span><span class="p">),</span>
-        <span class="n">adt_se</span> <span class="o">=</span> <span class="n">exfil</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span> <span class="n">adt_exp</span><span class="p">),</span>
-        <span class="n">crispr_se</span> <span class="o">=</span> <span class="n">exfil</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span> <span class="n">crispr_exp</span><span class="p">),</span>
-        <span class="n">assay_type</span> <span class="o">=</span> <span class="n">assay_type</span><span class="p">,</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">options</span><span class="p">,</span> 
-        <span class="n">dry_run</span> <span class="o">=</span> <span class="n">dry_run</span><span class="p">,</span>
+        <span class="n">rna_se</span><span class="o">=</span><span class="n">exfil</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span> <span class="n">rna_exp</span><span class="p">),</span>
+        <span class="n">adt_se</span><span class="o">=</span><span class="n">exfil</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span> <span class="n">adt_exp</span><span class="p">),</span>
+        <span class="n">crispr_se</span><span class="o">=</span><span class="n">exfil</span><span class="p">(</span><span class="n">sce</span><span class="p">,</span> <span class="n">crispr_exp</span><span class="p">),</span>
+        <span class="n">assay_type</span><span class="o">=</span><span class="n">assay_type</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+        <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
     <span class="p">)</span></div>
 </pre></div>
         </article>

@@ -212,10 +212,11 @@
           <h1>Source code for scranpy.normalization.grouped_size_factors</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">array</span>
 
-<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">tatamize_input</span><span class="p">,</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">process_block</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span>
+
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">process_block</span><span class="p">,</span> <span class="n">tatamize_input</span>
 
 
 <div class="viewcode-block" id="GroupedSizeFactorsOptions"><a class="viewcode-back" href="../../../api/scranpy.normalization.html#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions">[docs]</a><span class="nd">@dataclass</span>
@@ -226,11 +227,11 @@
 <span class="sd">        groups:</span>
 <span class="sd">            Sequence of group assignments, of length equal to the number of cells.</span>
 
-<span class="sd">        rank: </span>
+<span class="sd">        rank:</span>
 <span class="sd">            Number of principal components to obtain in the low-dimensional</span>
 <span class="sd">            representation prior to clustering. Only used if ``clusters`` is None.</span>
 
-<span class="sd">        block: </span>
+<span class="sd">        block:</span>
 <span class="sd">            Sequence of block assignments, where PCA and clustering is</span>
 <span class="sd">            performed within each block. Only used if ``clusters`` is None.</span>
 
@@ -244,6 +245,7 @@
 <span class="sd">        num_threads:</span>
 <span class="sd">            Number of threads to use for the various calculations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">25</span>
     <span class="n">groups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">block</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -252,13 +254,15 @@
     <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="grouped_size_factors"><a class="viewcode-back" href="../../../api/scranpy.normalization.html#scranpy.normalization.grouped_size_factors.grouped_size_factors">[docs]</a><span class="k">def</span> <span class="nf">grouped_size_factors</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">GroupedSizeFactorsOptions</span> <span class="o">=</span> <span class="n">GroupedSizeFactorsOptions</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="grouped_size_factors"><a class="viewcode-back" href="../../../api/scranpy.normalization.html#scranpy.normalization.grouped_size_factors.grouped_size_factors">[docs]</a><span class="k">def</span> <span class="nf">grouped_size_factors</span><span class="p">(</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">GroupedSizeFactorsOptions</span> <span class="o">=</span> <span class="n">GroupedSizeFactorsOptions</span><span class="p">()</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute grouped size factors to remove composition biases between groups of cells.</span>
 <span class="sd">    This sums all cells from the same group into a pseudo-cell, applies median-based normalization between pseudo-cells,</span>
 <span class="sd">    and propagates the pseudo-cell size factors back to each cell via library size scaling.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input: </span>
+<span class="sd">        input:</span>
 <span class="sd">            Matrix-like object where rows are features and columns are cells, typically containing</span>
 <span class="sd">            expression values of some kind. This should be a matrix class that can be converted into a</span>
 <span class="sd">            :py:class:`~mattress.TatamiNumericPointer.TatamiNumericPointer`.</span>
@@ -280,28 +284,36 @@
     <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">groups</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">group_levels</span><span class="p">,</span> <span class="n">group_indices</span> <span class="o">=</span> <span class="n">factorize</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">group_indices</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ptr</span><span class="o">.</span><span class="n">ncol</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of &#39;options.groups&#39; should be equal to number of cells in &#39;input&#39;&quot;</span><span class="p">)</span>
-        <span class="n">lib</span><span class="o">.</span><span class="n">grouped_size_factors_with_clusters</span><span class="p">(</span><span class="n">ptr</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">group_indices</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">num_threads</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;length of &#39;options.groups&#39; should be equal to number of cells in &#39;input&#39;&quot;</span>
+            <span class="p">)</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">grouped_size_factors_with_clusters</span><span class="p">(</span>
+            <span class="n">ptr</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> <span class="n">group_indices</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">num_threads</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">use_block</span><span class="p">,</span> <span class="n">num_blocks</span><span class="p">,</span> <span class="n">block_names</span><span class="p">,</span> <span class="n">block_info</span><span class="p">,</span> <span class="n">block_offset</span> <span class="o">=</span> <span class="n">process_block</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">,</span> <span class="n">ptr</span><span class="o">.</span><span class="n">ncol</span><span class="p">())</span>
+        <span class="n">use_block</span><span class="p">,</span> <span class="n">num_blocks</span><span class="p">,</span> <span class="n">block_names</span><span class="p">,</span> <span class="n">block_info</span><span class="p">,</span> <span class="n">block_offset</span> <span class="o">=</span> <span class="n">process_block</span><span class="p">(</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">,</span> <span class="n">ptr</span><span class="o">.</span><span class="n">ncol</span><span class="p">()</span>
+        <span class="p">)</span>
 
         <span class="n">use_init_sf</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">initial_factors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="n">init_sf_info</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">init_sf_offset</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">use_init_sf</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">initial_factors</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ptr</span><span class="o">.</span><span class="n">ncol</span><span class="p">():</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;length of &#39;options.initial_factors&#39; should be equal to the number of cells in &#39;input&#39;&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;length of &#39;options.initial_factors&#39; should be equal to the number of cells in &#39;input&#39;&quot;</span>
+                <span class="p">)</span>
             <span class="n">init_sf_info</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">initial_factors</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
             <span class="n">init_sf_offset</span> <span class="o">=</span> <span class="n">init_sf_info</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
 
         <span class="n">lib</span><span class="o">.</span><span class="n">grouped_size_factors_without_clusters</span><span class="p">(</span>
-            <span class="n">ptr</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span> 
-            <span class="n">use_block</span><span class="p">,</span> 
-            <span class="n">block_offset</span><span class="p">,</span> 
+            <span class="n">ptr</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>
+            <span class="n">use_block</span><span class="p">,</span>
+            <span class="n">block_offset</span><span class="p">,</span>
             <span class="n">use_init_sf</span><span class="p">,</span>
             <span class="n">init_sf_offset</span><span class="p">,</span>
-            <span class="n">options</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> 
-            <span class="n">output</span><span class="p">,</span> 
+            <span class="n">options</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span>
+            <span class="n">output</span><span class="p">,</span>
             <span class="n">options</span><span class="o">.</span><span class="n">num_threads</span><span class="p">,</span>
         <span class="p">)</span>
 

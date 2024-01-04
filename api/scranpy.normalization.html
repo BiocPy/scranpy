@@ -261,6 +261,38 @@ If False, an error is raised.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'allow_non_finite':</span> <span class="pre">'bool',</span> <span class="pre">'allow_zeros':</span> <span class="pre">'bool',</span> <span class="pre">'block':</span> <span class="pre">'Optional[Sequence]',</span> <span class="pre">'in_place':</span> <span class="pre">'bool'}</span></em><a class="headerlink" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'allow_non_finite':</span> <span class="pre">Field(name='allow_non_finite',type='bool',default=False,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'allow_zeros':</span> <span class="pre">Field(name='allow_zeros',type='bool',default=False,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'block':</span> <span class="pre">Field(name='block',type='Optional[Sequence]',default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'in_place':</span> <span class="pre">Field(name='in_place',type='bool',default=False,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">allow_non_finite</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -290,15 +322,15 @@ values are on the same scale as the original counts for easier interpretation.</
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size_factors</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – Floating-point array containing size factors for all cells.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions" title="scranpy.normalization.center_size_factors.CenterSizeFactorsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>size_factors</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Floating-point array containing size factors for all cells.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions" title="scranpy.normalization.center_size_factors.CenterSizeFactorsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3.9/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If arguments don’t meet expectations.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Array containing centered size factors.</p>
@@ -354,6 +386,38 @@ to PCA and clustering. Only used if <code class="docutils literal notranslate"><
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">typing.Union[int,</span> <span class="pre">str],</span> <span class="pre">'block':</span> <span class="pre">typing.Optional[typing.Sequence],</span> <span class="pre">'groups':</span> <span class="pre">typing.Optional[typing.Sequence],</span> <span class="pre">'initial_factors':</span> <span class="pre">typing.Optional[typing.Sequence],</span> <span class="pre">'num_threads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'rank':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;}</span></em><a class="headerlink" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">Field(name='assay_type',type=typing.Union[int,</span> <span class="pre">str],default=0,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'block':</span> <span class="pre">Field(name='block',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'groups':</span> <span class="pre">Field(name='groups',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'initial_factors':</span> <span class="pre">Field(name='initial_factors',type=typing.Optional[typing.Sequence],default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_threads':</span> <span class="pre">Field(name='num_threads',type=&lt;class</span> <span class="pre">'int'&gt;,default=1,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'rank':</span> <span class="pre">Field(name='rank',type=&lt;class</span> <span class="pre">'int'&gt;,default=25,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id4">
 <span class="sig-name descname"><span class="pre">assay_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -394,18 +458,18 @@ and propagates the pseudo-cell size factors back to each cell via library size s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]) – <p>Matrix-like object where rows are features and columns are cells, typically containing
+<li><p><strong>input</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.9/library/typing.html#typing.Union" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>, <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>]</span>) – <p>Matrix-like object where rows are features and columns are cells, typically containing
 expression values of some kind. This should be a matrix class that can be converted into a
 <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a>.</p>
-<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
+<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
 containing such a matrix in its assays.</p>
 <p>Developers may also provide a <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a> directly.</p>
 </p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions" title="scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions</span></code></a>) – Further options.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions" title="scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions</span></code></a></span>) – Further options.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Array of size factors for each cell in <code class="docutils literal notranslate"><span class="pre">input</span></code>.</p>
@@ -459,7 +523,7 @@ if <code class="docutils literal notranslate"><span class="pre">center</span> <s
 <dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.assay_type">
 <span class="sig-name descname"><span class="pre">assay_type</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.assay_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Assay to use from <code class="docutils literal notranslate"><span class="pre">input</span></code> if it is a
-<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
+<a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -467,6 +531,38 @@ if <code class="docutils literal notranslate"><span class="pre">center</span> <s
 <span class="sig-name descname"><span class="pre">num_threads</span></span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.num_threads" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of threads to use to compute size factors,
 if none are provided in <code class="docutils literal notranslate"><span class="pre">size_factors</span></code>. Defaults to 1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">'Union[str,</span> <span class="pre">int]',</span> <span class="pre">'block':</span> <span class="pre">'Optional[Sequence]',</span> <span class="pre">'center':</span> <span class="pre">'bool',</span> <span class="pre">'center_size_factors_options':</span> <span class="pre">'CenterSizeFactorsOptions',</span> <span class="pre">'delayed':</span> <span class="pre">'bool',</span> <span class="pre">'num_threads':</span> <span class="pre">'int',</span> <span class="pre">'size_factors':</span> <span class="pre">'Optional[ndarray]',</span> <span class="pre">'with_size_factors':</span> <span class="pre">'bool'}</span></em><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__annotations__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.__dataclass_fields__">
+<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'assay_type':</span> <span class="pre">Field(name='assay_type',type='Union[str,</span> <span class="pre">int]',default=0,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'block':</span> <span class="pre">Field(name='block',type='Optional[Sequence]',default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'center':</span> <span class="pre">Field(name='center',type='bool',default=True,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'center_size_factors_options':</span> <span class="pre">Field(name='center_size_factors_options',type='CenterSizeFactorsOptions',default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;class</span> <span class="pre">'scranpy.normalization.center_size_factors.CenterSizeFactorsOptions'&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'delayed':</span> <span class="pre">Field(name='delayed',type='bool',default=True,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'num_threads':</span> <span class="pre">Field(name='num_threads',type='int',default=1,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'size_factors':</span> <span class="pre">Field(name='size_factors',type='Optional[ndarray]',default=None,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD),</span> <span class="pre">'with_size_factors':</span> <span class="pre">Field(name='with_size_factors',type='bool',default=False,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),_field_type=_FIELD)}</span></em><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__dataclass_fields__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.__dataclass_params__">
+<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__dataclass_params__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__eq__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__hash__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scranpy.normalization.log_norm_counts.LogNormCountsOptions.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return repr(self).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -524,11 +620,11 @@ relevant than absolute changes.</p>
 <li><p><strong>input</strong> – <p>Matrix-like object containing cells in columns and features in rows, typically with count data.
 This should be a matrix class that can be converted into a <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code>.
 Developers may also provide the <code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code> itself.</p>
-<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
+<p>Alternatively, a <a class="reference external" href="https://biocpy.github.io/SummarizedExperiment/api/summarizedexperiment.html#summarizedexperiment.SummarizedExperiment.SummarizedExperiment" title="(in SummarizedExperiment v0.4.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SummarizedExperiment</span></code></a>
 containing such a matrix in its assays.</p>
 <p>Developers may also provide a <a class="reference external" href="https://biocpy.github.io/mattress/api/mattress.html#mattress.TatamiNumericPointer.TatamiNumericPointer" title="(in mattress vunknown)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TatamiNumericPointer</span></code></a> directly.</p>
 </p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions" title="scranpy.normalization.log_norm_counts.LogNormCountsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogNormCountsOptions</span></code></a>) – Optional parameters.</p></li>
+<li><p><strong>options</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions" title="scranpy.normalization.log_norm_counts.LogNormCountsOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogNormCountsOptions</span></code></a></span>) – Optional parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -616,6 +712,12 @@ the log-normalized matrix and an array of (possibly centered) size factors.</p>
 <li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.in_place"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.in_place</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.allow_zeros"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.allow_zeros</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.allow_non_finite"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.allow_non_finite</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.center_size_factors.CenterSizeFactorsOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.allow_non_finite</span></code></a></li>
 <li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.allow_zeros</span></code></a></li>
 <li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">CenterSizeFactorsOptions.block</span></code></a></li>
@@ -633,6 +735,12 @@ the log-normalized matrix and an array of (possibly centered) size factors.</p>
 <li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.initial_factors"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.initial_factors</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.assay_type"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.num_threads</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.grouped_size_factors.GroupedSizeFactorsOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">GroupedSizeFactorsOptions.groups</span></code></a></li>
@@ -653,6 +761,12 @@ the log-normalized matrix and an array of (possibly centered) size factors.</p>
 <li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.with_size_factors"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.with_size_factors</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.assay_type"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.num_threads"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.num_threads</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__annotations__"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.__annotations__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.__dataclass_fields__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.__dataclass_params__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__eq__"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.__eq__()</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__hash__"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.__hash__</span></code></a></li>
+<li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.__repr__"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.__repr__()</span></code></a></li>
 <li><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.assay_type</span></code></a></li>
 <li><a class="reference internal" href="#scranpy.normalization.log_norm_counts.LogNormCountsOptions.block"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.block</span></code></a></li>
 <li><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">LogNormCountsOptions.center</span></code></a></li>
