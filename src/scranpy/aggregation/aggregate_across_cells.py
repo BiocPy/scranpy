@@ -1,4 +1,4 @@
-from numpy import ndarray, zeros, float64, int32, uintp
+from numpy import zeros, float64, int32, uintp
 from typing import Sequence, Tuple, Union
 from dataclasses import dataclass
 from biocframe import BiocFrame
@@ -20,12 +20,12 @@ class _CombinedFactors:
         return self._n
 
     def levels(self, i):
-        output = ndarray((self._n,), dtype=int32)
+        output = zeros((self._n,), dtype=int32)
         lib.get_combined_factors_level(self._ptr, i, output)
         return output
 
     def counts(self):
-        output = ndarray((self._n,), dtype=int32)
+        output = zeros((self._n,), dtype=int32)
         lib.get_combined_factors_count(self._ptr, output)
         return output
 
@@ -132,11 +132,11 @@ def aggregate_across_cells(
         for il in combined:
             counts[il] += 1
     else:
-        indptrs = ndarray((nstored,), dtype=uintp)
+        indptrs = zeros((nstored,), dtype=uintp)
         for i, si in enumerate(stored_indices):
             indptrs[i] = si.ctypes.data
 
-        combined = ndarray((NC,), dtype=int32)
+        combined = zeros((NC,), dtype=int32)
         ptr = _CombinedFactors(
             lib.combine_factors(NC, nstored, indptrs.ctypes.data, combined)
         )
@@ -151,13 +151,13 @@ def aggregate_across_cells(
     sums_out = None
     sums_out_ptr = 0
     if options.compute_sums:
-        sums_out = ndarray((ngroups, NR), dtype=float64)
+        sums_out = zeros((ngroups, NR), dtype=float64)
         sums_out_ptr = sums_out.ctypes.data
 
     detected_out = None
     detected_out_ptr = 0
     if options.compute_detected:
-        detected_out = ndarray((ngroups, NR), dtype=int32)
+        detected_out = zeros((ngroups, NR), dtype=int32)
         detected_out_ptr = detected_out.ctypes.data
 
     lib.aggregate_across_cells(

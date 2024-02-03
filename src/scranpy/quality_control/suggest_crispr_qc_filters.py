@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import float64, ndarray, array
+from numpy import float64, array, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import process_block
@@ -84,7 +84,7 @@ def suggest_crispr_qc_filters(
 
     sums = array(metrics.column("sums"), dtype=float64, copy=False)
     max_prop = array(metrics.column("max_proportion"), dtype=float64, copy=False)
-    max_count_out = ndarray((num_blocks,), dtype=float64)
+    max_count_out = zeros((num_blocks,), dtype=float64)
 
     lib.suggest_crispr_qc_filters(
         num_cells,

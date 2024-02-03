@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, Sequence, Union
 
-from numpy import array, float64, ndarray
+from numpy import array, float64, ndarray, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import MatrixTypes, factorize, process_block, tatamize_input
@@ -67,7 +67,7 @@ def grouped_size_factors(
         Array of size factors for each cell in ``input``.
     """
     ptr = tatamize_input(input, options.assay_type)
-    output = ndarray(ptr.ncol(), dtype=float64)
+    output = zeros(ptr.ncol(), dtype=float64)
 
     if options.groups is not None:
         group_levels, group_indices = factorize(options.groups)

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from numpy import array, float64, int32, ndarray, ones, uintp
+from numpy import array, float64, int32, ndarray, ones, uintp, zeros
 
 from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
@@ -84,11 +84,11 @@ def combine_embeddings(
 
     indices = []
     nembed = len(embeddings)
-    ind_ptr = ndarray(nembed, dtype=uintp)
+    ind_ptr = zeros(nembed, dtype=uintp)
 
     embeddings2 = []
-    all_dims = ndarray(nembed, dtype=int32)
-    emb_ptr = ndarray(nembed, dtype=uintp)
+    all_dims = zeros(nembed, dtype=int32)
+    emb_ptr = zeros(nembed, dtype=uintp)
 
     for i, x in enumerate(embeddings):
         x = x.astype(float64, copy=False)
@@ -102,7 +102,7 @@ def combine_embeddings(
         indices.append(cur_ind)
         ind_ptr[i] = cur_ind.ptr
 
-    scaling = ndarray(nembed, dtype=float64)
+    scaling = zeros(nembed, dtype=float64)
     lib.scale_by_neighbors(
         nembed,
         ind_ptr.ctypes.data,
@@ -112,7 +112,7 @@ def combine_embeddings(
     )
     scaling *= weights
 
-    output = ndarray((ncells, all_dims.sum()), dtype=float64)
+    output = zeros((ncells, all_dims.sum()), dtype=float64)
     lib.combine_embeddings(
         nembed, all_dims, ncells, emb_ptr.ctypes.data, scaling, output
     )

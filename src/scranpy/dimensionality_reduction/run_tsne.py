@@ -3,7 +3,7 @@ from collections import namedtuple
 from dataclasses import dataclass, field
 from typing import Union
 
-from numpy import copy, float64, ndarray
+from numpy import copy, float64, ndarray, zeros
 
 from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
@@ -183,7 +183,7 @@ def initialize_tsne(
         )
 
     ptr = lib.initialize_tsne(input.ptr, options.perplexity, options.num_threads)
-    coords = ndarray((input.num_cells(), 2), dtype=float64, order="C")
+    coords = zeros((input.num_cells(), 2), dtype=float64, order="C")
     lib.randomize_tsne_start(coords.shape[0], coords, options.seed)
 
     return TsneStatus(ptr, coords)

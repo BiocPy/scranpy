@@ -3,7 +3,7 @@ from collections import namedtuple
 from dataclasses import dataclass, field
 from typing import Optional, Union
 
-from numpy import copy, float64, ndarray
+from numpy import copy, float64, ndarray, zeros
 
 from .. import _cpphelpers as lib
 from ..nearest_neighbors import (
@@ -195,7 +195,7 @@ def initialize_umap(
             options=FindNearestNeighborsOptions(num_threads=options.num_threads),
         )
 
-    coords = ndarray((input.num_cells(), 2), dtype=float64, order="C")
+    coords = zeros((input.num_cells(), 2), dtype=float64, order="C")
     ptr = lib.initialize_umap(
         input.ptr, options.num_epochs, options.min_dist, coords, options.num_threads
     )

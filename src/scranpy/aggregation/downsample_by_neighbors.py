@@ -1,4 +1,4 @@
-from numpy import ndarray, array, int32
+from numpy import ndarray, array, int32, zeros
 from typing import Union, Tuple
 
 from .. import _cpphelpers as lib
@@ -75,7 +75,7 @@ def downsample_by_neighbors(
             options=FindNearestNeighborsOptions(num_threads=options.num_threads),
         )
 
-    output = ndarray(input.num_cells(), dtype=int32)
+    output = zeros(input.num_cells(), dtype=int32)
     lib.downsample_by_neighbors(
         input.ptr,
         output,

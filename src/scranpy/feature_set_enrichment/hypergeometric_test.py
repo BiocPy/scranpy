@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Sequence, Union
 
-from numpy import array, float64, int32, ndarray
+from numpy import array, float64, int32, ndarray, zeros
 
 from .. import _cpphelpers as lib
 
@@ -91,7 +91,7 @@ def hypergeometric_test(
     else:
         raise ValueError("arguments should be of length 1 or the same length")
 
-    output = ndarray(num_genes, dtype=float64)
+    output = zeros(num_genes, dtype=float64)
     lib.hypergeometric_test(
         num_genes,
         len(markers_in_set),
