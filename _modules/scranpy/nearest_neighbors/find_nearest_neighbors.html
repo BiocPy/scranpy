@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2024.01.29 -->
         <title>scranpy.nearest_neighbors.find_nearest_neighbors - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -214,7 +214,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int32</span><span class="p">,</span> <span class="n">ndarray</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int32</span><span class="p">,</span> <span class="n">zeros</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.build_neighbor_index</span> <span class="kn">import</span> <span class="n">NeighborIndex</span>
@@ -296,8 +296,8 @@
 <span class="sd">            Neighbors are guaranteed to be sorted in order of increasing distance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_results_k</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">)</span>
-        <span class="n">out_d</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">k</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
-        <span class="n">out_i</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">k</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">out_d</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">out_i</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
         <span class="n">lib</span><span class="o">.</span><span class="n">fetch_neighbor_results_single</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">out_i</span><span class="p">,</span> <span class="n">out_d</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SingleNeighborResults</span><span class="p">(</span><span class="n">out_i</span><span class="p">,</span> <span class="n">out_d</span><span class="p">)</span></div>
 
@@ -314,8 +314,8 @@
 
         <span class="c1"># C++ stores this data as column-major k*nobs, but NumPy defaults to</span>
         <span class="c1"># row-major, so we just flip the dimensions to keep everyone happy.</span>
-        <span class="n">out_i</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
-        <span class="n">out_d</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">out_i</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">out_d</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">nobs</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
 
         <span class="n">lib</span><span class="o">.</span><span class="n">serialize_neighbor_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ptr</span><span class="p">,</span> <span class="n">out_i</span><span class="p">,</span> <span class="n">out_d</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SerializedNeighborResults</span><span class="p">(</span><span class="n">out_i</span><span class="p">,</span> <span class="n">out_d</span><span class="p">)</span></div>

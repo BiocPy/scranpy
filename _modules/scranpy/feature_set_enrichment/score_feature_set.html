@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2024.01.29 -->
         <title>scranpy.feature_set_enrichment.score_feature_set - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -213,7 +213,7 @@
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">zeros</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">tatamize_input</span><span class="p">,</span> <span class="n">to_logical</span>
@@ -303,9 +303,9 @@
         <span class="n">block_levels</span><span class="p">,</span> <span class="n">block_indices</span> <span class="o">=</span> <span class="n">factorize</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">block</span><span class="p">)</span>
         <span class="n">block_offset</span> <span class="o">=</span> <span class="n">block_indices</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
 
-    <span class="n">output_scores</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">(</span><span class="n">NC</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">output_scores</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">NC</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
     <span class="n">nfeatures</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">output_weights</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">(</span><span class="n">nfeatures</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">output_weights</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nfeatures</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
 
     <span class="n">lib</span><span class="o">.</span><span class="n">score_feature_set</span><span class="p">(</span>
         <span class="n">x</span><span class="o">.</span><span class="n">ptr</span><span class="p">,</span>

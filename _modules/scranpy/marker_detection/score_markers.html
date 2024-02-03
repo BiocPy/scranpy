@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2024.01.29 -->
         <title>scranpy.marker_detection.score_markers - scranpy unknown documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
@@ -215,7 +215,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">biocframe</span> <span class="kn">import</span> <span class="n">BiocFrame</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">uintp</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">uintp</span><span class="p">,</span> <span class="n">zeros</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">_cpphelpers</span> <span class="k">as</span> <span class="n">lib</span>
 <span class="kn">from</span> <span class="nn">.._utils</span> <span class="kn">import</span> <span class="n">MatrixTypes</span><span class="p">,</span> <span class="n">factorize</span><span class="p">,</span> <span class="n">process_block</span><span class="p">,</span> <span class="n">tatamize_input</span>
@@ -229,10 +229,10 @@
 
 
 <span class="k">def</span> <span class="nf">_create_output_arrays</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_NDOutputArrays</span><span class="p">:</span>
-    <span class="n">outptrs</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">number</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
+    <span class="n">outptrs</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">number</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
     <span class="n">outarrs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-        <span class="n">curarr</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="n">length</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">curarr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">length</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
         <span class="n">outptrs</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="n">curarr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
         <span class="n">outarrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curarr</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_NDOutputArrays</span><span class="p">(</span><span class="n">outarrs</span><span class="p">,</span> <span class="n">outptrs</span><span class="p">)</span>
@@ -245,7 +245,7 @@
         <span class="s2">&quot;min_rank&quot;</span><span class="p">:</span> <span class="n">_create_output_arrays</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">groups</span><span class="p">),</span>
     <span class="p">}</span>
 
-    <span class="n">outptrs</span> <span class="o">=</span> <span class="n">ndarray</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
+    <span class="n">outptrs</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uintp</span><span class="p">)</span>
     <span class="n">outptrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
     <span class="n">outptrs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
     <span class="n">outptrs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;min_rank&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span>
