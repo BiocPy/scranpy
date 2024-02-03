@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List
 
 from numpy import array, float64, int32, ndarray, ones, uintp, zeros
 
@@ -32,12 +32,12 @@ class CombineEmbeddingsOptions:
 
     neighbors: int = 20
     approximate: bool = True
-    weights: Optional[list[float]] = None
+    weights: Optional[List[float]] = None
     num_threads: int = True
 
 
 def combine_embeddings(
-    embeddings: list[ndarray],
+    embeddings: List[ndarray],
     options: CombineEmbeddingsOptions = CombineEmbeddingsOptions(),
 ) -> ndarray:
     """Combine multiple embeddings for the same set of cells (e.g., from multi-modal datasets) for integrated downstream

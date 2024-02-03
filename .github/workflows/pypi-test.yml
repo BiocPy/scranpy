@@ -13,18 +13,21 @@ on:
 
 jobs:
   test:
-    name: Running tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.8', '3.9', '3.10', '3.11', '3.12' ]
 
+    name: Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: true
 
-      - name: Set up Python 3.9
+      - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: ${{ matrix.python-version }}
           cache: 'pip'
 
       - name: Install python dependencies
@@ -68,7 +71,7 @@ jobs:
         env:
           CIBW_ARCHS_MACOS: x86_64 arm64
           CIBW_ARCHS_LINUX: x86_64 # remove this later so we build for all linux archs
-          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.9"
+          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.8"
           CIBW_SKIP: pp*
       - uses: actions/upload-artifact@v3
         with:
