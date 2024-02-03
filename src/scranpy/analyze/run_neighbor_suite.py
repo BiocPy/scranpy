@@ -1,4 +1,5 @@
 from concurrent.futures import ProcessPoolExecutor, wait
+import multiprocessing
 from copy import copy
 from typing import Callable, Tuple
 
@@ -90,8 +91,9 @@ def run_neighbor_suite(
     # Attempting to evenly distribute threads across the tasks.  t-SNE and UMAP
     # are run on separate processes while the SNN graph construction is kept on
     # the main thread because we'll need the output for marker detection.
+    mp_context=multiprocessing.get_context("fork")
     threads_per_task = max(1, int(num_threads / 3))
-    executor = ProcessPoolExecutor(max_workers=min(2, num_threads))
+    executor = ProcessPoolExecutor(max_workers=min(2, num_threads), mp_context=mp_context)
     _tasks = []
 
     run_tsne_copy = copy(run_tsne_options)
