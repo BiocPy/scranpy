@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, Sequence
 
-from numpy import float64, int32, ndarray
+from numpy import float64, int32, ndarray, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import factorize
@@ -127,7 +127,7 @@ def mnn_correct(
                 "length of 'options.order' should be equal to the number of batches"
             )
 
-        order_info = ndarray((nbatch,), dtype=int32)
+        order_info = zeros((nbatch,), dtype=int32)
         for i, o in enumerate(options.order):
             if o not in mapping:
                 raise ValueError(
@@ -141,9 +141,9 @@ def mnn_correct(
 
         order_offset = order_info.ctypes.data
 
-    corrected_output = ndarray((ncells, ndim), dtype=float64)
-    merge_order_output = ndarray((nbatch,), dtype=int32)
-    num_pairs_output = ndarray((nbatch - 1,), dtype=int32)
+    corrected_output = zeros((ncells, ndim), dtype=float64)
+    merge_order_output = zeros((nbatch,), dtype=int32)
+    num_pairs_output = zeros((nbatch - 1,), dtype=int32)
 
     lib.mnn_correct(
         ndim=ndim,

@@ -2,7 +2,7 @@ import ctypes as ct
 from collections import namedtuple
 from dataclasses import dataclass
 
-from numpy import float64, int32, ndarray
+from numpy import float64, int32, zeros
 
 from .. import _cpphelpers as lib
 from .build_neighbor_index import NeighborIndex
@@ -84,8 +84,8 @@ class NeighborResults:
             Neighbors are guaranteed to be sorted in order of increasing distance.
         """
         k = lib.fetch_neighbor_results_k(self.__ptr)
-        out_d = ndarray((k,), dtype=float64)
-        out_i = ndarray((k,), dtype=int32)
+        out_d = zeros((k,), dtype=float64)
+        out_i = zeros((k,), dtype=int32)
         lib.fetch_neighbor_results_single(self.__ptr, i, out_i, out_d)
         return SingleNeighborResults(out_i, out_d)
 
@@ -102,8 +102,8 @@ class NeighborResults:
 
         # C++ stores this data as column-major k*nobs, but NumPy defaults to
         # row-major, so we just flip the dimensions to keep everyone happy.
-        out_i = ndarray((nobs, k), dtype=int32)
-        out_d = ndarray((nobs, k), dtype=float64)
+        out_i = zeros((nobs, k), dtype=int32)
+        out_d = zeros((nobs, k), dtype=float64)
 
         lib.serialize_neighbor_results(self.__ptr, out_i, out_d)
         return SerializedNeighborResults(out_i, out_d)

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, Sequence, Tuple, Union
 
-from numpy import float64, ndarray
+from numpy import float64, ndarray, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import MatrixTypes, factorize, tatamize_input, to_logical
@@ -91,9 +91,9 @@ def score_feature_set(
         block_levels, block_indices = factorize(options.block)
         block_offset = block_indices.ctypes.data
 
-    output_scores = ndarray(NC, dtype=float64)
+    output_scores = zeros(NC, dtype=float64)
     nfeatures = subset.sum()
-    output_weights = ndarray(nfeatures, dtype=float64)
+    output_weights = zeros(nfeatures, dtype=float64)
 
     lib.score_feature_set(
         x.ptr,

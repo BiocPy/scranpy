@@ -84,7 +84,7 @@ def tatamize_input(x: MatrixTypes, assay_type: Union[str, int]) -> TatamiNumeric
 
 def create_pointer_array(arrs):
     num = len(arrs)
-    output = np.ndarray((num,), dtype=np.uintp)
+    output = np.zeros((num,), dtype=np.uintp)
 
     if isinstance(arrs, list):
         for i in range(num):

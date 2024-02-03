@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional, Sequence, Union
 
 from biocframe import BiocFrame
-from numpy import float64, int32, ndarray
+from numpy import float64, int32, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import MatrixTypes, tatamize_input
@@ -69,10 +69,10 @@ def per_cell_crispr_qc_metrics(
 
     x.nrow()
     nc = x.ncol()
-    sums = ndarray((nc,), dtype=float64)
-    detected = ndarray((nc,), dtype=int32)
-    max_prop = ndarray((nc,), dtype=float64)
-    max_index = ndarray((nc,), dtype=int32)
+    sums = zeros((nc,), dtype=float64)
+    detected = zeros((nc,), dtype=int32)
+    max_prop = zeros((nc,), dtype=float64)
+    max_index = zeros((nc,), dtype=int32)
 
     lib.per_cell_crispr_qc_metrics(
         x.ptr,

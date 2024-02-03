@@ -1,7 +1,7 @@
 from typing import Optional, Tuple, Union
 
 from biocframe import BiocFrame
-from numpy import array, float64, ndarray
+from numpy import array, float64, ndarray, zeros
 
 from .._utils import create_pointer_array, match_lists
 
@@ -19,7 +19,7 @@ def create_subset_buffers(
 ) -> Tuple[list[ndarray], ndarray]:
     subset_out = []
     for i in range(num_subsets):
-        subset_out.append(ndarray((length,), dtype=float64))
+        subset_out.append(zeros((length,), dtype=float64))
     return subset_out, create_pointer_array(subset_out)
 
 

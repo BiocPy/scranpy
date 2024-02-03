@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional, Sequence, Union
 
 from biocframe import BiocFrame
-from numpy import float64, ndarray, uintp
+from numpy import float64, uintp, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import MatrixTypes, factorize, tatamize_input
@@ -87,10 +87,10 @@ def model_gene_variances(
     x = tatamize_input(input, options.assay_type)
 
     NR = x.nrow()
-    means = ndarray((NR,), dtype=float64)
-    variances = ndarray((NR,), dtype=float64)
-    fitted = ndarray((NR,), dtype=float64)
-    residuals = ndarray((NR,), dtype=float64)
+    means = zeros((NR,), dtype=float64)
+    variances = zeros((NR,), dtype=float64)
+    fitted = zeros((NR,), dtype=float64)
+    residuals = zeros((NR,), dtype=float64)
     extra = None
 
     if options.block is None:
@@ -129,16 +129,16 @@ def model_gene_variances(
         all_variances = []
         all_fitted = []
         all_residuals = []
-        all_means_ptr = ndarray((nlevels,), dtype=uintp)
-        all_variances_ptr = ndarray((nlevels,), dtype=uintp)
-        all_fitted_ptr = ndarray((nlevels,), dtype=uintp)
-        all_residuals_ptr = ndarray((nlevels,), dtype=uintp)
+        all_means_ptr = zeros((nlevels,), dtype=uintp)
+        all_variances_ptr = zeros((nlevels,), dtype=uintp)
+        all_fitted_ptr = zeros((nlevels,), dtype=uintp)
+        all_residuals_ptr = zeros((nlevels,), dtype=uintp)
 
         for lvl in range(nlevels):
-            cur_means = ndarray((NR,), dtype=float64)
-            cur_variances = ndarray((NR,), dtype=float64)
-            cur_fitted = ndarray((NR,), dtype=float64)
-            cur_residuals = ndarray((NR,), dtype=float64)
+            cur_means = zeros((NR,), dtype=float64)
+            cur_variances = zeros((NR,), dtype=float64)
+            cur_fitted = zeros((NR,), dtype=float64)
+            cur_residuals = zeros((NR,), dtype=float64)
 
             all_means_ptr[lvl] = cur_means.ctypes.data
             all_variances_ptr[lvl] = cur_variances.ctypes.data

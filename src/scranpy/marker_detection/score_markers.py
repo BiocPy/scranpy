@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Any, Mapping, Optional, Sequence, Union
 
 from biocframe import BiocFrame
-from numpy import float64, ndarray, uintp
+from numpy import float64, uintp, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import MatrixTypes, factorize, process_block, tatamize_input
@@ -17,10 +17,10 @@ _NDOutputArrays = namedtuple("_NDOutputArrays", ["arrays", "references"])
 
 
 def _create_output_arrays(length: int, number: int) -> _NDOutputArrays:
-    outptrs = ndarray((number,), dtype=uintp)
+    outptrs = zeros((number,), dtype=uintp)
     outarrs = []
     for g in range(number):
-        curarr = ndarray((length,), dtype=float64)
+        curarr = zeros((length,), dtype=float64)
         outptrs[g] = curarr.ctypes.data
         outarrs.append(curarr)
     return _NDOutputArrays(outarrs, outptrs)
@@ -33,7 +33,7 @@ def _create_output_summary_arrays(rows: int, groups: int) -> _NDOutputArrays:
         "min_rank": _create_output_arrays(rows, groups),
     }
 
-    outptrs = ndarray((3,), dtype=uintp)
+    outptrs = zeros((3,), dtype=uintp)
     outptrs[0] = output["min"].references.ctypes.data
     outptrs[1] = output["mean"].references.ctypes.data
     outptrs[2] = output["min_rank"].references.ctypes.data

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional, Sequence
 
 from biocframe import BiocFrame
-from numpy import array, float64, int32, ndarray
+from numpy import array, float64, int32, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import process_block
@@ -92,7 +92,7 @@ def suggest_adt_qc_filters(
     )
 
     detected = array(metrics.column("detected"), dtype=int32, copy=False)
-    detected_out = ndarray((num_blocks,), dtype=float64)
+    detected_out = zeros((num_blocks,), dtype=float64)
 
     subsets = metrics.column("subset_totals")
     num_subsets = subsets.shape[1]

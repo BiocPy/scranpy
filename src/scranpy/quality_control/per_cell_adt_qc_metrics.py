@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Mapping, Optional, Sequence, Union
 
 from biocframe import BiocFrame
-from numpy import float64, int32, ndarray
+from numpy import float64, int32, zeros
 
 from .. import _cpphelpers as lib
 from .._utils import MatrixTypes, create_pointer_array, tatamize_input, to_logical
@@ -83,8 +83,8 @@ def per_cell_adt_qc_metrics(
 
     nr = x.nrow()
     nc = x.ncol()
-    sums = ndarray((nc,), dtype=float64)
-    detected = ndarray((nc,), dtype=int32)
+    sums = zeros((nc,), dtype=float64)
+    detected = zeros((nc,), dtype=int32)
 
     sub_keys = list(options.subsets.keys())
     num_subsets = len(sub_keys)
