@@ -1,4 +1,4 @@
-from typing import Optional, Tuple, Union
+from typing import Optional, Tuple, Union, List
 
 from biocframe import BiocFrame
 from numpy import array, float64, ndarray, zeros
@@ -6,7 +6,7 @@ from numpy import array, float64, ndarray, zeros
 from .._utils import create_pointer_array, match_lists
 
 
-def process_subset_columns(subsets: BiocFrame) -> Tuple[list[ndarray], ndarray]:
+def process_subset_columns(subsets: BiocFrame) -> Tuple[List[ndarray], ndarray]:
     skeys = subsets.column_names
     subset_in = []
     for s in skeys:
@@ -16,7 +16,7 @@ def process_subset_columns(subsets: BiocFrame) -> Tuple[list[ndarray], ndarray]:
 
 def create_subset_buffers(
     length: int, num_subsets: int
-) -> Tuple[list[ndarray], ndarray]:
+) -> Tuple[List[ndarray], ndarray]:
     subset_out = []
     for i in range(num_subsets):
         subset_out.append(zeros((length,), dtype=float64))
@@ -25,7 +25,7 @@ def create_subset_buffers(
 
 def create_subset_frame(
     column_names: list,
-    columns: list[ndarray],
+    columns: List[ndarray],
     num_rows: int,
     row_names: Optional[list] = None,
 ) -> BiocFrame:
