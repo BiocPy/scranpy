@@ -107,7 +107,6 @@ def run_neighbor_suite(
         pp = platform.platform()
         extra_args = {}
         if "macos" in pp.lower():
-
             extra_args["mp_context"] = mp.get_context("fork")
 
         executor = ProcessPoolExecutor(max_workers=max_workers, **extra_args)
