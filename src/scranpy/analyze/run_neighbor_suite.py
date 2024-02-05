@@ -1,8 +1,5 @@
-from concurrent.futures import ProcessPoolExecutor, wait
-import multiprocessing as mp
 from copy import copy
 from typing import Callable, Tuple
-import platform
 
 from igraph import Graph
 
@@ -89,52 +86,84 @@ def run_neighbor_suite(
     for k in set([umap_nn, tsne_nn]):
         serialized_dict[k] = nn_dict[k].serialize()
 
-    # Attempting to evenly distribute threads across the tasks.  t-SNE and UMAP
+    # Attempting to evenly distribute threads across the tasks. t-SNE and UMAP
     # are run on separate processes while the SNN graph construction is kept on
     # the main thread because we'll need the output for marker detection.
     threads_per_task = max(1, int(num_threads / 3))
-
-    pp = platform.platform()
-    extra_args = {}
-    if "macos" in pp.lower():
-        extra_args["mp_context"] = mp.get_context("fork")
-
-    executor = ProcessPoolExecutor(max_workers=min(2, num_threads), **extra_args)
+    max_workers = min(2, num_threads)
     _tasks = []
 
     run_tsne_copy = copy(run_tsne_options)
     run_tsne_copy.set_threads(threads_per_task)
-    _tasks.append(
-        executor.submit(
-            _unserialize_neighbors_before_run,
-            dimred.run_tsne,
-            serialized_dict[tsne_nn],
-            run_tsne_copy,
-        )
-    )
 
     run_umap_copy = copy(run_umap_options)
     run_umap_copy.set_threads(threads_per_task)
-    _tasks.append(
-        executor.submit(
-            _unserialize_neighbors_before_run,
-            dimred.run_umap,
-            serialized_dict[umap_nn],
-            run_umap_copy,
+
+    if max_workers > 1:
+        import multiprocessing as mp
+        import platform
+        from concurrent.futures import ProcessPoolExecutor, wait
+
+        pp = platform.platform()
+        extra_args = {}
+        if "macos" in pp.lower():
+
+            extra_args["mp_context"] = mp.get_context("fork")
+
+        executor = ProcessPoolExecutor(max_workers=max_workers, **extra_args)
+
+        _tasks.append(
+            executor.submit(
+                _unserialize_neighbors_before_run,
+                dimred.run_tsne,
+                serialized_dict[tsne_nn],
+                run_tsne_copy,
+            )
         )
-    )
 
-    def retrieve():
-        wait(_tasks)
-        executor.shutdown()
+        _tasks.append(
+            executor.submit(
+                _unserialize_neighbors_before_run,
+                dimred.run_umap,
+                serialized_dict[umap_nn],
+                run_umap_copy,
+            )
+        )
 
-    def get_tsne():
-        retrieve()
-        return _tasks[0].result()
+        def retrieve():
+            wait(_tasks)
+            executor.shutdown()
 
-    def get_umap():
-        retrieve()
-        return _tasks[1].result()
+        def get_tsne():
+            retrieve()
+            return _tasks[0].result()
+
+        def get_umap():
+            retrieve()
+            return _tasks[1].result()
+
+    else:
+        _tasks.append(
+            _unserialize_neighbors_before_run(
+                dimred.run_tsne,
+                serialized_dict[tsne_nn],
+                run_tsne_copy,
+            )
+        )
+
+        _tasks.append(
+            _unserialize_neighbors_before_run(
+                dimred.run_umap,
+                serialized_dict[umap_nn],
+                run_umap_copy,
+            )
+        )
+
+        def get_tsne():
+            return _tasks[0]
+
+        def get_umap():
+            return _tasks[1]
 
     build_snn_graph_copy = copy(build_snn_graph_options)
     remaining_threads = max(1, num_threads - threads_per_task * 2)
