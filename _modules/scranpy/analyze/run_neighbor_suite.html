@@ -210,8 +210,7 @@
         </div>
         <article role="main">
           <h1>Source code for scranpy.analyze.run_neighbor_suite</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">wait</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">igraph</span> <span class="kn">import</span> <span class="n">Graph</span>
@@ -299,46 +298,83 @@
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">([</span><span class="n">umap_nn</span><span class="p">,</span> <span class="n">tsne_nn</span><span class="p">]):</span>
         <span class="n">serialized_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">nn_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
 
-    <span class="c1"># Attempting to evenly distribute threads across the tasks.  t-SNE and UMAP</span>
+    <span class="c1"># Attempting to evenly distribute threads across the tasks. t-SNE and UMAP</span>
     <span class="c1"># are run on separate processes while the SNN graph construction is kept on</span>
     <span class="c1"># the main thread because we&#39;ll need the output for marker detection.</span>
     <span class="n">threads_per_task</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_threads</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="n">executor</span> <span class="o">=</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">))</span>
+    <span class="n">max_workers</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">)</span>
     <span class="n">_tasks</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">run_tsne_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">run_tsne_options</span><span class="p">)</span>
     <span class="n">run_tsne_copy</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">threads_per_task</span><span class="p">)</span>
-    <span class="n">_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
-            <span class="n">_unserialize_neighbors_before_run</span><span class="p">,</span>
-            <span class="n">dimred</span><span class="o">.</span><span class="n">run_tsne</span><span class="p">,</span>
-            <span class="n">serialized_dict</span><span class="p">[</span><span class="n">tsne_nn</span><span class="p">],</span>
-            <span class="n">run_tsne_copy</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
 
     <span class="n">run_umap_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">run_umap_options</span><span class="p">)</span>
     <span class="n">run_umap_copy</span><span class="o">.</span><span class="n">set_threads</span><span class="p">(</span><span class="n">threads_per_task</span><span class="p">)</span>
-    <span class="n">_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
-            <span class="n">_unserialize_neighbors_before_run</span><span class="p">,</span>
-            <span class="n">dimred</span><span class="o">.</span><span class="n">run_umap</span><span class="p">,</span>
-            <span class="n">serialized_dict</span><span class="p">[</span><span class="n">umap_nn</span><span class="p">],</span>
-            <span class="n">run_umap_copy</span><span class="p">,</span>
+
+    <span class="k">if</span> <span class="n">max_workers</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+        <span class="kn">import</span> <span class="nn">platform</span>
+        <span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">wait</span>
+
+        <span class="n">pp</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">platform</span><span class="p">()</span>
+        <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s2">&quot;macos&quot;</span> <span class="ow">in</span> <span class="n">pp</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">extra_args</span><span class="p">[</span><span class="s2">&quot;mp_context&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">get_context</span><span class="p">(</span><span class="s2">&quot;fork&quot;</span><span class="p">)</span>
+
+        <span class="n">executor</span> <span class="o">=</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">)</span>
+
+        <span class="n">_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+                <span class="n">_unserialize_neighbors_before_run</span><span class="p">,</span>
+                <span class="n">dimred</span><span class="o">.</span><span class="n">run_tsne</span><span class="p">,</span>
+                <span class="n">serialized_dict</span><span class="p">[</span><span class="n">tsne_nn</span><span class="p">],</span>
+                <span class="n">run_tsne_copy</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="p">)</span>
-    <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">retrieve</span><span class="p">():</span>
-        <span class="n">wait</span><span class="p">(</span><span class="n">_tasks</span><span class="p">)</span>
-        <span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="n">_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+                <span class="n">_unserialize_neighbors_before_run</span><span class="p">,</span>
+                <span class="n">dimred</span><span class="o">.</span><span class="n">run_umap</span><span class="p">,</span>
+                <span class="n">serialized_dict</span><span class="p">[</span><span class="n">umap_nn</span><span class="p">],</span>
+                <span class="n">run_umap_copy</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_tsne</span><span class="p">():</span>
-        <span class="n">retrieve</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">_tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="k">def</span> <span class="nf">retrieve</span><span class="p">():</span>
+            <span class="n">wait</span><span class="p">(</span><span class="n">_tasks</span><span class="p">)</span>
+            <span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">get_umap</span><span class="p">():</span>
-        <span class="n">retrieve</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">_tasks</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="k">def</span> <span class="nf">get_tsne</span><span class="p">():</span>
+            <span class="n">retrieve</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">_tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">get_umap</span><span class="p">():</span>
+            <span class="n">retrieve</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">_tasks</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">_unserialize_neighbors_before_run</span><span class="p">(</span>
+                <span class="n">dimred</span><span class="o">.</span><span class="n">run_tsne</span><span class="p">,</span>
+                <span class="n">serialized_dict</span><span class="p">[</span><span class="n">tsne_nn</span><span class="p">],</span>
+                <span class="n">run_tsne_copy</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">_unserialize_neighbors_before_run</span><span class="p">(</span>
+                <span class="n">dimred</span><span class="o">.</span><span class="n">run_umap</span><span class="p">,</span>
+                <span class="n">serialized_dict</span><span class="p">[</span><span class="n">umap_nn</span><span class="p">],</span>
+                <span class="n">run_umap_copy</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">get_tsne</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">_tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">get_umap</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">_tasks</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="n">build_snn_graph_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">build_snn_graph_options</span><span class="p">)</span>
     <span class="n">remaining_threads</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_threads</span> <span class="o">-</span> <span class="n">threads_per_task</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
