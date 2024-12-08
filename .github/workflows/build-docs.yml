@@ -24,7 +24,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip setuptools
-          pip install cmake pybind11 numpy tox
+          pip install cmake pybind11 numpy tox assorthead mattress>=0.1.4
 
       - name: Build docs
         run: |
