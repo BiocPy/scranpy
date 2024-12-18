@@ -193,11 +193,6 @@ pybind11::array filter_adt_qc_metrics(pybind11::tuple filters, pybind11::tuple m
             ssf.emplace_back(ptr, ptr + nblocks);
         }
 
-        for (size_t c = 0; c < ncells; ++c) {
-            if (bptr[c] >= nblocks) {
-                throw std::runtime_error("'block' contains out-of-range indices");
-            }
-        }
         filt.filter(ncells, mbuffers, bptr, static_cast<bool*>(keep.request().ptr));
 
     } else {
