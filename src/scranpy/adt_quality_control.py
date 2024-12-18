@@ -1,4 +1,4 @@
-from typing import Union, Sequence, Any
+from typing import Union, Sequence, Any, Optional
 from dataclasses import dataclass
 from collections.abc import Mapping
 
@@ -6,7 +6,8 @@ import numpy
 import biocutils
 import mattress
 
-from ._utils_qc import _sanitize_subset
+from ._utils_qc import _sanitize_subsets
+from . import lib_scranpy as lib
 
 
 @dataclass
@@ -54,11 +55,10 @@ def compute_adt_qc_metrics(x: Any, subsets: Union[Mapping, Sequence], num_thread
         QC metrics computed from the count matrix for each cell.
     """
     ptr = mattress.initialize(x)
-    subkeys, subvals = _sanitize_subsets(subsets)
-    osum, odetected, osubset_sum = lib.compute_adt_qc_metrics(ptr.ptr, subvals, num_threads=num_threads)
-    if not subkeys is None:
-        osubset_sum = NamedList(osubset_sum, subkeys)
-    return ComputeAdtQcMetricsResults(osum, odtected, osubset_sum)
+    subkeys, subvals = _sanitize_subsets(subsets, x.shape[0])
+    osum, odetected, osubset_sum = lib.compute_adt_qc_metrics(ptr.ptr, subvals, num_threads)
+    osubset_sum = biocutils.NamedList(osubset_sum, subkeys)
+    return ComputeAdtQcMetricsResults(osum, odetected, osubset_sum)
 
 
 @dataclass
@@ -111,7 +111,7 @@ def suggest_adt_qc_thresholds(
         Suggested filters on the relevant QC metrics.
     """
     if not block is None:
-        blocklev, blockind = biocutils.factorize(block)
+        blocklev, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)
     else:
         blocklev = None
         blockind = None
@@ -160,11 +160,11 @@ def filter_adt_qc_metrics(
     if not thresholds.block is None:
         if block is None:
             raise ValueError("'block' must be supplied if it was used in 'suggest_adt_qc_thresholds'")
-        _, blockind = biocutils.factorize(block, levels=thresholds.block)
+        blockind = biocutils.match(block, thresholds.block, dtype=numpy.uint32, fail_missing=True)
         if (blockind < 0).any():
             raise ValueError("values in 'block' are not present in 'thresholds.block'")
-        detected = numpy.array(thresholds.detected, dtype=numpy.float64)
-        subset_sum = [numpy.array(s.as_list, dtype=numpy.float64) for s in thresholds.subset_sum.as_list()]
+        detected = numpy.array(thresholds.detected.as_list(), dtype=numpy.float64)
+        subset_sum = [numpy.array(s.as_list(), dtype=numpy.float64) for s in thresholds.subset_sum.as_list()]
     else:
         if not block is None:
             raise ValueError("'block' cannot be supplied if it was not used in 'suggest_adt_qc_thresholds'")
@@ -173,7 +173,7 @@ def filter_adt_qc_metrics(
         subset_sum = numpy.array(thresholds.subset_sum.as_list(), dtype=numpy.float64)
 
     return lib.filter_adt_qc_metrics(
-        (thresholds.detected, thresholds.subset_sum.as_list()),
+        (detected, subset_sum),
         (metrics.sum, metrics.detected, metrics.subset_sum.as_list()),
         blockind
     )

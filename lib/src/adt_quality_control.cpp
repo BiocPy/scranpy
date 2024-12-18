@@ -175,7 +175,7 @@ pybind11::array filter_adt_qc_metrics(pybind11::tuple filters, pybind11::tuple m
         const auto& detected = filters[0].cast<pybind11::array>();
         size_t nblocks = detected.size();
         auto& df = filt.get_detected();
-        auto dptr = check_numpy_array<uint32_t>(detected);
+        auto dptr = check_numpy_array<double>(detected);
         df.insert(df.end(), dptr, dptr + nblocks);
 
         const auto& subsets = filters[1].cast<pybind11::list>();
@@ -216,4 +216,10 @@ pybind11::array filter_adt_qc_metrics(pybind11::tuple filters, pybind11::tuple m
     }
 
     return keep;
+}
+
+void init_adt_quality_control(pybind11::module& m) {
+    m.def("compute_adt_qc_metrics", &compute_adt_qc_metrics);
+    m.def("suggest_adt_qc_thresholds", &suggest_adt_qc_thresholds);
+    m.def("filter_adt_qc_metrics", &filter_adt_qc_metrics);
 }

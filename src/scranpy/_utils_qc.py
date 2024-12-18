@@ -5,7 +5,7 @@ import numpy
 import biocutils
 
 
-def _sanitize_subsets(x: Union[Sequence, Mapping]) -> Tuple:
+def _sanitize_subsets(x: Union[Sequence, Mapping], extent: int) -> Tuple:
     if isinstance(x, biocutils.NamedList):
         keys = x.names().as_list()
         vals = list(x.as_list())
@@ -16,7 +16,7 @@ def _sanitize_subsets(x: Union[Sequence, Mapping]) -> Tuple:
         keys = None
         vals = list(x)
     for i, s in enumerate(vals):
-        vals[i] = _to_logical(s, x.shape[0], dtype=numpy.bool)
+        vals[i] = _to_logical(s, extent, dtype=numpy.bool)
     return keys, vals
 
 
