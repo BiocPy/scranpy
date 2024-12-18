@@ -79,7 +79,7 @@ inline void copy_subset_filters_blocked(size_t nsubs, size_t nblocks, const pybi
 
 inline void copy_subset_filters_unblocked(size_t nsubs, const pybind11::array& subsets, std::vector<double>& store) {
     if (static_cast<size_t>(subsets.size()) != nsubs) {
-        throw std::runtime_error("'filters.subsets' should have the same length as the number of subsets in 'metrics'");
+        throw std::runtime_error("'filters.subset_*' should have the same length as the number of subsets in 'metrics'");
     }
     auto subptr = check_numpy_array<double>(subsets);
     store.insert(store.end(), subptr, subptr + nsubs);
