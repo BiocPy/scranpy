@@ -11,7 +11,7 @@
 #include "utils.h"
 #include "qc.h"
 
-pybind11::tuple compute_adt_qc_metrics(uintptr_t x, pybind11::list subsets, int num_threads) {
+pybind11::tuple compute_rna_qc_metrics(uintptr_t x, pybind11::list subsets, int num_threads) {
     const auto& mat = mattress::cast(x)->ptr;
     size_t nc = mat->ncol();
     size_t nr = mat->nrow();
@@ -20,17 +20,17 @@ pybind11::tuple compute_adt_qc_metrics(uintptr_t x, pybind11::list subsets, int 
     auto in_subsets = configure_qc_subsets(nr, subsets);
 
     // Creating output containers.
-    scran_qc::ComputeAdtQcMetricsBuffers<double, uint32_t> buffers;
+    scran_qc::ComputeRnaQcMetricsBuffers<double, uint32_t> buffers;
     pybind11::array_t<double> sum(nc);
     buffers.sum = static_cast<double*>(sum.request().ptr);
     pybind11::array_t<uint32_t> detected(nc);
     buffers.detected = static_cast<uint32_t*>(detected.request().ptr);
-    pybind11::list out_subsets = prepare_subset_metrics(nc, nsub, buffers.subset_sum);
+    pybind11::list out_subsets = prepare_subset_metrics(nc, nsub, buffers.subset_proportion);
 
     // Running QC code.
-    scran_qc::ComputeAdtQcMetricsOptions opt;
+    scran_qc::ComputeRnaQcMetricsOptions opt;
     opt.num_threads = num_threads;
-    scran_qc::compute_adt_qc_metrics(*mat, in_subsets, buffers, opt);
+    scran_qc::compute_rna_qc_metrics(*mat, in_subsets, buffers, opt);
 
     pybind11::tuple output(3);
     output[0] = sum;
@@ -39,11 +39,11 @@ pybind11::tuple compute_adt_qc_metrics(uintptr_t x, pybind11::list subsets, int 
     return output;
 }
 
-class ConvertedAdtQcMetrics {
+class ConvertedRnaQcMetrics {
 public:
-    ConvertedAdtQcMetrics(pybind11::tuple metrics) {
+    ConvertedRnaQcMetrics(pybind11::tuple metrics) {
         if (metrics.size() != 3) {
-            throw std::runtime_error("'metrics' should have the same format as the output of 'compute_adt_qc_metrics'");
+            throw std::runtime_error("'metrics' should have the same format as the output of 'compute_rna_qc_metrics'");
         }
 
         sum = metrics[0].cast<pybind11::array>();
@@ -75,27 +75,26 @@ public:
     }
 
     auto to_buffer() const {
-        scran_qc::ComputeAdtQcMetricsBuffers<const double, const uint32_t> buffers;
+        scran_qc::ComputeRnaQcMetricsBuffers<const double, const uint32_t, const double> buffers;
         buffers.sum = get_numpy_array_data<double>(sum);
         buffers.detected = get_numpy_array_data<uint32_t>(detected);
-        buffers.subset_sum.reserve(subsets.size());
+        buffers.subset_proportion.reserve(subsets.size());
         for (auto& s : subsets) {
-            buffers.subset_sum.push_back(get_numpy_array_data<double>(s));
+            buffers.subset_proportion.push_back(get_numpy_array_data<double>(s));
         }
         return buffers;
     }
 };
 
-pybind11::tuple suggest_adt_qc_thresholds(pybind11::tuple metrics, std::optional<pybind11::array> maybe_block, double min_detected_drop, double num_mads) {
-    ConvertedAdtQcMetrics all_metrics(metrics);
+pybind11::tuple suggest_rna_qc_thresholds(pybind11::tuple metrics, std::optional<pybind11::array> maybe_block, double num_mads) {
+    ConvertedRnaQcMetrics all_metrics(metrics);
     auto buffers = all_metrics.to_buffer();
     size_t ncells = all_metrics.size();
-    size_t nsubs = all_metrics.num_subsets();
 
-    scran_qc::ComputeAdtQcFiltersOptions opt;
+    scran_qc::ComputeRnaQcFiltersOptions opt;
+    opt.sum_num_mads = num_mads;
     opt.detected_num_mads = num_mads;
-    opt.subset_sum_num_mads = num_mads;
-    opt.detected_min_drop = min_detected_drop;
+    opt.subset_proportion_num_mads = num_mads;
 
     pybind11::tuple output(2);
 
@@ -106,31 +105,34 @@ pybind11::tuple suggest_adt_qc_thresholds(pybind11::tuple metrics, std::optional
         }
         auto bptr = check_numpy_array<uint32_t>(block);
 
-        auto filt = scran_qc::compute_adt_qc_filters_blocked(ncells, buffers, bptr, opt);
+        auto filt = scran_qc::compute_rna_qc_filters_blocked(ncells, buffers, bptr, opt);
 
+        const auto& sout = filt.get_sum();
+        output[0] = pybind11::array_t<double>(sout.size(), sout.data());
         const auto& dout = filt.get_detected();
-        output[0] = pybind11::array_t<double>(dout.size(), dout.data());
-        const auto& ssout = filt.get_subset_sum();
-        output[1] = create_subset_filters(ssout);
+        output[1] = pybind11::array_t<double>(dout.size(), dout.data());
+        const auto& ssout = filt.get_subset_proportion();
+        output[2] = create_subset_filters(ssout);
 
     } else {
-        auto filt = scran_qc::compute_adt_qc_filters(ncells, buffers, opt);
-        output[0] = filt.get_detected();
-        const auto& ssout = filt.get_subset_sum();
-        output[1] = pybind11::array_t<double>(ssout.size(), ssout.data());
+        auto filt = scran_qc::compute_rna_qc_filters(ncells, buffers, opt);
+        output[0] = filt.get_sum();
+        output[1] = filt.get_detected();
+        const auto& ssout = filt.get_subset_proportion();
+        output[2] = pybind11::array_t<double>(ssout.size(), ssout.data());
     }
 
     return output;
 }
 
-pybind11::array filter_adt_qc_metrics(pybind11::tuple filters, pybind11::tuple metrics, std::optional<pybind11::array> maybe_block) {
-    ConvertedAdtQcMetrics all_metrics(metrics);
+pybind11::array filter_rna_qc_metrics(pybind11::tuple filters, pybind11::tuple metrics, std::optional<pybind11::array> maybe_block) {
+    ConvertedRnaQcMetrics all_metrics(metrics);
     auto mbuffers = all_metrics.to_buffer();
     size_t ncells = all_metrics.size();
     size_t nsubs = all_metrics.num_subsets();
 
-    if (filters.size() != 2) {
-        throw std::runtime_error("'filters' should have the same format as the output of 'suggest_adt_qc_filters'");
+    if (filters.size() != 3) {
+        throw std::runtime_error("'filters' should have the same format as the output of 'suggestRnaQcFilters'");
     }
 
     pybind11::array_t<bool> keep(ncells);
@@ -143,28 +145,31 @@ pybind11::array filter_adt_qc_metrics(pybind11::tuple filters, pybind11::tuple m
         }
         auto bptr = check_numpy_array<uint32_t>(block);
 
-        scran_qc::AdtQcBlockedFilters filt;
-        const auto& detected = filters[0].cast<pybind11::array>();
-        size_t nblocks = detected.size();
+        scran_qc::RnaQcBlockedFilters filt;
+        const auto& sum = filters[0].cast<pybind11::array>();
+        size_t nblocks = sum.size();
+        copy_filters_blocked(nblocks, sum, filt.get_sum());
+        const auto& detected = filters[1].cast<pybind11::array>();
         copy_filters_blocked(nblocks, detected, filt.get_detected());
-        const auto& subsets = filters[1].cast<pybind11::list>();
-        copy_subset_filters_blocked(nsubs, nblocks, subsets, filt.get_subset_sum());
+        const auto& subsets = filters[2].cast<pybind11::list>();
+        copy_subset_filters_blocked(nsubs, nblocks, subsets, filt.get_subset_proportion());
 
         filt.filter(ncells, mbuffers, bptr, kptr);
 
     } else {
-        scran_qc::AdtQcFilters filt;
-        filt.get_detected() = filters[0].cast<double>();
-        const auto& subsets = filters[1].cast<pybind11::array>();
-        copy_subset_filters_unblocked(nsubs, subsets, filt.get_subset_sum());
+        scran_qc::RnaQcFilters filt;
+        filt.get_sum() = filters[0].cast<double>();
+        filt.get_detected() = filters[1].cast<double>();
+        const auto& subsets = filters[2].cast<pybind11::array>();
+        copy_subset_filters_unblocked(nsubs, subsets, filt.get_subset_proportion());
         filt.filter(ncells, mbuffers, kptr);
     }
 
     return keep;
 }
 
-void init_adt_quality_control(pybind11::module& m) {
-    m.def("compute_adt_qc_metrics", &compute_adt_qc_metrics);
-    m.def("suggest_adt_qc_thresholds", &suggest_adt_qc_thresholds);
-    m.def("filter_adt_qc_metrics", &filter_adt_qc_metrics);
+void init_rna_quality_control(pybind11::module& m) {
+    m.def("compute_rna_qc_metrics", &compute_rna_qc_metrics);
+    m.def("suggest_rna_qc_thresholds", &suggest_rna_qc_thresholds);
+    m.def("filter_rna_qc_metrics", &filter_rna_qc_metrics);
 }

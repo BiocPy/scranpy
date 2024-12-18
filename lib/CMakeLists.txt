@@ -11,6 +11,7 @@ find_package(pybind11 CONFIG)
 # pybind11 method:
 pybind11_add_module(scranpy
     src/adt_quality_control.cpp
+    src/rna_quality_control.cpp
     src/init.cpp
 )
 
