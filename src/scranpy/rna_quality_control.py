@@ -46,7 +46,7 @@ def compute_rna_qc_metrics(x: Any, subsets: Union[Mapping, Sequence], num_thread
               the values are arrays as described above.
             - A :py:class:`~biocutils.NamedList.NamedList` where each element
               is an array as described above, possibly with names.
-            
+
         num_threads:
             Number of threads to use.
 
@@ -135,7 +135,7 @@ def filter_rna_qc_metrics(
     thresholds: SuggestRnaQcThresholdsResults,
     metrics: ComputeRnaQcMetricsResults,
     block: Optional[Sequence] = None
-) -> numpy.ndarray:  
+) -> numpy.ndarray:
     """Filter for high-quality cells based on RNA-derived QC metrics.
 
     Args:
@@ -160,8 +160,6 @@ def filter_rna_qc_metrics(
         if block is None:
             raise ValueError("'block' must be supplied if it was used in 'suggest_rna_qc_thresholds'")
         blockind = biocutils.match(block, thresholds.block, dtype=numpy.uint32, fail_missing=True)
-        if (blockind < 0).any():
-            raise ValueError("values in 'block' are not present in 'thresholds.block'")
         sums = numpy.array(thresholds.sum.as_list(), dtype=numpy.float64)
         detected = numpy.array(thresholds.detected.as_list(), dtype=numpy.float64)
         subset_proportion = [numpy.array(s.as_list(), dtype=numpy.float64) for s in thresholds.subset_proportion.as_list()]
