@@ -96,7 +96,7 @@ pybind11::tuple suggest_rna_qc_thresholds(pybind11::tuple metrics, std::optional
     opt.detected_num_mads = num_mads;
     opt.subset_proportion_num_mads = num_mads;
 
-    pybind11::tuple output(2);
+    pybind11::tuple output(3);
 
     if (maybe_block.has_value()) {
         const auto& block = *maybe_block;

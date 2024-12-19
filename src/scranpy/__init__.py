@@ -16,3 +16,4 @@ finally:
     del version, PackageNotFoundError
 
 from .adt_quality_control import *
+from .rna_quality_control import *

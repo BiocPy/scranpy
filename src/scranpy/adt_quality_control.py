@@ -35,15 +35,15 @@ def compute_adt_qc_metrics(x: Any, subsets: Union[Mapping, Sequence], num_thread
             A matrix-like object containing ADT counts.
 
         subsets:
-            A specification of the ADT feature subsets, typically used to
+            A specification of the ADT subsets, typically used to
             identify control features like IgGs. This may be either:
 
-            - A list of arrays. Each array corresponds to a feature subset
+            - A list of arrays. Each array corresponds to an ADT subset
               and can either contain boolean or integer values. For booleans,
               the array should be of length equal to the number of rows
               and be truthy for rows that belong in the subset. Integers
               are treated as indices of rows that belong in the subset.
-            - A dictionary where keys are the names of each feature subset and
+            - A dictionary where keys are the names of each ADT subset and
               the values are arrays as described above.
             - A :py:class:`~biocutils.NamedList.NamedList` where each element
               is an array as described above, possibly with names.
@@ -71,8 +71,8 @@ class SuggestAdtQcThresholdsResults:
     provided, a separate threshold is computed for each level."""
 
     subset_sum: biocutils.NamedList
-    """Thresholds on the total count in each feature subset. Each element of
-    the list corresponds to a feature subset. Cells with higher totals than the
+    """Thresholds on the sum of counts in each ADT subset. Each element of the
+    list corresponds to a ADT subset. Cells with higher totals than the
     threshold are considered to be of low quality. If a blocking factor is
     provided, a separate threshold is computed for each level."""
 
@@ -100,11 +100,11 @@ def suggest_adt_qc_thresholds(
             all cells are from the same block.
 
         min_detected_drop:
-            Minimum drop in the number of detected features from the median, in
+            Minimum drop in the number of detected ADTs from the median, in
             order to consider a cell to be of low quality.
 
         num_mads:
-            Number of median from the median, to define the threshold for
+            Number of median from the median, used to define the threshold for
             outliers in each metric.
 
     Returns:
