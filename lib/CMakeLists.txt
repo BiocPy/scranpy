@@ -14,6 +14,7 @@ pybind11_add_module(scranpy
     src/rna_quality_control.cpp
     src/crispr_quality_control.cpp
     src/normalize_counts.cpp
+    src/center_size_factors.cpp
     src/init.cpp
 )
 
