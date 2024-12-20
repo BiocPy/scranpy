@@ -14,7 +14,7 @@ void center_size_factors(const pybind11::array& size_factors, std::optional<pybi
     opt.ignore_invalid = true;
 
     size_t ncells = size_factors.size();
-    double* iptr = static_cast<double*>(size_factors.request().ptr);
+    double* iptr = const_cast<double*>(check_numpy_array<double>(size_factors));
 
     if (maybe_block.has_value()) {
         const auto& block = *maybe_block;
