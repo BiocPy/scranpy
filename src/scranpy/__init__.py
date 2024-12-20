@@ -21,3 +21,4 @@ from .crispr_quality_control import *
 from .normalize_counts import *
 from .center_size_factors import *
 from .sanitize_size_factors import *
+from .compute_clrm1_factors import *

@@ -16,6 +16,7 @@ pybind11_add_module(scranpy
     src/normalize_counts.cpp
     src/center_size_factors.cpp
     src/sanitize_size_factors.cpp
+    src/compute_clrm1_factors.cpp
     src/init.cpp
 )
 
