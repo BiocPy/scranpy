@@ -19,6 +19,7 @@ pybind11_add_module(scranpy
     src/compute_clrm1_factors.cpp
     src/model_gene_variances.cpp
     src/fit_variance_trend.cpp
+    src/choose_highly_variable_genes.cpp
     src/init.cpp
 )
 
