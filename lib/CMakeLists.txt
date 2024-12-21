@@ -18,6 +18,7 @@ pybind11_add_module(scranpy
     src/sanitize_size_factors.cpp
     src/compute_clrm1_factors.cpp
     src/model_gene_variances.cpp
+    src/fit_variance_trend.cpp
     src/init.cpp
 )
 

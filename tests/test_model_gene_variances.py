@@ -14,9 +14,9 @@ def test_model_gene_variances_basic():
     assert numpy.allclose(out.variance - out.fitted, out.residual)
     assert out.per_block is None
 
-#    fit <- fitVarianceTrend(out$means, out$variances)
-#    expect_identical(out$fitted, fit$fitted)
-#    expect_identical(out$residuals, fit$residuals)
+    fitted, resid = scranpy.fit_variance_trend(out.mean, out.variance)
+    assert (out.fitted == fitted).all()
+    assert (out.residual == resid).all()
 
     # Responds to trend-fitting options. 
     out2 = scranpy.model_gene_variances(x, span=0.5)
@@ -24,9 +24,9 @@ def test_model_gene_variances_basic():
     assert (out.mean == out2.mean).all()
     assert (out.fitted != out2.fitted).any()
 
-#    fit2 <- fitVarianceTrend(out2$means, out2$variances, span=0.5)
-#    expect_equal(out2$fitted, fit2$fitted)
-#    expect_equal(out2$residuals, fit2$residuals)
+    fitted2, resid2 = scranpy.fit_variance_trend(out.mean, out.variance, span=0.5)
+    assert (out2.fitted == fitted2).all()
+    assert (out2.residual == resid2).all()
 
 
 def test_model_gene_variances_blocked():
