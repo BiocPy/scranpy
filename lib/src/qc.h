@@ -1,5 +1,5 @@
-#ifndef QC_H
-#define QC_H
+#ifndef UTILS_QC_H
+#define UTILS_QC_H
 
 #include <vector>
 #include <cstdint>

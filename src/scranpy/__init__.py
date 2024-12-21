@@ -22,3 +22,4 @@ from .normalize_counts import *
 from .center_size_factors import *
 from .sanitize_size_factors import *
 from .compute_clrm1_factors import *
+from .model_gene_variances import *
