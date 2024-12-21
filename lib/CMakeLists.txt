@@ -21,6 +21,7 @@ pybind11_add_module(scranpy
     src/model_gene_variances.cpp
     src/fit_variance_trend.cpp
     src/choose_highly_variable_genes.cpp
+    src/run_pca.cpp
     src/init.cpp
 )
 
