@@ -10,7 +10,7 @@ def test_model_gene_variances_basic():
     x = numpy.random.rand(1000, 100) * 10
     out = scranpy.model_gene_variances(x)
     assert numpy.allclose(out.mean, x.mean(axis=1))
-    assert numpy.allclose(out.variance, x.var(axis=1))
+    assert numpy.allclose(out.variance, x.var(axis=1, ddof=1))
     assert numpy.allclose(out.variance - out.fitted, out.residual)
     assert out.per_block is None
 
@@ -38,7 +38,7 @@ def test_model_gene_variances_blocked():
         sub = x[:,block == b]
         current = out.per_block[b]
         assert numpy.allclose(current.mean, sub.mean(axis=1))
-        assert numpy.allclose(current.variance, sub.var(axis=1))
+        assert numpy.allclose(current.variance, sub.var(axis=1, ddof=1))
         assert numpy.allclose(current.variance - current.fitted, current.residual)
 
     assert numpy.allclose(out.mean, (out.per_block[0].mean + out.per_block[1].mean + out.per_block[2].mean)/3)
