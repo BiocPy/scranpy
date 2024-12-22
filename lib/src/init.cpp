@@ -12,6 +12,8 @@ void init_model_gene_variances(pybind11::module&);
 void init_fit_variance_trend(pybind11::module&);
 void init_choose_highly_variable_genes(pybind11::module&);
 void init_run_pca(pybind11::module&);
+void init_run_tsne(pybind11::module&);
+void init_run_umap(pybind11::module&);
 
 PYBIND11_MODULE(lib_scranpy, m) {
     init_adt_quality_control(m);
@@ -26,4 +28,6 @@ PYBIND11_MODULE(lib_scranpy, m) {
     init_fit_variance_trend(m);
     init_choose_highly_variable_genes(m);
     init_run_pca(m);
+    init_run_tsne(m);
+    init_run_umap(m);
 }

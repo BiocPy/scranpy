@@ -22,6 +22,8 @@ pybind11_add_module(scranpy
     src/fit_variance_trend.cpp
     src/choose_highly_variable_genes.cpp
     src/run_pca.cpp
+    src/run_tsne.cpp
+    src/run_umap.cpp
     src/init.cpp
 )
 

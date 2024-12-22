@@ -27,3 +27,5 @@ from .model_gene_variances import *
 from .fit_variance_trend import *
 from .choose_highly_variable_genes import *
 from .run_pca import *
+from .run_tsne import *
+from .run_umap import *
