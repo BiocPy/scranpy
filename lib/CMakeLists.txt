@@ -24,6 +24,7 @@ pybind11_add_module(scranpy
     src/run_pca.cpp
     src/run_tsne.cpp
     src/run_umap.cpp
+    src/build_snn_graph.cpp
     src/init.cpp
 )
 
