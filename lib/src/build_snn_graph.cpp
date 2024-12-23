@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 #include "pybind11/pybind11.h"
-#include "scran_graph_cluster/build_snn_graph.hpp"
+#include "scran_graph_cluster/scran_graph_cluster.hpp"
 #include "tatami/tatami.hpp"
 
 #include "utils.h"
@@ -30,7 +30,7 @@ pybind11::tuple build_snn_graph(const pybind11::array& neighbors, std::string sc
         throw std::runtime_error("unknown weighting scheme '" + scheme + "'");
     }
 
-    scran_graph_cluster::BuildSnnGraphResults<int, double> raw;
+    scran_graph_cluster::BuildSnnGraphResults<igraph_integer_t, igraph_real_t> raw;
     scran_graph_cluster::build_snn_graph(
         ncells,
         [&](uint32_t i) -> tatami::ArrayView<uint32_t> {
@@ -43,8 +43,8 @@ pybind11::tuple build_snn_graph(const pybind11::array& neighbors, std::string sc
 
     pybind11::tuple output(3);
     output[0] = ncells;
-    output[1] = pybind11::array_t<int>(raw.edges.size(), raw.edges.data());
-    output[2] = pybind11::array_t<double>(raw.weights.size(), raw.weights.data());
+    output[1] = pybind11::array_t<igraph_integer_t>(raw.edges.size(), raw.edges.data());
+    output[2] = pybind11::array_t<igraph_real_t>(raw.weights.size(), raw.weights.data());
     return output;
 }
 

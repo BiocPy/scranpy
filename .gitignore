@@ -55,3 +55,7 @@ MANIFEST
 
 # Aaron's files
 playground/
+installed/
+extern/build-*
+extern/igraph-*
+extern/*.tar.gz

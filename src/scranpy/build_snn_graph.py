@@ -9,8 +9,9 @@ from ._utils_neighbors import _check_indices
 
 
 @dataclass
-class BuildSnnGraphResults:
-    """Results of :py:func:`~build_snn_graph`."""
+class GraphComponents:
+    """Components of a (possibly weighted) graph. Typically, nodes are cells
+    and edges are formed between cells with similar expression profiles."""
 
     vertices: int
     """Number of vertices in the graph (i.e., cells)."""
@@ -20,9 +21,10 @@ class BuildSnnGraphResults:
     endpoints of an (undirected) edge, #' i.e., ``edges[0:2]`` form the
     first edge, ``edges[2:4]`` form the second edge and so on."""
 
-    weights: numpy.ndarray
+    weights: Optional[numpy.ndarray]
     """Array of weights for each edge. This has length equal to half the length
-    of ``edges``."""
+    of ``edges``; the first weight corresponds to the first edge, and so on.
+    If None, the graph is assumed to be unweighted."""
 
 
 def build_snn_graph(
@@ -31,7 +33,7 @@ def build_snn_graph(
     weight_scheme: Literal["ranked", "number", "jaccard"] = "ranked",
     num_threads: int = 1, 
     nn_parameters: knncolle.Parameters = knncolle.AnnoyParameters()
-) -> BuildSnnGraphResults:
+) -> GraphComponents:
     """Build a shared nearest neighbor (SNN) graph where each node is a cell.
     Edges are formed between cells that share one or more nearest neighbors,
     weighted by the number or importance of those shared neighbors.
@@ -78,4 +80,4 @@ def build_snn_graph(
         nnidx = x.index
 
     ncells, edges, weights = lib.build_snn_graph(nnidx, weight_scheme, num_threads)
-    return BuildSnnGraphResults(ncells, edges, weights)
+    return GraphComponents(ncells, edges, weights)

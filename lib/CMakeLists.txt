@@ -25,6 +25,7 @@ pybind11_add_module(scranpy
     src/run_tsne.cpp
     src/run_umap.cpp
     src/build_snn_graph.cpp
+    src/cluster_graph.cpp
     src/init.cpp
 )
 
@@ -35,6 +36,9 @@ target_include_directories(scranpy PRIVATE "${KNNCOLLE_INCLUDE_DIR}")
 set_property(TARGET scranpy PROPERTY CXX_STANDARD 17)
 
 target_link_libraries(scranpy PRIVATE pybind11::pybind11)
+
+find_package(igraph CONFIG REQUIRED)
+target_link_libraries(scranpy PRIVATE igraph::igraph)
 
 set_target_properties(scranpy PROPERTIES
     OUTPUT_NAME lib_scranpy

@@ -15,6 +15,7 @@ void init_run_pca(pybind11::module&);
 void init_run_tsne(pybind11::module&);
 void init_run_umap(pybind11::module&);
 void init_build_snn_graph(pybind11::module&);
+void init_cluster_graph(pybind11::module&);
 
 PYBIND11_MODULE(lib_scranpy, m) {
     init_adt_quality_control(m);
@@ -32,4 +33,5 @@ PYBIND11_MODULE(lib_scranpy, m) {
     init_run_tsne(m);
     init_run_umap(m);
     init_build_snn_graph(m);
+    init_cluster_graph(m);
 }
