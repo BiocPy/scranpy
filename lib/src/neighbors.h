@@ -10,7 +10,7 @@ template<typename Index_, class Distance_>
 std::vector<std::vector<std::pair<Index_, Distance_> > > unpack_neighbors(const pybind11::array& nnidx, const pybind11::array& nndist) {
     auto ibuffer = nnidx.request();
     size_t nobs = ibuffer.shape[0], nneighbors = ibuffer.shape[1];
-    if (nnidx.flags() & pybind11::array::c_style == 0) {
+    if ((nnidx.flags() & pybind11::array::c_style) == 0) {
         throw std::runtime_error("expected a row-major matrix for the indices");
     }
     if (!nnidx.dtype().is(pybind11::dtype::of<uint32_t>())) {
@@ -19,7 +19,7 @@ std::vector<std::vector<std::pair<Index_, Distance_> > > unpack_neighbors(const 
     const uint32_t* iptr = get_numpy_array_data<uint32_t>(nnidx);
 
     auto dbuffer = nndist.request();
-    if (nndist.flags() & pybind11::array::c_style == 0) {
+    if ((nndist.flags() & pybind11::array::c_style) == 0) {
         throw std::runtime_error("expected a row-major matrix for the distances");
     }
     if (!nndist.dtype().is(pybind11::dtype::of<double>())) {
