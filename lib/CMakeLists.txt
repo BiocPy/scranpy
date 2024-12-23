@@ -26,6 +26,7 @@ pybind11_add_module(scranpy
     src/run_umap.cpp
     src/build_snn_graph.cpp
     src/cluster_graph.cpp
+    src/cluster_kmeans.cpp
     src/init.cpp
 )
 

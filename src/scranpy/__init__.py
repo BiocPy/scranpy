@@ -31,3 +31,4 @@ from .run_tsne import *
 from .run_umap import *
 from .build_snn_graph import *
 from .cluster_graph import *
+from .cluster_kmeans import *
