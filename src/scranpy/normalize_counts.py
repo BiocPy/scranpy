@@ -63,7 +63,7 @@ def normalize_counts(
         If ``x`` is an ``InitializedMatrix``, a new ``InitializedMatrix`` is
         returned containing the normalized expression matrix.
     """
-    size_factors = numpy.array(size_factors, dtype=numpy.float64, copy=False)
+    size_factors = numpy.array(size_factors, dtype=numpy.float64, copy=None)
 
     if isinstance(x, mattress.InitializedMatrix):
         return mattress.InitializedMatrix(

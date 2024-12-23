@@ -44,7 +44,7 @@ def choose_highly_variable_genes(
         Array containing the indices of genes in ``stats`` that are
         considered to be highly variable.
     """
-    local_s = numpy.array(stats, dtype=numpy.float64, copy=False)
+    local_s = numpy.array(stats, dtype=numpy.float64, copy=None)
     return lib.choose_highly_variable_genes(
         local_s,
         min(top, len(local_s)), # protect against top=Inf when casting to 'int' in pybind11.

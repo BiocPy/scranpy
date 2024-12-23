@@ -60,8 +60,8 @@ def fit_variance_trend(
         A tuple of two arrays. The first array contains the fitted value of the
         trend for each gene while the second array contains the residual.
     """
-    local_m = numpy.array(mean, dtype=numpy.float64, copy=False)
-    local_v = numpy.array(variance, dtype=numpy.float64, copy=False)
+    local_m = numpy.array(mean, dtype=numpy.float64, copy=None)
+    local_v = numpy.array(variance, dtype=numpy.float64, copy=None)
     return lib.fit_variance_trend(
         local_m,
         local_v,

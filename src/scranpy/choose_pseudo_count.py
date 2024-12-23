@@ -29,5 +29,5 @@ def choose_pseudo_count(
         Choice of pseudo-count, for use in
         :py:func:`~scranpy.normalize_counts.normalize_counts`.
     """
-    local_sf = numpy.array(size_factors, dtype=numpy.float64, copy=False)
+    local_sf = numpy.array(size_factors, dtype=numpy.float64, copy=None)
     return lib.choose_pseudo_count(local_sf, quantile, max_bias, min_value)
