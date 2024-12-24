@@ -8,9 +8,8 @@ from .build_snn_graph import GraphComponents
 
 
 @dataclass
-class ClusterGraphMultilevelResults:
-    """Clustering results from :py:func:`~cluster_graph` when ``method =
-    "multilevel"``."""
+class ClusterGraphResults:
+    """Clustering results from :py:func:`~cluster_graph`."""
 
     status: int
     """Status of the clustering. A non-zero value indicates that the algorithm
@@ -19,6 +18,12 @@ class ClusterGraphMultilevelResults:
     membership: numpy.ndarray
     """Array containing the cluster assignment for each vertex, i.e., cell.
     All values are in [0, N) where N is the total number of clusters."""
+
+
+@dataclass
+class ClusterGraphMultilevelResults(ClusterGraphResults):
+    """Clustering results from :py:func:`~cluster_graph` when ``method =
+    "multilevel"``."""
 
     levels: tuple[numpy.ndarray]
     """Clustering at each level of the algorithm. Each array corresponds to one
@@ -30,17 +35,9 @@ class ClusterGraphMultilevelResults:
 
 
 @dataclass
-class ClusterGraphLeidenResults:
+class ClusterGraphLeidenResults(ClusterGraphResults):
     """Clustering results from :py:func:`~cluster_graph` when ``method =
     "multilevel"``."""
-
-    status: int
-    """Status of the clustering. A non-zero value indicates that the algorithm
-    did not complete successfully."""
-
-    membership: numpy.ndarray
-    """Array containing the cluster assignment for each vertex, i.e., cell.
-    All values are in [0, N) where N is the total number of clusters."""
 
     quality: float
     """Quality of the clustering. This is the same as the modularity if
@@ -48,17 +45,9 @@ class ClusterGraphLeidenResults:
 
 
 @dataclass
-class ClusterGraphWalktrapResults:
+class ClusterGraphWalktrapResults(ClusterGraphResults):
     """Clustering results from :py:func:`~cluster_graph` when ``method =
     "walktrap"``."""
-
-    status: int
-    """Status of the clustering. A non-zero value indicates that the algorithm
-    did not complete successfully."""
-
-    membership: numpy.ndarray
-    """Array containing the cluster assignment for each vertex, i.e., cell.
-    All values are in [0, N) where N is the total number of clusters."""
 
     merges: numpy.ndarray
     """Matrix containing two columns. Each row specifies the pair of cells or
@@ -76,7 +65,7 @@ def cluster_graph(
     leiden_objective: Literal["modularity", "cpm"] = "modularity",
     walktrap_steps: int = 4,
     seed: int = 42
-) -> Union[ClusterGraphMultilevelResults, ClusterGraphLeidenResults, ClusterGraphWalktrapResults]:
+) -> ClusterGraphResults:
     """Identify clusters of cells using a variety of community detection
     methods from a graph where similar cells are connected.
 
