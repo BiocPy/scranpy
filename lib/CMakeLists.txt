@@ -27,6 +27,8 @@ pybind11_add_module(scranpy
     src/build_snn_graph.cpp
     src/cluster_graph.cpp
     src/cluster_kmeans.cpp
+    src/score_markers.cpp
+    src/summarize_effects.cpp
     src/init.cpp
 )
 
