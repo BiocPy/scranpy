@@ -19,6 +19,9 @@ void init_cluster_graph(pybind11::module&);
 void init_cluster_kmeans(pybind11::module&);
 void init_score_markers(pybind11::module&);
 void init_summarize_effects(pybind11::module&);
+void init_aggregate_across_cells(pybind11::module&);
+void init_aggregate_across_genes(pybind11::module&);
+void init_combine_factors(pybind11::module&);
 
 PYBIND11_MODULE(lib_scranpy, m) {
     init_adt_quality_control(m);
@@ -40,4 +43,7 @@ PYBIND11_MODULE(lib_scranpy, m) {
     init_cluster_kmeans(m);
     init_score_markers(m);
     init_summarize_effects(m);
+    init_aggregate_across_cells(m);
+    init_aggregate_across_genes(m);
+    init_combine_factors(m);
 }

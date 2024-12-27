@@ -29,6 +29,9 @@ pybind11_add_module(scranpy
     src/cluster_kmeans.cpp
     src/score_markers.cpp
     src/summarize_effects.cpp
+    src/aggregate_across_cells.cpp
+    src/aggregate_across_genes.cpp
+    src/combine_factors.cpp
     src/init.cpp
 )
 
