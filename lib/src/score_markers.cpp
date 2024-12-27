@@ -227,3 +227,8 @@ pybind11::tuple score_markers_pairwise(
     output[5] = delta_detected;
     return output;
 }
+
+void init_score_markers(pybind11::module& m) {
+    m.def("score_markers_pairwise", &score_markers_pairwise);
+    m.def("score_markers_summary", &score_markers_summary);
+}

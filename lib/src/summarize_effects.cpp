@@ -7,16 +7,16 @@
 
 #include "utils.h"
 
-pybind11::tuple summarize_effects(uint32_t num_genes, uint32_t num_groups, const pybind11::array& effects, int num_threads) {
+pybind11::tuple summarize_effects(const pybind11::array& effects, int num_threads) {
     auto ebuffer = effects.request();
     if (ebuffer.shape.size() != 3) {
         throw std::runtime_error("expected a 3-dimensional array for the effects");
     }
-    size_t ngroups = ebuffer.shape[0];
-    if (ngroups != ebuffer.shape[1]) {
+    size_t num_groups = ebuffer.shape[0];
+    if (num_groups != ebuffer.shape[1]) {
         throw std::runtime_error("first two dimensions of the effects array should have the same extent");
     }
-    size_t ngenes = ebuffer.shape[2];
+    size_t num_genes = ebuffer.shape[2];
     if ((effects.flags() & pybind11::array::f_style) == 0) {
         throw std::runtime_error("expected Fortran-style storage for the effects");
     }
@@ -63,4 +63,8 @@ pybind11::tuple summarize_effects(uint32_t num_genes, uint32_t num_groups, const
         output[g] = current;
     }
     return output;
+}
+
+void init_summarize_effects(pybind11::module& m) {
+    m.def("summarize_effects", &summarize_effects);
 }

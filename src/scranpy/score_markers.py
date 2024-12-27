@@ -1,4 +1,4 @@
-from typing import Optional, Any, Sequence, Tuple, Union
+from typing import Optional, Any, Sequence, Tuple, Union, Literal
 from dataclasses import dataclass
 
 import numpy
@@ -140,7 +140,7 @@ def score_markers(
         _, block = biocutils.factorize(block, fail_missing=True, dtype=numpy.uint32)
 
     args = [
-        x,
+        ptr.ptr,
         gind,
         len(glev),
         block,
@@ -167,6 +167,7 @@ def score_markers(
             return biocutils.NamedList(out, glev)
 
     return ScoreMarkersResults( 
+        glev,
         means,
         detected,
         san(cohen) if compute_cohens_d else None,

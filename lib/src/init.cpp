@@ -17,6 +17,8 @@ void init_run_umap(pybind11::module&);
 void init_build_snn_graph(pybind11::module&);
 void init_cluster_graph(pybind11::module&);
 void init_cluster_kmeans(pybind11::module&);
+void init_score_markers(pybind11::module&);
+void init_summarize_effects(pybind11::module&);
 
 PYBIND11_MODULE(lib_scranpy, m) {
     init_adt_quality_control(m);
@@ -36,4 +38,6 @@ PYBIND11_MODULE(lib_scranpy, m) {
     init_build_snn_graph(m);
     init_cluster_graph(m);
     init_cluster_kmeans(m);
+    init_score_markers(m);
+    init_summarize_effects(m);
 }

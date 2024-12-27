@@ -55,8 +55,8 @@ def summarize_effects(effects: numpy.ndarray, num_threads: int = 1) -> list[Grou
     Returns:
         List of per-group summary statistics for the effect sizes.
     """
-    min_, mean_, median_, max_, min_rank_ = summarize_effects(effects, num_threads)
+    results = lib.summarize_effects(effects, num_threads)
     output = []
-    for i in range(len(min_)):
-        output.append(GroupSummarizedEffects(min_[i], mean_[i], median_[i], max_[i], min_rank_[i]))
+    for val in results:
+        output.append(GroupwiseSummarizedEffects(*val))
     return output
