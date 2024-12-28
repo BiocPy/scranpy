@@ -9,7 +9,7 @@ from .combine_factors import combine_factors
 
 
 @dataclass
-class AggregateAcrossCells:
+class AggregateAcrossCellsResults:
     """Results of :py:func:`~aggregate_across_cells`."""
 
     sum: numpy.ndarray

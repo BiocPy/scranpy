@@ -18,7 +18,9 @@ def combine_factors(factors: Sequence, keep_unused: bool = False) -> Tuple:
             a single observation.
 
         keep_unused:
-            Whether to report unused combinations of levels.
+            Whether to report unused combinations of levels. If any entry of
+            ``factors`` is a :py:class:`~biocutils.Factor.Factor` object, any
+            unused levels will also be preserved.
 
     Returns:
         Tuple containing:
@@ -32,12 +34,16 @@ def combine_factors(factors: Sequence, keep_unused: bool = False) -> Tuple:
     f0 = []
     levels0 = []
     for f, current in enumerate(factors):
-        lev, ind = biocutils.factorize(current)
-        f0.append(ind)
-        levels0.append(lev)
+        if isinstance(current, biocutils.Factor):
+            f0.append(current.get_codes().astype(numpy.uint32, copy=None))
+            levels0.append(current.get_levels())
+        else:
+            lev, ind = biocutils.factorize(current, sort_levels=True, dtype=numpy.uint32, fail_missing=True)
+            f0.append(ind)
+            levels0.append(lev)
 
     ind, combos = lib.combine_factors(
-        f0,
+        (*f0,),
         keep_unused,
         numpy.array([len(l) for l in levels0], dtype=numpy.uint32)
     )

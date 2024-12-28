@@ -38,7 +38,7 @@ pybind11::tuple aggregate_across_cells(uintptr_t x, const pybind11::array& group
     opt.num_threads = num_threads;
     scran_aggregate::aggregate_across_cells(*mat, gptr, buffers, opt);
 
-    pybind11::tuple output;
+    pybind11::tuple output(2);
     output[0] = sums;
     output[1] = detected;
     return output;

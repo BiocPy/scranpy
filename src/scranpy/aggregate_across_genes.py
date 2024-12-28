@@ -48,7 +48,7 @@ def aggregate_across_genes(
                 numpy.array(s[1], copy=None, order="A", dtype=numpy.float64)
             ))
         else:
-            new_sets.append(numpy.array(s, copy=None, order="A", dtype=numpy.int32))
+            new_sets.append(numpy.array(s, copy=None, order="A", dtype=numpy.uint32))
 
     mat = mattress.initialize(x)
     output = lib.aggregate_across_genes(
