@@ -35,3 +35,6 @@ from .cluster_kmeans import *
 from .run_all_neighbor_steps import *
 from .score_markers import *
 from .summarize_effects import *
+from .aggregate_across_cells import *
+from .aggregate_across_genes import *
+from .combine_factors import *
