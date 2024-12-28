@@ -48,7 +48,6 @@ pybind11::list aggregate_across_genes(uintptr_t x, const pybind11::list& sets, b
         pybind11::array_t<double> current(NC);
         output[s] = current;
         buffers.sum.push_back(static_cast<double*>(current.request().ptr));
-        std::fill_n(buffers.sum.back(), NC, 0); // TODO: fix in aggregate_across_genes.
     }
 
     scran_aggregate::AggregateAcrossGenesOptions opt;

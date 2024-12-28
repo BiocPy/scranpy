@@ -5,11 +5,3 @@ Read more about conftest.py under:
 - https://docs.pytest.org/en/stable/fixture.html
 - https://docs.pytest.org/en/stable/writing_plugins.html
 """
-
-import data.mock_data as mocks
-import pytest
-
-
-@pytest.fixture
-def mock_data():
-    return mocks

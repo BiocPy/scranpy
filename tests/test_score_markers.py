@@ -99,8 +99,8 @@ def test_score_markers_pairwise():
 
     # Checking that we set the dimensions correctly.
     for g1 in range(4):
-        #assert (full.delta_mean[g1,g1,:] == 0).all() # TODO: zero these suckers in scran_markers.
-        #assert (full.auc[g1,g1,:] == 0).all()
+        assert (full.delta_mean[g1,g1,:] == 0).all()
+        assert (full.auc[g1,g1,:] == 0).all()
         for g2 in range(g1):
             assert numpy.allclose(full.delta_mean[g1,g2,:], -full.delta_mean[g2,g1,:])
             assert numpy.allclose(full.auc[g1,g2,:], 1 - full.auc[g2,g1,:])
