@@ -97,8 +97,6 @@ def correct_mnn(
 
     if not order is None:
         order = biocutils.match(order, blocklev, dtype=numpy.uint32)
-        if sorted(list(order)) != list(range(len(blocklev))):
-            raise ValueError("'order' should contain unique values in 'block'"); 
 
     if mass_cap is None:
         mass_cap = -1

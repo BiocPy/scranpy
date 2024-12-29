@@ -1,5 +1,6 @@
 import scranpy
 import numpy
+import pytest
 
 
 def test_correct_mnn_simple():
@@ -42,3 +43,12 @@ def test_correct_mnn_order():
     res2 = scranpy.correct_mnn(x, block, order=["x", "y"])
     assert res.corrected.shape == (10, 500)
     assert (res.corrected != res2.corrected).any()
+
+    with pytest.raises(Exception, match="cannot find"):
+        scranpy.correct_mnn(x, block, order=["z", "x"])
+
+    with pytest.raises(Exception, match="duplicate"):
+        scranpy.correct_mnn(x, block, order=["x", "x"])
+
+    with pytest.raises(Exception, match="number of batches"):
+        scranpy.correct_mnn(x, block, order=["x"])
