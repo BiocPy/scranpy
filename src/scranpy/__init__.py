@@ -38,3 +38,4 @@ from .summarize_effects import *
 from .aggregate_across_cells import *
 from .aggregate_across_genes import *
 from .combine_factors import *
+from .correct_mnn import *

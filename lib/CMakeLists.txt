@@ -32,6 +32,7 @@ pybind11_add_module(scranpy
     src/aggregate_across_cells.cpp
     src/aggregate_across_genes.cpp
     src/combine_factors.cpp
+    src/correct_mnn.cpp
     src/init.cpp
 )
 
