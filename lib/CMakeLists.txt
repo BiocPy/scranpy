@@ -35,6 +35,7 @@ pybind11_add_module(scranpy
     src/correct_mnn.cpp
     src/subsample_by_neighbors.cpp
     src/scale_by_neighbors.cpp
+    src/score_gene_set.cpp
     src/init.cpp
 )
 

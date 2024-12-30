@@ -41,3 +41,4 @@ from .combine_factors import *
 from .correct_mnn import *
 from .subsample_by_neighbors import *
 from .scale_by_neighbors import *
+from .score_gene_set import *
