@@ -24,6 +24,7 @@ void init_aggregate_across_genes(pybind11::module&);
 void init_combine_factors(pybind11::module&);
 void init_correct_mnn(pybind11::module&);
 void init_subsample_by_neighbors(pybind11::module&);
+void init_scale_by_neighbors(pybind11::module&);
 
 PYBIND11_MODULE(lib_scranpy, m) {
     init_adt_quality_control(m);
@@ -50,4 +51,5 @@ PYBIND11_MODULE(lib_scranpy, m) {
     init_combine_factors(m);
     init_correct_mnn(m);
     init_subsample_by_neighbors(m);
+    init_scale_by_neighbors(m);
 }

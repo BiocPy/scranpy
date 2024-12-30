@@ -40,3 +40,4 @@ from .aggregate_across_genes import *
 from .combine_factors import *
 from .correct_mnn import *
 from .subsample_by_neighbors import *
+from .scale_by_neighbors import *

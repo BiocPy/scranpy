@@ -34,6 +34,7 @@ pybind11_add_module(scranpy
     src/combine_factors.cpp
     src/correct_mnn.cpp
     src/subsample_by_neighbors.cpp
+    src/scale_by_neighbors.cpp
     src/init.cpp
 )
 

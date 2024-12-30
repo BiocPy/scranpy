@@ -40,14 +40,14 @@ pybind11::array subsample_by_neighbors(const pybind11::array& indices, const pyb
     std::vector<uint32_t> selected;
     nenesub::compute(
         static_cast<uint32_t>(nobs),
-        /* get_neighbors = */ [&](uint32_t i) -> tatami::ArrayView<uint32_t> {
-            return tatami::ArrayView<uint32_t>(iptr + nneighbors * static_cast<size_t>(i), nneighbors);
+        /* get_neighbors = */ [&](size_t i) -> tatami::ArrayView<uint32_t> {
+            return tatami::ArrayView<uint32_t>(iptr + nneighbors * i, nneighbors);
         },
-        /* get_index = */ [](const tatami::ArrayView<uint32_t>& neighbors, uint32_t i) -> uint32_t{
+        /* get_index = */ [](const tatami::ArrayView<uint32_t>& neighbors, size_t i) -> uint32_t{
             return neighbors[i];
         },
-        /* get_max_distance = */ [&](uint32_t i) -> double {
-            return dptr[nneighbors * static_cast<size_t>(i)]; // casting to avoid overflow in the product.
+        /* get_max_distance = */ [&](size_t i) -> double {
+            return dptr[nneighbors * i]; // no need to cast, everything is already a size_t.
         },
         opt, 
         selected
