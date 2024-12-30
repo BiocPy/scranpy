@@ -33,6 +33,7 @@ pybind11_add_module(scranpy
     src/aggregate_across_genes.cpp
     src/combine_factors.cpp
     src/correct_mnn.cpp
+    src/subsample_by_neighbors.cpp
     src/init.cpp
 )
 

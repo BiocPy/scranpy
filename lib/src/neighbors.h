@@ -1,10 +1,13 @@
 #ifndef UTILS_NEIGHBORS_H
 #define UTILS_NEIGHBORS_H
 
+#include <vector>
+#include <stdexcept>
+#include <cstdint>
+
 #include "pybind11/pybind11.h"
 #include "pybind11/numpy.h"
-#include <vector>
-#include <iostream>
+
 #include "utils.h"
 
 template<typename Index_, class Distance_>
