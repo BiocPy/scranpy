@@ -9,7 +9,7 @@ from . import lib_scranpy as lib
 
 
 @dataclass
-class ModelGeneVariancesResult:
+class ModelGeneVariancesResults:
     """Results of :py:func:`~model_gene_variances`."""
 
     mean: numpy.ndarray
@@ -43,7 +43,7 @@ def model_gene_variances(
     min_width: float = 1,
     min_window_count: int = 200,
     num_threads: int = 1
-) -> ModelGeneVariancesResult:
+) -> ModelGeneVariancesResults:
     """Compute the variance in (log-)expression values for each gene, and model
     the trend in the variances with respect to the mean.
 
@@ -127,7 +127,7 @@ def model_gene_variances(
     if not per_block is None:
         pb = []
         for pbm, pbv, pbf, pbr in per_block:
-            pb.append(ModelGeneVariancesResult(pbm, pbv, pbf, pbr, None))
+            pb.append(ModelGeneVariancesResults(pbm, pbv, pbf, pbr, None))
         per_block = biocutils.NamedList(pb, blocklev)
 
-    return ModelGeneVariancesResult(mean, var, fit, resid, per_block)
+    return ModelGeneVariancesResults(mean, var, fit, resid, per_block)
