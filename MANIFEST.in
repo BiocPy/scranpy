@@ -1,2 +1,0 @@
-recursive-include src/scranpy/lib *
-recursive-include extern *
