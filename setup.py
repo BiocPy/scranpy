@@ -18,6 +18,7 @@ class CMakeExtension(Extension):
     def __init__(self, name):
         super().__init__(name, sources=[])
 
+
 class build_ext(build_ext_orig):
     def run(self):
         for ext in self.extensions:
@@ -28,6 +29,50 @@ class build_ext(build_ext_orig):
         build_lib = pathlib.Path(self.build_lib)
         outpath = os.path.join(build_lib.absolute(), ext.name) 
 
+        # Firstly, downloading and building the igraph library.
+        install_dir = os.path.join(os.getcwd(), "installed")
+        if not os.path.exists(install_dir):
+            version = "0.10.15"
+            if not os.path.exists("extern"):
+                os.mkdir("extern")
+
+            src_dir = os.path.join("extern", "igraph-" + version)
+            if not os.path.exists(src_dir):
+                tarball = os.path.join("extern", "igraph.tar.gz")
+                if not os.path.exists(tarball):
+                    import urllib.request
+                    target_url = " https://github.com/igraph/igraph/releases/download/" + version + "/igraph-" + version + ".tar.gz"
+                    urllib.request.urlretrieve(target_url, tarball)
+                import tarfile
+                with tarfile.open(tarball, "r") as tf:
+                    tf.extractall("extern")
+                
+            build_dir = os.path.join("extern", "build-" + version)
+            os.mkdir("installed")
+
+            cmd = [ 
+                "cmake", 
+                "-S", src_dir,
+                "-B", build_dir,
+                "-DCMAKE_POSITION_INDEPENDENT_CODE=true",
+                "-DIGRAPH_WARNINGS_AS_ERRORS=OFF",
+                "-DCMAKE_INSTALL_PREFIX=" + install_dir
+            ]
+            if os.name != "nt":
+                cmd.append("-DCMAKE_BUILD_TYPE=Release")
+            if "MORE_CMAKE_OPTIONS" in os.environ:
+                cmd += os.environ["MORE_CMAKE_OPTIONS"].split()
+            self.spawn(cmd)
+
+            if not self.dry_run:
+                cmd = ['cmake', '--build', build_dir]
+                if os.name == "nt":
+                    cmd += ["--config", "Release"]
+                self.spawn(cmd)
+                cmd = ['cmake', '--install', build_dir]
+                self.spawn(cmd)
+
+        # Now building the scranpy binary.
         if not os.path.exists(build_temp):
             import assorthead
             import mattress 
@@ -40,7 +85,8 @@ class build_ext(build_ext_orig):
                 "-DPYTHON_EXECUTABLE=" + sys.executable,
                 "-DASSORTHEAD_INCLUDE_DIR=" + assorthead.includes(),
                 "-DMATTRESS_INCLUDE_DIR=" + mattress.includes(),
-                "-DKNNCOLLE_INCLUDE_DIR=" + knncolle.includes()
+                "-DKNNCOLLE_INCLUDE_DIR=" + knncolle.includes(),
+                "-DCMAKE_PREFIX_PATH=" + install_dir
             ]
             if os.name != "nt":
                 cmd.append("-DCMAKE_BUILD_TYPE=Release")
