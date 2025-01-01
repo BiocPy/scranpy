@@ -1,6 +1,6 @@
 [build-system]
 # AVOID CHANGING REQUIRES: IT WILL BE UPDATED BY PYSCAFFOLD!
-requires = ["setuptools>=46.1.0", "setuptools_scm[toml]>=5", "wheel", "numpy", "mattress>=0.0.3", "assorthead", "pybind11", "knncolle>=0.1.2"]
+requires = ["setuptools>=46.1.0", "setuptools_scm[toml]>=5", "wheel", "numpy", "mattress>=0.3.1", "assorthead>=0.1.0", "pybind11", "knncolle>=0.1.2"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
