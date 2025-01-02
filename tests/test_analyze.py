@@ -32,7 +32,7 @@ def test_analyze_simple():
 
     assert res.rna_pca.components.shape[1] == res.rna_filtered.shape[1]
     assert res.combined_pca == "rna_pca"
-    assert res.batch_corrected is None
+    assert res.mnn_corrected is None
 
     assert len(res.graph_clusters.membership) == res.rna_normalized.shape[1] 
     assert res.kmeans_clusters is None
@@ -113,8 +113,8 @@ def test_analyze_block():
     levels = sorted(list(set(block)))
     res = scranpy.analyze(rna_x=sce.assay(0), block=block)
 
-    assert res.batch_corrected is not None
-    assert sorted(res.batch_corrected.merge_order) == levels
+    assert res.mnn_corrected is not None
+    assert sorted(res.mnn_corrected.merge_order) == levels
     assert len(res.rna_qc_thresholds.sum) == len(levels)
     assert res.rna_pca.center.shape[0] == len(levels)
     assert len(res.rna_gene_variances.per_block) == len(levels)

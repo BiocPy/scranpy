@@ -130,7 +130,11 @@ class AnalyzeResults:
     """If only one modality is used for the downstream analysis, this is a string specifying the attribute containing the components to be used.
     If multiple modalities are to be combined for downstream analysis, this contains the results of :py:func:`~scranpy.scale_by_neighbors.scale_by_neighbors` on the PCs of those modalities."""
 
-    batch_corrected: Optional[CorrectMnnResults]
+    block: Optional[Sequence]
+    """Sequence containing the blocking factor for all cells (after filtering, if ``filter_cells = True`` in :py:func:`~analyze`).
+    This is set to ``None`` if no blocking factor was supplied."""
+
+    mnn_corrected: Optional[CorrectMnnResults]
     """Results of :py:func:`~scranpy.correct_mnn.correct_mnn`.
     If no blocking factor is supplied, this is set to ``None`` instead."""
 
@@ -154,6 +158,11 @@ class AnalyzeResults:
     """Results of :py:func:`~scranpy.cluster_kmeans.cluster_kmeans`.
     This is ``None`` if k-means clustering was not performed."""
 
+    clusters: Optional[numpy.ndarray]
+    """Array containing a cluster assignment for each cell (after filtering, if ``filter_cells = True`` in :py:func:`~analyze`).
+    This may be derived from :py:attr:`~graph_clusters` or :py:attr:`~kmeans_clusters`, depending on the choice of ``clusters_for_markers=``.
+    If no suitable clusterings are available, this is set to ``None``."""
+
     rna_markers: Optional[RunPcaResults]
     """Results of calling :py:func:`~scranpy.score_markers.score_markers` on the RNA log-expression matrix.
     If RNA data is not available, this is set to ``None`` instead.
@@ -168,6 +177,102 @@ class AnalyzeResults:
     """Results of calling :py:func:`~scranpy.score_markers.score_markers` on the CRISPR log-expression matrix.
     If CRISPR data is not available, this is set to ``None`` instead.
     This will also be ``None`` if no suitable clusterings are available."""
+
+    def to_singlecellexperiment(
+        self,
+        main_modality: Optional[Literal["rna", "adt", "crispr"]] = None,
+        flatten_qc_subsets: bool = True,
+        include_per_block_variances: bool = False,
+    ):
+        """Convert the results into a :py:class:`~singlecellexperiment.SingleCellExperiment.SingleCellExperiment`.
+
+        Returns:
+            A :py:class:`~singlecellexperiment.SingleCellExperiment.SingleCellExperiment` containing the filtered and normalized matrices in the assays.
+            Clustering and dimensionality reduction results are also stored.
+            Additional modalities are stored as alternative experiments.
+        """
+
+        import singlecellexperiment
+        obj = {}
+        priority = []
+
+        if not self.rna_filtered is None:
+            rna_sce = singlecellexperiment.SingleCellExperiment({ "counts": self.rna_filtered, "logcounts": self.rna_normalized })
+            rna_sce.set_reduced_dimensions("PCA", self.rna_pca.components.T, in_place=True)
+
+            cd = rna_sce.get_column_data()
+            qcdf = self.rna_qc_metrics.as_biocframe(flatten=flatten_qc_subsets)
+            cd = biocutils.combine_columns(cd, qcdf[self.combined_qc_filter,:])
+            cd.set_column("size_factor", self.rna_size_factor, in_place=True)
+            rna_sce.set_column_data(cd, in_place=True)
+
+            rd = rna_sce.get_row_data()
+            rdf = self.rna_gene_variances.as_biocframe(include_per_block=include_per_block_variances)
+            rd = biocutils.combine_columns(rd, rdf)
+            hvgs = numpy.full((rd.shape[0],), False)
+            for i in self.rna_highly_variable_genes:
+                hvgs[i] = True
+            rd.set_column("is_highly_variable", hvgs, in_place=True)
+            rna_sce.set_row_data(rd, in_place=True)
+
+            obj["RNA"] = rna_sce
+            priority.append("RNA")
+
+        if not self.adt_filtered is None:
+            adt_sce = singlecellexperiment.SingleCellExperiment({ "counts": self.adt_filtered, "logcounts": self.adt_normalized })
+            adt_sce.set_reduced_dimensions("PCA", self.adt_pca.components.T, in_place=True)
+
+            cd = adt_sce.get_column_data()
+            qcdf = self.adt_qc_metrics.as_biocframe(flatten=flatten_qc_subsets)
+            cd = biocutils.combine_columns(cd, qcdf[self.combined_qc_filter,:])
+            cd.set_column("size_factor", self.adt_size_factor, in_place=True)
+            adt_sce.set_column_data(cd, in_place=True)
+
+            obj["ADT"] = adt_sce
+            priority.append("ADT")
+
+        if not self.crispr_filtered is None:
+            crispr_sce = singlecellexperiment.SingleCellExperiment({ "counts": self.crispr_filtered, "logcounts": self.crispr_normalized })
+            crispr_sce.set_reduced_dimensions("PCA", self.crispr_pca.components.T, in_place=True)
+
+            cd = crispr_sce.get_column_data()
+            qcdf = self.crispr_qc_metrics.as_biocframe(flatten=flatten_qc_subsets)
+            cd = biocutils.combine_columns(cd, qcdf[self.combined_qc_filter,:])
+            cd.set_column("size_factor", self.crispr_size_factor, in_place=True)
+            crispr_sce.set_column_data(cd, in_place=True)
+
+            obj["CRISPR"] = crispr_sce
+            priority.append("CRISPR")
+
+        if main_modality is None:
+            main_modality = priority[0]
+
+        sce = obj[main_modality]
+        for p in priority:
+            if p != main_modality:
+                sce.set_alternative_experiment(p, obj[p])
+
+        if isinstance(self.combined_pca, ScaleByNeighborsResults):
+            sce.set_reduced_dimension("combined", self.combined_pca.combined.T)
+
+        if not self.mnn_corrected is None:
+            df = sce.get_column_data()
+            df.set_column("block", self.block, in_place=True)
+            sce.set_column_data(df, in_place=True)
+            sce.set_reduced_dimension("MNN", self.mnn_corrected.corrected.T)
+
+        if not self.tsne is None:
+            sce.set_reduced_dimension("TSNE", self.tsne.T)
+
+        if not self.umap is None:
+            sce.set_reduced_dimension("UMAP", self.umap.T)
+
+        if not self.clusters is None:
+            df = sce.get_column_data()
+            df.set_column("cluster", getattr(self, self.cluster_method + "_clusters"), in_place=True)
+            sce.set_column_data(df, in_place=True)
+
+        return sce
 
 
 def analyze(
@@ -210,21 +315,21 @@ def analyze(
     Args:
         rna_x:
             A matrix-like object containing RNA counts.
-            This should have the same number of columns as the other ``x_*`` arguments.
+            This should have the same number of columns as the other ``*_x`` arguments.
             Alternatively ``None``, if no RNA counts are available.
 
         adt_x:
             A matrix-like object containing ADT counts.
-            This should have the same number of columns as the other ``x_*`` arguments.
+            This should have the same number of columns as the other ``*_x`` arguments.
             Alternatively ``None``, if no ADT counts are available.
 
         crispr_x:
             A matrix-like object containing CRISPR counts.
-            This should have the same number of columns as the other ``x_*`` arguments.
+            This should have the same number of columns as the other ``*_x`` arguments.
             Alternatively ``None``, if no CRISPR counts are available.
 
         block:
-            Factor specifying the block of origin (e.g., batch, sample) for each cell in the ``x_*`` matrices.
+            Factor specifying the block of origin (e.g., batch, sample) for each cell in the ``*_x`` matrices.
             Alternatively ``None``, if all cells are from the same block.
 
         rna_subsets:
@@ -479,11 +584,12 @@ def analyze(
     else:
         chosen_pcs = store["combined_pca"].combined
 
+    store["block"] = block
     if block is None:
-        store["batch_corrected"] = None
+        store["mnn_corrected"] = None
     else:
-        store["batch_corrected"] = correct_mnn(chosen_pcs, block=block, **correct_mnn_options, nn_parameters=nn_parameters, num_threads=num_threads)
-        chosen_pcs = store["batch_corrected"].corrected
+        store["mnn_corrected"] = correct_mnn(chosen_pcs, block=block, **correct_mnn_options, nn_parameters=nn_parameters, num_threads=num_threads)
+        chosen_pcs = store["mnn_corrected"].corrected
 
     ############ Assorted neighbor-related stuff ⸜(⸝⸝⸝´꒳`⸝⸝⸝)⸝ #############
 
@@ -510,25 +616,25 @@ def analyze(
     else:
         store["kmeans_clusters"] = None
 
-    chosen_clusters = None
+    store["clusters"] = None
     for c in clusters_for_markers:
         if c == "graph" and not store["graph_clusters"] is None:
-            chosen_clusters = store["graph_clusters"].membership
+            store["clusters"] = store["graph_clusters"].membership
             break
         elif c == "kmeans" and not store["kmeans_clusters"] is None:
-            chosen_clusters = store["kmeans_clusters"].clusters
+            store["clusters"] = store["kmeans_clusters"].clusters
             break
 
     store["rna_markers"] = None
     store["adt_markers"] = None
     store["crispr_markers"] = None
 
-    if not chosen_clusters is None:
+    if not store["clusters"] is None:
         if not rna_x is None:
-            store["rna_markers"] = score_markers(store["rna_normalized"], groups=chosen_clusters, num_threads=num_threads, block=block, **score_markers_options)
+            store["rna_markers"] = score_markers(store["rna_normalized"], groups=store["clusters"], num_threads=num_threads, block=block, **score_markers_options)
         if not adt_x is None:
-            store["adt_markers"] = score_markers(store["adt_normalized"], groups=chosen_clusters, num_threads=num_threads, block=block, **score_markers_options)
+            store["adt_markers"] = score_markers(store["adt_normalized"], groups=store["clusters"], num_threads=num_threads, block=block, **score_markers_options)
         if not crispr_x is None:
-            store["crispr_markers"] = score_markers(store["crispr_normalized"], groups=chosen_clusters, num_threads=num_threads, block=block, **score_markers_options)
+            store["crispr_markers"] = score_markers(store["crispr_normalized"], groups=store["clusters"], num_threads=num_threads, block=block, **score_markers_options)
 
     return AnalyzeResults(**store)
