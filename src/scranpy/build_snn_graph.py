@@ -10,21 +10,36 @@ from ._utils_neighbors import _check_indices
 
 @dataclass
 class GraphComponents:
-    """Components of a (possibly weighted) graph. Typically, nodes are cells
-    and edges are formed between cells with similar expression profiles."""
+    """Components of a (possibly weighted) graph.
+    Typically, nodes are cells and edges are formed between cells with similar expression profiles."""
 
     vertices: int
     """Number of vertices in the graph (i.e., cells)."""
 
     edges: numpy.ndarray
-    """Array of indices for graph edges. Pairs of values represent the
-    endpoints of an (undirected) edge, #' i.e., ``edges[0:2]`` form the
-    first edge, ``edges[2:4]`` form the second edge and so on."""
+    """Array of indices for graph edges.
+    Pairs of values represent the endpoints of an (undirected) edge, i.e., ``edges[0:2]`` form the first edge, ``edges[2:4]`` form the second edge and so on."""
 
     weights: Optional[numpy.ndarray]
-    """Array of weights for each edge. This has length equal to half the length
-    of ``edges``; the first weight corresponds to the first edge, and so on.
-    If None, the graph is assumed to be unweighted."""
+    """Array of weights for each edge. This has length equal to half the length of ``edges``; the first weight corresponds to the first edge, and so on.
+    If ``None``, the graph is assumed to be unweighted."""
+
+    def as_igraph(self):
+        """Convert to a ``Graph`` from the **igraph** package.
+
+        Returns:
+            A ``Graph`` for use with methods in the **igraph** package.
+        """
+        edges = []
+        for i in range(len(self.edges)//2):
+            j = i * 2
+            edges.append((self.edges[j], self.edges[j+1])) 
+
+        import igraph
+        g = igraph.Graph(edges, n=self.vertices)
+        if not self.weights is None:
+            g.es['weight'] = self.weights
+        return g
 
 
 def build_snn_graph(

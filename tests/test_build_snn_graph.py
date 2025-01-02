@@ -24,3 +24,9 @@ def test_build_snn_graph():
     assert out.vertices == out2.vertices
     assert (out.edges == out2.edges).all()
     assert (out.weights == out2.weights).all()
+
+    # Conversion works.
+    g = out.as_igraph()
+    assert g.vcount() == 1000
+    assert g.ecount() == len(out.edges)/2
+    assert (g.es["weight"] == out.weights).all()
