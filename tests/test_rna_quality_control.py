@@ -2,6 +2,7 @@ import scranpy
 import numpy
 import biocutils
 import pytest
+import biocframe
 
 
 def test_compute_rna_qc_metrics():
@@ -13,6 +14,26 @@ def test_compute_rna_qc_metrics():
     assert (qc.detected == (y > 0).sum(axis=0)).all()
     assert numpy.isclose(qc.subset_proportion["mito"], y[sub,:].sum(axis=0) / qc.sum).all()
     assert qc.subset_proportion.get_names().as_list() == [ "mito" ]
+
+    bf = qc.to_biocframe()
+    assert bf.shape[0] == 1000
+    assert (bf.get_column("subset_proportion_mito") == qc.subset_proportion["mito"]).all()
+
+    bf = qc.to_biocframe(flatten=False)
+    assert isinstance(bf.get_column("subset_proportion"), biocframe.BiocFrame)
+    assert (bf.get_column("subset_proportion").get_column("mito") == qc.subset_proportion["mito"]).all()
+
+    # Also works without names.
+    qc = scranpy.compute_rna_qc_metrics(y, [ sub ])
+    assert numpy.isclose(qc.subset_proportion[0], y[sub,:].sum(axis=0) / qc.sum).all()
+    assert qc.subset_proportion.get_names() is None
+
+    bf = qc.to_biocframe()
+    assert (bf.get_column("subset_proportion_0") == qc.subset_proportion[0]).all()
+
+    bf = qc.to_biocframe(flatten=False)
+    assert isinstance(bf.get_column("subset_proportion"), biocframe.BiocFrame)
+    assert (bf.get_column("subset_proportion").get_column("0") == qc.subset_proportion[0]).all()
 
 
 def test_suggest_rna_qc_thresholds_simple():

@@ -12,6 +12,10 @@ def test_compute_crispr_qc_metrics():
     assert (qc.max_value == y.max(axis=0)).all()
     assert (qc.max_value == [y[m, i] for i, m in enumerate(qc.max_index)]).all()
 
+    bf = qc.to_biocframe()
+    assert bf.shape[0] == 1000
+    assert (bf.get_column("sum") == qc.sum).all()
+
 
 def test_suggest_crispr_qc_filters_basic():
     y = (numpy.random.rand(25, 1000) * 5).astype(numpy.uint32)

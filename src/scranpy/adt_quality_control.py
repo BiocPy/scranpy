@@ -121,6 +121,7 @@ class SuggestAdtQcThresholdsResults:
 
     block: Optional[list]
     """Levels of the blocking factor.
+    Each entry corresponds to a element of :py:attr:`~sum`, :py:attr:`~detected`, etc., if ``block=`` was provided in :py:func:`~suggest_adt_qc_thresholds`.
     ``None`` if no blocking was performed."""
 
 

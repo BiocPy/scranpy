@@ -14,17 +14,30 @@ from . import lib_scranpy as lib
 class ComputeCrisprQcMetricsResults:
     """Results of :py:func:`~compute_crispr_qc_metrics`."""
 
-    sum: numpy.array 
-    """Sum of counts across all CRISPR guides for each cell."""
+    sum: numpy.ndarray 
+    """Floating-point array of length equal to the number of cells, containing the sum of counts across all guides for each cell."""
 
-    detected: numpy.array 
-    """Number of detected CRISPR guides in each cell."""
+    detected: numpy.ndarray 
+    """Integer array of length equal to the number of cells, containing the number of detected guides in each cell."""
 
-    max_value: numpy.array 
-    """Maximum count for any single guide in each cell."""
+    max_value: numpy.ndarray 
+    """Floating-point array of length equal to the number of cells, containing the maximum count for each cell."""
 
-    max_index: numpy.array 
-    """Row index of the guide with the highest count in each cell."""
+    max_index: numpy.ndarray 
+    """Integer array of length equal to the number of cells, containing the row index of the guide with the maximum count in each cell."""
+
+    def to_biocframe(self):
+        """Convert the results into a :py:class:`~biocframe.BiocFrame.BiocFrame`.
+
+        Returns:
+            A :py:class:`~biocframe.BiocFrame.BiocFrame` where each row corresponds to a cell and each column is one of the metrics.
+        """
+        colnames = ["sum", "detected", "max_value", "max_index"]
+        contents = {}
+        for n in colnames:
+            contents[n] = getattr(self, n)
+        import biocframe
+        return biocframe.BiocFrame(contents, column_names=colnames)
 
 
 def compute_crispr_qc_metrics(x: Any, num_threads: int = 1):
@@ -47,15 +60,19 @@ def compute_crispr_qc_metrics(x: Any, num_threads: int = 1):
 
 @dataclass
 class SuggestCrisprQcThresholdsResults:
-    """Results of :py:func:`~suggest_crispr_qc_metrics`."""
+    """Results of :py:func:`~suggest_crispr_qc_thresholds`."""
 
     max_value: Union[biocutils.NamedList, float]
-    """Threshold on the maximum count in each cell. Cells with lower maxima are
-    considered to be of low quality. If a blocking factor is provided, a
-    separate threshold is computed for each level."""
+    """Threshold on the maximum count in each cell.
+    Cells with lower maxima are considered to be of low quality.
+
+    If ``block=`` is provided in :py:func:`~suggest_crispr_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
+    Otherwise, a single float is returned containing the threshold for all cells."""
 
     block: Optional[list]
-    """Levels of the blocking factor. ``None`` if no blocking was performed."""
+    """Levels of the blocking factor.
+    Each entry corresponds to a element of :py:attr:`~max_value` if ``block=`` was provided in :py:func:`~suggest_crispr_qc_thresholds`.
+    ``None`` if no blocking was performed."""
 
 
 def suggest_crispr_qc_thresholds(
@@ -63,22 +80,19 @@ def suggest_crispr_qc_thresholds(
     block: Optional[Sequence] = None,
     num_mads: float = 3.0,
 ) -> SuggestCrisprQcThresholdsResults:
-    """Suggest filter thresholds for the CRISPR-derived QC metrics, typically
-    generated from :py:func:`~compute_crispr_qc_metrics`.
+    """Suggest filter thresholds for the CRISPR-derived QC metrics, typically generated from :py:func:`~compute_crispr_qc_metrics`.
 
     Args:
         metrics:
             CRISPR-derived QC metrics from :py:func:`~compute_crispr_qc_metrics`.
 
         block:
-            Factor specifying the block of origin (e.g., batch, sample) for
-            each cell in ``metrics``. If supplied, a separate threshold is
-            computed from the cells in each block. Alternatively ``None``, if
-            all cells are from the same block.
+            Blocking factor specifying the block of origin (e.g., batch, sample) for each cell in ``metrics``.
+            If supplied, a separate threshold is computed from the cells in each block.
+            Alternatively ``None``, if all cells are from the same block.
 
         num_mads:
-            Number of median from the median, used to define the threshold for
-            outliers in each metric.
+            Number of MADs from the median to define the threshold for outliers in each QC metric.
 
     Returns:
         Suggested filters on the relevant QC metrics.
@@ -109,21 +123,17 @@ def filter_crispr_qc_metrics(
 
     Args:
         thresholds:
-            Filter thresholds on the QC metrics, typically computed with
-            :py:func:`~suggest_crispr_qc_thresholds`.
+            Filter thresholds on the QC metrics, typically computed with :py:func:`~suggest_crispr_qc_thresholds`.
 
         metrics:
-            CRISPR-derived QC metrics, typically computed with
-            :py:func:`~compute_crispr_qc_metrics`.
+            CRISPR-derived QC metrics, typically computed with :py:func:`~compute_crispr_qc_metrics`.
 
         block:
-            Factor specifying the block of origin (e.g., batch, sample) for
-            each cell in ``metrics``. This should be the same as that used
-            in :py:func:`~suggest_crispr_qc_thresholds`.
+            Blocking factor specifying the block of origin (e.g., batch, sample) for each cell in ``metrics``.
+            The levels should be a subset of those used in :py:func:`~suggest_crispr_qc_thresholds`.
 
     Returns:
-        A NumPy vector of length equal to the number of cells in ``metrics``,
-        containing truthy values for putative high-quality cells.
+        A NumPy vector of length equal to the number of cells in ``metrics``, containing truthy values for putative high-quality cells.
     """
     if not thresholds.block is None:
         if block is None:
