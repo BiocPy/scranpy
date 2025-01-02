@@ -567,11 +567,7 @@ def analyze(
     store["combined_qc_filter"] = combined_qc_filter
 
     if store["column_names"] is not None:
-        cnames = [] # TODO: add which() in biocutils.
-        for i, cn in enumerate(store["column_names"]):
-            if combined_qc_filter[i]:
-                cnames.append(cn)
-        store["column_names"] = cnames
+        store["column_names"] = biocutils.subset_sequence(store["column_names"], biocutils.which(store["combined_qc_filter"]))
 
     if rna_x is not None:
         store["rna_filtered"] = delayedarray.DelayedArray(rna_x)
