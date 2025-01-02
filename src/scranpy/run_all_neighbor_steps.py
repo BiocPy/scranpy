@@ -28,19 +28,19 @@ class RunAllNeighborStepsResults:
 
     run_tsne: Optional[numpy.ndarray]
     """Results of :py:func:`~scranpy.run_tsne.run_tsne`.
-    This is None if t-SNE was not performed."""
+    This is ``None`` if t-SNE was not performed."""
 
     run_umap: Optional[numpy.ndarray]
     """Results of :py:func:`~scranpy.run_umap.run_umap`.
-    This is None if UMAP was not performed."""
+    This is ``None`` if UMAP was not performed."""
 
     build_snn_graph: Optional[GraphComponents]
     """Results of :py:func:`~scranpy.build_snn_graph.build_snn_graph`.
-    This is None if clustering was not performed."""
+    This is ``None`` if clustering was not performed."""
 
     cluster_graph: Optional[ClusterGraphResults]
     """Results of :py:func:`~scranpy.cluster_graph.cluster_graph`.
-    This is None if clustering was not performed."""
+    This is ``None`` if clustering was not performed."""
 
 
 def run_all_neighbor_steps(
@@ -53,63 +53,47 @@ def run_all_neighbor_steps(
     collapse_search: bool = False,
     num_threads: int = 3,
 ) -> RunAllNeighborStepsResults:
-    """Run all steps that depend on the nearest neighbor search - namely,
-    :py:func:`~run_tsne.run_tsne`, :py:func:`~run_umap.run_umap`,
-    :py:func:`~build_snn_graph.build_snn_graph`, and
-    :py:func:`~cluster_graph.cluster_graph`. This builds the index once and
-    re-uses it for the neighbor search in each step; the various steps are
-    also run in parallel to save more time. 
+    """Run all steps that depend on the nearest neighbor search -
+    namely, :py:func:`~scranpy.run_tsne.run_tsne`, :py:func:`~scranpy.run_umap.run_umap`, :py:func:`~scranpy.build_snn_graph.build_snn_graph`, and :py:func:`~scranpy.cluster_graph.cluster_graph`.
+    This builds the index once and re-uses it for the neighbor search in each step; the various steps are also run in parallel to save more time. 
 
     Args:
         x:
-            Matrix of principal components where rows are cells and columns are
-            PCs, typically produced by :py:func:`~run_pca.run_pca`.
+            Matrix of principal components where rows are cells and columns are PCs, typically produced by :py:func:`~scranpy.run_pca.run_pca`.
 
-            Alternatively, a :py:class:`~knncolle.Index.Index` instance
-            containing a prebuilt search index for the cells.
+            Alternatively, a :py:class:`~knncolle.Index.Index` instance containing a prebuilt search index for the cells.
 
         run_umap_options:
-            Optional arguments for :py:meth:`~scranpy.run_umap.run_umap`. If
-            None, UMAP is not performed.
+            Optional arguments for :py:func:`~scranpy.run_umap.run_umap`.
+            If ``None``, UMAP is not performed.
 
         run_tsne_options:
-            Optional arguments for :py:meth:`~scranpy.run_tsne.run_tsne`. If
-            None, t-SNE is not performed.
+            Optional arguments for :py:func:`~scranpy.run_tsne.run_tsne`.
+            If ``None``, t-SNE is not performed.
 
         build_snn_graph_options:
-            Optional arguments for
-            :py:meth:`~scranpy.build_snn_graph.build_snn_graph`. Ignored if
-            ``cluster_graph_options = None``.
+            Optional arguments for :py:func:`~scranpy.build_snn_graph.build_snn_graph`.
+            Ignored if ``cluster_graph_options = None``.
 
         cluster_graph_options:
-            Optional arguments for
-            :py:meth:`~scranpy.cluster_graph.cluster_graph`. If None,
-            graph clustering is not performed.
+            Optional arguments for :py:func:`~scranpy.cluster_graph.cluster_graph`.
+            If ``None``, graph-based clustering is not performed.
 
         nn_parameters:
             Parameters for the nearest-neighbor search.
 
         collapse_search:
-            Whether to collapse the nearest-neighbor search for each step into
-            a single search. Steps that need fewer neighbors will take a subset
-            of the neighbors from the collapsed search. This is faster but may
-            not give the same results as separate searches for some algorithms
-            (e.g., approximate searches).
+            Whether to collapse the nearest-neighbor search for each step into a single search.
+            Steps that need fewer neighbors will use a subset of the neighbors from the collapsed search.
+            This is faster but may not give the same results as separate searches for some approximate search algorithms.
 
         num_threads:
-            Number of threads to use for the parallel execution of UMAP, t-SNE
-            and SNN graph construction. This overrides the specified number of
-            threads in the various ``*_options`` arguments.
+            Number of threads to use for the parallel execution of UMAP, t-SNE and SNN graph construction.
+            This overrides the specified number of threads in the various ``*_options`` arguments.
 
     Returns:
-        A tuple containing, in order:
-        - A function that takes no arguments and returns a tuple containing the t-SNE and UMAP coordinates.
-        - The shared nearest neighbor graph from :py:meth:`~scranpy.clustering.build_snn_graph.build_snn_graph`.
-        - The number of remaining threads.
-
-        The idea is that the number of remaining threads can be used to perform tasks on the main thread
-        (e.g., clustering, marker detection) while the t-SNE and UMAP are still being computed;
-        once all tasks on the main thread have completed, the first function can be called to obtain the coordinates.
+        The results of each step.
+        These should be equivalent to the result of running each step in serial.
     """
     if isinstance(x, knncolle.Index):
         index = x

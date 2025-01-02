@@ -50,6 +50,9 @@ def compute_crispr_qc_metrics(x: Any, num_threads: int = 1):
 
     Returns:
         QC metrics computed from the count matrix for each cell.
+
+    References:
+        The ``compute_crispr_qc_metrics`` function in the `scran_qc <https://github.com/libscran/scran_qc>`_ C++ library, which describes the rationale behind these QC metrics.
     """
     ptr = mattress.initialize(x)
     osum, odetected, omaxval, omaxind = lib.compute_crispr_qc_metrics(ptr.ptr, num_threads)
@@ -64,13 +67,13 @@ class SuggestCrisprQcThresholdsResults:
     """Threshold on the maximum count in each cell.
     Cells with lower maxima are considered to be of low quality.
 
-    If ``block=`` is provided in :py:func:`~suggest_crispr_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
+    If ``block`` is provided in :py:func:`~suggest_crispr_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
     Otherwise, a single float is returned containing the threshold for all cells."""
 
     block: Optional[list]
     """Levels of the blocking factor.
-    Each entry corresponds to a element of :py:attr:`~max_value` if ``block=`` was provided in :py:func:`~suggest_crispr_qc_thresholds`.
-    ``None`` if no blocking was performed."""
+    Each entry corresponds to a element of :py:attr:`~max_value` if ``block`` was provided in :py:func:`~suggest_crispr_qc_thresholds`.
+    This is set to ``None`` if no blocking was performed."""
 
 
 def suggest_crispr_qc_thresholds(
@@ -94,6 +97,9 @@ def suggest_crispr_qc_thresholds(
 
     Returns:
         Suggested filters on the relevant QC metrics.
+
+    References:
+        The ``compute_crispr_qc_filters`` and ``compute_crispr_qc_filters_blocked`` functions in the `scran_qc <https://github.com/libscran/scran_qc>`_ C++ library, which describes the rationale behind the suggested filters.
     """
     if block is not None:
         blocklev, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)

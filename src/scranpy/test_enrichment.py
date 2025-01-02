@@ -23,21 +23,19 @@ def test_enrichment(
     log: bool = False,
     num_threads: int = 1
 ) -> numpy.ndarray:
-    """Perform a hypergeometric test for enrichment of interesting genes (e.g.,
-    markers) in one or more pre-defined gene sets.
+    """Perform a hypergeometric test for enrichment of interesting genes (e.g., markers) in one or more pre-defined gene sets.
 
     Args:
         x: 
             Sequence of identifiers for the interesting genes.
 
         sets:
-            Sequence of gene sets, where each entry corresponds to a gene set
-            and contains a sequence of identifiers for genes in that set.
+            Sequence of gene sets, where each entry corresponds to a gene set and contains a sequence of identifiers for genes in that set.
 
         universe:
             Sequence of identifiers for the universe of genes in the dataset.
-            It is expected that ``x`` is a subset of ``universe``. Alternatively,
-            an integer specifying the number of genes in the universe.
+            It is expected that ``x`` is a subset of ``universe``.
+            Alternatively, an integer specifying the number of genes in the universe.
 
         log:
             Whether to report the log-transformed p-values.
@@ -46,8 +44,10 @@ def test_enrichment(
             Number of threads to use.
 
     Returns:
-        Array of (log-transformed) p-values to test for significant enrichment
-        of ``x`` in each entry of ``sets``.
+        Array of (log-transformed) p-values to test for significant enrichment of ``x`` in each entry of ``sets``.
+
+    References:
+        https://github.com/libscran/phyper, for the underlying implementation.
     """
     overlap = _count_overlaps(x, sets)
 

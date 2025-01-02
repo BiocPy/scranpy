@@ -22,35 +22,28 @@ def run_tsne(
 
     Args:
         x: 
-            Numeric matrix where rows are dimensions and columns are cells,
-            typically containing a low-dimensional representation from, e.g.,
-            :py:func:`~run_pca.run_pca`.
+            Numeric matrix where rows are dimensions and columns are cells, typically containing a low-dimensional representation from, e.g., :py:func:`~scranpy.run_pca.run_pca`.
 
-            Alternatively, a :py:class:`~knncolle.find_knn.FindKnnResults`
-            object containing existing neighbor search results. The number of
-            neighbors should be the same as ``num_neighbors``, otherwise a
-            warning is raised.
+            Alternatively, a :py:class:`~knncolle.find_knn.FindKnnResults` object containing existing neighbor search results.
+            The number of neighbors should be the same as ``num_neighbors``, otherwise a warning is raised.
 
             Alternatively, a :py:class:`~knncolle.Index.Index` object.
 
         perplexity:
-            Perplexity to use in the t-SNE algorithm. Larger values cause
-            the embedding to focus on global structure.
+            Perplexity to use in the t-SNE algorithm.
+            Larger values cause the embedding to focus on global structure.
 
         num_neighbors
-            Number of neighbors in the nearest-neighbor graph. Typically
-            derived from ``perplexity`` using
-            :py:func:`~tsne_perplexity_to_neighbors`.
+            Number of neighbors in the nearest-neighbor graph.
+            Typically derived from ``perplexity`` using :py:func:`~tsne_perplexity_to_neighbors`.
 
         max_depth:
-            Maximum depth of the Barnes-Hut quadtree. Smaller values (7-10)
-            improve speed at the cost of accuracy.
+            Maximum depth of the Barnes-Hut quadtree.
+            Smaller values (7-10) improve speed at the cost of accuracy.
 
         leaf_approximation:
-            Whether to use the "leaf approximation" approach, which sacrifices
-            some accuracy for greater speed. Only effective when ``max_depth``
-            is small enough for multiple cells to be assigned to the same leaf
-            node of the quadtree.
+            Whether to use the "leaf approximation" approach, which sacrifices some accuracy for greater speed.
+            Only effective when ``max_depth`` is small enough for multiple cells to be assigned to the same leaf node of the quadtree.
 
         max_iterations:
             Maximum number of iterations to perform.
@@ -62,14 +55,15 @@ def run_tsne(
             Number of threads to use.
 
         nn_parameters:
-            The algorithm to use for the nearest-neighbor search. Only used if
-            ``x`` is not a pre-built nearest-neighbor search index or a list of
-            existing nearest-neighbor search results.
+            The algorithm to use for the nearest-neighbor search.
+            Only used if ``x`` is not a pre-built nearest-neighbor search index or a list of existing nearest-neighbor search results.
 
     Returns:
-        Array containing the coordinates of each cell in a 2-dimensional
-        embedding. Each row corresponds to a dimension and each column
-        represents a cell.
+        Array containing the coordinates of each cell in a 2-dimensional embedding.
+        Each row corresponds to a dimension and each column represents a cell.
+
+    References:
+        https://github.com/libscran/qdtsne, for some more details on the approximations.
     """
     if num_neighbors is None:
         num_neighbors = tsne_perplexity_to_neighbors(perplexity)

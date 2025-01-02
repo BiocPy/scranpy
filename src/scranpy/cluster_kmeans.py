@@ -11,19 +11,19 @@ class ClusterKmeansResults:
     """Results of :py:func:`~cluster_kmeans`."""
 
     clusters: numpy.ndarray
-    """Array containing the cluster assignment for each cell. Values are
-    integers in [0, N) where N is the total number of clusters."""
+    """Array containing the cluster assignment for each cell.
+    Values are integers in [0, N) where N is the total number of clusters."""
 
     centers: numpy.ndarray
-    """Matrix contaiing the coordinates of the cluster centroids. Dimensions
-    are in the rows while centers are in the columns."""
+    """Matrix contaiing the coordinates of the cluster centroids.
+    Dimensions are in the rows while centers are in the columns."""
 
     iterations: int
     """Number of refinement iterations that were performed."""
 
     status: int
-    """Convergence status. Any non-zero value indicates a convergence failure
-    though the exact meaning depends on the choice of ``refine_method``."""
+    """Convergence status.
+    Any non-zero value indicates a convergence failure though the exact meaning depends on the choice of ``refine_method`` in :py:func:`~cluster_kmeans`."""
 
 
 def cluster_kmeans(
@@ -40,38 +40,31 @@ def cluster_kmeans(
     seed: int = 5489,
     num_threads: int = 1
 ) -> ClusterKmeansResults:
-    """Perform k-means clustering with a variety of different initialization
-    and refinement algorithms.
+    """Perform k-means clustering with a variety of different initialization and refinement algorithms.
 
     Args:
         x: 
-            Input data matrix where rows are dimensions and columns are
-            observations (i.e., cells).
+            Input data matrix where rows are dimensions and columns are observations (i.e., cells).
         
         k: 
             Number of clusters.
 
         init_method:
-            Initialization method for defining the initial centroid
-            coordinates. Choices are variance partitioning (``var-part``),
-            kmeans++ (``kmeans++``) or random initialization (``random``).
+            Initialization method for defining the initial centroid coordinates.
+            Choices are variance partitioning (``var-part``), kmeans++ (``kmeans++``) or random initialization (``random``).
 
         refine_method:
-            Method to use to refine the cluster assignments and centroid
-            coordinates. Choics are Lloyd's algorithm (``lloyd``) or the
-            Hartigan-Wong algorithm (``hartigan-wong``).
+            Method to use to refine the cluster assignments and centroid coordinates.
+            Choices are Lloyd's algorithm (``lloyd``) or the Hartigan-Wong algorithm (``hartigan-wong``).
 
         var_part_optimize_partition:
-            Whether each partition boundary should be optimized to reduce the
-            sum of squares in the child partitions. Only used if
-            ``init_method = "var-part"``.
+            Whether each partition boundary should be optimized to reduce the sum of squares in the child partitions.
+            Only used if ``init_method = "var-part"``.
 
         var_part_size_adjustment:
-            Floating-point value between 0 and 1, specifying the adjustment to
-            the cluster size when prioritizing the next cluster to partition.
-            Setting this to 0 will ignore the cluster size while setting this
-            to 1 will generally favor larger clusters. Only used if
-            ``init_method = "var-part"``.
+            Floating-point value between 0 and 1, specifying the adjustment to the cluster size when prioritizing the next cluster to partition.
+            Setting this to 0 will ignore the cluster size while setting this to 1 will generally favor larger clusters.
+            Only used if ``init_method = "var-part"``.
 
         lloyd_iterations:
             Maximmum number of iterations for the Lloyd algorithm.
@@ -80,12 +73,10 @@ def cluster_kmeans(
             Maximmum number of iterations for the Hartigan-Wong algorithm.
 
         hartigan_wong_quick_transfer_iterations:
-            Maximmum number of quick transfer iterations for the Hartigan-Wong
-            algorithm.
+            Maximmum number of quick transfer iterations for the Hartigan-Wong algorithm.
 
         hartigan_wong_quit_quick_transfer_failure
-            Whether to quit the Hartigan-Wong algorithm upon convergence
-            failure during quick transfer iterations.
+            Whether to quit the Hartigan-Wong algorithm upon convergence failure during quick transfer iterations.
 
         seed:
             Seed to use for random or kmeans++ initialization.
@@ -95,6 +86,9 @@ def cluster_kmeans(
 
     Returns:
         Results of k-means clustering on the observations.
+
+    References:
+        https://github.com/LTLA/CppKmeans, which describes the various initialization and refinement algorithms in more detail.
     """
     clusters, centers, iterations, status = lib.cluster_kmeans(
         numpy.array(x, copy=None, dtype=numpy.float64, order="F"),

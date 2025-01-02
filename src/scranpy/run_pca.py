@@ -13,30 +13,30 @@ class RunPcaResults:
     """Results of :py:func:`~run_pca`."""
 
     components: numpy.ndarray
-    """Matrix of principal component (PC) scores. Rows are dimensions (i.e.,
-    PCs) and columns are cells."""
+    """Floating-point matrix of principal component (PC) scores.
+    Rows are dimensions (i.e., PCs) and columns are cells."""
 
     rotation: numpy.ndarray
-    """Rotation matrix. Rows are genes and columns are dimensions."""
+    """Floating-point rotation matrix.
+    Rows are genes and columns are dimensions (i.e., PCs)."""
 
     variance_explained: numpy.ndarray
-    """Variance explained by each PC."""
+    """Floating-point array of length equal to the number of PCs, containing the variance explained by each successive PC."""
 
     total_variance: float
     """Total variance in the dataset."""
 
     center: numpy.ndarray
-    """Array containing the mean for each gene, used for centering.  If
-    ``block`` was used in :py:func:`~run_pca.run_pca`, this is instead a matrix
-    containing the mean for each gene (column) in each block (row)."""
+    """If ``block`` was used in :py:func:`~run_pca`, this is a floating-point matrix containing the mean for each gene (column) in each block of cells (row).
+    Otherwise, this is a floating-point array of length equal to the number of genes, containing the mean for each gene across all cells."""
 
     scale: Optional[numpy.ndarray]
-    """Array containing the scaling factor applied to each gene.
-    Only reported if ``scale = True``."""
+    """Floating-point array containing the scaling factor applied to each gene. 
+    Only reported if ``scale = True``, otherwise it is ``None``."""
 
     block: Optional[list]
     """Levels of the blocking factor, corresponding to each row of ``center``.
-    ``None`` if no blocking was performed."""
+    This is ``None`` if no blocking was performed."""
 
 
 def run_pca(
@@ -53,15 +53,12 @@ def run_pca(
     realized: bool = True,
     num_threads: int =1
 ) -> RunPcaResults:
-    """Run a PCA on the gene-by-cell log-expression matrix to obtain a
-    low-dimensional representation for downstream analyses.
+    """Run a PCA on the gene-by-cell log-expression matrix to obtain a low-dimensional representation for downstream analyses.
 
     Args:
         x:
-            A matrix-like object where rows correspond to genes or genomic
-            features and columns correspond to cells. Typically, the matrix is
-            expected to contain log-expression values, and the rows should be
-            filtered to relevant (e.g., highly variable) genes.
+            A matrix-like object where rows correspond to genes or genomic features and columns correspond to cells.
+            Typically, the matrix is expected to contain log-expression values, and the rows should be filtered to relevant (e.g., highly variable) genes.
 
         number:
             Number of PCs to retain.
@@ -70,27 +67,22 @@ def run_pca(
             Whether to scale all genes to have the same variance.
 
         block:
-           Array of length equal to the number of columns of ``x``, containing
-           the block of origin (e.g., batch, sample) for each cell.
+           Array of length equal to the number of columns of ``x``, containing the block of origin (e.g., batch, sample) for each cell.
            Alternatively ``None``, if all cells are from the same block.
 
         block_weight_policy:
-            Policy to use for weighting different blocks when computing the
-            average for each statistic. Only used if ``block`` is provided.
+            Policy to use for weighting different blocks when computing the average for each statistic.
+            Only used if ``block`` is provided.
 
         variable_block_weight:
-            Tuple of length 2, specifying the parameters for variable block
-            weighting. The first and second values are used as the lower and
-            upper bounds, respectively, for the variable weight calculation.
-            Only used if ``block`` is provided and ``block_weight_policy =
-            "variable"``.
+            Parameters for variable block weighting.
+            This should be a tuple of length 2 where the first and second values are used as the lower and upper bounds, respectively, for the variable weight calculation.
+            Only used if ``block`` is provided and ``block_weight_policy = "variable"``.
 
         components_from_residuals:
-            Whether to compute the PC scores from the residuals in the presence
-            of a blocking factor. By default, the residuals are only used
-            to compute the rotation matrix, and the original expression values
-            of the cells are projected onto this new space. Only used if
-            ``block`` is provided.
+            Whether to compute the PC scores from the residuals in the presence of a blocking factor.
+            If ``False``, the residuals are only used to compute the rotation matrix, and the original expression values of the cells are projected onto this new space.
+            Only used if ``block`` is provided.
 
         extra_work:
             Number of extra dimensions for the IRLBA workspace.
@@ -110,6 +102,10 @@ def run_pca(
 
     Returns:
         The results of the PCA.
+
+    References:
+        https://github.com/libscran/scran_pca, which describes the approach in more detail.
+        In particular, see the documentation for the ``blocked_pca`` function for an explanation of the blocking strategy.
     """
     if block is not None:
         blocklev, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)

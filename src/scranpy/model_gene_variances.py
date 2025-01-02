@@ -13,21 +13,21 @@ class ModelGeneVariancesResults:
     """Results of :py:func:`~model_gene_variances`."""
 
     mean: numpy.ndarray
-    """Mean (log-)expression for each gene."""
+    """Floating-point array of length equal to the number of genes, containing the mean (log-)expression for each gene."""
 
     variance: numpy.ndarray
-    """Variance in (log-)expression for each gene."""
+    """Floating-point array of length equal to the number of genes, containing the variance in (log-)expression for each gene."""
 
     fitted: numpy.ndarray
-    """Fitted value of the mean-variance trend for each gene."""
+    """Floating-point array of length equal to the number of genes, containing the fitted value of the mean-variance trend for each gene."""
 
     residual: numpy.ndarray
-    """Residual from the mean-variance trend for each gene."""
+    """Floating-point array of length equal to the number of genes, containing the residual from the mean-variance trend for each gene."""
 
     per_block: Optional[biocutils.NamedList]
     """List of per-block results, obtained from modelling the variances separately for each block of cells.
-    Each entry is another ``ModelGeneVariancesResults`` object, containing the statistics for the corresponding block.
-    This is only filled if ``block=`` was used, otherwise it is set to ``None``."""
+    Each entry is another :py:class:`~ModelGeneVariancesResults` object, containing the statistics for the corresponding block.
+    This is only filled if ``block`` was used in :py:func:`~model_gene_variances`, otherwise it is set to ``None``."""
 
     def to_biocframe(self, include_per_block: bool = False):
         """Convert the results into a :py:class:`~biocframe.BiocFrame.BiocFrame`.
@@ -70,62 +70,56 @@ def model_gene_variances(
     min_window_count: int = 200,
     num_threads: int = 1
 ) -> ModelGeneVariancesResults:
-    """Compute the variance in (log-)expression values for each gene, and model
-    the trend in the variances with respect to the mean.
+    """Compute the variance in (log-)expression values for each gene, and model the trend in the variances with respect to the mean.
 
     Args:
         x:
-            A matrix-like object where rows correspond to genes or genomic
-            features and columns correspond to cells.  It is typically expected
-            to contain log-expression values, e.g., from
-            :py:func:`~scranpy.normalize_counts.normalize_counts`.
+            A matrix-like object where rows correspond to genes or genomic features and columns correspond to cells.
+            It is typically expected to contain log-expression values, e.g., from :py:func:`~scranpy.normalize_counts.normalize_counts`.
 
         block:
-            Array of length equal to the number of columns of ``x``, containing
-            the block of origin (e.g., batch, sample) for each cell.
+            Array of length equal to the number of columns of ``x``, containing the block of origin (e.g., batch, sample) for each cell.
             Alternatively ``None``, if all cells are from the same block.
 
         block_weight_policy:
-            Policy to use for weighting different blocks when computing the
-            average for each statistic. Only used if ``block`` is provided.
+            Policy to use for weighting different blocks when computing the average for each statistic.
+            Only used if ``block`` is provided.
 
         variable_block_weight:
-            Tuple of length 2, specifying the parameters for variable block
-            weighting. The first and second values are used as the lower and
-            upper bounds, respectively, for the variable weight calculation.
-            Only used if ``block`` is provided and ``block_weight_policy =
-            "variable"``.
+            Parameters for variable block weighting.
+            This should be a tuple of length 2 where the first and second values are used as the lower and upper bounds, respectively, for the variable weight calculation.
+            Only used if ``block`` is provided and ``block_weight_policy = "variable"``.
 
         mean_filter:
             Whether to filter on the means before trend fitting.
 
         min_mean:
-            The minimum mean of genes to use in trend fitting. Only used if
-            ``mean_filter = True``.
+            The minimum mean of genes to use in trend fitting.
+            Only used if ``mean_filter = True``.
 
         transform:
-            Whether a quarter-root transformation should be applied before
-            trend fitting.
+            Whether a quarter-root transformation should be applied before trend fitting.
 
         span:
-            Span of the LOWESS smoother. Ignored if ``use_min_width = TRUE``.
+            Span of the LOWESS smoother for trend fitting, see :py:func:`~scranpy.fit_variance_trend.fit_variance_trend`.
 
         use_min_width:
-            Whether a minimum width constraint should be applied to the LOWESS
-            smoother. Useful to avoid overfitting in high-density intervals.
+            Whether a minimum width constraint should be applied during trend fitting, see :py:func:`~scranpy.fit_variance_trend.fit_variance_trend`.
 
         min_width:
-            Minimum width of the window to use when ``use_min_width = TRUE``.
+            Minimum width of the smoothing window for trend fitting, see :py:func:`~scranpy.fit_variance_trend.fit_variance_trend`.
 
         min_window_count:
-            Minimum number of observations in each window. Only used if
-            ``use_min_width=TRUE``.
+            Minimum number of observations in each smoothing window for trend fitting, see :py:func:`~scranpy.fit_variance_trend.fit_variance_trend`.
 
         num_threads:
             Number of threads to use.
 
     Returns:
         The results of the variance modelling for each gene.
+
+    References:
+        https://github.com/LTLA/CppWeightedLowess, which provides the underlying implementation of the LOWESS smoother.
     """
     if block is None:
         blocklev = [] 

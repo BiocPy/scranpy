@@ -21,7 +21,7 @@ class ComputeAdtQcMetricsResults:
     """Integer array of length equal to the number of cells, containing the number of detected ADTs in each cell."""
 
     subset_sum: biocutils.NamedList
-    """List of length equal to the number of ``subsets=`` in :py:func:`~compute_adt_qc_metrics`.
+    """List of length equal to the number of ``subsets`` in :py:func:`~compute_adt_qc_metrics`.
     Each element corresponds to a subset of ADTs and is a NumPy array of length equal to the number of cells.
     Each entry of the array contains the sum of counts for that subset in each cell."""
 
@@ -92,6 +92,9 @@ def compute_adt_qc_metrics(
 
     Returns:
         QC metrics computed from the ADT count matrix for each cell.
+
+    References:
+        The ``compute_adt_qc_metrics`` function in the `scran_qc <https://github.com/libscran/scran_qc>`_ C++ library, which describes the rationale behind these QC metrics.
     """
     ptr = mattress.initialize(x)
     subkeys, subvals = _sanitize_subsets(subsets, x.shape[0])
@@ -108,7 +111,7 @@ class SuggestAdtQcThresholdsResults:
     """Threshold on the number of detected ADTs.
     Cells with lower numbers of detected ADTs are considered to be of low quality.
 
-    If ``block=`` is provided in :py:func:`~suggest_adt_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
+    If ``block`` is provided in :py:func:`~suggest_adt_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
     Otherwise, a single float is returned containing the threshold for all cells."""
 
     subset_sum: biocutils.NamedList
@@ -116,13 +119,13 @@ class SuggestAdtQcThresholdsResults:
     Each element of the list corresponds to a ADT subset. 
     Cells with higher sums than the threshold for any subset are considered to be of low quality. 
 
-    If ``block=`` is provided in :py:func:`~suggest_adt_qc_thresholds`, each entry of the returned list is another :py:class:`~biocutils.NamedList.NamedList`  containing a separate threshold for each level.
+    If ``block`` is provided in :py:func:`~suggest_adt_qc_thresholds`, each entry of the returned list is another :py:class:`~biocutils.NamedList.NamedList`  containing a separate threshold for each level.
     Otherwise, each entry of the list is a single float containing the threshold for all cells."""
 
     block: Optional[list]
     """Levels of the blocking factor.
-    Each entry corresponds to a element of :py:attr:`~sum`, :py:attr:`~detected`, etc., if ``block=`` was provided in :py:func:`~suggest_adt_qc_thresholds`.
-    ``None`` if no blocking was performed."""
+    Each entry corresponds to a element of :py:attr:`~detected`, etc., if ``block`` was provided in :py:func:`~suggest_adt_qc_thresholds`.
+    This is set to ``None`` if no blocking was performed."""
 
 
 def suggest_adt_qc_thresholds(
@@ -151,6 +154,9 @@ def suggest_adt_qc_thresholds(
 
     Returns:
         Suggested filters on the relevant QC metrics.
+
+    References:
+        The ``compute_adt_qc_filters`` and ``compute_adt_qc_filters_blocked`` functions in the `scran_qc <https://github.com/libscran/scran_qc>`_ C++ library, which describes the rationale behind the suggested filters.
     """
     if block is not None:
         blocklev, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)

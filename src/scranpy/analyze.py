@@ -160,7 +160,7 @@ class AnalyzeResults:
 
     clusters: Optional[numpy.ndarray]
     """Array containing a cluster assignment for each cell (after filtering, if ``filter_cells = True`` in :py:func:`~analyze`).
-    This may be derived from :py:attr:`~graph_clusters` or :py:attr:`~kmeans_clusters`, depending on the choice of ``clusters_for_markers=``.
+    This may be derived from :py:attr:`~graph_clusters` or :py:attr:`~kmeans_clusters`, depending on the choice of ``clusters_for_markers`` in :py:func:`~analyze`.
     If no suitable clusterings are available, this is set to ``None``."""
 
     rna_markers: Optional[RunPcaResults]
@@ -486,6 +486,9 @@ def analyze(
 
     Returns:
         The results of the entire analysis, including the results from each step.
+
+    References:
+        C++ libraries in the `libscran <https://github.com/libscran>`_ GitHub organization, which implement all of these steps.
     """
     store = {}
     all_ncols = set() 

@@ -12,8 +12,8 @@ class ClusterGraphResults:
     """Clustering results from :py:func:`~cluster_graph`."""
 
     status: int
-    """Status of the clustering. A non-zero value indicates that the algorithm
-    did not complete successfully."""
+    """Status of the clustering.
+    A non-zero value indicates that the algorithm did not complete successfully."""
 
     membership: numpy.ndarray
     """Array containing the cluster assignment for each vertex, i.e., cell.
@@ -22,36 +22,33 @@ class ClusterGraphResults:
 
 @dataclass
 class ClusterGraphMultilevelResults(ClusterGraphResults):
-    """Clustering results from :py:func:`~cluster_graph` when ``method =
-    "multilevel"``."""
+    """Clustering results from :py:func:`~cluster_graph` when ``method = "multilevel"``."""
 
     levels: tuple[numpy.ndarray]
-    """Clustering at each level of the algorithm. Each array corresponds to one
-    level and contains the cluster assignment for each cell at that level."""
+    """Clustering at each level of the algorithm.
+    Each array corresponds to one level and contains the cluster assignment for each cell at that level."""
 
     modularity: numpy.ndarray
-    """Modularity at each level. This has length equal to ``levels``, and the
-    largest value corresponds to the assignments reported in ``membership``."""
+    """Modularity at each level.
+    This has length equal to :py:attr:`~levels`, and the largest value corresponds to the assignments reported in :py:attr:`~ClusterGraphResults.membership`."""
 
 
 @dataclass
 class ClusterGraphLeidenResults(ClusterGraphResults):
-    """Clustering results from :py:func:`~cluster_graph` when ``method =
-    "multilevel"``."""
+    """Clustering results from :py:func:`~cluster_graph` when ``method = "leiden"``."""
 
     quality: float
-    """Quality of the clustering. This is the same as the modularity if
-    ``leiden_objective = "modularity"``."""
+    """Quality of the clustering.
+    This is the same as the modularity if ``leiden_objective = "modularity"``."""
 
 
 @dataclass
 class ClusterGraphWalktrapResults(ClusterGraphResults):
-    """Clustering results from :py:func:`~cluster_graph` when ``method =
-    "walktrap"``."""
+    """Clustering results from :py:func:`~cluster_graph` when ``method = "walktrap"``."""
 
     merges: numpy.ndarray
-    """Matrix containing two columns. Each row specifies the pair of cells or
-    clusters that were merged at each step of the algorithm."""
+    """Matrix containing two columns.
+    Each row specifies the pair of cells or clusters that were merged at each step of the algorithm."""
 
     modularity: numpy.ndarray
     """Array of modularity scores at each merge step."""
@@ -66,13 +63,11 @@ def cluster_graph(
     walktrap_steps: int = 4,
     seed: int = 42
 ) -> ClusterGraphResults:
-    """Identify clusters of cells using a variety of community detection
-    methods from a graph where similar cells are connected.
+    """Identify clusters of cells using a variety of community detection methods from a graph where similar cells are connected.
 
     Args:
         x:
-            Components of the graph to be clustered, typically produced
-            by :py:func:`~build_snn_graph.build_snn_graph`.
+            Components of the graph to be clustered, typically produced by :py:func:`~build_snn_graph.build_snn_graph`.
 
         method:
             Community detection algorithm to use.
@@ -82,8 +77,8 @@ def cluster_graph(
             Larger values result in finer clusters.
 
         leiden_resolution:
-            Resolution of the clustering when ``method = "leiden"``. Larger
-            values result in finer clusters.
+            Resolution of the clustering when ``method = "leiden"``.
+            Larger values result in finer clusters.
 
         leiden_objective:
             Objective function to use when ``method = "leiden"``.
@@ -104,6 +99,9 @@ def cluster_graph(
         All objects contain at least ``status``, an indicator of whether the
         algorithm successfully completed; and ``membership``, an array of
         cluster assignments for each node in ``x``.
+
+    References:
+        The various ``cluster_*`` functions in the `scran_graph_cluster <https://github.com/libscran/scran_graph_cluster>`_ C++ library, which provides some more details on each algorithm.
     """
     graph = (x.vertices, x.edges, x.weights)
 
@@ -121,4 +119,3 @@ def cluster_graph(
 
     else:
         raise NotImplementedError("unsupported community detection method '" + method + "'")
-

@@ -36,6 +36,9 @@ def aggregate_across_genes(
         List of length equal to that of ``sets``.
         Each entry is a numeric vector of length equal to the number of columns in ``x``,
         containing the (weighted) sum/mean of expression values for the corresponding set across all cells.
+
+    References:
+        The ``aggregate_across_genes`` function in the `scran_aggregate <https://github.com/libscran/scran_aggregate>`_ C++ library, which implements the aggregation.
     """ 
     new_sets = [] 
     for s in sets:

@@ -89,6 +89,9 @@ def compute_rna_qc_metrics(x: Any, subsets: Union[Mapping, Sequence], num_thread
 
     Returns:
         QC metrics computed from the count matrix for each cell.
+
+    References:
+        The ``compute_rna_qc_metrics`` function in the `scran_qc <https://github.com/libscran/scran_qc>`_ C++ library, which describes the rationale behind these QC metrics.
     """
     ptr = mattress.initialize(x)
     subkeys, subvals = _sanitize_subsets(subsets, x.shape[0])
@@ -105,14 +108,14 @@ class SuggestRnaQcThresholdsResults:
     """Threshold on the sum of counts in each cell.
     Cells with lower totals are considered to be of low quality. 
 
-    If ``block=`` is provided in :py:func:`~suggest_rna_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
+    If ``block`` is provided in :py:func:`~suggest_rna_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
     Otherwise, a single float is returned containing the threshold for all cells."""
 
     detected: Union[biocutils.NamedList, float]
     """Threshold on the number of detected genes.
     Cells with lower numbers of detected genes are considered to be of low quality.
 
-    If ``block=`` is provided in :py:func:`~suggest_rna_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
+    If ``block`` is provided in :py:func:`~suggest_rna_qc_thresholds`, a list is returned containing a separate threshold for each level of the factor.
     Otherwise, a single float is returned containing the threshold for all cells."""
 
     subset_proportion: biocutils.NamedList
@@ -120,13 +123,13 @@ class SuggestRnaQcThresholdsResults:
     Each element of the list corresponds to a gene subset. 
     Cells with higher sums than the threshold for any subset are considered to be of low quality. 
 
-    If ``block=`` is provided in :py:func:`~suggest_rna_qc_thresholds`, each entry of the returned list is another :py:class:`~biocutils.NamedList.NamedList`  containing a separate threshold for each level.
+    If ``block`` is provided in :py:func:`~suggest_rna_qc_thresholds`, each entry of the returned list is another :py:class:`~biocutils.NamedList.NamedList`  containing a separate threshold for each level.
     Otherwise, each entry of the list is a single float containing the threshold for all cells."""
 
     block: Optional[list]
     """Levels of the blocking factor.
-    Each entry corresponds to a element of :py:attr:`~sum`, :py:attr:`~detected`, etc., if ``block=`` was provided in :py:func:`~suggest_rna_qc_thresholds`.
-    ``None`` if no blocking was performed."""
+    Each entry corresponds to a element of :py:attr:`~sum`, :py:attr:`~detected`, etc., if ``block`` was provided in :py:func:`~suggest_rna_qc_thresholds`.
+    This is set to ``None`` if no blocking was performed."""
 
 
 def suggest_rna_qc_thresholds(
@@ -150,6 +153,9 @@ def suggest_rna_qc_thresholds(
 
     Returns:
         Suggested filters on the relevant QC metrics.
+
+    References:
+        The ``compute_rna_qc_filters`` and ``compute_rna_qc_filters_blocked`` functions in the `scran_qc <https://github.com/libscran/scran_qc>`_ C++ library, which describes the rationale behind the suggested filters.
     """
     if block is not None:
         blocklev, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)

@@ -22,14 +22,10 @@ def run_umap(
 
     Args:
         x: 
-            Numeric matrix where rows are dimensions and columns are cells,
-            typically containing a low-dimensional representation from, e.g.,
-            :py:func:`~run_pca.run_pca`.
+            Numeric matrix where rows are dimensions and columns are cells, typically containing a low-dimensional representation from, e.g., :py:func:`~scranpy.run_pca.run_pca`.
 
-            Alternatively, a :py:class:`~knncolle.find_knn.FindKnnResults`
-            object containing existing neighbor search results. The number of
-            neighbors should be the same as ``num_neighbors``, otherwise a
-            warning is raised.
+            Alternatively, a :py:class:`~knncolle.find_knn.FindKnnResults` object containing existing neighbor search results.
+            The number of neighbors should be the same as ``num_neighbors``, otherwise a warning is raised.
 
             Alternatively, a :py:class:`~knncolle.Index.Index` object.
 
@@ -37,16 +33,16 @@ def run_umap(
             Number of dimensions in the UMAP embedding.
 
         num_neighbors:
-            Number of neighbors to use in the UMAP algorithm. Larger values
-            cause the embedding to focus on global structure.
+            Number of neighbors to use in the UMAP algorithm.
+            Larger values cause the embedding to focus on global structure.
 
         num_epochs:
-            Number of epochs to perform. If set to None, an appropriate number
-            of epochs is chosen based on the number of points in ``x``.
+            Number of epochs to perform.
+            If set to None, an appropriate number of epochs is chosen based on the number of points in ``x``.
 
         min_dist:
-            Minimum distance between points in the embedding. Larger values
-            result in more visual clusters that are more dispersed.
+            Minimum distance between points in the embedding.
+            Larger values result in more visual clusters that are more dispersed.
 
         seed:
             Integer scalar specifying the seed to use. 
@@ -58,14 +54,15 @@ def run_umap(
             Whether to parallelize the optimization step.
 
         nn_parameters:
-            The algorithm to use for the nearest-neighbor search. Only used if
-            ``x`` is not a pre-built nearest-neighbor search index or a list of
-            existing nearest-neighbor search results.
+            The algorithm to use for the nearest-neighbor search.
+            Only used if ``x`` is not a pre-built nearest-neighbor search index or a list of existing nearest-neighbor search results.
 
     Returns:
-        Array containing the coordinates of each cell in a 2-dimensional
-        embedding. Each row corresponds to a dimension and each column
-        represents a cell.
+        Array containing the coordinates of each cell in a 2-dimensional embedding.
+        Each row corresponds to a dimension and each column represents a cell.
+
+    References:
+        https://github.com/libscran/umappp, for the underlying implementation.
     """
     if isinstance(x, knncolle.FindKnnResults):
         nnidx = x.index

@@ -61,6 +61,9 @@ def summarize_effects(effects: numpy.ndarray, num_threads: int = 1) -> list[Grou
     Returns:
         List of length equal to the number of groups (i.e., the extents of the first two dimensions of ``effects``).
         Each entry contains the summary statistics of the effect sizes of the comparisons involving the corresponding group.
+
+    References:
+        The ``summarize_effects`` function in the `scran_markers <https://github.com/libscran/scran_markers>`_ C++ library, which provides the underlying implementation.
     """
     results = lib.summarize_effects(effects, num_threads)
     output = []

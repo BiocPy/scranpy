@@ -18,20 +18,16 @@ def sanitize_size_factors(
             Floating-point array containing size factors for all cells.
 
         replace_zero:
-            Whether to replace size factors of zero with the lowest positive
-            factor. If False, zeros are retained.
+            Whether to replace size factors of zero with the lowest positive factor. If ``False``, zeros are retained.
 
         replace_negative:
-            Whether to replace negative size factors with the lowest positive
-            factor. If False, negative values are retained.
+            Whether to replace negative size factors with the lowest positive factor. If ``False``, negative values are retained.
 
         replace_infinite:
-            Whether to replace infinite size factors with the largest positive
-            factor. If False, infinite values are retained.
+            Whether to replace infinite size factors with the largest positive factor. If ``False``, infinite values are retained.
 
         replace_nan:
-            Whether to replace NaN size factors with unity. If False, NaN
-            values are retained.
+            Whether to replace NaN size factors with unity. If False, NaN values are retained.
 
         in_place:
             Whether to modify ``size_factors`` in place. If False, a new array
@@ -41,6 +37,9 @@ def sanitize_size_factors(
     Returns:
         Array containing sanitized size factors. If ``in_place = True``, this
         is a reference to ``size_factors``.
+
+    References:
+        The ``sanitize_size_factors`` function in the `scran_norm <https://github.com/libscran/scran_norm>`_ C++ library, which provides the underlying implementation.
     """
     local_sf = numpy.array(size_factors, dtype=numpy.float64, copy=not in_place)
     lib.sanitize_size_factors(

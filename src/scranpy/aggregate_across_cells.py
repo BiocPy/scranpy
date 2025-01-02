@@ -22,8 +22,8 @@ class AggregateAcrossCellsResults:
     Each entry contains the number of cells with detected expression in that combination."""
 
     combinations: biocutils.NamedList
-    """Sorted and unique combination of levels across all ``factors=`` in :py:func:`~aggregate_across_cells`.
-    Each entry of the list is another list that corresponds to an entry of ``factors=``, where the ``i``-th combination is defined as the ``i``-th elements of all inner lists.
+    """Sorted and unique combination of levels across all ``factors`` in :py:func:`~aggregate_across_cells`.
+    Each entry of the list is another list that corresponds to an entry of ``factors``, where the ``i``-th combination is defined as the ``i``-th elements of all inner lists.
     Combinations are in the same order as the columns of :py:attr:`~sum` and :py:attr:`~detected`.""" 
 
     counts: numpy.ndarray
@@ -91,6 +91,9 @@ def aggregate_across_cells(
 
     Returns:
         Results of the aggregation, including the sum and the number of detected cells in each group for each gene.
+
+    References:
+        The ``aggregate_across_cells`` function in the `scran_aggregate <https://github.com/libscran/scran_aggregate>`_ C++ library, which implements the aggregation.
     """
     comblev, combind = combine_factors(factors)
     if isinstance(factors, biocutils.NamedList):

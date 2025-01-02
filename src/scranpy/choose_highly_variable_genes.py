@@ -12,37 +12,36 @@ def choose_highly_variable_genes(
     keep_ties: bool = True,
     bound: Optional[float] = None
 ) -> numpy.ndarray:
-    """Choose highly variable genes (HVGs), typically based on a
-    variance-related statistic.
+    """Choose highly variable genes (HVGs), typically based on a variance-related statistic.
 
     Args:
         stats:
-            Array of variances (or a related statistic) across all genes,
-            Typically the residuals from
-            :py:func:`~model_gene_variances.model_gene_variances` used here.
+            Array of variances (or a related statistic) across all genes.
+            Typically the residuals from :py:func:`~scranpy.model_gene_variances.model_gene_variances` used here.
 
         top:
-            Number of top genes to retain. Note that the actual number of
-            retained genes may not be equal to ``top``, depending on the
-            other options.
+            Number of top genes to retain.
+            Note that the actual number of retained genes may not be equal to ``top``, depending on the other options.
 
         larger:
             Whether larger values of ``stats`` represent more variable genes.
             If true, HVGs are defined from the largest values of ``stats``.
 
         keep_ties: 
-            Whether to keep ties at the ``top``-th most variable gene. This
-            avoids arbitrary breaking of tied values.
+            Whether to keep ties at the ``top``-th most variable gene.
+            This avoids arbitrary breaking of tied values.
 
         bound:
-            The lower bound (if ``larger = True``) or upper bound (otherwise)
-            to be applied to ``stats``. Genes are not considered to be HVGs if
-            they do not pass this bound, even if they are within the ``top``
-            genes. Ignored if ``None``.
+            The lower bound (if ``larger = True``) or upper bound (otherwise) to be applied to ``stats``.
+            Genes are not considered to be HVGs if they do not pass this bound, even if they are within the ``top`` genes.
+            Ignored if ``None``.
 
     Returns:
-        Array containing the indices of genes in ``stats`` that are
-        considered to be highly variable.
+        Array containing the indices of genes in ``stats`` that are considered to be highly variable.
+
+    References:
+        The ``choose_highly_variable_genes`` function from the `scran_variances <https://github.com/libscran/scran_variances>`_ library,
+        which provides the underlying implementation.
     """
     local_s = numpy.array(stats, dtype=numpy.float64, copy=None)
     return lib.choose_highly_variable_genes(

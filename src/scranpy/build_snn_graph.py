@@ -50,40 +50,36 @@ def build_snn_graph(
     nn_parameters: knncolle.Parameters = knncolle.AnnoyParameters()
 ) -> GraphComponents:
     """Build a shared nearest neighbor (SNN) graph where each node is a cell.
-    Edges are formed between cells that share one or more nearest neighbors,
-    weighted by the number or importance of those shared neighbors.
+    Edges are formed between cells that share one or more nearest neighbors, weighted by the number or importance of those shared neighbors.
 
     Args:
         x: 
-            Numeric matrix where rows are dimensions and columns are cells,
-            typically containing a low-dimensional representation from, e.g.,
-            :py:func:`~run_pca.run_pca`.
+            Numeric matrix where rows are dimensions and columns are cells, typically containing a low-dimensional representation from, e.g., :py:func:`~scranpy.run_pca.run_pca`.
 
-            Alternatively, a :py:class:`~knncolle.find_knn.FindKnnResults`
-            object containing existing neighbor search results. The number of
-            neighbors should be the same as ``num_neighbors``, otherwise a
-            warning is raised.
+            Alternatively, a :py:class:`~knncolle.find_knn.FindKnnResults` object containing existing neighbor search results.
+            The number of neighbors should be the same as ``num_neighbors``, otherwise a warning is raised.
 
             Alternatively, a :py:class:`~knncolle.Index.Index` object.
 
         num_neighbors:
-            Number of neighbors in the nearest-neighbor graph. Larger values
-            generally result in broader clusters during community detection.
+            Number of neighbors in the nearest-neighbor graph.
+            Larger values generally result in broader clusters during community detection.
 
         weight_scheme:
-            Weighting scheme to use for the edges of the SNN graph, based on
-            the number or ranking of the shared nearest neighbors.
+            Weighting scheme to use for the edges of the SNN graph, based on the number or ranking of the shared nearest neighbors.
 
         num_threads:
             Number of threads to use.
 
         nn_parameters:
-            The algorithm to use for the nearest-neighbor search. Only used if
-            ``x`` is not a pre-built nearest-neighbor search index or a list of
-            existing nearest-neighbor search results.
+            The algorithm to use for the nearest-neighbor search.
+            Only used if ``x`` is not a pre-built nearest-neighbor search index or a list of existing nearest-neighbor search results.
 
     Results:
         The components of the SNN graph, to be used in community detection.
+
+    References:
+        The ``build_snn_graph`` function in the `scran_graph_cluster <https://github.com/libscran/scran_graph_cluster>`_ C++ library, which provides some more details on the weighting.
     """
     if isinstance(x, knncolle.FindKnnResults):
         nnidx = x.index
