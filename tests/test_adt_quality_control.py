@@ -1,6 +1,7 @@
 import scranpy
 import numpy
 import biocutils
+import biocframe
 
 
 def test_compute_adt_qc_metrics():
@@ -17,6 +18,10 @@ def test_compute_adt_qc_metrics():
     assert bf.shape[0] == 1000
     assert (bf.get_column("subset_sum_IgG") == qc.subset_sum["IgG"]).all()
 
+    bf = qc.to_biocframe(flatten=False)
+    assert isinstance(bf.get_column("subset_sum"), biocframe.BiocFrame)
+    assert (bf.get_column("subset_sum").get_column("IgG") == qc.subset_sum["IgG"]).all()
+
     # Also works without names.
     qc = scranpy.compute_adt_qc_metrics(y, [ sub ])
     assert numpy.isclose(qc.subset_sum[0], y[sub,:].sum(axis=0)).all()
@@ -24,6 +29,10 @@ def test_compute_adt_qc_metrics():
 
     bf = qc.to_biocframe()
     assert (bf.get_column("subset_sum_0") == qc.subset_sum[0]).all()
+
+    bf = qc.to_biocframe(flatten=False)
+    assert isinstance(bf.get_column("subset_sum"), biocframe.BiocFrame)
+    assert (bf.get_column("subset_sum").get_column("0") == qc.subset_sum[0]).all()
 
 
 def test_suggest_adt_qc_thresholds_basic():

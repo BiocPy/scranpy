@@ -25,25 +25,43 @@ class ComputeAdtQcMetricsResults:
     Each element corresponds to a subset of ADTs and is a NumPy array of length equal to the number of cells.
     Each entry of the array contains the sum of counts for that subset in each cell."""
 
-    def to_biocframe(self): 
+    def to_biocframe(self, flatten: bool = True): 
         """Convert the results into a :py:class:`~biocframe.BiocFrame.BiocFrame`.
+
+        Args:
+            flatten:
+                Whether to flatten the subset sums into separate columns.
+                If ``True``, each entry of :py:attr:`~subset_sum` is represented by a ``subset_sum_<NAME>`` column,
+                where ``<NAME>`` is the the name of each entry (if available) or its index (otherwise).
+                If ``False``, :py:attr:`~subset_sum` is represented by a nested :py:class:`~biocframe.BiocFrame.BiocFrame`.
 
         Returns:
             A :py:class:`~biocframe.BiocFrame.BiocFrame` where each row corresponds to a cell and each column is one of the metrics.
-            :py:attr:`~subset_sum` entries are named by appending the name of each entry if available, or its position otherwise.
         """
         colnames = ["sum", "detected"]
-        contents = { "sum": self.sum, "detected": self.detected }
-        names = self.subset_sum.get_names()
-        for i, ss in enumerate(self.subset_sum):
-            if not names is None:
-                n = names[i]
-            else:
-                n = str(i)
-            n = "subset_sum_" + n
-            colnames.append(n)
-            contents[n] = ss
+        contents = {}
+        for n in colnames:
+            contents[n] = getattr(self, n)
+
+        subnames = self.subset_sum.get_names()
+        if not subnames is None:
+            subnames = subnames.as_list()
+        else:
+            subnames = [str(i) for i in range(len(self.subset_sum))]
+
         import biocframe
+        if flatten:
+            for i, n in enumerate(subnames):
+                nn = "subset_sum_" + n
+                colnames.append(nn)
+                contents[nn] = self.subset_sum[i]
+        else:
+            subcontents = {}
+            for i, n in enumerate(subnames):
+                subcontents[n] = self.subset_sum[i]
+            colnames.append("subset_sum")
+            contents["subset_sum"] = biocframe.BiocFrame(subcontents, column_names=subnames, number_of_rows=len(self.sum))
+
         return biocframe.BiocFrame(contents, column_names=colnames)
 
 
@@ -124,8 +142,8 @@ def suggest_adt_qc_thresholds(
             Alternatively ``None``, if all cells are from the same block.
 
         min_detected_drop:
-            Minimum drop in the number of detected ADTs to consider a cell to be of low quality.
-            The filter threshold must be no higher than the product of ``min_detected_drop`` and the median number of ADTs, regardless of the choice of ``num_mads``.
+            Minimum proportional drop in the number of detected ADTs to consider a cell to be of low quality.
+            Specifically, the filter threshold on ``metrics.detected`` must be no higher than the product of ``min_detected_drop`` and the median number of ADTs, regardless of ``num_mads``.
 
         num_mads:
             Number of MADs from the median to define the threshold for outliers in each QC metric.
@@ -171,7 +189,7 @@ def filter_adt_qc_metrics(
 
         block:
             Blocking factor specifying the block of origin (e.g., batch, sample) for each cell in ``metrics``.
-            The levels should be the same as those used in :py:func:`~suggest_adt_qc_thresholds`.
+            The levels should be a subset of those used in :py:func:`~suggest_adt_qc_thresholds`.
 
     Returns:
         A NumPy vector of length equal to the number of cells in ``metrics``, containing truthy values for putative high-quality cells.
