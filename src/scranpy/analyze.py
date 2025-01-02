@@ -226,10 +226,10 @@ class AnalyzeResults:
         obj = {}
         priority = []
 
-        if not self.rna_filtered is None:
+        if self.rna_filtered is not None:
             rna_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.rna_filtered, "normalized": self.rna_normalized })
             rna_sce.set_reduced_dims({ "pca": self.rna_pca.components.T }, in_place=True)
-            if not self.rna_row_names is None:
+            if self.rna_row_names is not None:
                 rna_sce.set_row_names(self.rna_row_names, in_place=True)
 
             cd = rna_sce.get_column_data()
@@ -250,10 +250,10 @@ class AnalyzeResults:
             obj["rna"] = rna_sce
             priority.append("rna")
 
-        if not self.adt_filtered is None:
+        if self.adt_filtered is not None:
             adt_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.adt_filtered, "normalized": self.adt_normalized })
             adt_sce.set_reduced_dims({ "pca": self.adt_pca.components.T }, in_place=True)
-            if not self.adt_row_names is None:
+            if self.adt_row_names is not None:
                 adt_sce.set_row_names(self.adt_row_names, in_place=True)
 
             cd = adt_sce.get_column_data()
@@ -265,10 +265,10 @@ class AnalyzeResults:
             obj["adt"] = adt_sce
             priority.append("adt")
 
-        if not self.crispr_filtered is None:
+        if self.crispr_filtered is not None:
             crispr_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.crispr_filtered, "normalized": self.crispr_normalized })
             crispr_sce.set_reduced_dims({ "pca": self.crispr_pca.components.T }, in_place=True)
-            if not self.crispr_row_names is None:
+            if self.crispr_row_names is not None:
                 crispr_sce.set_row_names(self.crispr_row_names, in_place=True)
 
             cd = crispr_sce.get_column_data()
@@ -292,25 +292,25 @@ class AnalyzeResults:
         if isinstance(self.combined_pca, ScaleByNeighborsResults):
             reduced_dimensions["combined_pca"] = self.combined_pca.combined.T
 
-        if not self.mnn_corrected is None:
+        if self.mnn_corrected is not None:
             df = sce.get_column_data()
             df.set_column("block", self.block, in_place=True)
             sce.set_column_data(df, in_place=True)
             reduced_dimensions["mnn_corrected"] = self.mnn_corrected.corrected.T
 
-        if not self.tsne is None:
+        if self.tsne is not None:
             reduced_dimensions["tsne"] = self.tsne.T
 
-        if not self.umap is None:
+        if self.umap is not None:
             reduced_dimensions["umap"] = self.umap.T
 
-        if not self.clusters is None:
+        if self.clusters is not None:
             df = sce.get_column_data()
             df.set_column("clusters", self.clusters, in_place=True)
             sce.set_column_data(df, in_place=True)
 
         sce.set_reduced_dims(reduced_dimensions, in_place=True)
-        if not self.column_names is None:
+        if self.column_names is not None:
             sce.set_column_names(self.column_names, in_place=True)
 
         return sce
@@ -502,23 +502,23 @@ def analyze(
     store["adt_row_names"] = None
     store["crispr_row_names"] = None
 
-    if not rna_x is None:
+    if rna_x is not None:
         all_ncols.add(rna_x.shape[1])
         rna_x, rna_rnames, rna_cnames = _try_se_extract(rna_x, rna_assay)
         store["rna_row_names"] = rna_rnames
         if store["column_names"] is None:
             store["column_names"] = rna_cnames
 
-    if not adt_x is None:
+    if adt_x is not None:
         all_ncols.add(adt_x.shape[1])
         adt_x, adt_rnames, adt_cnames = _try_se_extract(adt_x, adt_assay)
         store["adt_row_names"] = adt_rnames
         if store["column_names"] is None:
             store["column_names"] = adt_cnames
 
-    if not crispr_x is None:
+    if crispr_x is not None:
         all_ncols.add(crispr_x.shape[1])
-        crispr_x, rnames, cnames = _try_se_extract(crispr_x, crispr_assay)
+        crispr_x, crispr_rnames, crispr_cnames = _try_se_extract(crispr_x, crispr_assay)
         store["crispr_row_names"] = crispr_rnames
         if store["column_names"] is None:
             store["column_names"] = crispr_cnames
@@ -531,7 +531,7 @@ def analyze(
 
     ############ Quality control o(*°▽°*)o #############
 
-    if not rna_x is None:
+    if rna_x is not None:
         store["rna_qc_metrics"] = compute_rna_qc_metrics(rna_x, subsets=rna_subsets, num_threads=num_threads)
         store["rna_qc_thresholds"] = suggest_rna_qc_thresholds(store["rna_qc_metrics"], block=block, **suggest_rna_qc_thresholds_options)
         store["rna_qc_filter"] = filter_rna_qc_metrics(store["rna_qc_thresholds"], store["rna_qc_metrics"], block=block)
@@ -540,7 +540,7 @@ def analyze(
         store["rna_qc_thresholds"] = None
         store["rna_qc_filter"] = None
 
-    if not adt_x is None:
+    if adt_x is not None:
         store["adt_qc_metrics"] = compute_adt_qc_metrics(adt_x, subsets=adt_subsets, num_threads=num_threads)
         store["adt_qc_thresholds"] = suggest_adt_qc_thresholds(store["adt_qc_metrics"], block=block, **suggest_adt_qc_thresholds_options)
         store["adt_qc_filter"] = filter_adt_qc_metrics(store["adt_qc_thresholds"], store["adt_qc_metrics"], block=block)
@@ -549,7 +549,7 @@ def analyze(
         store["adt_qc_thresholds"] = None
         store["adt_qc_filter"] = None
 
-    if not crispr_x is None:
+    if crispr_x is not None:
         store["crispr_qc_metrics"] = compute_crispr_qc_metrics(crispr_x, num_threads=num_threads)
         store["crispr_qc_thresholds"] = suggest_crispr_qc_thresholds(store["crispr_qc_metrics"], block=block, **suggest_crispr_qc_thresholds_options)
         store["crispr_qc_filter"] = filter_crispr_qc_metrics(store["crispr_qc_thresholds"], store["crispr_qc_metrics"], block=block)
@@ -562,38 +562,38 @@ def analyze(
     combined_qc_filter = numpy.full((ncells,), True)
     for mod in ["rna", "adt", "crispr"]:
         modality_filter = store[mod + "_qc_filter"]
-        if not modality_filter is None:
+        if modality_filter is not None:
             combined_qc_filter = numpy.logical_and(combined_qc_filter, modality_filter)
     store["combined_qc_filter"] = combined_qc_filter
 
-    if not store["column_names"] is None:
+    if store["column_names"] is not None:
         cnames = [] # TODO: add which() in biocutils.
         for i, cn in enumerate(store["column_names"]):
             if combined_qc_filter[i]:
                 cnames.append(cn)
         store["column_names"] = cnames
 
-    if not rna_x is None:
+    if rna_x is not None:
         store["rna_filtered"] = delayedarray.DelayedArray(rna_x)
     else:
         store["rna_filtered"] = None
-    if not adt_x is None:
+    if adt_x is not None:
         store["adt_filtered"] = delayedarray.DelayedArray(adt_x)
     else:
         store["adt_filtered"] = None
-    if not crispr_x is None:
+    if crispr_x is not None:
         store["crispr_filtered"] = delayedarray.DelayedArray(crispr_x)
     else:
         store["crispr_filtered"] = None
 
     if filter_cells:
-        if not rna_x is None:
+        if rna_x is not None:
             store["rna_filtered"] = store["rna_filtered"][:,combined_qc_filter]
-        if not adt_x is None:
+        if adt_x is not None:
             store["adt_filtered"] = store["adt_filtered"][:,combined_qc_filter]
-        if not crispr_x is None:
+        if crispr_x is not None:
             store["crispr_filtered"] = store["crispr_filtered"][:,combined_qc_filter]
-        if not block is None:
+        if block is not None:
             block = biocutils.subset_sequence(block, numpy.where(combined_qc_filter)[0])
 
     ############ Normalization ( ꈍᴗꈍ) #############
@@ -603,14 +603,14 @@ def analyze(
             return x
         return x[combined_qc_filter]
 
-    if not rna_x is None:
+    if rna_x is not None:
         store["rna_size_factors"] = center_size_factors(maybe_filter(store["rna_qc_metrics"].sum), block=block, **center_size_factors_options, in_place=False)
         store["rna_normalized"] = normalize_counts(store["rna_filtered"], store["rna_size_factors"], **normalize_counts_options)
     else:
         store["rna_size_factors"] = None
         store["rna_normalized"] = None
 
-    if not adt_x is None:
+    if adt_x is not None:
         raw_adt_sf = compute_clrm1_factors(store["adt_filtered"], **compute_clrm1_factors_options, num_threads=num_threads)
         store["adt_size_factors"] = center_size_factors(raw_adt_sf, block=block, **center_size_factors_options)
         store["adt_normalized"] = normalize_counts(store["adt_filtered"], store["adt_size_factors"], **normalize_counts_options)
@@ -618,7 +618,7 @@ def analyze(
         store["adt_size_factors"] = None
         store["adt_normalized"] = None
 
-    if not crispr_x is None:
+    if crispr_x is not None:
         store["crispr_size_factors"] = center_size_factors(maybe_filter(store["crispr_qc_metrics"].sum), block=block, **center_size_factors_options, in_place=False)
         store["crispr_normalized"] = normalize_counts(store["crispr_filtered"], store["crispr_size_factors"], **normalize_counts_options)
     else:
@@ -627,7 +627,7 @@ def analyze(
 
     ############ Variance modelling (～￣▽￣)～ #############
 
-    if not rna_x is None:
+    if rna_x is not None:
         store["rna_gene_variances"] = model_gene_variances(store["rna_normalized"], block=block, **model_gene_variances_options, num_threads=num_threads)
         store["rna_highly_variable_genes"] = choose_highly_variable_genes(store["rna_gene_variances"].residual, **choose_highly_variable_genes_options)
     else:
@@ -636,17 +636,17 @@ def analyze(
 
     ############ Principal components analysis \(>⩊<)/ #############
 
-    if not rna_x is None:
+    if rna_x is not None:
         store["rna_pca"] = run_pca(store["rna_normalized"][store["rna_highly_variable_genes"],:], **run_pca_options, block=block, num_threads=num_threads)
     else:
         store["rna_pca"] = None
 
-    if not adt_x is None:
+    if adt_x is not None:
         store["adt_pca"] = run_pca(store["adt_normalized"], **run_pca_options, block=block, num_threads=num_threads)
     else:
         store["adt_pca"] = None
 
-    if not crispr_x is None:
+    if crispr_x is not None:
         store["crispr_pca"] = run_pca(store["crispr_normalized"], **run_pca_options, block=block, num_threads=num_threads)
     else:
         store["crispr_pca"] = None
@@ -654,11 +654,11 @@ def analyze(
     ############ Combining modalities and batches („• ᴗ •„) #############
 
     embeddings = []
-    if use_rna_pcs and not rna_x is None:
+    if use_rna_pcs and rna_x is not None:
         embeddings.append("rna_pca")
-    if use_adt_pcs and not adt_x is None:
+    if use_adt_pcs and adt_x is not None:
         embeddings.append("adt_pca")
-    if use_crispr_pcs and not crispr_x is None:
+    if use_crispr_pcs and crispr_x is not None:
         embeddings.append("crispr_pca")
 
     if len(embeddings) == 0:
@@ -701,17 +701,17 @@ def analyze(
 
     ############ Finding markers (˶˃ ᵕ ˂˶) #############
 
-    if not kmeans_clusters is None:
+    if kmeans_clusters is not None:
         store["kmeans_clusters"] = cluster_kmeans(chosen_pcs, k=kmeans_clusters, **cluster_kmeans_options, num_threads=num_threads)
     else:
         store["kmeans_clusters"] = None
 
     store["clusters"] = None
     for c in clusters_for_markers:
-        if c == "graph" and not store["graph_clusters"] is None:
+        if c == "graph" and store["graph_clusters"] is not None:
             store["clusters"] = store["graph_clusters"].membership
             break
-        elif c == "kmeans" and not store["kmeans_clusters"] is None:
+        elif c == "kmeans" and store["kmeans_clusters"] is not None:
             store["clusters"] = store["kmeans_clusters"].clusters
             break
 
@@ -719,12 +719,12 @@ def analyze(
     store["adt_markers"] = None
     store["crispr_markers"] = None
 
-    if not store["clusters"] is None:
-        if not rna_x is None:
+    if store["clusters"] is not None:
+        if rna_x is not None:
             store["rna_markers"] = score_markers(store["rna_normalized"], groups=store["clusters"], num_threads=num_threads, block=block, **score_markers_options)
-        if not adt_x is None:
+        if adt_x is not None:
             store["adt_markers"] = score_markers(store["adt_normalized"], groups=store["clusters"], num_threads=num_threads, block=block, **score_markers_options)
-        if not crispr_x is None:
+        if crispr_x is not None:
             store["crispr_markers"] = score_markers(store["crispr_normalized"], groups=store["clusters"], num_threads=num_threads, block=block, **score_markers_options)
 
     return AnalyzeResults(**store)
