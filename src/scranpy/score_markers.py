@@ -47,7 +47,7 @@ class ScoreMarkersResults:
     """Same as :py:attr:`~cohens_d` but for the delta-detected.
     If ``compute_delta_detected = False``, this is ``None``."""
 
-    def as_biocframes(self,
+    def to_biocframes(self,
         effect_sizes: Optional[list] = None,
         summaries: Optional[list] = None,
         include_mean: bool = True,
@@ -98,7 +98,7 @@ class ScoreMarkersResults:
                 eff_all = getattr(self, eff)
                 if eff_all is None:
                     continue
-                effdf = eff_all[g].as_biocframe()
+                effdf = eff_all[g].to_biocframe()
                 for summ in summaries:
                     current.set_column(eff + "_" + summ, effdf.get_column(summ), in_place=True)
             collected.append(current)

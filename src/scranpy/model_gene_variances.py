@@ -29,7 +29,7 @@ class ModelGeneVariancesResults:
     Each entry is another ``ModelGeneVariancesResults`` object, containing the statistics for the corresponding block.
     This is only filled if ``block=`` was used, otherwise it is set to ``None``."""
 
-    def as_biocframe(self, include_per_block: bool = False):
+    def to_biocframe(self, include_per_block: bool = False):
         """Convert the results into a :py:class:`~biocframe.BiocFrame.BiocFrame`.
 
         Args:
@@ -49,7 +49,7 @@ class ModelGeneVariancesResults:
             blocknames = self.per_block.get_names()
             per_block = {}
             for i, n in enumerate(blocknames):
-                per_block[n] = self.per_block[i].as_biocframe()
+                per_block[n] = self.per_block[i].to_biocframe()
             colnames.append("per_block")
             cols["per_block"] = biocframe.BiocFrame(per_block, column_names=blocknames)
 

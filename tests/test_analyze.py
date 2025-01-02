@@ -53,6 +53,13 @@ def test_analyze_simple():
     assert res.crispr_size_factors is None
     assert res.crispr_pca is None
 
+    # Conversion to an SCE works as expected.
+    sce = res.to_singlecellexperiment()
+    assert sorted(sce.get_assay_names()) == [ "filtered", "normalized" ]
+    assert sce.get_reduced_dim_names() == [ "pca", "tsne", "umap" ]
+    assert sce.get_column_data().get_column_names().as_list() == [ "sum", "detected", "size_factors", "clusters" ]
+    assert sce.get_row_data().get_column_names().as_list() == [ "mean", "variance", "fitted", "residual", "is_highly_variable" ]
+
 
 def test_analyze_adt():
     sce = get_zeisel_data()
@@ -82,6 +89,15 @@ def test_analyze_adt():
     assert res.crispr_size_factors is None
     assert res.crispr_pca is None
 
+    # Conversion to an SCE works as expected.
+    sce = res.to_singlecellexperiment()
+    assert sce.get_reduced_dim_names() == [ "pca", "combined_pca", "tsne", "umap" ]
+    assert sce.get_alternative_experiment_names() == [ "adt" ]
+    asce = sce.alternative_experiment(0)
+    assert sorted(asce.get_assay_names()) == [ "filtered", "normalized" ]
+    assert asce.get_reduced_dim_names() == [ "pca" ]
+    assert asce.get_column_data().get_column_names().as_list() == [ "sum", "detected", "size_factors" ]
+
 
 def test_analyze_crispr():
     sce = get_zeisel_data()
@@ -104,6 +120,12 @@ def test_analyze_crispr():
     assert res.rna_size_factors is None
     assert res.rna_pca is None
 
+    # Conversion to an SCE works as expected.
+    sce = res.to_singlecellexperiment(main_modality="crispr")
+    assert sorted(sce.get_assay_names()) == [ "filtered", "normalized" ]
+    assert sce.get_reduced_dim_names() == [ "pca", "combined_pca", "tsne", "umap" ]
+    assert sce.get_column_data().get_column_names().as_list() == [ "sum", "detected", "max_value", "max_index", "size_factors", "clusters" ]
+
 
 def test_analyze_block():
     sce = get_zeisel_data()
@@ -119,6 +141,11 @@ def test_analyze_block():
     assert res.rna_pca.center.shape[0] == len(levels)
     assert len(res.rna_gene_variances.per_block) == len(levels)
     assert not numpy.allclose(res.rna_size_factors.mean(), 1) # as the size factors are only scaled to a mean of 1 in the lowest-coverage block.
+
+    # Conversion to an SCE works as expected.
+    sce = res.to_singlecellexperiment()
+    assert sce.get_reduced_dim_names() == [ "pca", "mnn_corrected", "tsne", "umap" ]
+    assert sce.get_column_data().has_column("block")
 
 
 def test_analyze_nofilter():

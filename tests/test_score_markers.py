@@ -60,7 +60,7 @@ def test_score_markers_simple():
     assert (empty.detected == out.detected).all()
 
     # This can be converted to BiocFrames.
-    dfs = out.as_biocframes()
+    dfs = out.to_biocframes()
     assert len(dfs) == 4
     assert dfs.get_names().as_list() == ["0", "1", "2", "3"]
     assert dfs[0].shape[0] == x.shape[0]
@@ -69,7 +69,7 @@ def test_score_markers_simple():
     assert (dfs[2].get_column("mean") == out.mean[:,2]).all()
     assert (dfs[3].get_column("detected") == out.detected[:,3]).all()
 
-    edfs = empty.as_biocframes(include_mean=False, include_detected=False)
+    edfs = empty.to_biocframes(include_mean=False, include_detected=False)
     assert edfs[0].shape == (x.shape[0], 0)
 
 

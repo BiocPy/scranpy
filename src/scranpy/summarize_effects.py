@@ -30,7 +30,7 @@ class GroupwiseSummarizedEffects:
     """Floating-point array of length equal to the number of genes.
     Each entry is the minimum rank of the gene from all pairwise comparisons to other groups."""
 
-    def as_biocframe(self):
+    def to_biocframe(self):
         """Convert the results to a :py:class:`~biocframe.BiocFrame.BiocFrame`.
 
         Returns:

@@ -46,11 +46,9 @@ def test_combine_factors_multiple():
 
 def test_combine_factors_multiple_unused():
     numpy.random.rand(10003)
-    upper_levels = ["A", "B", "C", "D", "E"]
-    x = [upper_levels[i] for i in (numpy.random.rand(10) * len(upper_levels)).astype(numpy.int32)]
-    y = (numpy.random.rand(10) * 3).astype(numpy.int32)
-    lower_levels = ["x", "y", "z"]
-    z = [lower_levels[i] for i in (numpy.random.rand(10) * len(lower_levels)).astype(numpy.int32)]
+    x = ["A","B","C","D","E"]
+    y = [1,2,3,1,2]
+    z = ["x", "x", "y", "y", "z"]
 
     # Sanity check.
     outcomb, outind = scranpy.combine_factors((x, y, z))
@@ -61,6 +59,7 @@ def test_combine_factors_multiple_unused():
     assert [outcomb[2][i] for i in outind] == z
 
     outcomb, outind = scranpy.combine_factors((x, y, z), keep_unused=True)
+    print((x, y, z))
     assert len(outcomb) == 3
     assert len(outcomb[0]) == 45
     assert [outcomb[0][i] for i in outind] == x

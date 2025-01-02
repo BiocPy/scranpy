@@ -186,28 +186,42 @@ class AnalyzeResults:
     ):
         """Convert the results into a :py:class:`~singlecellexperiment.SingleCellExperiment.SingleCellExperiment`.
 
+        Args:
+            main_modality:
+                Modality to use as the main experiment.
+                If other modalities are present, they are stored in the alternative experiments.
+                If ``None``, it defaults to RNA, then ADT, then CRISPR, depending on which modalities are available.
+
+            flatten_qc_subsets:
+                Whether to flatten QC feature subsets,
+                see the :py:meth:`~scranpy.rna_quality_control.ComputeRnaQcMetricsResults.to_biocframe` method of the :py:class:`~scranpy.rna_quality_control.ComputeRnaQcMetricsResults` class for more details.
+
+            include_per_block_variances:
+                Whether to compute the per-block variances,
+                see the :py:meth:`~scranpy.model_gene_variances.ModelGeneVariancesResults.to_biocframe` method of the :py:class:`~scranpy.model_gene_variances.ModelGeneVariancesResults` class for more details.
+
         Returns:
             A :py:class:`~singlecellexperiment.SingleCellExperiment.SingleCellExperiment` containing the filtered and normalized matrices in the assays.
-            Clustering and dimensionality reduction results are also stored.
+            QC metrics, size factors and clustering results are stored in the column data.
+            PCA and other low-dimensional embeddings are stored in the reduced dimensions.
             Additional modalities are stored as alternative experiments.
         """
-
         import singlecellexperiment
         obj = {}
         priority = []
 
         if not self.rna_filtered is None:
-            rna_sce = singlecellexperiment.SingleCellExperiment({ "counts": self.rna_filtered, "logcounts": self.rna_normalized })
-            rna_sce.set_reduced_dimensions("PCA", self.rna_pca.components.T, in_place=True)
+            rna_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.rna_filtered, "normalized": self.rna_normalized })
+            rna_sce.set_reduced_dims({ "pca": self.rna_pca.components.T }, in_place=True)
 
             cd = rna_sce.get_column_data()
-            qcdf = self.rna_qc_metrics.as_biocframe(flatten=flatten_qc_subsets)
+            qcdf = self.rna_qc_metrics.to_biocframe(flatten=flatten_qc_subsets)
             cd = biocutils.combine_columns(cd, qcdf[self.combined_qc_filter,:])
-            cd.set_column("size_factor", self.rna_size_factor, in_place=True)
+            cd.set_column("size_factors", self.rna_size_factors, in_place=True)
             rna_sce.set_column_data(cd, in_place=True)
 
             rd = rna_sce.get_row_data()
-            rdf = self.rna_gene_variances.as_biocframe(include_per_block=include_per_block_variances)
+            rdf = self.rna_gene_variances.to_biocframe(include_per_block=include_per_block_variances)
             rd = biocutils.combine_columns(rd, rdf)
             hvgs = numpy.full((rd.shape[0],), False)
             for i in self.rna_highly_variable_genes:
@@ -215,63 +229,65 @@ class AnalyzeResults:
             rd.set_column("is_highly_variable", hvgs, in_place=True)
             rna_sce.set_row_data(rd, in_place=True)
 
-            obj["RNA"] = rna_sce
-            priority.append("RNA")
+            obj["rna"] = rna_sce
+            priority.append("rna")
 
         if not self.adt_filtered is None:
-            adt_sce = singlecellexperiment.SingleCellExperiment({ "counts": self.adt_filtered, "logcounts": self.adt_normalized })
-            adt_sce.set_reduced_dimensions("PCA", self.adt_pca.components.T, in_place=True)
+            adt_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.adt_filtered, "normalized": self.adt_normalized })
+            adt_sce.set_reduced_dims({ "pca": self.adt_pca.components.T }, in_place=True)
 
             cd = adt_sce.get_column_data()
-            qcdf = self.adt_qc_metrics.as_biocframe(flatten=flatten_qc_subsets)
+            qcdf = self.adt_qc_metrics.to_biocframe(flatten=flatten_qc_subsets)
             cd = biocutils.combine_columns(cd, qcdf[self.combined_qc_filter,:])
-            cd.set_column("size_factor", self.adt_size_factor, in_place=True)
+            cd.set_column("size_factors", self.adt_size_factors, in_place=True)
             adt_sce.set_column_data(cd, in_place=True)
 
-            obj["ADT"] = adt_sce
-            priority.append("ADT")
+            obj["adt"] = adt_sce
+            priority.append("adt")
 
         if not self.crispr_filtered is None:
-            crispr_sce = singlecellexperiment.SingleCellExperiment({ "counts": self.crispr_filtered, "logcounts": self.crispr_normalized })
-            crispr_sce.set_reduced_dimensions("PCA", self.crispr_pca.components.T, in_place=True)
+            crispr_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.crispr_filtered, "normalized": self.crispr_normalized })
+            crispr_sce.set_reduced_dims({ "pca": self.crispr_pca.components.T }, in_place=True)
 
             cd = crispr_sce.get_column_data()
-            qcdf = self.crispr_qc_metrics.as_biocframe(flatten=flatten_qc_subsets)
+            qcdf = self.crispr_qc_metrics.to_biocframe()
             cd = biocutils.combine_columns(cd, qcdf[self.combined_qc_filter,:])
-            cd.set_column("size_factor", self.crispr_size_factor, in_place=True)
+            cd.set_column("size_factors", self.crispr_size_factors, in_place=True)
             crispr_sce.set_column_data(cd, in_place=True)
 
-            obj["CRISPR"] = crispr_sce
-            priority.append("CRISPR")
+            obj["crispr"] = crispr_sce
+            priority.append("crispr")
 
         if main_modality is None:
             main_modality = priority[0]
 
         sce = obj[main_modality]
-        for p in priority:
-            if p != main_modality:
-                sce.set_alternative_experiment(p, obj[p])
+        sce.set_main_experiment_name(main_modality)
+        del obj[main_modality]
+        sce.set_alternative_experiments(obj, in_place=True)
 
+        reduced_dimensions = sce.get_reduced_dims()
         if isinstance(self.combined_pca, ScaleByNeighborsResults):
-            sce.set_reduced_dimension("combined", self.combined_pca.combined.T)
+            reduced_dimensions["combined_pca"] = self.combined_pca.combined.T
 
         if not self.mnn_corrected is None:
             df = sce.get_column_data()
             df.set_column("block", self.block, in_place=True)
             sce.set_column_data(df, in_place=True)
-            sce.set_reduced_dimension("MNN", self.mnn_corrected.corrected.T)
+            reduced_dimensions["mnn_corrected"] = self.mnn_corrected.corrected.T
 
         if not self.tsne is None:
-            sce.set_reduced_dimension("TSNE", self.tsne.T)
+            reduced_dimensions["tsne"] = self.tsne.T
 
         if not self.umap is None:
-            sce.set_reduced_dimension("UMAP", self.umap.T)
+            reduced_dimensions["umap"] = self.umap.T
 
         if not self.clusters is None:
             df = sce.get_column_data()
-            df.set_column("cluster", getattr(self, self.cluster_method + "_clusters"), in_place=True)
+            df.set_column("clusters", self.clusters, in_place=True)
             sce.set_column_data(df, in_place=True)
 
+        sce.set_reduced_dims(reduced_dimensions, in_place=True)
         return sce
 
 
