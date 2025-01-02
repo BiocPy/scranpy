@@ -178,6 +178,22 @@ class AnalyzeResults:
     If CRISPR data is not available, this is set to ``None`` instead.
     This will also be ``None`` if no suitable clusterings are available."""
 
+    rna_row_names: Optional[biocutils.Names]
+    """Names for the genes in the RNA data.
+    This is ``None`` if RNA data is not available or no names were supplied to :py:func:`~analyze`."""
+
+    adt_row_names: biocutils.Names
+    """Names for the tags in the ADT data.
+    This is ``None`` if ADT data is not available or no names were supplied to :py:func:`~analyze`."""
+
+    crispr_row_names: biocutils.Names
+    """Names for the guides in the CRISPR data.
+    This is ``None`` if CRISPR data is not available or no names were supplied to :py:func:`~analyze`."""
+
+    column_names: biocutils.Names
+    """Names for the cells. 
+    This is ``None`` if no names were supplied in :py:func:`~analyze`."""
+
     def to_singlecellexperiment(
         self,
         main_modality: Optional[Literal["rna", "adt", "crispr"]] = None,
@@ -213,6 +229,8 @@ class AnalyzeResults:
         if not self.rna_filtered is None:
             rna_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.rna_filtered, "normalized": self.rna_normalized })
             rna_sce.set_reduced_dims({ "pca": self.rna_pca.components.T }, in_place=True)
+            if not self.rna_row_names is None:
+                rna_sce.set_row_names(self.rna_row_names, in_place=True)
 
             cd = rna_sce.get_column_data()
             qcdf = self.rna_qc_metrics.to_biocframe(flatten=flatten_qc_subsets)
@@ -235,6 +253,8 @@ class AnalyzeResults:
         if not self.adt_filtered is None:
             adt_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.adt_filtered, "normalized": self.adt_normalized })
             adt_sce.set_reduced_dims({ "pca": self.adt_pca.components.T }, in_place=True)
+            if not self.adt_row_names is None:
+                adt_sce.set_row_names(self.adt_row_names, in_place=True)
 
             cd = adt_sce.get_column_data()
             qcdf = self.adt_qc_metrics.to_biocframe(flatten=flatten_qc_subsets)
@@ -248,6 +268,8 @@ class AnalyzeResults:
         if not self.crispr_filtered is None:
             crispr_sce = singlecellexperiment.SingleCellExperiment({ "filtered": self.crispr_filtered, "normalized": self.crispr_normalized })
             crispr_sce.set_reduced_dims({ "pca": self.crispr_pca.components.T }, in_place=True)
+            if not self.crispr_row_names is None:
+                crispr_sce.set_row_names(self.crispr_row_names, in_place=True)
 
             cd = crispr_sce.get_column_data()
             qcdf = self.crispr_qc_metrics.to_biocframe()
@@ -288,6 +310,9 @@ class AnalyzeResults:
             sce.set_column_data(df, in_place=True)
 
         sce.set_reduced_dims(reduced_dimensions, in_place=True)
+        if not self.column_names is None:
+            sce.set_column_names(self.column_names, in_place=True)
+
         return sce
 
 
@@ -323,6 +348,9 @@ def analyze(
     clusters_for_markers: list = ["graph", "kmeans"],
     score_markers_options: dict = {},
     nn_parameters: knncolle.Parameters = knncolle.AnnoyParameters(),
+    rna_assay: Union[int, str] = 0,
+    adt_assay: Union[int, str] = 0,
+    crispr_assay: Union[int, str] = 0,
     num_threads: int = 3
 ) -> AnalyzeResults:
     """Run through a simple single-cell analysis pipeline, starting from a count matrix and ending with clusters, visualizations and markers.
@@ -332,16 +360,25 @@ def analyze(
         rna_x:
             A matrix-like object containing RNA counts.
             This should have the same number of columns as the other ``*_x`` arguments.
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment` class containing such a matrix in its ``rna_assay``.
+
             Alternatively ``None``, if no RNA counts are available.
 
         adt_x:
             A matrix-like object containing ADT counts.
             This should have the same number of columns as the other ``*_x`` arguments.
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment` class containing such a matrix in its ``adt_assay``.
+
             Alternatively ``None``, if no ADT counts are available.
 
         crispr_x:
             A matrix-like object containing CRISPR counts.
             This should have the same number of columns as the other ``*_x`` arguments.
+
+            Alternatively, a :py:class:`~summarizedexperiment.SummarizedExperiment.SummarizedExperiment` class containing such a matrix in its ``crispr_assay``.
+
             Alternatively ``None``, if no CRISPR counts are available.
 
         block:
@@ -442,6 +479,8 @@ def analyze(
         nn_parameters:
             Algorithm to use for nearest-neighbor searches in the various steps.
 
+        rna_assay:
+
         num_threads:
             Number of threads to use in each step.
 
@@ -450,16 +489,44 @@ def analyze(
     """
     store = {}
     all_ncols = set() 
+
+    def _try_se_extract(x, assay):
+        if biocutils.package_utils.is_package_installed("summarizedexperiment"):
+            import summarizedexperiment
+            if isinstance(x, summarizedexperiment.SummarizedExperiment):
+                return x.assay(assay), x.get_row_names(), x.get_column_names()
+        return x, None, None
+
+    store["column_names"] = None
+    store["rna_row_names"] = None
+    store["adt_row_names"] = None
+    store["crispr_row_names"] = None
+
     if not rna_x is None:
         all_ncols.add(rna_x.shape[1])
+        rna_x, rna_rnames, rna_cnames = _try_se_extract(rna_x, rna_assay)
+        store["rna_row_names"] = rna_rnames
+        if store["column_names"] is None:
+            store["column_names"] = rna_cnames
+
     if not adt_x is None:
         all_ncols.add(adt_x.shape[1])
+        adt_x, adt_rnames, adt_cnames = _try_se_extract(adt_x, adt_assay)
+        store["adt_row_names"] = adt_rnames
+        if store["column_names"] is None:
+            store["column_names"] = adt_cnames
+
     if not crispr_x is None:
         all_ncols.add(crispr_x.shape[1])
+        crispr_x, rnames, cnames = _try_se_extract(crispr_x, crispr_assay)
+        store["crispr_row_names"] = crispr_rnames
+        if store["column_names"] is None:
+            store["column_names"] = crispr_cnames
+
     if len(all_ncols) > 1:
-        raise ValueError("'x_*' have differing numbers of columns")
+        raise ValueError("'*_x' have differing numbers of columns")
     if len(all_ncols) == 0:
-        raise ValueError("at least one 'x_*' must be non-None")
+        raise ValueError("at least one '*_x' must be non-None")
     ncells = list(all_ncols)[0]
 
     ############ Quality control o(*°▽°*)o #############
@@ -498,6 +565,13 @@ def analyze(
         if not modality_filter is None:
             combined_qc_filter = numpy.logical_and(combined_qc_filter, modality_filter)
     store["combined_qc_filter"] = combined_qc_filter
+
+    if not store["column_names"] is None:
+        cnames = [] # TODO: add which() in biocutils.
+        for i, cn in enumerate(store["column_names"]):
+            if combined_qc_filter[i]:
+                cnames.append(cn)
+        store["column_names"] = cnames
 
     if not rna_x is None:
         store["rna_filtered"] = delayedarray.DelayedArray(rna_x)

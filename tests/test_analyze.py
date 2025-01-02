@@ -54,11 +54,11 @@ def test_analyze_simple():
     assert res.crispr_pca is None
 
     # Conversion to an SCE works as expected.
-    sce = res.to_singlecellexperiment()
-    assert sorted(sce.get_assay_names()) == [ "filtered", "normalized" ]
-    assert sce.get_reduced_dim_names() == [ "pca", "tsne", "umap" ]
-    assert sce.get_column_data().get_column_names().as_list() == [ "sum", "detected", "size_factors", "clusters" ]
-    assert sce.get_row_data().get_column_names().as_list() == [ "mean", "variance", "fitted", "residual", "is_highly_variable" ]
+    converted = res.to_singlecellexperiment()
+    assert sorted(converted.get_assay_names()) == [ "filtered", "normalized" ]
+    assert converted.get_reduced_dim_names() == [ "pca", "tsne", "umap" ]
+    assert converted.get_column_data().get_column_names().as_list() == [ "sum", "detected", "size_factors", "clusters" ]
+    assert converted.get_row_data().get_column_names().as_list() == [ "mean", "variance", "fitted", "residual", "is_highly_variable" ]
 
 
 def test_analyze_adt():
@@ -90,13 +90,13 @@ def test_analyze_adt():
     assert res.crispr_pca is None
 
     # Conversion to an SCE works as expected.
-    sce = res.to_singlecellexperiment()
-    assert sce.get_reduced_dim_names() == [ "pca", "combined_pca", "tsne", "umap" ]
-    assert sce.get_alternative_experiment_names() == [ "adt" ]
-    asce = sce.alternative_experiment(0)
-    assert sorted(asce.get_assay_names()) == [ "filtered", "normalized" ]
-    assert asce.get_reduced_dim_names() == [ "pca" ]
-    assert asce.get_column_data().get_column_names().as_list() == [ "sum", "detected", "size_factors" ]
+    converted = res.to_singlecellexperiment()
+    assert converted.get_reduced_dim_names() == [ "pca", "combined_pca", "tsne", "umap" ]
+    assert converted.get_alternative_experiment_names() == [ "adt" ]
+    aconverted = converted.alternative_experiment(0)
+    assert sorted(aconverted.get_assay_names()) == [ "filtered", "normalized" ]
+    assert aconverted.get_reduced_dim_names() == [ "pca" ]
+    assert aconverted.get_column_data().get_column_names().as_list() == [ "sum", "detected", "size_factors" ]
 
 
 def test_analyze_crispr():
@@ -121,10 +121,10 @@ def test_analyze_crispr():
     assert res.rna_pca is None
 
     # Conversion to an SCE works as expected.
-    sce = res.to_singlecellexperiment(main_modality="crispr")
-    assert sorted(sce.get_assay_names()) == [ "filtered", "normalized" ]
-    assert sce.get_reduced_dim_names() == [ "pca", "combined_pca", "tsne", "umap" ]
-    assert sce.get_column_data().get_column_names().as_list() == [ "sum", "detected", "max_value", "max_index", "size_factors", "clusters" ]
+    converted = res.to_singlecellexperiment(main_modality="crispr")
+    assert sorted(converted.get_assay_names()) == [ "filtered", "normalized" ]
+    assert converted.get_reduced_dim_names() == [ "pca", "combined_pca", "tsne", "umap" ]
+    assert converted.get_column_data().get_column_names().as_list() == [ "sum", "detected", "max_value", "max_index", "size_factors", "clusters" ]
 
 
 def test_analyze_block():
@@ -143,9 +143,9 @@ def test_analyze_block():
     assert not numpy.allclose(res.rna_size_factors.mean(), 1) # as the size factors are only scaled to a mean of 1 in the lowest-coverage block.
 
     # Conversion to an SCE works as expected.
-    sce = res.to_singlecellexperiment()
-    assert sce.get_reduced_dim_names() == [ "pca", "mnn_corrected", "tsne", "umap" ]
-    assert sce.get_column_data().has_column("block")
+    converted = res.to_singlecellexperiment()
+    assert converted.get_reduced_dim_names() == [ "pca", "mnn_corrected", "tsne", "umap" ]
+    assert converted.get_column_data().has_column("block")
 
 
 def test_analyze_nofilter():
@@ -192,3 +192,15 @@ def test_analyze_nocluster():
     assert res.kmeans_clusters is None
     assert res.graph_clusters is None
     assert res.rna_markers is None
+
+
+def test_analyze_se():
+    sce = get_zeisel_data()
+
+    res = scranpy.analyze(sce)
+    assert not res.rna_row_names is None
+    assert not res.column_names is None
+
+    converted = res.to_singlecellexperiment()
+    assert not converted.get_row_names() is None
+    assert not converted.get_column_names() is None
