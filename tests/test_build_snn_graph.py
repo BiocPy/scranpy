@@ -30,3 +30,4 @@ def test_build_snn_graph():
     assert g.vcount() == 1000
     assert g.ecount() == len(out.edges)/2
     assert (g.es["weight"] == out.weights).all()
+    assert not g.is_directed()

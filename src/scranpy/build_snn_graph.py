@@ -36,7 +36,7 @@ class GraphComponents:
             edges.append((self.edges[j], self.edges[j+1])) 
 
         import igraph
-        g = igraph.Graph(edges, n=self.vertices)
+        g = igraph.Graph(edges, n=self.vertices, directed=False)
         if not self.weights is None:
             g.es['weight'] = self.weights
         return g
