@@ -1,5 +1,6 @@
 import scranpy
 import numpy
+import biocutils
 import pytest
 
 
@@ -14,12 +15,16 @@ def test_aggregate_across_genes_unweighted():
 
     agg = scranpy.aggregate_across_genes(x, sets)
     for i, ss in enumerate(sets):
-        print(agg[i], x[ss,:].sum(axis=0))
         assert numpy.allclose(agg[i], x[ss,:].sum(axis=0))
 
     agg = scranpy.aggregate_across_genes(x, sets, average=True)
     for i, ss in enumerate(sets):
         assert numpy.allclose(agg[i], x[ss,:].mean(axis=0))
+
+    # Works with names.
+    names = ["foo", "bar", "whee"]
+    agg = scranpy.aggregate_across_genes(x, biocutils.NamedList(sets, names))
+    assert agg.get_names().as_list() == names
 
 
 def test_aggregate_across_genes_weighted():

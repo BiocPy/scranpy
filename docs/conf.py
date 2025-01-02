@@ -312,6 +312,7 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "setuptools": ("https://setuptools.pypa.io/en/stable/", None),
     "pyscaffold": ("https://pyscaffold.org/en/stable", None),
+    "biocutils": ("https://biocpy.github.io/BiocUtils", None),
     "biocframe": ("https://biocpy.github.io/BiocFrame", None),
     "mattress": ("https://biocpy.github.io/mattress", None),
     "summarizedexperiment": ("https://biocpy.github.io/SummarizedExperiment", None),

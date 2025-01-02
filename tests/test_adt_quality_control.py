@@ -13,10 +13,17 @@ def test_compute_adt_qc_metrics():
     assert numpy.isclose(qc.subset_sum["IgG"], y[sub,:].sum(axis=0)).all()
     assert qc.subset_sum.get_names().as_list() == [ "IgG" ]
 
+    bf = qc.to_biocframe()
+    assert bf.shape[0] == 1000
+    assert (bf.get_column("subset_sum_IgG") == qc.subset_sum["IgG"]).all()
+
     # Also works without names.
     qc = scranpy.compute_adt_qc_metrics(y, [ sub ])
     assert numpy.isclose(qc.subset_sum[0], y[sub,:].sum(axis=0)).all()
     assert qc.subset_sum.get_names() is None
+
+    bf = qc.to_biocframe()
+    assert (bf.get_column("subset_sum_0") == qc.subset_sum[0]).all()
 
 
 def test_suggest_adt_qc_thresholds_basic():

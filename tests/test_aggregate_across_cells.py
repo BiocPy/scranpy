@@ -1,5 +1,7 @@
 import scranpy
 import numpy
+import biocutils
+import pytest
 
 
 def test_aggregate_across_cells_single():
@@ -23,6 +25,12 @@ def test_aggregate_across_cells_single():
         assert numpy.allclose(sum_expected, agg.sum[:,u])
         detected_expected = (submat > 0).sum(axis=1)
         assert numpy.allclose(detected_expected, agg.detected[:,u])
+
+    # Seeing if we can coerce it to a SE.
+    se = agg.to_summarizedexperiment()
+    assert sorted(se.get_assay_names()) == ["detected", "sum"]
+    assert se.get_column_data().get_column("0") == levels
+    assert (se.get_column_data().get_column("counts") == agg.counts).all()
 
 
 def test_aggregate_across_cells_multiple():
@@ -51,3 +59,32 @@ def test_aggregate_across_cells_multiple():
         assert numpy.allclose(sum_expected, agg.sum[:,u])
         detected_expected = (submat > 0).sum(axis=1)
         assert numpy.allclose(detected_expected, agg.detected[:,u])
+
+    # Seeing if we can coerce it to a SE.
+    se = agg.to_summarizedexperiment()
+    assert sorted(se.get_assay_names()) == ["detected", "sum"]
+    assert se.get_column_data().get_column("0") == agg.combinations[0]
+    assert se.get_column_data().get_column("1") == agg.combinations[1]
+    assert (se.get_column_data().get_column("counts") == agg.counts).all()
+
+
+def test_aggregate_across_cells_named():
+    numpy.random.seed(69)
+    x = (numpy.random.rand(1000, 100) * 4).astype(numpy.int32)
+    levels = ["A", "B", "C", "D", "E"]
+    clusters = [levels[i] for i in (numpy.random.rand(x.shape[1]) * len(levels)).astype(numpy.int32)]
+    agg = scranpy.aggregate_across_cells(x, biocutils.NamedList([clusters], ["foo"]))
+
+    assert agg.combinations.get_names().as_list() == ["foo"]
+    assert agg.combinations[0] == levels
+
+    se = agg.to_summarizedexperiment()
+    assert se.get_column_data().get_column("foo") == agg.combinations[0]
+    assert (se.get_column_data().get_column("counts") == agg.counts).all()
+
+    # Fails if we try to coerce with a 'counts' name.
+    agg = scranpy.aggregate_across_cells(x, biocutils.NamedList([clusters], ["counts"]))
+    with pytest.raises(ValueError, match="conflicting"):
+        agg.to_summarizedexperiment()
+    se = agg.to_summarizedexperiment(include_counts=False)
+    assert se.get_column_data().get_column("counts") == agg.combinations[0]
