@@ -56,7 +56,16 @@ class build_ext(build_ext_orig):
                 "-B", build_dir,
                 "-DCMAKE_POSITION_INDEPENDENT_CODE=true",
                 "-DIGRAPH_WARNINGS_AS_ERRORS=OFF",
-                "-DCMAKE_INSTALL_PREFIX=" + install_dir
+                "-DCMAKE_INSTALL_PREFIX=" + install_dir,
+                "-DIGRAPH_USE_INTERNAL_GMP=ON",
+                "-DIGRAPH_USE_INTERNAL_BLAS=ON",
+                "-DIGRAPH_USE_INTERNAL_LAPACK=ON",
+                "-DIGRAPH_USE_INTERNAL_ARPACK=ON",
+                "-DIGRAPH_USE_INTERNAL_GLPK=ON",
+                "-DIGRAPH_USE_INTERNAL_GMP=ON",
+                "-DIGRAPH_USE_INTERNAL_PLFIT=ON",
+                "-DIGRAPH_ENABLE_LTO=ON",
+                "-DIGRAPH_OPENMP_SUPPORT=OFF",
             ]
             if os.name != "nt":
                 cmd.append("-DCMAKE_BUILD_TYPE=Release")
