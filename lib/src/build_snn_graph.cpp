@@ -10,7 +10,7 @@
 pybind11::tuple build_snn_graph(const pybind11::array& neighbors, std::string scheme, int num_threads) {
     auto ibuffer = neighbors.request();
     size_t ncells = ibuffer.shape[0], nneighbors = ibuffer.shape[1];
-    if (neighbors.flags() & pybind11::array::c_style == 0) {
+    if ((neighbors.flags() & pybind11::array::c_style) == 0) {
         throw std::runtime_error("expected a row-major matrix for the indices");
     }
     const auto& nn_dtype = neighbors.dtype(); // the usual is() doesn't work in a separate process.
