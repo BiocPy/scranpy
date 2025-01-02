@@ -117,14 +117,14 @@ def run_all_neighbor_steps(
         index = knncolle.build_index(nn_parameters, x)
 
     k_choices = {}
-    if not run_umap_options is None:
+    if run_umap_options is not None:
         if "num_neighbors" in run_umap_options:
             umap_k = umap_args["num_neighbors"]
         else:
             umap_k = _get_default(run_umap, "num_neighbors")
         k_choices["run_umap"] = umap_k
 
-    if not run_tsne_options is None:
+    if run_tsne_options is not None:
         if "num_neighbors" in run_tsne_options:
             tsne_k = run_tsne_options["num_neighbors"]
         else:
@@ -135,7 +135,7 @@ def run_all_neighbor_steps(
             tsne_k = tsne_perplexity_to_neighbors(tsne_perp)
         k_choices["run_tsne"] = tsne_k
 
-    if not cluster_graph_options is None:
+    if cluster_graph_options is not None:
         if "num_neighbors" in build_snn_graph_options:
             cluster_k = build_snn_graph_options["num_neighbors"]
         else:
@@ -194,7 +194,7 @@ def run_all_neighbor_steps(
         executor = ProcessPoolExecutor(max_workers=min(num_tasks, num_threads), **extra_args)
         threads_per_task = max(1, int(num_threads / num_tasks))
 
-        if not run_tsne_options is None: 
+        if run_tsne_options is not None: 
             run_tsne_options["num_threads"] = threads_per_task
             _tasks.append(
                 executor.submit(
@@ -205,7 +205,7 @@ def run_all_neighbor_steps(
             )
             _ids.append("run_tsne")
 
-        if not run_umap_options is None: 
+        if run_umap_options is not None: 
             run_umap_options["num_threads"] = threads_per_task
             _tasks.append(
                 executor.submit(
@@ -216,7 +216,7 @@ def run_all_neighbor_steps(
             )
             _ids.append("run_umap")
 
-        if not cluster_graph_options is None:
+        if cluster_graph_options is not None:
             build_snn_graph_options["num_threads"] = threads_per_task
             _tasks.append(
                 executor.submit(
@@ -229,17 +229,17 @@ def run_all_neighbor_steps(
             _ids.append("cluster_graph")
 
     else:
-        if not run_tsne_options is None: 
+        if run_tsne_options is not None: 
             run_tsne_options["num_threads"] = num_threads
             _tasks.append(run_tsne(nn_res["run_tsne"], **run_tsne_options))
             _ids.append("run_tsne")
 
-        if not run_umap_options is None: 
+        if run_umap_options is not None: 
             run_umap_options["num_threads"] = num_threads
             _tasks.append(run_umap(nn_res["run_umap"], **run_umap_options))
             _ids.append("run_umap")
 
-        if not cluster_graph_options is None:
+        if cluster_graph_options is not None:
             build_snn_graph_options["num_threads"] = num_threads
             _tasks.append(_run_graph(nn_res["cluster_graph"], build_snn_graph_options, cluster_graph_options))
             _ids.append("cluster_graph")

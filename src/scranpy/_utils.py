@@ -1,9 +1,6 @@
 from typing import Sequence, Tuple, Union
 
-from biocutils import Factor, match
-from mattress import TatamiNumericPointer, tatamize
-import numpy as np
-from summarizedexperiment import SummarizedExperiment
+from biocutils import match
 
 __author__ = "ltla, jkanche"
 __copyright__ = "ltla, jkanche"

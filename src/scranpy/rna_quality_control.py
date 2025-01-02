@@ -44,7 +44,7 @@ class ComputeRnaQcMetricsResults:
             contents[n] = getattr(self, n)
 
         subnames = self.subset_proportion.get_names()
-        if not subnames is None:
+        if subnames is not None:
             subnames = subnames.as_list()
         else:
             subnames = [str(i) for i in range(len(self.subset_proportion))]
@@ -151,7 +151,7 @@ def suggest_rna_qc_thresholds(
     Returns:
         Suggested filters on the relevant QC metrics.
     """
-    if not block is None:
+    if block is not None:
         blocklev, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)
     else:
         blocklev = None
@@ -163,7 +163,7 @@ def suggest_rna_qc_thresholds(
         num_mads
     )
 
-    if not blockind is None:
+    if blockind is not None:
         sums = biocutils.NamedList(sums, blocklev)
         detected = biocutils.NamedList(detected, blocklev)
         for i, s in enumerate(subset_proportions):
@@ -194,7 +194,7 @@ def filter_rna_qc_metrics(
     Returns:
         A NumPy vector of length equal to the number of cells in ``metrics``, containing truthy values for putative high-quality cells.
     """
-    if not thresholds.block is None:
+    if thresholds.block is not None:
         if block is None:
             raise ValueError("'block' must be supplied if it was used in 'suggest_rna_qc_thresholds'")
         blockind = biocutils.match(block, thresholds.block, dtype=numpy.uint32, fail_missing=True)
@@ -202,7 +202,7 @@ def filter_rna_qc_metrics(
         detected = numpy.array(thresholds.detected.as_list(), dtype=numpy.float64)
         subset_proportion = [numpy.array(s.as_list(), dtype=numpy.float64) for s in thresholds.subset_proportion.as_list()]
     else:
-        if not block is None:
+        if block is not None:
             raise ValueError("'block' cannot be supplied if it was not used in 'suggest_rna_qc_thresholds'")
         blockind = None
         sums = thresholds.sum

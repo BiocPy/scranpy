@@ -37,7 +37,7 @@ class GraphComponents:
 
         import igraph
         g = igraph.Graph(edges, n=self.vertices, directed=False)
-        if not self.weights is None:
+        if self.weights is not None:
             g.es['weight'] = self.weights
         return g
 

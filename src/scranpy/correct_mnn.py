@@ -1,4 +1,4 @@
-from typing import Any, Sequence, Optional, Literal
+from typing import Sequence, Optional, Literal
 from dataclasses import dataclass
 
 import numpy
@@ -95,7 +95,7 @@ def correct_mnn(
     """
     blocklev, blockind = biocutils.factorize(block, fail_missing=True, dtype=numpy.uint32)
 
-    if not order is None:
+    if order is not None:
         order = biocutils.match(order, blocklev, dtype=numpy.uint32)
 
     if mass_cap is None:

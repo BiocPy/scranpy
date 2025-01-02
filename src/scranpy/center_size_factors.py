@@ -48,7 +48,7 @@ def center_size_factors(
 
     local_sf = numpy.array(size_factors, dtype=numpy.float64, copy=not in_place)
 
-    if not block is None:
+    if block is not None:
         _, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)
     else:
         blockind = None

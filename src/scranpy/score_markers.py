@@ -180,7 +180,7 @@ def score_markers(
     ptr = mattress.initialize(x)
     glev, gind = biocutils.factorize(groups, sort_levels=True, fail_missing=True, dtype=numpy.uint32)
 
-    if not block is None:
+    if block is not None:
         _, block = biocutils.factorize(block, fail_missing=True, dtype=numpy.uint32)
 
     args = [

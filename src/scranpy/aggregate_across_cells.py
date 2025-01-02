@@ -1,4 +1,4 @@
-from typing import Any, Sequence, Tuple
+from typing import Any, Sequence
 from dataclasses import dataclass
 
 import numpy

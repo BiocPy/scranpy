@@ -1,12 +1,10 @@
 from typing import Union, Sequence, Any, Optional
 from dataclasses import dataclass
-from collections.abc import Mapping
 
 import numpy
 import biocutils
 import mattress
 
-from ._utils_qc import _sanitize_subsets
 from . import lib_scranpy as lib
 
 
@@ -97,7 +95,7 @@ def suggest_crispr_qc_thresholds(
     Returns:
         Suggested filters on the relevant QC metrics.
     """
-    if not block is None:
+    if block is not None:
         blocklev, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)
     else:
         blocklev = None
@@ -109,7 +107,7 @@ def suggest_crispr_qc_thresholds(
         num_mads
     )
 
-    if not blockind is None:
+    if blockind is not None:
         max_value = biocutils.NamedList(max_value, blocklev)
     return SuggestCrisprQcThresholdsResults(max_value, blocklev)
 
@@ -135,13 +133,13 @@ def filter_crispr_qc_metrics(
     Returns:
         A NumPy vector of length equal to the number of cells in ``metrics``, containing truthy values for putative high-quality cells.
     """
-    if not thresholds.block is None:
+    if thresholds.block is not None:
         if block is None:
             raise ValueError("'block' must be supplied if it was used in 'suggest_crispr_qc_thresholds'")
         blockind = biocutils.match(block, thresholds.block, dtype=numpy.uint32, fail_missing=True)
         max_value = numpy.array(thresholds.max_value.as_list(), dtype=numpy.float64)
     else:
-        if not block is None:
+        if block is not None:
             raise ValueError("'block' cannot be supplied if it was not used in 'suggest_crispr_qc_thresholds'")
         blockind = None
         max_value = thresholds.max_value

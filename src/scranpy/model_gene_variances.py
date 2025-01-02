@@ -150,7 +150,7 @@ def model_gene_variances(
         num_threads
     )
 
-    if not per_block is None:
+    if per_block is not None:
         pb = []
         for pbm, pbv, pbf, pbr in per_block:
             pb.append(ModelGeneVariancesResults(pbm, pbv, pbf, pbr, None))

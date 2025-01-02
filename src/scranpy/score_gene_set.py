@@ -93,7 +93,7 @@ def score_gene_set(
     Returns:
         Array of per-cell scores and per-gene weights.
     """
-    if not block is None:
+    if block is not None:
         blocklev, blockind = biocutils.factorize(block, sort_levels=True, dtype=numpy.uint32, fail_missing=True)
     else:
         blocklev = None

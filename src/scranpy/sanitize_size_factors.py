@@ -1,5 +1,3 @@
-from typing import Optional, Sequence, Literal
-
 import numpy
 
 from . import lib_scranpy as lib

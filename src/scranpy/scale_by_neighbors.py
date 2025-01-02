@@ -75,9 +75,9 @@ def scale_by_neighbors(
         distances.append(knncolle.find_distance(idx, num_neighbors=num_neighbors, num_threads=num_threads))
 
     scaling = lib.scale_by_neighbors(distances)
-    if not weights is None:
+    if weights is not None:
         if len(weights) != len(x):
-            raise ValueError("'weights' should have the same length as 'x'");
+            raise ValueError("'weights' should have the same length as 'x'")
         for i, w in enumerate(weights):
             scaling[i] *= w
 
