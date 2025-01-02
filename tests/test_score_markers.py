@@ -1,5 +1,6 @@
 import scranpy
 import numpy
+import biocframe
 
 
 def _check_summaries(summary):
@@ -50,13 +51,26 @@ def test_score_markers_simple():
     assert (aout.detected == out.detected).all()
 
     # Works without anything.
-    empty  = scranpy.score_markers(x, g, compute_auc=False, compute_cohens_d=False, compute_delta_detected=False, compute_delta_mean=False)
+    empty = scranpy.score_markers(x, g, compute_auc=False, compute_cohens_d=False, compute_delta_detected=False, compute_delta_mean=False)
     assert empty.auc is None
     assert empty.cohens_d is None
     assert empty.delta_mean is None
     assert empty.delta_detected is None
     assert (empty.mean == out.mean).all()
     assert (empty.detected == out.detected).all()
+
+    # This can be converted to BiocFrames.
+    dfs = out.as_biocframes()
+    assert len(dfs) == 4
+    assert dfs.get_names().as_list() == ["0", "1", "2", "3"]
+    assert dfs[0].shape[0] == x.shape[0]
+    assert (dfs[0].get_column("cohens_d_median") == out.cohens_d[0].median).all()
+    assert (dfs[1].get_column("auc_min_rank") == out.auc[1].min_rank).all()
+    assert (dfs[2].get_column("mean") == out.mean[:,2]).all()
+    assert (dfs[3].get_column("detected") == out.detected[:,3]).all()
+
+    edfs = empty.as_biocframes(include_mean=False, include_detected=False)
+    assert edfs[0].shape == (x.shape[0], 0)
 
 
 def test_score_markers_blocked():

@@ -21,3 +21,7 @@ def test_summarize_effects():
     assert (asumm[2].median == summ.auc[2].median).all()
     assert (asumm[3].max == summ.auc[3].max).all()
     assert (asumm[0].min_rank == summ.auc[0].min_rank).all()
+
+    df = csumm[0].as_biocframe()
+    assert df.shape == (1000, 5)
+    assert (df.get_column("min_rank") == csumm[0].min_rank).all()

@@ -14,11 +14,11 @@ class AggregateAcrossCellsResults:
     """Results of :py:func:`~aggregate_across_cells`."""
 
     sum: numpy.ndarray
-    """Matrix of floats where each row corresponds to a gene and each column corresponds to a unique combination of grouping levels.
+    """Floating-point matrix where each row corresponds to a gene and each column corresponds to a unique combination of grouping levels.
     Each matrix entry contains the summed expression across all cells with that combination."""
 
     detected: numpy.ndarray
-    """Matrix of integers where each row corresponds to a gene and each column corresponds to a unique combination of grouping levels.
+    """Integer matrix where each row corresponds to a gene and each column corresponds to a unique combination of grouping levels.
     Each entry contains the number of cells with detected expression in that combination."""
 
     combinations: biocutils.NamedList
