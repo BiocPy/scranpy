@@ -43,7 +43,6 @@ pybind11::tuple model_gene_variances(
     size_t nr = mat->nrow();
 
     pybind11::array_t<double> means(nr), variances(nr), fitted(nr), residuals(nr);
-    std::cout << means.size() << ":" << means.at(0) <<"," << means.at(1) << std::endl;
     scran_variances::ModelGeneVariancesBuffers<double> buffers;
     buffers.means = static_cast<double*>(means.request().ptr);
     buffers.variances = static_cast<double*>(variances.request().ptr);
@@ -97,7 +96,6 @@ pybind11::tuple model_gene_variances(
         scran_variances::model_gene_variances(*mat, buffers, opt);
         output[4] = pybind11::none();
     }
-    std::cout << means.size() << ":" << means.at(0) <<"," << means.at(1) << std::endl;
 
     output[0] = means;
     output[1] = variances;

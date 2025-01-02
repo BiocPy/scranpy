@@ -28,6 +28,11 @@ def test_model_gene_variances_basic():
     assert (out2.fitted == fitted2).all()
     assert (out2.residual == resid2).all()
 
+    # Generates a DF correctly.
+    df = out.as_biocframe()
+    assert df.shape == (1000, 4)
+    assert (df.get_column("mean") == out.mean).all()
+
 
 def test_model_gene_variances_blocked():
     x = numpy.random.rand(1000, 100) * 10
@@ -45,3 +50,13 @@ def test_model_gene_variances_blocked():
     assert numpy.allclose(out.variance, (out.per_block[0].variance + out.per_block[1].variance + out.per_block[2].variance)/3)
     assert numpy.allclose(out.fitted, (out.per_block[0].fitted + out.per_block[1].fitted + out.per_block[2].fitted)/3)
     assert numpy.allclose(out.residual, (out.per_block[0].residual + out.per_block[1].residual + out.per_block[2].residual)/3)
+
+    # Generates a DF correctly.
+    df = out.as_biocframe()
+    assert df.shape == (1000, 4)
+    assert (df.get_column("residual") == out.residual).all()
+
+    df = out.as_biocframe(include_per_block=True)
+    assert df.shape == (1000, 5)
+    assert df.get_column("per_block").get_column_names().as_list() == ["0", "1", "2"]
+    assert (df.get_column("per_block").get_column("2").get_column("variance") == out.per_block[2].variance).all()

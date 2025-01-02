@@ -316,6 +316,7 @@ intersphinx_mapping = {
     "biocframe": ("https://biocpy.github.io/BiocFrame", None),
     "mattress": ("https://biocpy.github.io/mattress", None),
     "summarizedexperiment": ("https://biocpy.github.io/SummarizedExperiment", None),
+    "delayedarray": ("https://biocpy.github.io/DelayedArray", None),
     "singlecellexperiment": ("https://biocpy.github.io/SingleCellExperiment", None),
     "igraph": ("https://python.igraph.org/en/stable", None),
 }

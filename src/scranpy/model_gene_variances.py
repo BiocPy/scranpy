@@ -25,9 +25,35 @@ class ModelGeneVariancesResults:
     """Residual from the mean-variance trend for each gene."""
 
     per_block: Optional[biocutils.NamedList]
-    """List of per-block results, obtained from modelling the variances
-    separately for each block of cells. This is only filled if ``block=``
-    was used, otherwise it is set to ``None``."""
+    """List of per-block results, obtained from modelling the variances separately for each block of cells.
+    Each entry is another ``ModelGeneVariancesResults`` object, containing the statistics for the corresponding block.
+    This is only filled if ``block=`` was used, otherwise it is set to ``None``."""
+
+    def as_biocframe(self, include_per_block: bool = False):
+        """Convert the results into a :py:class:`~biocframe.BiocFrame.BiocFrame`.
+
+        Args:
+            include_per_block:
+                Whether to include the per-block results as a nested dataframe.
+
+        Returns: 
+            A :py:class:`~biocframe.BiocFrame.BiocFrame` where each row corresponds to a gene and each column corresponds to a statistic.
+        """
+        colnames = ["mean", "variance", "fitted", "residual"]
+        cols = {}
+        for n in colnames:
+            cols[n] = getattr(self, n)
+
+        import biocframe
+        if include_per_block:
+            blocknames = self.per_block.get_names()
+            per_block = {}
+            for i, n in enumerate(blocknames):
+                per_block[n] = self.per_block[i].as_biocframe()
+            colnames.append("per_block")
+            cols["per_block"] = biocframe.BiocFrame(per_block, column_names=blocknames)
+
+        return biocframe.BiocFrame(cols, column_names=colnames)
 
 
 def model_gene_variances(
