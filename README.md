@@ -11,7 +11,7 @@
 [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/)
 [![PyPI-Server](https://img.shields.io/pypi/v/scranpy.svg)](https://pypi.org/project/scranpy/)
 [![Downloads](https://static.pepy.tech/badge/scranpy/month)](https://pepy.tech/project/scranpy)
-![Unit tests](https://github.com/BiocPy/scranpy/actions/workflows/pypi-test.yml/badge.svg)
+![Unit tests](https://github.com/libscran/scranpy/actions/workflows/run-tests.yml/badge.svg)
 
 # scran, in Python
 
@@ -92,7 +92,7 @@ print(first_markers)
 ## mt-Nd4l  3.2901199968427246  0.9342105263157894 -0.5903983282435646 0.30724666142969365 -0.5903983282435646   -0.5903983282435646
 ```
 
-Users can also convert this into other [**BiocPy**](https://github.com/BiocPy) classes for easier manipulation:
+Users can also convert the results into a `SingleCellExperiment` for easier manipulation:
 
 ```python
 print(results.to_singlecellexperiment())
@@ -111,8 +111,7 @@ print(results.to_singlecellexperiment())
 ## metadata(0):
 ```
 
-We won't go over the theory here as it's explained more thoroughly in the book.
-Also check out the [reference documentation](https://biocpy.github.io/scranpy) for more details.
+Check out the [reference documentation](https://libscran.github.io/scranpy) for more details.
 
 ## Multiple batches
 
