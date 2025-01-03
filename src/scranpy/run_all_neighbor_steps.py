@@ -98,7 +98,7 @@ def run_all_neighbor_steps(
     if isinstance(x, knncolle.Index):
         index = x
     else:
-        index = knncolle.build_index(nn_parameters, x)
+        index = knncolle.build_index(nn_parameters, x.T)
 
     k_choices = {}
     if run_umap_options is not None:

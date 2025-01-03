@@ -12,7 +12,7 @@ def test_build_snn_graph():
     assert numpy.logical_and(out.edges >= 0, out.edges < 1000).all()
 
     # Same results when given an index, and throwing in some parallelization.
-    idx = knncolle.build_index(knncolle.AnnoyParameters(), data)
+    idx = knncolle.build_index(knncolle.AnnoyParameters(), data.T)
     out2 = scranpy.build_snn_graph(idx, num_threads=2)
     assert out.vertices == out2.vertices
     assert (out.edges == out2.edges).all()

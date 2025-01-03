@@ -18,7 +18,7 @@ def test_run_umap():
     assert alt.shape == (2, 500)
     assert (alt != embed).any() # check that perplexity has an effect.
 
-    idx = knncolle.build_index(knncolle.AnnoyParameters(), x)
+    idx = knncolle.build_index(knncolle.AnnoyParameters(), x.T)
     res = knncolle.find_knn(idx, num_neighbors=15)
     nnin = scranpy.run_umap(res)
     assert (nnin == embed).all()

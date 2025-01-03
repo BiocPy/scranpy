@@ -74,7 +74,7 @@ def run_tsne(
         _check_indices(nnidx, num_neighbors)
     else:
         if not isinstance(x, knncolle.Index):
-            x = knncolle.build_index(nn_parameters, x)
+            x = knncolle.build_index(nn_parameters, x.T)
         x = knncolle.find_knn(x, num_neighbors=num_neighbors, num_threads=num_threads)
         nnidx = x.index
         nndist = x.distance

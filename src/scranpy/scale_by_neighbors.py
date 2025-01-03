@@ -67,7 +67,7 @@ def scale_by_neighbors(
 
     distances = []
     for i, m in enumerate(x):
-        idx = knncolle.build_index(nn_parameters, m)
+        idx = knncolle.build_index(nn_parameters, m.T)
         distances.append(knncolle.find_distance(idx, num_neighbors=num_neighbors, num_threads=num_threads))
 
     scaling = lib.scale_by_neighbors(distances)

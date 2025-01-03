@@ -19,7 +19,7 @@ def test_subsample_by_neighbors():
     assert keep.max() < x.shape[1]
 
     # Same results when given some nearest neighbor results.
-    idx = knncolle.build_index(knncolle.AnnoyParameters(), x)
+    idx = knncolle.build_index(knncolle.AnnoyParameters(), x.T)
     res = knncolle.find_knn(idx, num_neighbors=10)
     keep_alt = scranpy.subsample_by_neighbors(res, num_neighbors=10, min_remaining=2)
     assert (keep2 == keep_alt).all()

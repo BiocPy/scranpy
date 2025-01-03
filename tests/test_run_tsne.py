@@ -18,7 +18,7 @@ def test_run_tsne():
     assert alt.shape == (2, 500)
     assert (alt != embed).any() # check that perplexity has an effect.
 
-    idx = knncolle.build_index(knncolle.AnnoyParameters(), x)
+    idx = knncolle.build_index(knncolle.AnnoyParameters(), x.T)
     res = knncolle.find_knn(idx, num_neighbors=scranpy.tsne_perplexity_to_neighbors(30))
     nnin = scranpy.run_tsne(res)
     assert (nnin == embed).all()
