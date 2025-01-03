@@ -15,14 +15,32 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-from .aggregation import *
-from .batch_correction import *
-from .clustering import *
-from .dimensionality_reduction import *
-from .feature_selection import *
-from .feature_set_enrichment import *
-from .marker_detection import *
-from .nearest_neighbors import *
-from .normalization import *
-from .quality_control import *
+from .adt_quality_control import *
+from .rna_quality_control import *
+from .crispr_quality_control import *
+from .normalize_counts import *
+from .center_size_factors import *
+from .sanitize_size_factors import *
+from .compute_clrm1_factors import *
+from .choose_pseudo_count import *
+from .model_gene_variances import *
+from .fit_variance_trend import *
+from .choose_highly_variable_genes import *
+from .run_pca import *
+from .run_tsne import *
+from .run_umap import *
+from .build_snn_graph import *
+from .cluster_graph import *
+from .cluster_kmeans import *
+from .run_all_neighbor_steps import *
+from .score_markers import *
+from .summarize_effects import *
+from .aggregate_across_cells import *
+from .aggregate_across_genes import *
+from .combine_factors import *
+from .correct_mnn import *
+from .subsample_by_neighbors import *
+from .scale_by_neighbors import *
+from .score_gene_set import *
+from .test_enrichment import *
 from .analyze import *
