@@ -1,23 +1,248 @@
 scranpy package
 ===============
 
-Subpackages
------------
+Submodules
+----------
 
-.. toctree::
-   :maxdepth: 4
+scranpy.adt\_quality\_control module
+------------------------------------
 
-   scranpy.aggregation
-   scranpy.analyze
-   scranpy.batch_correction
-   scranpy.clustering
-   scranpy.dimensionality_reduction
-   scranpy.feature_selection
-   scranpy.feature_set_enrichment
-   scranpy.marker_detection
-   scranpy.nearest_neighbors
-   scranpy.normalization
-   scranpy.quality_control
+.. automodule:: scranpy.adt_quality_control
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.aggregate\_across\_cells module
+---------------------------------------
+
+.. automodule:: scranpy.aggregate_across_cells
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.aggregate\_across\_genes module
+---------------------------------------
+
+.. automodule:: scranpy.aggregate_across_genes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.analyze module
+----------------------
+
+.. automodule:: scranpy.analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.build\_snn\_graph module
+--------------------------------
+
+.. automodule:: scranpy.build_snn_graph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.center\_size\_factors module
+------------------------------------
+
+.. automodule:: scranpy.center_size_factors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.choose\_highly\_variable\_genes module
+----------------------------------------------
+
+.. automodule:: scranpy.choose_highly_variable_genes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.choose\_pseudo\_count module
+------------------------------------
+
+.. automodule:: scranpy.choose_pseudo_count
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.cluster\_graph module
+-----------------------------
+
+.. automodule:: scranpy.cluster_graph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.cluster\_kmeans module
+------------------------------
+
+.. automodule:: scranpy.cluster_kmeans
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.combine\_factors module
+-------------------------------
+
+.. automodule:: scranpy.combine_factors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.compute\_clrm1\_factors module
+--------------------------------------
+
+.. automodule:: scranpy.compute_clrm1_factors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.correct\_mnn module
+---------------------------
+
+.. automodule:: scranpy.correct_mnn
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.crispr\_quality\_control module
+---------------------------------------
+
+.. automodule:: scranpy.crispr_quality_control
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.fit\_variance\_trend module
+-----------------------------------
+
+.. automodule:: scranpy.fit_variance_trend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.lib\_scranpy module
+---------------------------
+
+.. automodule:: scranpy.lib_scranpy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.model\_gene\_variances module
+-------------------------------------
+
+.. automodule:: scranpy.model_gene_variances
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.normalize\_counts module
+--------------------------------
+
+.. automodule:: scranpy.normalize_counts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.rna\_quality\_control module
+------------------------------------
+
+.. automodule:: scranpy.rna_quality_control
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.run\_all\_neighbor\_steps module
+----------------------------------------
+
+.. automodule:: scranpy.run_all_neighbor_steps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.run\_pca module
+-----------------------
+
+.. automodule:: scranpy.run_pca
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.run\_tsne module
+------------------------
+
+.. automodule:: scranpy.run_tsne
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.run\_umap module
+------------------------
+
+.. automodule:: scranpy.run_umap
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.sanitize\_size\_factors module
+--------------------------------------
+
+.. automodule:: scranpy.sanitize_size_factors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.scale\_by\_neighbors module
+-----------------------------------
+
+.. automodule:: scranpy.scale_by_neighbors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.score\_gene\_set module
+-------------------------------
+
+.. automodule:: scranpy.score_gene_set
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.score\_markers module
+-----------------------------
+
+.. automodule:: scranpy.score_markers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.subsample\_by\_neighbors module
+---------------------------------------
+
+.. automodule:: scranpy.subsample_by_neighbors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.summarize\_effects module
+---------------------------------
+
+.. automodule:: scranpy.summarize_effects
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+scranpy.test\_enrichment module
+-------------------------------
+
+.. automodule:: scranpy.test_enrichment
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
