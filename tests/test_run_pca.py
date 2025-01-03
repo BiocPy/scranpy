@@ -67,3 +67,10 @@ def test_run_pca_residuals():
     assert (ref1.components != pcs.components).all()
     ref2 = scranpy.run_pca(normed, number=10, block=block)
     assert (ref2.components != pcs.components).all()
+
+
+def test_run_pca_capped():
+    normed = numpy.random.rand(1000, 100) * 10
+    pcs = scranpy.run_pca(normed, number=150)
+    assert pcs.components.shape[0] == min(normed.shape)
+    assert pcs.rotation.shape[1] == min(normed.shape)

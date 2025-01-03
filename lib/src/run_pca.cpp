@@ -44,6 +44,7 @@ pybind11::tuple run_pca(
     iopt.extra_work = irlba_work;
     iopt.max_iterations = irlba_iterations;
     iopt.seed = irlba_seed;
+    iopt.cap_number = true;
 
     if (maybe_block.has_value()) {
         const auto& block = *maybe_block;
